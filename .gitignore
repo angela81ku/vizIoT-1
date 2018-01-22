@@ -1,0 +1,12 @@
+# Logs
+logs
+*.log
+
+# Dependency Dir
+node_modules
+
+# Editor
+.idea
+
+# Other
+.DS_Store

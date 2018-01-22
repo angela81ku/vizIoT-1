@@ -1,0 +1,7 @@
+const DeviceActionConstant = {
+  FETCH_DEVICE_LIST: "START_FETCH_DEVICES",
+  FINISH_FETCH_DEVICE_LIST: "FINISH_UPDATE_DEVICE_LIST",
+  START_DATA_STREAM: "START_DATA_STREAM",
+}
+
+export default DeviceActionConstant;

@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  background: $prim-color;
+}
+
+body {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+body {
+  font-family: 'Muli', Arial, sans-serif;
+  color: $prim-color;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+}
+
+.primary-color {
+  color: $prim-color;
+}
+
+.secondary-color {
+  color: $link-color;
+}
+
+.hide {
+  display:none;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  border-bottom: 1px solid $link-color;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: $link-color;
+}
+
+a > * {
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+a:hover, a:hover > * {
+  color: $link-color;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.btn {
+  border: solid;
+  padding: 8px 14px 8px 14px;
+}
+
+/*::-moz-selection { background: transparent;}*/
+/*::selection {background: transparent;}*/
+:focus {
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: lighter;
+  color: inherit;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h1.is--heading-0 {
+  font-size: 5.5rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h3 {
+  font-size: 2.2rem;
+}
+@media only screen and (max-width: 1500px) {
+  h3 {
+    font-size: calc(.002 * 100vw + 2.509091rem)
+  }
+}
+
+h4 {
+  font-size: 2.0rem;
+  margin-bottom: 0.5rem;
+}
+
+h5 {
+   font-size: 1.6rem;
+   margin-bottom: 1.0rem;
+   font-weight: normal;
+}
+
+h6 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.6rem;
+  line-height: 3rem;
+  font-weight: 300;
+  color: $lighter-color;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.nospacing {
+  margin: 0;
+  padding: 0;
+}
+
+// Padding:
+// top + bottom
+.p-tb-xs {
+  padding-top: $xs-space;
+  padding-bottom: $xs-space;
+}
+.p-tb-s {
+  padding-top: $s-space;
+  padding-bottom: $s-space;
+}
+
+/// Margin:
+// Top + bottom
+.m-tb-xs {
+  margin-top: $xs-space;
+  margin-bottom: $xs-space;
+}
+.m-tb-s {
+  margin-top: $s-space;
+  margin-bottom: $s-space;
+}
+
+
+section {
+  position: relative;
+  min-height: 30rem;
+}
