@@ -1,3 +1,4 @@
+import React from 'react'
 import AppTitle from '../components/AppTitle'
 import { connect } from 'react-redux'
 import Grid from '../components/BeanUILibrary/Grid'
