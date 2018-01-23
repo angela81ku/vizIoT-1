@@ -12,7 +12,7 @@ class VizIoT extends React.Component {
   }
 
   renderBarChartCards () {
-    return this.props.devices.map((device) => {
+    return this.props.devices.map((device, i) => {
       const { ip, port } = device;
       const deviceKey = `${ip}:${port}`;
       console.log(`deviceKey = ${deviceKey}`)
@@ -21,7 +21,7 @@ class VizIoT extends React.Component {
       console.log(thisHistData);
       return (
         <GridItem
-          key={device.id}
+          key={deviceKey + i}
           size={{'sm': 12, 'md': 4}}
           space="p-right-6 p-bot-6">
           <BarGraphCard
