@@ -11,7 +11,7 @@ class BarGraphCard extends React.Component {
   render () {
     const { device, data } = this.props;
     const { ip, port } = device;
-    const size= [1200, 300];
+    const size = [1200, 300];
     return (
       <CardWrapper>
         <h4><strong>{ip}</strong>:{port}</h4>

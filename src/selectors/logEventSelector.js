@@ -12,42 +12,57 @@ const reduceToHistogram = (logEvents) => {
     .reduce((histogramResult, logEvent) => {
 
       const { time_stamp } = logEvent;
-      const thisMoment = moment(time_stamp, 'X')
+      const thisMoment = moment.unix(parseFloat(time_stamp))
+      console.log(parseFloat(time_stamp))
 
       if (histogramResult.length > 0) {
         // Get last histogram time:
-        const lastHisto = histogramResult[histogramResult.length - 1]
-        const tally = lastHisto.tally;
-        const lastMoment = lastHisto.time_stamp;
+        const lastBucket = histogramResult[histogramResult.length - 1]
+        const tally = lastBucket.tally;
+        const lastMoment = lastBucket.time_stamp;
 
         const duration = moment.duration(thisMoment.diff(lastMoment))
-
-        console.log(thisMoment.unix())
-        console.log(lastMoment.unix())
         const diffSec = duration.asSeconds()
         console.log(diffSec);
 
-        const histogramInterval = 32;
+        const bucketSize = 12;
 
-        if (diffSec <= histogramInterval) {
+        const thisBucketMoment = moment(thisMoment).startOf('second')
+        const lastBucketMoment = moment(lastMoment).startOf('second')
+
+        if (diffSec <= bucketSize) {
           // If on the same duration, modify previous:
           const newHistogram = {
-            'time_stamp': thisMoment.startOf('second'),
+            'time_stamp': thisBucketMoment,
             'tally': tally + 1}
           return [
             ...histogramResult.slice(0, -1),
             newHistogram,
           ]
         } else {
-          // If on the different duration, add in blanks until the current time:
+          // If on the different duration, add in blanks until the current bucket:
+          const numEmptyBuckets = Math.floor(duration.asSeconds() / bucketSize) - 1
+          console.log("numEmptyBuckets");
+          console.log(numEmptyBuckets);
+          const emptyBuckets = []
+          for (let emptyBucketI = 0; emptyBucketI < numEmptyBuckets; emptyBucketI++) {
+            console.log("push empty bucket")
+            const emptyBucket = {
+              'time_stamp': moment(lastBucketMoment).add(emptyBucketI * bucketSize, 'second'),
+              tally: 0 }
+            emptyBuckets.push(emptyBucket)
+          }
           const newHistogram = {
-            'time_stamp': thisMoment.startOf('second'),
+            'time_stamp': thisBucketMoment,
             tally: 1 }
-          return [...histogramResult, newHistogram]
+          return [
+            ...histogramResult,
+            ...emptyBuckets,
+            newHistogram]
         }
       } else {
         const newHistogram = {
-          'time_stamp': thisMoment.startOf('minute'),
+          'time_stamp': moment(thisMoment).startOf('second'),
           tally: 1
         }
         return [...histogramResult, newHistogram]
@@ -59,13 +74,11 @@ const reduceToHistogram = (logEvents) => {
 export const selectAllLogsAsRequestsPerSecond = ({logEvents}) => {
   const mappedLogs = logEvents.mappedLogs
   console.log(mappedLogs);
-  const toReturn = Object.keys(mappedLogs)
+  return Object.keys(mappedLogs)
     .reduce((mapResult, deviceKey) => {
       mapResult[deviceKey] = reduceToHistogram(mappedLogs[deviceKey])
       return mapResult
     }, {})
-  console.log(toReturn)
-  return toReturn
 }
 
 // All events mapped as: "deviceIP:deviceHost": [device ordered events]
