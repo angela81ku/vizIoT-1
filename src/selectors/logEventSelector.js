@@ -25,7 +25,7 @@ const reduceToHistogram = (logEvents) => {
         const diffSec = duration.asSeconds()
         console.log(diffSec);
 
-        const bucketSize = 12;
+        const bucketSize = 32;
 
         const thisBucketMoment = moment(thisMoment).startOf('second')
         const lastBucketMoment = moment(lastMoment).startOf('second')
