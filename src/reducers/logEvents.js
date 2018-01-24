@@ -592,8 +592,8 @@ const defaultState = {
       end: moment.unix(defaultMappedLogs['192.168.10.115:39490'][defaultMappedLogs['192.168.10.115:39490'].length - 1].time_stamp),
     },
     '192.168.11.102:46611': {
-      start: moment.unix(defaultMappedLogs['192.168.10.115:39490'][0].time_stamp),
-      end: moment.unix(defaultMappedLogs['192.168.10.115:39490'][defaultMappedLogs['192.168.10.115:39490'].length - 1].time_stamp),
+      start: moment.unix(defaultMappedLogs['192.168.11.102:46611'][0].time_stamp),
+      end: moment.unix(defaultMappedLogs['192.168.11.102:46611'][defaultMappedLogs['192.168.11.102:46611'].length - 1].time_stamp),
     }
   },
   networkState: NetworkState.READY,
