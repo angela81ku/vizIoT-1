@@ -2,14 +2,20 @@ import DeviceActionConstants from "../actions/constants/DeviceActionConstant";
 import NetworkState from "../constants/NetworkState";
 import uuid from "uuid";
 
-const testDevice = {
+const testDevice115 = {
   'uuid': uuid(),
   'ip': "192.168.10.115",
   'port':"39490",
 };
 
+const testDevice102 = {
+  'uuid': uuid(),
+  'ip': "192.168.11.102",
+  'port': "46611",
+};
+
 const defaultState = {
-  devices: [testDevice, testDevice, testDevice],
+  devices: [testDevice115, testDevice102],
   networkState: NetworkState.READY,
 }
 

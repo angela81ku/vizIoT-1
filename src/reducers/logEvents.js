@@ -1,6 +1,7 @@
 import NetworkState from '../constants/NetworkState'
 import moment from 'moment'
-import myData from './testLog4.json';
+import myData4 from './testLog4.json';
+import myData5 from './testLog5.json';
 
 const testLog = {
   'dst_ip': '52.199.108.216',
@@ -572,13 +573,14 @@ const testLog3 = [{
     'time_stamp': '1512766872.520043'
   }]
 
-const testLog4 = myData;
-console.log(testLog4)
+const testLog4 = myData4;
+const testLog5 = myData5;
 
 const defaultState = {
   logs: [testLog],
   mappedLogs: {
     '192.168.10.115:39490': testLog4,
+    '192.168.11.102:46611': testLog5,
   },
   networkState: NetworkState.READY,
 }
