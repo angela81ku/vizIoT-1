@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import Grid from '../components/BeanUILibrary/Grid'
 import GridItem from '../components/BeanUILibrary/GridItem'
 import BarGraphCard from '../components/BarGraphCard'
-import { selectAllDevices, selectAllLogsAsMap, selectAllLogsAsRequestsPerSecond } from '../selectors/logEventSelector'
+import {
+  selectAllDevices, selectAllLogsAsMap, selectAllLogsAsRequestsPerSecond,
+  selectAllTimeranges
+} from '../selectors/logEventSelector'
 
 class VizIoT extends React.Component {
   state = {
@@ -17,6 +20,7 @@ class VizIoT extends React.Component {
       const deviceKey = `${ip}:${port}`;
       console.log(`deviceKey = ${deviceKey}`)
       const thisHistData = this.props.histogramLogs[deviceKey]
+      const thisTimerange = this.props.timeranges[deviceKey]
       console.log("thisHistData");
       console.log(thisHistData);
       return (
@@ -25,6 +29,7 @@ class VizIoT extends React.Component {
           size={{'sm': 12, 'md': 4}}
           space="p-right-6 p-bot-6">
           <BarGraphCard
+            timerange={thisTimerange}
             device={device}
             data={ thisHistData.map(({ tally }) => {
                   return tally
@@ -59,6 +64,7 @@ const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
     histogramLogs: selectAllLogsAsRequestsPerSecond(state),
+    timeranges: selectAllTimeranges(state),
   }
 }
 export default connect(mapStateToProps)(VizIoT)

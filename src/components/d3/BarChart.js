@@ -53,10 +53,10 @@ class BarChart extends Component {
       .selectAll('rect')
       .data(this.props.data)
       .style('fill', '#fe9922')
-      .attr('x', (d, i) => i * 7)
+      .attr('x', (d, i) => i * 3)
       .attr('y', d => graphHeight - yScale(d))
       .attr('height', d => yScale(d))
-      .attr('width', 5)
+      .attr('width', 2)
       .attr('transform', `translate(${margin}, ${margin})`)
 
     select(node)

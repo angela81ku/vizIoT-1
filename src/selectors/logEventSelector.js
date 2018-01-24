@@ -86,3 +86,7 @@ export const selectAllLogsAsList = ({logEvents}) => {
   return logEvents.logs
 }
 
+export const selectAllTimeranges = ({logEvents: {timerange}}) => {
+  return timerange;
+}
+
