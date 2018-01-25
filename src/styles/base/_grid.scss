@@ -15,30 +15,14 @@
 .flex-row {
 
   @for $i from 0 through 12 {
-    @media (min-width: 1200px) {
-      .col-xl-#{$i} {
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
-      }
+    .col-xs-#{$i} {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: percentage(1 / 12 * $i);;
     }
+  }
 
-    @media (min-width: 992px) {
-      .col-lg-#{$i} {
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .col-md-#{$i} {
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
-      }
-    }
-
+  @for $i from 0 through 12 {
     @media (min-width: 544px) {
       .col-sm-#{$i} {
         flex-grow: 0;
@@ -46,11 +30,35 @@
         flex-basis: percentage(1 / 12 * $i);;
       }
     }
+  }
 
-    .col-xs-#{$i} {
-      flex-grow: 0;
-      flex-shrink: 0;
-      flex-basis: percentage(1 / 12 * $i);;
+  @for $i from 0 through 12 {
+    @media (min-width: 768px) {
+      .col-md-#{$i} {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: percentage(1 / 12 * $i);;
+      }
+    }
+  }
+
+  @for $i from 0 through 12 {
+    @media (min-width: 992px) {
+      .col-lg-#{$i} {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: percentage(1 / 12 * $i);;
+      }
+    }
+  }
+
+  @for $i from 0 through 12 {
+    @media (min-width: 1200px) {
+      .col-xl-#{$i} {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: percentage(1 / 12 * $i);;
+      }
     }
   }
 }

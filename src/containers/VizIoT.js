@@ -19,6 +19,7 @@ class VizIoT extends React.Component {
       const { ip, port } = device;
       const deviceKey = `${ip}:${port}`;
       console.log(`deviceKey = ${deviceKey}`)
+
       const thisHistData = this.props.histogramLogs[deviceKey]
       const thisTimerange = this.props.timeranges[deviceKey]
       console.log("thisHistData");
@@ -26,7 +27,7 @@ class VizIoT extends React.Component {
       return (
         <GridItem
           key={deviceKey + i}
-          size={{'sm': 12, 'md': 4}}
+          size={{'md': 12, 'lg': 4}}
           space="p-right-6 p-bot-6">
           <BarGraphCard
             timerange={thisTimerange}
