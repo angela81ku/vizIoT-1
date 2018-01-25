@@ -12,7 +12,7 @@ class BarGraphCard extends React.Component {
     const { device, data , timerange} = this.props;
     const { ip, port } = device;
     const { start, end } = timerange;
-    const size = [16000, 300];
+    const size = [16000, 500];
     return (
       <CardWrapper>
         <h4><strong>{ip}</strong>:{port}</h4>

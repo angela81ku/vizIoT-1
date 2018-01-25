@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { scaleLinear } from 'd3-scale'
 import { max } from 'd3-array'
 import { select } from 'd3-selection'
-import { axisLeft } from 'd3-axis'
+import { axisLeft, axisRight } from 'd3-axis'
 
 class BarChart extends Component {
   constructor (props) {
@@ -24,8 +24,10 @@ class BarChart extends Component {
 
     const margin = 20
 
+    const canvasWidth = this.props.size[0]
     const canvasHeight = this.props.size[1]
-    const graphHeight = this.props.size[1] - margin * 2
+    const graphWidth = canvasWidth - margin * 2
+    const graphHeight = canvasHeight - margin * 2
 
     const yScale = scaleLinear()
       .domain([0, dataMax])
@@ -34,8 +36,8 @@ class BarChart extends Component {
     const yAxisScale = scaleLinear()
       .domain([0, dataMax])
       .range([graphHeight, 0])
-    const yAxis = axisLeft(yAxisScale)
-
+    const yAxis = axisRight(yAxisScale)
+      .tickSize(graphWidth)
 
     select(node)
       .selectAll('rect')
@@ -61,8 +63,14 @@ class BarChart extends Component {
 
     select(node)
       .append('g')
-      .attr('transform', `translate(${margin}, ${margin})`)
-      .call(yAxis)
+      .call(customYAxis)
+    function customYAxis(g) {
+      g.call(yAxis);
+      g.attr('transform', `translate(${margin}, ${margin})`)
+      g.select(".domain").remove()
+      g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+      g.selectAll(".tick text").attr("x", -10);
+    }
   }
 
   render () {
