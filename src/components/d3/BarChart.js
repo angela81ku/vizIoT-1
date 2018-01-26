@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { scaleLinear } from 'd3-scale'
+import { scaleLinear, scaleTime } from 'd3-scale'
 import { max } from 'd3-array'
 import { select } from 'd3-selection'
-import { axisLeft, axisRight } from 'd3-axis'
+import  { timeYear, timeMinute, timeSecond} from 'd3-time'
+import { axisLeft, axisRight, axisBottom,} from 'd3-axis'
 
 class BarChart extends Component {
   constructor (props) {
@@ -28,6 +29,30 @@ class BarChart extends Component {
     const canvasHeight = this.props.size[1]
     const graphWidth = canvasWidth - margin * 2
     const graphHeight = canvasHeight - margin * 2
+
+    const startMoment = this.props.start
+    const startDate = startMoment.toDate();
+
+    const endMoment = this.props.end
+    const endDate = endMoment.toDate();
+
+    console.log(startDate);
+    console.log(endDate);
+
+    // 1 minute = 60 bars
+    // 1 bar = 1 pixel
+    // width of data set = 1 * 60
+
+    const barSize = 4;
+    const barWidth = 3;
+
+    const secondsBetween = endMoment.diff(startMoment, "seconds")
+
+    const xScale = scaleTime()
+      .domain([startDate, endDate])
+      .range([0, secondsBetween * barSize])
+    const xAxis = axisBottom(xScale)
+      .ticks(timeMinute)
 
     const yScale = scaleLinear()
       .domain([0, dataMax])
@@ -55,15 +80,26 @@ class BarChart extends Component {
       .selectAll('rect')
       .data(this.props.data)
       .style('fill', '#fe9922')
-      .attr('x', (d, i) => i * 2)
+      .attr('x', (d, i) => i * barSize)
       .attr('y', d => graphHeight - yScale(d))
       .attr('height', d => yScale(d))
-      .attr('width', 1)
+      .attr('width', barWidth)
       .attr('transform', `translate(${margin}, ${margin})`)
 
     select(node)
       .append('g')
+      .attr('transform', `translate(${margin}, ${graphHeight + margin})`)
+      .call(customXAxis);
+
+    select(node)
+      .append('g')
       .call(customYAxis)
+
+    function customXAxis(g) {
+      g.call(xAxis);
+      g.select('.domain').remove();
+    }
+
     function customYAxis(g) {
       g.call(yAxis);
       g.attr('transform', `translate(${margin}, ${margin})`)

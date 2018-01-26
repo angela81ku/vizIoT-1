@@ -19,7 +19,11 @@ class BarGraphCard extends React.Component {
         <h5>{start.toString()}</h5>
         <h5>{end.toString()}</h5>
         <div className="medium-spacer"/>
-        <BarChart data={data} size={size}/>
+        <BarChart
+          data={data}
+          start={start}
+          end={end}
+          size={size}/>
         <div className="medium-spacer"/>
       </CardWrapper>
     )
