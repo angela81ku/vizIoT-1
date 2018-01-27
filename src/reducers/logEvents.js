@@ -13,18 +13,26 @@ const defaultMappedLogs = {
   '192.168.11.102:46611': testLog6,
 }
 
+const getTimeRange = (key) => {
+  const log = defaultMappedLogs[key];
+  return {
+    start: moment.unix(log[0].time_stamp),
+      end: moment.unix(log[log.length - 1].time_stamp),
+  };
+}
+
+const getTimeRangesFromLogs = () => {
+  const result = Object.keys(defaultMappedLogs).reduce((acc, key) => {
+    acc[key] = getTimeRange(key)
+    return acc;
+  }, {})
+  console.log(result);
+  return result;
+}
+
 const defaultState = {
   mappedLogs: defaultMappedLogs,
-  timerange: {
-    '192.168.10.115:39490': {
-      start: moment.unix(defaultMappedLogs['192.168.10.115:39490'][0].time_stamp),
-      end: moment.unix(defaultMappedLogs['192.168.10.115:39490'][defaultMappedLogs['192.168.10.115:39490'].length - 1].time_stamp),
-    },
-    '192.168.11.102:46611': {
-      start: moment.unix(defaultMappedLogs['192.168.11.102:46611'][0].time_stamp),
-      end: moment.unix(defaultMappedLogs['192.168.11.102:46611'][defaultMappedLogs['192.168.11.102:46611'].length - 1].time_stamp),
-    }
-  },
+  timerange: getTimeRangesFromLogs(),
   networkState: NetworkState.READY,
 }
 

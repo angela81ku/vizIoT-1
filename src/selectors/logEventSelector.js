@@ -13,7 +13,7 @@ const reduceToHistogram = (logEvents) => {
 
       const { time_stamp } = logEvent;
       const thisMoment = moment.unix(parseFloat(time_stamp))
-      console.log(parseFloat(time_stamp))
+      // console.log(parseFloat(time_stamp))
 
       if (histogramResult.length > 0) {
         // Get last histogram time:
@@ -23,7 +23,7 @@ const reduceToHistogram = (logEvents) => {
 
         const duration = moment.duration(thisMoment.diff(lastMoment))
         const diffSec = duration.asSeconds()
-        console.log(diffSec);
+        // console.log(diffSec);
 
         const bucketSize = 1;
 
@@ -42,11 +42,11 @@ const reduceToHistogram = (logEvents) => {
         } else {
           // If on the different duration, add in blanks until the current bucket:
           const numEmptyBuckets = Math.floor(duration.asSeconds() / bucketSize) - 1
-          console.log("numEmptyBuckets");
-          console.log(numEmptyBuckets);
+          // console.log("numEmptyBuckets");
+          // console.log(numEmptyBuckets);
           const emptyBuckets = []
           for (let emptyBucketI = 0; emptyBucketI < numEmptyBuckets; emptyBucketI++) {
-            console.log("push empty bucket")
+            // console.log("push empty bucket")
             const emptyBucket = {
               'time_stamp': moment(lastBucketMoment).add(emptyBucketI * bucketSize, 'second'),
               tally: 0 }
@@ -73,7 +73,6 @@ const reduceToHistogram = (logEvents) => {
 // All events in latest to oldest order
 export const selectAllLogsAsRequestsPerSecond = ({logEvents}) => {
   const mappedLogs = logEvents.mappedLogs
-  console.log(mappedLogs);
   return Object.keys(mappedLogs)
     .reduce((mapResult, deviceKey) => {
       mapResult[deviceKey] = reduceToHistogram(mappedLogs[deviceKey])
