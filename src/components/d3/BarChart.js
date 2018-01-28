@@ -20,22 +20,21 @@ class BarChart extends Component {
   }
 
   createBarChart () {
+
+    const { data, dimension, startMoment, endMoment } = this.props;
+
     const node = this.node
-    const dataMax = max(this.props.data)
+    const dataMax = max(data)
 
     const margin = 20
 
-    const canvasWidth = this.props.size[0]
-    const canvasHeight = this.props.size[1]
+    const canvasWidth = dimension[0]
+    const canvasHeight = dimension[1]
     const graphWidth = canvasWidth - margin * 2
     const graphHeight = canvasHeight - margin * 2
 
-    const startMoment = this.props.start
     const startDate = startMoment.toDate();
-
-    const endMoment = this.props.end
     const endDate = endMoment.toDate();
-
     console.log(startDate);
     console.log(endDate);
 
@@ -55,30 +54,30 @@ class BarChart extends Component {
       .ticks(timeMinute)
 
     const yScale = scaleLinear()
-      .domain([0, dataMax])
+      .domain([-1, dataMax])
       .range([0, graphHeight])
 
     const yAxisScale = scaleLinear()
-      .domain([0, dataMax])
+      .domain([-1, dataMax])
       .range([graphHeight, 0])
     const yAxis = axisRight(yAxisScale)
       .tickSize(graphWidth)
 
-    select(node)
+    const bars = select(node)
       .selectAll('rect')
-      .data(this.props.data)
+      .data(data);
+
+    bars
       .enter()
       .append('rect')
 
-    select(node)
-      .selectAll('rect')
-      .data(this.props.data)
+    bars
       .exit()
       .remove()
 
     select(node)
       .selectAll('rect')
-      .data(this.props.data)
+      .data(data)
       .style('fill', '#fe9922')
       .attr('x', (d, i) => i * barSize)
       .attr('y', d => graphHeight - yScale(d))
@@ -110,11 +109,12 @@ class BarChart extends Component {
   }
 
   render () {
+    const { dimension } = this.props;
     return (
       <div className="barChart-scrollable-wrapper">
       <svg ref={node => this.node = node}
-           width={this.props.size[0]}
-           height={this.props.size[1]}>
+           width={dimension[0]}
+           height={dimension[1]}>
       </svg>
       </div>
     )

@@ -12,7 +12,7 @@ class BarGraphCard extends React.Component {
     const { device, data , timerange} = this.props;
     const { ip, port } = device;
     const { start, end } = timerange;
-    const size = [16000, 500];
+    const dimension = [16000, 500];
     return (
       <CardWrapper>
         <h4><strong>{ip}</strong>:{port}</h4>
@@ -21,9 +21,9 @@ class BarGraphCard extends React.Component {
         <div className="medium-spacer"/>
         <BarChart
           data={data}
-          start={start}
-          end={end}
-          size={size}/>
+          startMoment={start}
+          endMoment={end}
+          dimension={dimension}/>
         <div className="medium-spacer"/>
       </CardWrapper>
     )
