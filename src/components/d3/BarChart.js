@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { scaleLinear, scaleTime } from 'd3-scale'
-import { max } from 'd3-array'
+import { max, range } from 'd3-array'
 import { select } from 'd3-selection'
 import  { timeYear, timeMinute, timeSecond} from 'd3-time'
-import { axisLeft, axisRight, axisBottom,} from 'd3-axis'
+import { axisLeft, axisRight, axisBottom, } from 'd3-axis'
+import { formatPrefix } from 'd3-format'
 
 class BarChart extends Component {
   constructor (props) {
@@ -27,6 +28,7 @@ class BarChart extends Component {
     const dataMax = max(data)
 
     const margin = 20
+    const leftAxisMargin = 15
 
     const canvasWidth = dimension[0]
     const canvasHeight = dimension[1]
@@ -56,24 +58,29 @@ class BarChart extends Component {
     const yScale = scaleLinear()
       .domain([-1, dataMax])
       .range([0, graphHeight])
-
     const yAxisScale = scaleLinear()
       .domain([-1, dataMax])
       .range([graphHeight, 0])
+    const yMin = yAxisScale.domain()[0]
+    const yMax = yAxisScale.domain()[1]
     const yAxis = axisRight(yAxisScale)
       .tickSize(graphWidth)
+      .tickValues(
+        [yMin, Math.floor((yMax - yMin) / 2), yMax]
+      )
+      .tickFormat(formatPrefix('.1', 1e2))
 
     const bars = select(node)
       .selectAll('rect')
       .data(data);
 
     bars
-      .enter()
-      .append('rect')
-
-    bars
       .exit()
       .remove()
+
+    bars
+      .enter()
+      .append('rect')
 
     select(node)
       .selectAll('rect')
@@ -83,11 +90,11 @@ class BarChart extends Component {
       .attr('y', d => graphHeight - yScale(d))
       .attr('height', d => yScale(d))
       .attr('width', barWidth)
-      .attr('transform', `translate(${margin}, ${margin})`)
+      .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
 
     select(node)
       .append('g')
-      .attr('transform', `translate(${margin}, ${graphHeight + margin})`)
+      .attr('transform', `translate(${margin + leftAxisMargin}, ${graphHeight + margin})`)
       .call(customXAxis);
 
     select(node)
@@ -101,10 +108,11 @@ class BarChart extends Component {
 
     function customYAxis(g) {
       g.call(yAxis);
-      g.attr('transform', `translate(${margin}, ${margin})`)
+      g.attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
       g.select(".domain").remove()
+
       g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
-      g.selectAll(".tick text").attr("x", -10);
+      g.selectAll(".tick text").attr("x", -leftAxisMargin - 10);
     }
   }
 

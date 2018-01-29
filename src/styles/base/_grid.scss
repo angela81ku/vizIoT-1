@@ -12,13 +12,29 @@
   flex-wrap: wrap;
 }
 
+@for $i from 0 through 12 {
+  .flex-row.gutter-#{$i} {
+    margin: 0 #{-0.4 * $i}rem;
+
+    [class*='col-'] {
+      padding: 0 #{0.4 * $i}rem;
+    }
+  }
+}
+
 .flex-row {
+
+  [class*='col-'] {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 100%;
+  }
 
   @for $i from 0 through 12 {
     .col-xs-#{$i} {
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: percentage(1 / 12 * $i);;
+      flex-basis: percentage(1 / 12 * $i);
     }
   }
 
@@ -27,7 +43,7 @@
       .col-sm-#{$i} {
         flex-grow: 0;
         flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
+        flex-basis: percentage(1 / 12 * $i);
       }
     }
   }
@@ -37,7 +53,7 @@
       .col-md-#{$i} {
         flex-grow: 0;
         flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
+        flex-basis: percentage(1 / 12 * $i);
       }
     }
   }
@@ -47,7 +63,7 @@
       .col-lg-#{$i} {
         flex-grow: 0;
         flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
+        flex-basis: percentage(1 / 12 * $i);
       }
     }
   }
@@ -57,7 +73,7 @@
       .col-xl-#{$i} {
         flex-grow: 0;
         flex-shrink: 0;
-        flex-basis: percentage(1 / 12 * $i);;
+        flex-basis: percentage(1 / 12 * $i);
       }
     }
   }

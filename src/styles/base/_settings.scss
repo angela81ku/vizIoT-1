@@ -2,7 +2,12 @@
 $prim-color: #475d89;
 $link-color: #d94e6c;
 $lighter-color: hsl(220, 20.7, 55.8);
+$extra-light-color: hsl(220, 10, 90);
+
+// Inverted:
 $background-color: white;
+$blue-grad: linear-gradient(to bottom right, #2c45a3, #6955f9);
+$background-color-alt: #90f1f9;
 
 $wide-screen-width: 1500px;
 $medium-screen-width: 1000px;

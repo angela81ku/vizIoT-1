@@ -1,17 +1,30 @@
-import React from 'react';
+import React from 'react'
 
 class CardWrapper extends React.Component {
-  CardWrapper(props) {
-    this.props = props;
+  constructor (props) {
+    super(props)
   }
 
-  render() {
+  render () {
+    const {noShadow, noBorder, noPadding, children} = this.props
+
+    const classNames = ['cardWrapper']
+    if (noShadow) {
+      classNames.push('noShadow')
+    }
+    if (noBorder) {
+      classNames.push('noBorder')
+    }
+    if (noPadding) {
+      classNames.push('noPadding')
+    }
+
     return (
-      <div className={"cardWrapper"}>
-        {this.props.children}
+      <div className={classNames.join(' ')}>
+        {children}
       </div>
-    );
+    )
   }
 }
 
-export default CardWrapper;
+export default CardWrapper

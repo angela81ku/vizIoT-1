@@ -1,17 +1,24 @@
-import React from "react";
+import React from 'react'
 
 class Grid extends React.Component {
-  Grid(props) {
-    this.props = props;
+  constructor (props) {
+    super(props)
   }
 
-  render() {
+  render () {
+    const {gutter} = this.props
+
+    const classNames = ['flex-row', 'fade']
+    if (gutter) {
+      classNames.push(`gutter-${gutter}`)
+    }
+
     return (
-      <div className="flex-row">
+      <div className={classNames.join(' ')}>
         {this.props.children}
       </div>
-    );
+    )
   }
 }
 
-export default Grid;
+export default Grid

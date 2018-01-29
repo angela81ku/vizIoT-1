@@ -4,21 +4,21 @@ import CardWrapper from './BeanUILibrary/CardWrapper'
 import BarChart from './d3/BarChart'
 
 class BarGraphCard extends React.Component {
-  BarGraphCard (props) {
-    this.props = props
+  constructor (props) {
+    super(props)
   }
 
   render () {
-    const { device, data , timerange} = this.props;
-    const { ip, port } = device;
-    const { start, end } = timerange;
-    const dimension = [16000, 500];
+    const {device, data, timerange} = this.props
+    const {ip, port} = device
+    const {start, end} = timerange
+    const dimension = [16000, 200]
     return (
       <CardWrapper>
         <h4><strong>{ip}</strong>:{port}</h4>
         <h5>{start.toString()}</h5>
         <h5>{end.toString()}</h5>
-        <div className="medium-spacer"/>
+        <div className="small-spacer"/>
         <BarChart
           data={data}
           startMoment={start}
@@ -29,4 +29,5 @@ class BarGraphCard extends React.Component {
     )
   }
 }
-export default connect((state)=> ({state}))(BarGraphCard)
+
+export default connect((state) => ({state}))(BarGraphCard)

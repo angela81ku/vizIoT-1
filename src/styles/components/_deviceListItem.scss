@@ -1,0 +1,36 @@
+.deviceListItem__wrapper {
+  font-size: 1.0rem;
+  border-top: 1px solid $extra-light-color;
+  height: 8.0rem;
+  color: $lighter-color;
+
+  .flex-row {
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.deviceListItem__deviceInfo {
+  padding-left: 20px;
+  text-wrap: normal;
+  max-width: 150px;
+
+  .deviceListItem__deviceName {
+    color: $prim-color;
+  }
+}
+
+.deviceListItem__countWrapper {
+  height: 100%;
+  border-left: 1px solid $extra-light-color;
+  padding-left: 25px;
+  padding-right: 25px;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .deviceListItem__count {
+    color: $prim-color;
+    font-weight: 500;
+  }
+}
