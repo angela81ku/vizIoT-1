@@ -9,7 +9,7 @@ import {
   selectAllTimeranges
 } from '../selectors/logEventSelector'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
-import DeviceListItem from '../components/DeviceListItem'
+import DeviceList from '../components/DeviceList'
 
 class VizIoT extends React.Component {
   state = {
@@ -51,20 +51,27 @@ class VizIoT extends React.Component {
           <div className="padded-container">
             <div className="medium-spacer"/>
             <AppTitle/>
+            <div className="small-spacer"/>
+
             <Grid gutter={3}>
               <GridItem size={{'md': 12, 'lg': 2}}>
+                <h6 className="wide-letter deviceList__title">DEVICES</h6>
                 <CardWrapper noPadding={true}>
-                  <h6 className="wide-letter deviceList__title">DEVICES</h6>
-                  <DeviceListItem device={devices[0]} testCount={10}/>
+                  <DeviceList devices={devices}/>
                 </CardWrapper>
               </GridItem>
               <GridItem size={{'md': 12, 'lg': 10}}>
+                <h6 className="wide-letter deviceList__title">ACTIVITY<i className="material-icons">trending_up</i></h6>
                 <Grid gutter={1}>
                   {this.renderBarChartCards()}
                 </Grid>
               </GridItem>
             </Grid>
-            <div className="medium-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
 
           </div>
         </div>

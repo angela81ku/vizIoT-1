@@ -21,7 +21,6 @@ class BarChart extends Component {
   }
 
   createBarChart () {
-
     const { data, dimension, startMoment, endMoment } = this.props;
 
     const node = this.node
@@ -62,11 +61,11 @@ class BarChart extends Component {
       .domain([-1, dataMax])
       .range([graphHeight, 0])
     const yMin = yAxisScale.domain()[0]
-    const yMax = yAxisScale.domain()[1]
+    const yMax = dataMax
     const yAxis = axisRight(yAxisScale)
       .tickSize(graphWidth)
       .tickValues(
-        [yMin, Math.floor((yMax - yMin) / 2), yMax]
+        [yMin, 0, Math.floor((yMax - yMin) / 2), yMax]
       )
       .tickFormat(formatPrefix('.1', 1e2))
 
@@ -112,6 +111,7 @@ class BarChart extends Component {
       g.select(".domain").remove()
 
       g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+      g.selectAll(".tick:first-of-type text").remove()
       g.selectAll(".tick text").attr("x", -leftAxisMargin - 10);
     }
   }

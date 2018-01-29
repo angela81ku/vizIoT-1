@@ -16,15 +16,14 @@ class BarGraphCard extends React.Component {
     return (
       <CardWrapper>
         <h4><strong>{ip}</strong>:{port}</h4>
-        <h5>{start.toString()}</h5>
-        <h5>{end.toString()}</h5>
+        {/*<h5>{start.toString()}</h5>*/}
+        {/*<h5>{end.toString()}</h5>*/}
         <div className="small-spacer"/>
         <BarChart
           data={data}
           startMoment={start}
           endMoment={end}
           dimension={dimension}/>
-        <div className="medium-spacer"/>
       </CardWrapper>
     )
   }
