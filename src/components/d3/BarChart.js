@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { scaleLinear, scaleTime } from 'd3-scale'
 import { max, range } from 'd3-array'
 import { select } from 'd3-selection'
-import  { timeYear, timeMinute, timeSecond} from 'd3-time'
+import { timeYear, timeMinute, timeSecond } from 'd3-time'
 import { axisLeft, axisRight, axisBottom, } from 'd3-axis'
 import { formatPrefix } from 'd3-format'
 
@@ -21,7 +21,7 @@ class BarChart extends Component {
   }
 
   createBarChart () {
-    const { data, dimension, startMoment, endMoment } = this.props;
+    const {data, dimension, startMoment, endMoment} = this.props
 
     const node = this.node
     const dataMax = max(data)
@@ -34,19 +34,19 @@ class BarChart extends Component {
     const graphWidth = canvasWidth - margin * 2
     const graphHeight = canvasHeight - margin * 2
 
-    const startDate = startMoment.toDate();
-    const endDate = endMoment.toDate();
-    console.log(startDate);
-    console.log(endDate);
+    const startDate = startMoment.toDate()
+    const endDate = endMoment.toDate()
+    console.log(startDate)
+    console.log(endDate)
 
     // 1 minute = 60 bars
     // 1 bar = 1 pixel
     // width of data set = 1 * 60
 
-    const barSize = 4;
-    const barWidth = 3;
+    const barSize = 4
+    const barWidth = 3
 
-    const secondsBetween = endMoment.diff(startMoment, "seconds")
+    const secondsBetween = endMoment.diff(startMoment, 'seconds')
 
     const xScale = scaleTime()
       .domain([startDate, endDate])
@@ -71,7 +71,7 @@ class BarChart extends Component {
 
     const bars = select(node)
       .selectAll('rect')
-      .data(data);
+      .data(data)
 
     bars
       .exit()
@@ -94,36 +94,46 @@ class BarChart extends Component {
     select(node)
       .append('g')
       .attr('transform', `translate(${margin + leftAxisMargin}, ${graphHeight + margin})`)
-      .call(customXAxis);
+      .call(customXAxis)
 
     select(node)
       .append('g')
+      .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
       .call(customYAxis)
 
-    function customXAxis(g) {
-      g.call(xAxis);
-      g.select('.domain').remove();
+
+    function customXAxis (g) {
+      const lineColor = '#FFF'
+
+      g.call(xAxis)
+      g.select('.domain').remove()
+      g.selectAll('.tick text').attr('fill', lineColor)
+      g.selectAll('.tick line').attr('stroke', lineColor)
     }
 
-    function customYAxis(g) {
-      g.call(yAxis);
-      g.attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
-      g.select(".domain").remove()
+    function customYAxis (g) {
+      const lineColor = '#FFF'
 
-      g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
-      g.selectAll(".tick:first-of-type text").remove()
-      g.selectAll(".tick text").attr("x", -leftAxisMargin - 10);
+      g.call(yAxis)
+      g.select('.domain').remove()
+
+      g.selectAll('.tick line').attr('stroke', lineColor)
+      g.selectAll('.tick:not(:first-of-type) line').attr('stroke', '#777').attr('stroke-dasharray', '2,2')
+      g.selectAll('.tick:first-of-type text').remove()
+      g.selectAll('.tick text')
+        .attr('x', -leftAxisMargin - 10)
+        .attr('fill', lineColor)
     }
   }
 
   render () {
-    const { dimension } = this.props;
+    const {dimension} = this.props
     return (
       <div className="barChart-scrollable-wrapper">
-      <svg ref={node => this.node = node}
-           width={dimension[0]}
-           height={dimension[1]}>
-      </svg>
+        <svg ref={node => this.node = node}
+             width={dimension[0]}
+             height={dimension[1]}>
+        </svg>
       </div>
     )
   }

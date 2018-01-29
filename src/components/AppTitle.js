@@ -7,6 +7,11 @@ const AppTitle = () => (
       <div className="appTitle__leftPlaceholder">
       </div>
       <div className="appTitle__pageTitle">
+        <div>
+          <h3>
+            <strong>NETWORK</strong>
+          </h3>
+        </div>
         <h3>
           OVERVIEW
         </h3>

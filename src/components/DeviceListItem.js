@@ -24,14 +24,11 @@ export default class DeviceListItem extends React.Component {
             {moment.unix(lastSeen / 1000.0).format('MMM Do YYYY, h:mm:ss a')}
           </div>
           <div className="deviceListItem__countWrapper flex-center-parent">
-            <h4 className="deviceListItem__count">
-              {testCount}
-            </h4>
             <div>
-              Requests
-            </div>
-            <div>
-              Today
+              <h4 className="deviceListItem__count m-right-1">
+                {testCount}
+              </h4>
+              <span>Requests</span>
             </div>
           </div>
         </Grid>

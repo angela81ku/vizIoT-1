@@ -10,12 +10,13 @@ class BarGraphCard extends React.Component {
 
   render () {
     const {device, data, timerange} = this.props
-    const {ip, port} = device
+    const {ip, port, alias} = device
     const {start, end} = timerange
     const dimension = [16000, 200]
     return (
-      <CardWrapper>
-        <h4><strong>{ip}</strong>:{port}</h4>
+      <CardWrapper noBackground={true}>
+        <h6 className="barGraphCard__addr"><strong>{ip}</strong>:{port}</h6>
+        <h4 className="barGraphCard__alias">{alias}</h4>
         {/*<h5>{start.toString()}</h5>*/}
         {/*<h5>{end.toString()}</h5>*/}
         <div className="small-spacer"/>

@@ -6,7 +6,7 @@ class CardWrapper extends React.Component {
   }
 
   render () {
-    const {noShadow, noBorder, noPadding, children} = this.props
+    const {noShadow, noBorder, noPadding, noBackground, children} = this.props
 
     const classNames = ['cardWrapper']
     if (noShadow) {
@@ -17,6 +17,9 @@ class CardWrapper extends React.Component {
     }
     if (noPadding) {
       classNames.push('noPadding')
+    }
+    if (noBackground) {
+      classNames.push('noBackground')
     }
 
     return (

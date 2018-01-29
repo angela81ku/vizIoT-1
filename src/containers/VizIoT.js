@@ -13,7 +13,7 @@ import DeviceList from '../components/DeviceList'
 
 class VizIoT extends React.Component {
   state = {
-    isOpen: false
+    showDeviceList: true
   }
 
   renderBarChartCards () {
@@ -30,7 +30,7 @@ class VizIoT extends React.Component {
         <GridItem
           key={deviceKey + i}
           size={{'xs': 12, 'md': 12, 'lg': 4}}
-          space="p-right-6 p-bot-6">
+          space="p-bot-6">
           <BarGraphCard
             timerange={thisTimerange}
             device={device}
@@ -54,13 +54,13 @@ class VizIoT extends React.Component {
             <div className="small-spacer"/>
 
             <Grid gutter={3}>
-              <GridItem size={{'md': 12, 'lg': 2}}>
+              <GridItem size={{'md': 12, 'lg': 3}}>
                 <h6 className="wide-letter deviceList__title">DEVICES</h6>
                 <CardWrapper noPadding={true}>
                   <DeviceList devices={devices}/>
                 </CardWrapper>
               </GridItem>
-              <GridItem size={{'md': 12, 'lg': 10}}>
+              <GridItem size={{'md': 12, 'lg': 9}}>
                 <h6 className="wide-letter deviceList__title">ACTIVITY<i className="material-icons">trending_up</i></h6>
                 <Grid gutter={1}>
                   {this.renderBarChartCards()}
