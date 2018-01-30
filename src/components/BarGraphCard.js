@@ -14,7 +14,7 @@ class BarGraphCard extends React.Component {
     const {start, end} = timerange
     const dimension = [16000, 200]
     return (
-      <CardWrapper noBackground={true}>
+      <CardWrapper noBackground={true} noShadow={true}>
         <h6 className="barGraphCard__addr"><strong>{ip}</strong>:{port}</h6>
         <h4 className="barGraphCard__alias">{alias}</h4>
         {/*<h5>{start.toString()}</h5>*/}

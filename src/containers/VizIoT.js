@@ -10,10 +10,28 @@ import {
 } from '../selectors/logEventSelector'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
+import moment from 'moment'
 
 class VizIoT extends React.Component {
   state = {
-    showDeviceList: true
+    showDeviceList: true,
+    timer: null,
+    counter: 4,
+  }
+
+  tick = () => {
+    this.setState({
+      counter: this.state.counter + 5
+    });
+  }
+
+  componentDidMount() {
+    let timer = setInterval(this.tick, 1000);
+    this.setState({timer});
+  }
+
+  componentWillMount() {
+    clearInterval(this.state.timer);
   }
 
   renderBarChartCards () {
@@ -22,10 +40,14 @@ class VizIoT extends React.Component {
       const deviceKey = `${ip}:${port}`
       console.log(`deviceKey = ${deviceKey}`)
 
-      const thisHistData = this.props.histogramLogs[deviceKey]
-      const thisTimerange = this.props.timeranges[deviceKey]
+
+      const thisHistData = this.props.histogramLogs[deviceKey].slice(0, this.state.counter)
+      const timerange = this.props.timeranges[deviceKey]
+      const thisTimerange = {...timerange, end: moment(timerange.start).add(this.state.counter, 's')}
       console.log('thisHistData')
       console.log(thisHistData)
+      console.log('thisTR')
+      console.log(thisTimerange)
       return (
         <GridItem
           key={deviceKey + i}

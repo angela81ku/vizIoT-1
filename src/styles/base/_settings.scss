@@ -1,4 +1,4 @@
-// Colors:
+// Colors
 $prim-color: #6955f9;
 $link-color: #d94e6c;
 $pageTitle-color: white;
@@ -7,9 +7,15 @@ $extra-light-color: hsl(220, 10, 90);
 // Off white
 $super-light-color: hsl(220, 5, 95);
 
+$shadow-color-light: white;
+$shadow-color-norm: rgba(45, 62, 80, 0.12);
+
+
 // Inverted:
 $background-color: white;
-$blue-grad: linear-gradient(to bottom, #372b47 5%, #253d7b);
+//$blue-grad: radial-gradient(circle, #1c254a 0%, #281d37 80%);
+
+$blue-grad: linear-gradient(to bottom, #140b1f 5%, #1c254a);
 $background-color-alt: #90f1f9;
 
 $wide-screen-width: 1500px;
