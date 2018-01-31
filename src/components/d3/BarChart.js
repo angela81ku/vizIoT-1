@@ -5,14 +5,23 @@ import { select } from 'd3-selection'
 import { timeYear, timeMinute, timeSecond } from 'd3-time'
 import { axisLeft, axisRight, axisBottom, } from 'd3-axis'
 import { formatPrefix } from 'd3-format'
-import { line } from 'd3-shape'
-import { transition } from 'd3-transition'
+import { timeFormat } from 'd3-time-format'
+import { line, curveBasis } from 'd3-shape'
+import { transition, active } from 'd3-transition'
 import { easeLinear } from 'd3-ease'
+import moment from 'moment';
 
 class BarChart extends Component {
   constructor (props) {
     super(props)
     this.createBarChart = this.createBarChart.bind(this)
+    const n = 40
+    this.state = {
+      margin: 20,
+      dataPoints: n,
+      leftAxisMargin: 15,
+      graphData: null,
+    }
   }
 
   componentDidMount () {
@@ -20,17 +29,142 @@ class BarChart extends Component {
   }
 
   componentDidUpdate () {
-    this.createBarChart()
+    console.log("going to update chart")
+    this.updateChart()
+  }
+
+  updateChart() {
+    const node = this.node
+
+    const {data, dimension, startMoment, endMoment} = this.props
+    const { leftAxisMargin, xStart, xEnd } = this.state;
+
+    const n = this.state.dataPoints;
+    const graphData = this.state.graphData;
+    const dataMax = max(graphData.map((d) => d.yData)) || 1;
+    const margin = this.state.margin;
+    const canvasWidth = dimension[0]
+    const canvasHeight = dimension[1]
+    const graphWidth = canvasWidth - margin * 2
+    const graphHeight = canvasHeight - margin * 2
+
+    // Scales
+    const x = scaleTime()
+      .domain([xStart, xEnd])
+      .range([0, graphWidth])
+    const y = scaleLinear()
+      .domain([-1, dataMax])
+      .range([graphHeight, 0])
+
+    // Axis Settings
+    const xAxis = axisBottom(x)
+      .ticks(timeSecond, 15)
+      .tickFormat(timeFormat('%Mm %Ss'));
+    const yMin = y.domain()[0]
+    const yMax = dataMax
+    const yAxis = axisRight(y)
+      .tickSize(graphWidth)
+      .tickValues(
+        [yMin, 0, Math.floor((yMax - yMin) / 2), yMax]
+      )
+      .tickFormat(formatPrefix('.1', 1e2))
+
+    const svg = select(node);
+    const g = svg.select("g")
+
+    g.select('.xAxis')
+      .call(renderXAxis)
+      .attr("transform", null)
+
+    g.select('.xAxis')
+      .transition()
+      .duration(500)
+      .ease(easeLinear)
+      .attr("transform", `translate(${-2}, 0)`)
+
+    function renderXAxis (g) {
+      const lineColor = '#FFF'
+      g.call(xAxis)
+      g.select('.domain').remove()
+      g.selectAll('.tick text').attr('fill', lineColor)
+      g.selectAll('.tick line').attr('stroke', lineColor)
+    }
+
+    g.select('.yAxis')
+      .call(renderYAxis)
+
+    function renderYAxis (g) {
+      const lineColor = '#FFF'
+
+      g.call(yAxis)
+      g.select('.domain').remove()
+
+      g.selectAll('.tick line').attr('stroke', lineColor)
+      g.selectAll('.tick:not(:first-of-type) line').attr('stroke', '#777').attr('stroke-dasharray', '2,2')
+      g.selectAll('.tick:first-of-type text').remove()
+      g.selectAll('.tick text')
+        .attr('x', -leftAxisMargin - 10)
+        .attr('fill', lineColor)
+    }
+
+    const lineGraph = line()
+    .curve(curveBasis)
+      .x((d, i) => { return x(d.xData); })
+      .y((d) => { return y(d.yData); });
+
+    g.select('.line')
+      .attr("transform", null)
+      .attr("d", lineGraph(graphData))
+      .transition()
+      .duration(500)
+      .ease(easeLinear)
+      .attr("transform", `translate(${-2}, 0)`)
+
+  }
+
+  onEachInterval = () => {
+    const nowMoment = moment()
+    const xStart = nowMoment.clone().subtract(60, 'seconds').toDate()
+    const xEnd = moment().toDate()
+    this.setState(() => {
+      return {
+        xStart: xStart,
+        xEnd: xEnd,
+      }
+    });
+
+    select(this.node)
+      .transition()
+      .duration(500)
+      .ease(easeLinear)
+      .on("end", this.onEachInterval);
   }
 
   createBarChart () {
+    console.log('createBarChart')
     const {data, dimension, startMoment, endMoment} = this.props
+    const { leftAxisMargin } = this.state;
+
+    console.log("the data is : ");
+    console.log(data);
+    const n = 40;
+    const nowMoment = moment();
+    const testGraphData = range(n).map((i) => {
+      return {
+        xData: nowMoment.clone().add(i, 'seconds').toDate(),
+        yData: Math.random() * 10,
+      }
+    })
+    // const graphData = testGraphData;
+    const graphData = data;
+    this.setState(() => {
+      return {graphData}
+    });
 
     const node = this.node
-    const dataMax = max(data)
+    const dataMax = max(graphData.map((d) => {return d.yData;}))
 
-    const margin = 20
-    const leftAxisMargin = 15
+    const margin = this.state.margin;
 
     const canvasWidth = dimension[0]
     const canvasHeight = dimension[1]
@@ -51,34 +185,91 @@ class BarChart extends Component {
 
     const secondsBetween = endMoment.diff(startMoment, 'seconds')
 
-    const xScale = scaleTime()
-      .domain([startDate, endDate])
-      .range([0, secondsBetween * barSize])
-    const xAxis = axisBottom(xScale)
-      .ticks(timeMinute)
-
-    const yScale = scaleLinear()
-      .domain([-1, dataMax])
-      .range([0, graphHeight])
-    const yAxisScale = scaleLinear()
+    // Scales
+    const x = scaleTime()
+      // .domain([startDate, endDate])
+      .domain([nowMoment.clone().subtract(60, 'seconds').toDate(), moment().toDate()])
+      .range([0, graphWidth])
+    const y = scaleLinear()
       .domain([-1, dataMax])
       .range([graphHeight, 0])
-    const yMin = yAxisScale.domain()[0]
+
+    // Axis Settings
+    const xAxis = axisBottom(x)
+      .ticks(timeSecond, 15)
+      .tickFormat(timeFormat('%Mm %Ss'));
+    const yMin = y.domain()[0]
     const yMax = dataMax
-    const yAxis = axisRight(yAxisScale)
+    const yAxis = axisRight(y)
       .tickSize(graphWidth)
       .tickValues(
         [yMin, 0, Math.floor((yMax - yMin) / 2), yMax]
       )
       .tickFormat(formatPrefix('.1', 1e2))
 
-    select(node)
-      .selectAll("svg > path")
-      .remove()
+    const svg = select(node);
+    const g = svg.append("g").attr("transform", "translate(" + margin + "," + margin + ")")
 
-    select(node)
-      .selectAll("svg > g")
-      .remove()
+    g.append("defs").append("clipPath")
+      .attr("id", "clip")
+      .append("rect")
+      .attr("width", graphWidth)
+      .attr("height", graphHeight);
+
+    g.append('g')
+      .attr('transform', `translate(${leftAxisMargin}, ${graphHeight})`)
+      .append('g')
+        .attr('class', 'xAxis')
+        .call(renderXAxis)
+
+    g.append('g')
+      .attr('class', 'yAxis')
+      .attr('transform', `translate(${leftAxisMargin}, 0)`)
+      .call(renderYAxis)
+
+    function renderXAxis (g) {
+      const lineColor = '#FFF'
+      g.call(xAxis)
+      g.select('.domain').remove()
+      g.selectAll('.tick text').attr('fill', lineColor)
+      g.selectAll('.tick line').attr('stroke', lineColor)
+    }
+
+    function renderYAxis (g) {
+      const lineColor = '#FFF'
+
+      g.call(yAxis)
+      g.select('.domain').remove()
+
+      g.selectAll('.tick line').attr('stroke', lineColor)
+      g.selectAll('.tick:not(:first-of-type) line').attr('stroke', '#777').attr('stroke-dasharray', '2,2')
+      g.selectAll('.tick:first-of-type text').remove()
+      g.selectAll('.tick text')
+        .attr('x', -leftAxisMargin - 10)
+        .attr('fill', lineColor)
+    }
+
+    const lineGraph = line()
+      .curve(curveBasis)
+      .x((d, i) => { return x(d.xData); })
+      .y((d) => { return y(d.yData); });
+
+    const lineGraphWrapper = g.append("g").attr("clip-path", "url(#clip)")
+    const lineGraphPath = lineGraphWrapper
+      .attr('transform', `translate(${leftAxisMargin}, 0)`)
+      .append("path")
+      .datum(graphData)
+      .attr("class", "line")
+      .attr("d", lineGraph(graphData))
+      .attr('fill', 'none')
+      .attr('stroke', '#12e9ff')
+      .attr('stroke-width', '1.5')
+
+    svg.transition()
+      .duration(500)
+      .ease(easeLinear)
+      .on('start', this.onEachInterval)
+
 
     // const bars = select(node)
     //   .selectAll('rect')
@@ -102,69 +293,6 @@ class BarChart extends Component {
     //   .attr('width', barWidth)
     //   .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
 
-    select(node)
-      .append('g')
-      .attr('transform', `translate(${margin + leftAxisMargin}, ${graphHeight + margin})`)
-      .call(customXAxis)
-
-    select(node)
-      .append('g')
-      .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
-      .call(customYAxis)
-
-    let l = line()
-      .x((d, i) => {
-        return i * barSize
-      })
-      .y(d => {
-        return yAxisScale(d)
-      })
-
-    let pathSvg = select(node)
-      .append("svg:path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", l(data))
-      .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
-      .attr('fill', 'none')
-      .attr('stroke', '#12e9ff')
-      .attr('stroke-width', '1.5')
-
-    let totalLength = pathSvg.node().getTotalLength()
-    console.log(totalLength)
-    pathSvg
-      .attr("stroke-dasharray", totalLength + " " + totalLength)
-      .attr("stroke-dashoffset", 5*barWidth)
-      .transition()
-        // .delay(0.1)
-        // .duration(totalLength * 4)
-        .duration(1000)
-        .ease(easeLinear)
-        .attr("stroke-dashoffset", 0);
-
-
-    function customXAxis (g) {
-      const lineColor = '#FFF'
-
-      g.call(xAxis)
-      g.select('.domain').remove()
-      g.selectAll('.tick text').attr('fill', lineColor)
-      g.selectAll('.tick line').attr('stroke', lineColor)
-    }
-
-    function customYAxis (g) {
-      const lineColor = '#FFF'
-
-      g.call(yAxis)
-      g.select('.domain').remove()
-
-      g.selectAll('.tick line').attr('stroke', lineColor)
-      g.selectAll('.tick:not(:first-of-type) line').attr('stroke', '#777').attr('stroke-dasharray', '2,2')
-      g.selectAll('.tick:first-of-type text').remove()
-      g.selectAll('.tick text')
-        .attr('x', -leftAxisMargin - 10)
-        .attr('fill', lineColor)
-    }
   }
 
   render () {

@@ -26,12 +26,12 @@ class VizIoT extends React.Component {
   }
 
   componentDidMount() {
-    let timer = setInterval(this.tick, 1000);
-    this.setState({timer});
+    // let timer = setInterval(this.tick, 1000);
+    // this.setState({timer});
   }
 
   componentWillMount() {
-    clearInterval(this.state.timer);
+    // clearInterval(this.state.timer);
   }
 
   renderBarChartCards () {
@@ -41,13 +41,19 @@ class VizIoT extends React.Component {
       console.log(`deviceKey = ${deviceKey}`)
 
 
-      const thisHistData = this.props.histogramLogs[deviceKey].slice(0, this.state.counter)
-      const timerange = this.props.timeranges[deviceKey]
-      const thisTimerange = {...timerange, end: moment(timerange.start).add(this.state.counter, 's')}
+      // const thisHistData = this.props.histogramLogs[deviceKey].slice(0, this.state.counter)
+      const thisHistData = this.props.histogramLogs[deviceKey]
+      const thisTimerange = this.props.timeranges[deviceKey]
       console.log('thisHistData')
       console.log(thisHistData)
       console.log('thisTR')
       console.log(thisTimerange)
+
+      const momentNow = moment();
+      const momentFirst = thisHistData[0].time_stamp
+      const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
+      console.log(`catchUpSeconds = ${catchUpSeconds}`)
+
       return (
         <GridItem
           key={deviceKey + i}
@@ -56,8 +62,8 @@ class VizIoT extends React.Component {
           <BarGraphCard
             timerange={thisTimerange}
             device={device}
-            data={thisHistData.map(({tally}) => {
-              return tally
+            data={thisHistData.map(({time_stamp, tally}) => {
+              return {xData: time_stamp.clone().add(catchUpSeconds, 'seconds').toDate(), yData: tally}
             })
             }/>
         </GridItem>
