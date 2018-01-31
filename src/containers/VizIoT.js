@@ -8,9 +8,11 @@ import {
   selectAllDevices, selectAllLogsAsMap, selectAllLogsAsRequestsPerSecond,
   selectAllTimeranges
 } from '../selectors/logEventSelector'
+import { actionGetTestLogEvents, fetchActionGetTestLogEvents } from '../actions/test'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
 import moment from 'moment'
+import { selectAggregateSample } from '../selectors/aggregateSampleSelector';
 
 class VizIoT extends React.Component {
   state = {
@@ -22,15 +24,15 @@ class VizIoT extends React.Component {
   tick = () => {
     this.setState({
       counter: this.state.counter + 5
-    });
+    })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     // let timer = setInterval(this.tick, 1000);
     // this.setState({timer});
   }
 
-  componentWillMount() {
+  componentWillMount () {
     // clearInterval(this.state.timer);
   }
 
@@ -40,7 +42,6 @@ class VizIoT extends React.Component {
       const deviceKey = `${ip}:${port}`
       console.log(`deviceKey = ${deviceKey}`)
 
-
       // const thisHistData = this.props.histogramLogs[deviceKey].slice(0, this.state.counter)
       const thisHistData = this.props.histogramLogs[deviceKey]
       const thisTimerange = this.props.timeranges[deviceKey]
@@ -49,7 +50,7 @@ class VizIoT extends React.Component {
       console.log('thisTR')
       console.log(thisTimerange)
 
-      const momentNow = moment();
+      const momentNow = moment()
       const momentFirst = thisHistData[0].time_stamp
       const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
       console.log(`catchUpSeconds = ${catchUpSeconds}`)
@@ -111,8 +112,13 @@ class VizIoT extends React.Component {
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    histogramLogs: selectAllLogsAsRequestsPerSecond(state),
+    histogramLogs: {"192.168.10.115:39490": selectAggregateSample(state)},
     timeranges: selectAllTimeranges(state),
   }
 }
-export default connect(mapStateToProps)(VizIoT)
+
+const mapDispatchToProps = (dispatch) => {
+  fetchActionGetTestLogEvents()
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VizIoT)
