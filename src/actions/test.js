@@ -1,10 +1,10 @@
-import DeviceActionConstants from './constants/DeviceActionConstant'
-import GetAggregationConstant from './constants/GetAggregationConstant'
-import axios from 'axios'
-import {createAction} from 'redux-act';
+import DeviceActionConstants from './constants/DeviceActionConstant';
+import GetAggregationConstant from './constants/GetAggregationConstant';
+import axios from 'axios';
+import { createAction } from 'redux-act';
 
-const IP = '100'
-const testDevice = '123'
+const IP = 'http://54.193.126.147:3000';
+const testDevice = '70:2c:1f:3b:36:54';
 
 // redux action way:
 
@@ -15,10 +15,14 @@ export const fetchActionGetTestLogEvents = () => {
   start();
   return new Promise(resolve => {
     axios
-      .get(`${IP}/device/${testDevice}/aggregateSample`)
-      .then(resolve)
-  }).then(result =>
-      success(result)
+      .get(`${IP}/api/device/${testDevice}/aggregateSimple`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }})
+      .then(resolve);
+  }).then(result => {
+      success(result.data);
+    }
   );
 };
 
