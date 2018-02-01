@@ -8,30 +8,28 @@ import {
   selectAllDevices, selectAllLogsAsMap, selectAllLogsAsRequestsPerSecond,
   selectAllTimeranges
 } from '../selectors/logEventSelector'
+import { actionGetTestLogEvents, fetchActionGetTestLogEvents } from '../actions/test'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
 import moment from 'moment'
+import { selectAggregateSample } from '../selectors/aggregateSampleSelector';
 
 class VizIoT extends React.Component {
   state = {
     showDeviceList: true,
-    timer: null,
-    counter: 4,
-  }
-
-  tick = () => {
-    this.setState({
-      counter: this.state.counter + 5
-    });
-  }
-
-  componentDidMount() {
-    // let timer = setInterval(this.tick, 1000);
-    // this.setState({timer});
   }
 
   componentWillMount() {
-    // clearInterval(this.state.timer);
+    fetchActionGetTestLogEvents()
+  }
+
+  createDummyData() {
+    const toReturn = [];
+    const curTime = moment();
+    for (let i = 0; i < 100; i++) {
+      toReturn.push({ time_stamp: curTime.clone().add(i, 'seconds'), tally: 0 })
+    }
+    return toReturn;
   }
 
   renderBarChartCards () {
@@ -40,16 +38,17 @@ class VizIoT extends React.Component {
       const deviceKey = `${ip}:${port}`
       console.log(`deviceKey = ${deviceKey}`)
 
-
-      // const thisHistData = this.props.histogramLogs[deviceKey].slice(0, this.state.counter)
-      const thisHistData = this.props.histogramLogs[deviceKey]
-      const thisTimerange = this.props.timeranges[deviceKey]
+      console.log("this.props.histogramLogs");
+      console.log(this.props.histogramLogs);
+      let possibleLog = this.props.histogramLogs[deviceKey];
+      const thisHistData = (possibleLog && possibleLog.length !== 0) ? possibleLog : this.createDummyData()
+      const thisTimerange = {start: moment(), end: moment().add(30, 'seconds')}
       console.log('thisHistData')
       console.log(thisHistData)
       console.log('thisTR')
       console.log(thisTimerange)
 
-      const momentNow = moment();
+      const momentNow = moment()
       const momentFirst = thisHistData[0].time_stamp
       const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
       console.log(`catchUpSeconds = ${catchUpSeconds}`)
@@ -100,6 +99,11 @@ class VizIoT extends React.Component {
             <div className="large-spacer"/>
             <div className="large-spacer"/>
             <div className="large-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
+            <div className="large-spacer"/>
+
+
 
           </div>
         </div>
@@ -111,8 +115,13 @@ class VizIoT extends React.Component {
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    histogramLogs: selectAllLogsAsRequestsPerSecond(state),
+    histogramLogs: selectAggregateSample(state),
     timeranges: selectAllTimeranges(state),
   }
 }
-export default connect(mapStateToProps)(VizIoT)
+
+const mapDispatchToProps = (dispatch) => {
+
+}
+
+export default connect(mapStateToProps, {fetchActionGetTestLogEvents})(VizIoT)
