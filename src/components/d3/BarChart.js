@@ -39,8 +39,8 @@ class BarChart extends Component {
     const {data, dimension, startMoment, endMoment} = this.props
     const { leftAxisMargin, xStart, xEnd } = this.state;
 
-    const n = this.state.dataPoints;
-    const graphData = this.state.graphData;
+    // Update data
+    const graphData = data;
     const dataMax = max(graphData.map((d) => d.yData)) || 1;
     const margin = this.state.margin;
     const canvasWidth = dimension[0]
