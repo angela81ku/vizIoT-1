@@ -5,10 +5,9 @@ import Grid from '../components/BeanUILibrary/Grid'
 import GridItem from '../components/BeanUILibrary/GridItem'
 import BarGraphCard from '../components/BarGraphCard'
 import {
-  selectAllDevices, selectAllLogsAsMap, selectAllLogsAsRequestsPerSecond,
-  selectAllTimeranges
-} from '../selectors/logEventSelector'
-import { actionGetTestLogEvents, fetchActionGetTestLogEvents } from '../actions/test'
+  selectAllDevices,
+} from '../selectors/deviceSelectors'
+import { fetchActionGetTestLogEvents } from '../actions/test'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
 import moment from 'moment'
@@ -23,35 +22,37 @@ class VizIoT extends React.Component {
     fetchActionGetTestLogEvents()
   }
 
-  createDummyData() {
-    const toReturn = [];
-    const curTime = moment();
-    for (let i = 0; i < 100; i++) {
-      toReturn.push({ time_stamp: curTime.clone().add(i, 'seconds'), tally: 0 })
-    }
-    return toReturn;
-  }
-
   renderBarChartCards () {
-    return this.props.devices.map((device, i) => {
+    const { devices, aggregatedByTime } = this.props;
+
+    const dataWindowSize = 60
+    const xUnit = 'SECONDS'
+
+    console.log('all aggregated data by time:');
+    console.log(aggregatedByTime);
+
+    return devices.map((device, i) => {
       const {ip, port} = device
       const deviceKey = `${ip}:${port}`
-      console.log(`deviceKey = ${deviceKey}`)
+      console.log('Making chart for ${deviceKey}')
 
-      console.log("this.props.histogramLogs");
-      console.log(this.props.histogramLogs);
-      let possibleLog = this.props.histogramLogs[deviceKey];
-      const thisHistData = (possibleLog && possibleLog.length !== 0) ? possibleLog : this.createDummyData()
-      const thisTimerange = {start: moment(), end: moment().add(30, 'seconds')}
-      console.log('thisHistData')
-      console.log(thisHistData)
-      console.log('thisTR')
-      console.log(thisTimerange)
+      let possibleLog = aggregatedByTime[deviceKey];
+      const sourceData = (possibleLog && possibleLog.length !== 0) && possibleLog
+      console.log('sourceData:')
+      console.log(sourceData)
 
-      const momentNow = moment()
-      const momentFirst = thisHistData[0].time_stamp
-      const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
-      console.log(`catchUpSeconds = ${catchUpSeconds}`)
+      let graphData = []
+      if (sourceData && sourceData.length) {
+        // Temporary Code for replaying old sourceData:
+        const momentNow = moment()
+        const momentFirst = sourceData[0].time_stamp
+        const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
+        console.log(`catchUpSeconds = ${catchUpSeconds}`)
+
+        graphData = sourceData.map(({time_stamp, tally}) => {
+          return {xData: time_stamp.clone().add(catchUpSeconds, 'seconds').toDate(), yData: tally}
+        })
+      }
 
       return (
         <GridItem
@@ -59,14 +60,11 @@ class VizIoT extends React.Component {
           size={{'xs': 12, 'md': 12, 'lg': 4}}
           space="p-bot-6">
           <BarGraphCard
-            timerange={thisTimerange}
+            dataWindowSize={dataWindowSize}
             device={device}
-            data={thisHistData.map(({time_stamp, tally}) => {
-              return {xData: time_stamp.clone().add(catchUpSeconds, 'seconds').toDate(), yData: tally}
-            })
-            }/>
+            data={graphData} />
         </GridItem>
-      )
+      );
     })
   }
 
@@ -102,9 +100,6 @@ class VizIoT extends React.Component {
             <div className="large-spacer"/>
             <div className="large-spacer"/>
             <div className="large-spacer"/>
-
-
-
           </div>
         </div>
       </div>
@@ -112,11 +107,14 @@ class VizIoT extends React.Component {
   }
 }
 
+VizIoT.propTypes = {
+
+};
+
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    histogramLogs: selectAggregateSample(state),
-    timeranges: selectAllTimeranges(state),
+    aggregatedByTime: selectAggregateSample(state),
   }
 }
 
@@ -124,4 +122,4 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-export default connect(mapStateToProps, {fetchActionGetTestLogEvents})(VizIoT)
+export default connect(mapStateToProps)(VizIoT)

@@ -9,10 +9,9 @@ class BarGraphCard extends React.Component {
   }
 
   render () {
-    const {device, data, timerange} = this.props
+    const {device, data, dataWindowSize} = this.props
     const {ip, port, alias} = device
-    const {start, end} = timerange
-    const dimension = [300, 200]
+    const dimension = {width: 300, height: 200}
     return (
       <CardWrapper noBackground={true} noShadow={true}>
         <h6 className="barGraphCard__addr"><strong>{ip}</strong>:{port}</h6>
@@ -22,9 +21,9 @@ class BarGraphCard extends React.Component {
         <div className="small-spacer"/>
         <BarChart
           data={data}
-          startMoment={start}
-          endMoment={end}
-          dimension={dimension}/>
+          dataWindowSize={dataWindowSize}
+          dimension={dimension}
+          margins={{left: 20, right: 20, top: 20, bottom: 20}} />
       </CardWrapper>
     )
   }

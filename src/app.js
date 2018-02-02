@@ -3,16 +3,11 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
-import { selectAllDevices } from './selectors/logEventSelector'
-// import { actionStartStream } from "./actions/test";
-
-
 import "normalize.css/normalize.css"
 import "./styles/app.scss";
 
 const store = configureStore();
 // store.dispatch(actionStartStream({ dispatch: store.dispatch }));
-console.log(selectAllDevices(store.getState()));
 
 const jsx = (
   <Provider store={store}>

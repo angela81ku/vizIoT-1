@@ -40,9 +40,8 @@ const mockData = {
 }
 
 export const selectAggregateSample = ({aggregateSample}) => {
-  // let toReturn = mockData.data;
-  let toReturn = aggregateSample.aggregatedTest && aggregateSample.aggregatedTest.data;
-  console.log("in selectAggre");
+  let toReturn = mockData.data;
+  // let toReturn = aggregateSample.aggregatedTest && aggregateSample.aggregatedTest.data;
   let reformattedData = Object
     .keys(toReturn).reduce((arr, time_stamp) => {
       const newArr = [...arr, {
