@@ -11,7 +11,7 @@ import { fetchActionGetTestLogEvents } from '../actions/test'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
 import moment from 'moment'
-import { selectAggregateSample } from '../selectors/aggregateSampleSelector';
+import { selectAllAggregations } from '../selectors/aggregateSampleSelector';
 
 class VizIoT extends React.Component {
   state = {
@@ -19,7 +19,8 @@ class VizIoT extends React.Component {
   }
 
   componentWillMount() {
-    fetchActionGetTestLogEvents()
+    const testDevice = '70:2c:1f:3b:36:54'
+    fetchActionGetTestLogEvents(testDevice)
   }
 
   renderBarChartCards () {
@@ -32,11 +33,11 @@ class VizIoT extends React.Component {
     console.log(aggregatedByTime);
 
     return devices.map((device, i) => {
-      const {ip, port} = device
-      const deviceKey = `${ip}:${port}`
-      console.log('Making chart for ${deviceKey}')
+      const {ip, port, macAddr} = device
+      const ipAndPort = `${ip}:${port}`
+      console.log(`Making chart for ${ipAndPort} AKA ${macAddr}`)
 
-      let possibleLog = aggregatedByTime[deviceKey];
+      let possibleLog = aggregatedByTime[macAddr];
       const sourceData = (possibleLog && possibleLog.length !== 0) && possibleLog
       console.log('sourceData:')
       console.log(sourceData)
@@ -56,7 +57,7 @@ class VizIoT extends React.Component {
 
       return (
         <GridItem
-          key={deviceKey + i}
+          key={ipAndPort + i}
           size={{'xs': 12, 'md': 12, 'lg': 4}}
           space="p-bot-6">
           <BarGraphCard
@@ -114,7 +115,7 @@ VizIoT.propTypes = {
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    aggregatedByTime: selectAggregateSample(state),
+    aggregatedByTime: selectAllAggregations(state),
   }
 }
 

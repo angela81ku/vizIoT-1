@@ -1,30 +1,33 @@
-import DeviceActionConstants from './constants/DeviceActionConstant';
-import GetAggregationConstant from './constants/GetAggregationConstant';
-import axios from 'axios';
-import { createAction } from 'redux-act';
+import axios from 'axios'
+import { createAction } from 'redux-act'
 
-const IP = 'http://54.193.126.147:3000';
-const testDevice = '70:2c:1f:3b:36:54';
+const IP = 'http://54.193.126.147:3000'
 
 // redux action way:
 
-export const start = createAction();
-export const success = createAction();
+export const start = createAction()
+export const success = createAction()
+export const failure = createAction()
 
-export const fetchActionGetTestLogEvents = () => {
-  start();
+export const fetchActionGetTestLogEvents = (macAddress) => {
+  start()
   return new Promise(resolve => {
     axios
-      .get(`${IP}/api/device/${testDevice}/aggregateSimple`, {
+      .get(`${IP}/api/device/${macAddress}/aggregateSimple`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
-        }})
-      .then(resolve);
-  }).then(result => {
-      success(result.data);
+        }
+      })
+      .then(resolve)
+      .catch((error) => {
+        console.log(`failed to fetchActionGetTestLogEvents for ${macAddress}: ${error}`)
+        failure()
+      })
+  }).then(res => {
+      success({payload: res.data, macAddress})
     }
-  );
-};
+  )
+}
 
 // redux original
 
