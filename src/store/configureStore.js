@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux'
 import devices from '../reducers/devices'
 import logEvents from '../reducers/logEvents'
 import aggregateSample from '../reducers/aggregateSampleReducer'
-import { start, success } from '../actions/test';
+import { start, success, failure } from '../actions/test';
 
 // Store creation
 export default () => {
@@ -17,6 +17,7 @@ export default () => {
   )
   start.assignTo(store)
   success.assignTo(store)
+  failure.assignTo(store)
   return store
 }
 
