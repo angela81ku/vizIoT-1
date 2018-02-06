@@ -1,9 +1,10 @@
 import { start, success, failure } from '../actions/test'
 import { createReducer } from 'redux-act'
-import { List, fromJS, hasIn } from 'immutable'
+import NetworkState from '../constants/NetworkState'
+import { getBucketKey } from '../utility/BucketUtility'
 
 const defaultState = {
-  running: false,
+  networkState: NetworkState.READY,
   mapDeviceToData: {},
 }
 
@@ -12,20 +13,8 @@ const padWithZeros = (data, bucketUnit) => {
     return data;
   }
 
-  let orderedData = List(data);
-  // let orderedData = List(data).sortBy(
-  //   (obj) => (obj.time_stamp),
-  //   (aTimeStr, bTimeStr) => {
-  //     const aTime = parseInt(aTimeStr)
-  //     const bTime = parseInt(bTimeStr)
-  //     if (aTime < bTime) { return -1; }
-  //     if (aTime > bTime) { return 1; }
-  //     if (aTime === bTime) { return 0; }
-  //   }
-  // );
-
-  const startData = orderedData.first();
-  const endData = orderedData.last();
+  const startData = data[0];
+  const endData = data[data.length - 1];
 
   const zeroData = Object.keys(startData).reduce((acc, k) => {
     if (k === 'time_stamp') {
@@ -43,18 +32,20 @@ const padWithZeros = (data, bucketUnit) => {
       const endTime = parseInt(endData.time_stamp);
       for (let t = startTime; t <= endTime; t++) {
         const time_stamp = t.toString()
-        const foundIdx = orderedData.findIndex((i) => {
+        const foundIdx = data.findIndex((i) => {
           return i.time_stamp === time_stamp
         })
-        if (foundIdx < 0)
-        {
+        if (foundIdx < 0) {
           const paddedValue = {
             ...zeroData,
-            time_stamp,
+            time_stamp: t,
           }
-          paddedData = paddedData.concat(fromJS(paddedValue))
+          paddedData.push(paddedValue)
         } else {
-          paddedData = paddedData.concat(fromJS(orderedData.get(foundIdx)))
+          paddedData.push({
+            ...data[foundIdx],
+            time_stamp: t,
+          })
         }
       }
       break;
@@ -63,55 +54,28 @@ const padWithZeros = (data, bucketUnit) => {
   return paddedData;
 }
 
-const mockData = {
-  'data': [
-    {
-      time_stamp: '1517009506',
-      COUNT: 1,
-    },
-    {
-      time_stamp: '1517011678',
-      COUNT: 1000,
-    },
-  ]
-}
-const mockDevice = '70:2c:1f:3b:36:54';
-
 const bucketUnit = 'SECOND';
 const bucketSize = 1;
 const bucketObjects = ['COUNT'];
 
 const aggregateSample = createReducer({
-  [start]: (state) => ({...state, running: true}),
+  [start]: (state) => ({...state, networkState: NetworkState.LOADING}),
   [success]: (state, result) => {
     return {
       ...state,
-      running: false,
+      networkState: NetworkState.READY,
       mapDeviceToData: {
         ...state.mapDeviceToData,
         [result.macAddress]: {
-          // [bucketUnit+bucketSize+bucketObjects.join()]: padWithZeros(result.payload.data, bucketUnit),
-          [bucketUnit+bucketSize+bucketObjects.join()]: padWithZeros(mockData.data, bucketUnit),
+          [getBucketKey(bucketUnit, bucketSize, bucketObjects)]: padWithZeros(result.payload.data, bucketUnit),
         },
       },
     }
   },
   [failure]: (state) => {
-    // return {
-    //   ...state,
-    //   running: false,
-    // }
-
     return {
       ...state,
-      running: false,
-      mapDeviceToData: {
-        ...state.mapDeviceToData,
-        [mockDevice]: {
-          // [bucketUnit+bucketSize+bucketObjects.join()]: padWithZeros(result.payload.data, bucketUnit),
-          [bucketUnit+bucketSize+bucketObjects.join()]: padWithZeros(mockData.data, bucketUnit),
-        },
-      },
+      networkState: NetworkState.READY,
     }
   }
 }, defaultState)

@@ -13,7 +13,7 @@ export default class DeviceList extends React.Component {
         {
           devices.map((device) => {
             return (
-              <DeviceListItem key={device.deviceKey} device={device} testCount={10}/>
+              <DeviceListItem key={device.macAddr} device={device} testCount={10}/>
             )
           })
         }

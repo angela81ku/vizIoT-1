@@ -4,41 +4,46 @@ import { connect } from 'react-redux'
 import Grid from '../components/BeanUILibrary/Grid'
 import GridItem from '../components/BeanUILibrary/GridItem'
 import BarGraphCard from '../components/BarGraphCard'
-import {
-  selectAllDevices,
-} from '../selectors/deviceSelectors'
+import { selectAllDevices } from '../selectors/deviceSelectors'
 import { fetchActionGetTestLogEvents } from '../actions/test'
+import { fetchDevices } from '../actions/deviceActions'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
 import moment from 'moment'
-import { selectAllAggregations } from '../selectors/aggregateSampleSelector';
+import { selectAllAggregations } from '../selectors/aggregateSampleSelector'
+import PropTypes from 'prop-types'
+import { getBucketKey } from '../utility/BucketUtility'
+import { getIn } from 'immutable'
 
 class VizIoT extends React.Component {
   state = {
     showDeviceList: true,
+    chartConfig: {
+      bucketSize: 1,
+      bucketUnit: 'SECOND',
+      bucketObjects: ['COUNT'],
+      dataWindowSize: 60,
+    }
   }
 
-  componentWillMount() {
-    const testDevice = '70:2c:1f:3b:36:54'
-    fetchActionGetTestLogEvents(testDevice)
+  componentWillMount () {
+    fetchDevices().then(() => {
+      const {devices} = this.props
+      devices.forEach(({macAddr}) => {
+        fetchActionGetTestLogEvents(macAddr)
+      })
+    })
   }
 
   renderBarChartCards () {
-    const { devices, aggregatedByTime } = this.props;
+    const {devices, mapDeviceToData} = this.props
+    const {chartConfig: {bucketUnit, bucketSize, bucketObjects, dataWindowSize}} = this.state
 
-    const dataWindowSize = 60
-    const xUnit = 'SECONDS'
+    return devices.map((d) => {
+      const {socketAddr, macAddr, alias} = d
+      console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`)
 
-    console.log('all aggregated data by time:');
-    console.log(aggregatedByTime);
-
-    return devices.map((device, i) => {
-      const {ip, port, macAddr} = device
-      const ipAndPort = `${ip}:${port}`
-      console.log(`Making chart for ${ipAndPort} AKA ${macAddr}`)
-
-      let possibleLog = aggregatedByTime[macAddr];
-      const sourceData = (possibleLog && possibleLog.length !== 0) && possibleLog
+      const sourceData = getIn(mapDeviceToData, [macAddr, getBucketKey(bucketUnit, bucketSize, bucketObjects)], [])
       console.log('sourceData:')
       console.log(sourceData)
 
@@ -46,26 +51,26 @@ class VizIoT extends React.Component {
       if (sourceData && sourceData.length) {
         // Temporary Code for replaying old sourceData:
         const momentNow = moment()
-        const momentFirst = sourceData[0].time_stamp
+        const momentFirst = moment.unix(sourceData[0].time_stamp)
         const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
         console.log(`catchUpSeconds = ${catchUpSeconds}`)
 
-        graphData = sourceData.map(({time_stamp, tally}) => {
-          return {xData: time_stamp.clone().add(catchUpSeconds, 'seconds').toDate(), yData: tally}
+        graphData = sourceData.map(({time_stamp, [bucketObjects[0]]: yData}) => {
+          return {xData: moment.unix(time_stamp).add(catchUpSeconds, 'seconds').toDate(), yData}
         })
       }
 
       return (
         <GridItem
-          key={ipAndPort + i}
+          key={macAddr}
           size={{'xs': 12, 'md': 12, 'lg': 4}}
           space="p-bot-6">
           <BarGraphCard
             dataWindowSize={dataWindowSize}
-            device={device}
-            data={graphData} />
+            device={d}
+            data={graphData}/>
         </GridItem>
-      );
+      )
     })
   }
 
@@ -109,13 +114,14 @@ class VizIoT extends React.Component {
 }
 
 VizIoT.propTypes = {
-
-};
+  devices: PropTypes.array.isRequired,
+  mapDeviceToData: PropTypes.object.isRequired,
+}
 
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    aggregatedByTime: selectAllAggregations(state),
+    mapDeviceToData: selectAllAggregations(state),
   }
 }
 

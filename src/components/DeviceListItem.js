@@ -11,13 +11,13 @@ export default class DeviceListItem extends React.Component {
 
   render () {
     const {device, testCount} = this.props
-    const {deviceKey, alias, lastSeen} = device
+    const {socketAddr, alias, lastSeen} = device
 
     return (
       <div className="deviceListItem__wrapper">
         <Grid>
           <div className="deviceListItem__deviceInfo">
-            {deviceKey}
+            {socketAddr}
             <h6 className='deviceListItem__deviceName'>
               {alias}
             </h6>
