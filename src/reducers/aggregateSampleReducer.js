@@ -28,23 +28,22 @@ const padWithZeros = (data, bucketUnit) => {
 
   switch (bucketUnit) {
     case 'SECOND':
-      const startTime = parseInt(startData.time_stamp);
-      const endTime = parseInt(endData.time_stamp);
-      for (let t = startTime; t <= endTime; t++) {
-        const time_stamp = t.toString()
+      const startTime = parseInt(startData.timestampMS);
+      const endTime = parseInt(endData.timestampMS);
+      for (let t = startTime; t <= endTime; t += 1000) {
         const foundIdx = data.findIndex((i) => {
-          return i.time_stamp === time_stamp
+          return i.timestampMS === t.toString()
         })
         if (foundIdx < 0) {
           const paddedValue = {
             ...zeroData,
-            time_stamp: t,
+            timestampMS: t,
           }
           paddedData.push(paddedValue)
         } else {
           paddedData.push({
             ...data[foundIdx],
-            time_stamp: t,
+            timestampMS: t,
           })
         }
       }

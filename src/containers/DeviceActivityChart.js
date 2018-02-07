@@ -12,7 +12,7 @@ class DeviceActivityChart extends React.Component {
   }
 
   render () {
-    const { device, chartConfig: {dataWindowSize, bucketObjects}, data } = this.props;
+    const { device, chartConfig: {dataWindowSize, bucketConfig: {bucketProps} }, data } = this.props;
     const {socketAddr, macAddr, alias} = device
     console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`)
 
@@ -24,12 +24,12 @@ class DeviceActivityChart extends React.Component {
     if (sourceData && sourceData.length) {
       // Temporary Code for replaying old sourceData:
       const momentNow = moment()
-      const momentFirst = moment.unix(sourceData[0].time_stamp)
+      const momentFirst = moment(sourceData[0].timestampMS)
       const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
       console.log(`catchUpSeconds = ${catchUpSeconds}`)
 
-      graphData = sourceData.map(({time_stamp, [bucketObjects[0]]: yData}) => {
-        return {xData: moment.unix(time_stamp).add(catchUpSeconds, 'seconds').toDate(), yData}
+      graphData = sourceData.map(({timestampMS, [bucketProps[0]]: yData}) => {
+        return {xData: moment(timestampMS).add(catchUpSeconds, 'seconds').toDate(), yData}
       })
     }
 
