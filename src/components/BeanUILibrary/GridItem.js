@@ -14,7 +14,7 @@ class GridItem extends React.Component {
     }, '')
 
     classNames += space || ''
-    console.log(classNames)
+    // console.log(classNames)
 
     return (
       <div className={classNames}

@@ -3,72 +3,60 @@ import AppTitle from '../components/AppTitle'
 import { connect } from 'react-redux'
 import Grid from '../components/BeanUILibrary/Grid'
 import GridItem from '../components/BeanUILibrary/GridItem'
-import BarGraphCard from '../components/BarGraphCard'
 import { selectAllDevices } from '../selectors/deviceSelectors'
-import { fetchActionGetTestLogEvents } from '../actions/test'
+import { fetchAggregationForDevice } from '../actions/test'
 import { fetchDevices } from '../actions/deviceActions'
 import CardWrapper from '../components/BeanUILibrary/CardWrapper'
 import DeviceList from '../components/DeviceList'
-import moment from 'moment'
-import { selectAllAggregations } from '../selectors/aggregateSampleSelector'
 import PropTypes from 'prop-types'
-import { getBucketKey } from '../utility/BucketUtility'
-import { getIn } from 'immutable'
+import DeviceActivityChart from './DeviceActivityChart'
+import { API_REQ_RECORDS } from '../constants/RequestConstants'
 
 class VizIoT extends React.Component {
   state = {
     showDeviceList: true,
     chartConfig: {
-      bucketSize: 1,
-      bucketUnit: 'SECOND',
-      bucketObjects: ['COUNT'],
+      bucketConfig: {
+        bucketSize: 1,
+        bucketProps: ['ACTIVITY_COUNT'],
+        bucketUnit: 'SECOND'
+      },
       dataWindowSize: 60,
-    }
+    },
+    networkId: 42,
   }
 
   componentWillMount () {
     fetchDevices().then(() => {
       const {devices} = this.props
+      const {chartConfig: {bucketConfig}, networkId} = this.state;
+      const startMS = "1517967550000";
+      const endMS = "1517967570000";
       devices.forEach(({macAddr}) => {
-        fetchActionGetTestLogEvents(macAddr)
+        fetchAggregationForDevice(macAddr, new API_REQ_RECORDS.aggregateDataByTime({
+          forNetwork: networkId,
+          forDevice: macAddr,
+          ...bucketConfig,
+          startMS,
+          endMS,
+        }), bucketConfig)
       })
     })
   }
 
   renderBarChartCards () {
-    const {devices, mapDeviceToData} = this.props
-    const {chartConfig: {bucketUnit, bucketSize, bucketObjects, dataWindowSize}} = this.state
+    const {devices} = this.props
+    const {chartConfig} = this.state
 
     return devices.map((d) => {
-      const {socketAddr, macAddr, alias} = d
-      console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`)
-
-      const sourceData = getIn(mapDeviceToData, [macAddr, getBucketKey(bucketUnit, bucketSize, bucketObjects)], [])
-      console.log('sourceData:')
-      console.log(sourceData)
-
-      let graphData = []
-      if (sourceData && sourceData.length) {
-        // Temporary Code for replaying old sourceData:
-        const momentNow = moment()
-        const momentFirst = moment.unix(sourceData[0].time_stamp)
-        const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
-        console.log(`catchUpSeconds = ${catchUpSeconds}`)
-
-        graphData = sourceData.map(({time_stamp, [bucketObjects[0]]: yData}) => {
-          return {xData: moment.unix(time_stamp).add(catchUpSeconds, 'seconds').toDate(), yData}
-        })
-      }
-
       return (
         <GridItem
-          key={macAddr}
+          key={d.macAddr}
           size={{'xs': 12, 'md': 12, 'lg': 4}}
           space="p-bot-6">
-          <BarGraphCard
-            dataWindowSize={dataWindowSize}
+          <DeviceActivityChart
             device={d}
-            data={graphData}/>
+            chartConfig={chartConfig} />
         </GridItem>
       )
     })
@@ -115,13 +103,11 @@ class VizIoT extends React.Component {
 
 VizIoT.propTypes = {
   devices: PropTypes.array.isRequired,
-  mapDeviceToData: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => {
   return {
     devices: selectAllDevices(state),
-    mapDeviceToData: selectAllAggregations(state),
   }
 }
 

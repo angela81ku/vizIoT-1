@@ -1,7 +1,7 @@
 import { start, success, failure } from '../actions/test'
 import { createReducer } from 'redux-act'
 import NetworkState from '../constants/NetworkState'
-import { getBucketKey } from '../utility/BucketUtility'
+import { getBucketKey, getBucketKeyWithConfig } from '../utility/BucketUtility'
 
 const defaultState = {
   networkState: NetworkState.READY,
@@ -17,7 +17,7 @@ const padWithZeros = (data, bucketUnit) => {
   const endData = data[data.length - 1];
 
   const zeroData = Object.keys(startData).reduce((acc, k) => {
-    if (k === 'time_stamp') {
+    if (k === 'timestampMS') {
       return acc;
     }
     acc[k] = 0;
@@ -54,20 +54,17 @@ const padWithZeros = (data, bucketUnit) => {
   return paddedData;
 }
 
-const bucketUnit = 'SECOND';
-const bucketSize = 1;
-const bucketObjects = ['COUNT'];
-
 const aggregateSample = createReducer({
   [start]: (state) => ({...state, networkState: NetworkState.LOADING}),
   [success]: (state, result) => {
+    debugger
     return {
       ...state,
       networkState: NetworkState.READY,
       mapDeviceToData: {
         ...state.mapDeviceToData,
         [result.macAddress]: {
-          [getBucketKey(bucketUnit, bucketSize, bucketObjects)]: padWithZeros(result.payload.data, bucketUnit),
+          [getBucketKeyWithConfig({...result.bucketConfig, bucketUnit: 'SECOND'})]: padWithZeros(result.payload.data, 'SECOND'),
         },
       },
     }
