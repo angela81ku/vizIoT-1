@@ -1,23 +1,17 @@
-import axios from 'axios'
 import { createAction } from 'redux-act'
-import { API } from '../constants/RequestConstants'
+import * as deviceApi from '../data/api/devicesApi'
 
 export const startFetchDevices = createAction()
 export const successFetchDevices = createAction()
 export const failureFetchDevices = createAction()
 
-export const fetchDevices = () => {
+export const fetchDevices = (networkId) => {
   startFetchDevices()
   return new Promise(resolve => {
-    axios
-      .get(API.fetchDevices(), {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        }
-      })
+      deviceApi.fetchDevices(networkId)
       .then(resolve)
       .catch((error) => {
-        console.log(`failed to fetchDevices: ${error}`)
+        console.log(`failed to fetchDevices from network ${networkId}: ${error}`)
         failureFetchDevices()
       })
   }).then(res => {

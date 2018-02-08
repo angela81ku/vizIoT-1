@@ -1,7 +1,7 @@
-import { start, success, failure } from '../actions/test'
+import { startAnalyze, successAnalyze, failureAnalyze } from '../actions/analyzeActions'
 import { createReducer } from 'redux-act'
 import NetworkState from '../constants/NetworkState'
-import { getBucketKey, getBucketKeyWithConfig } from '../utility/BucketUtility'
+import { getBucketKeyWithConfig } from '../utility/BucketUtility'
 
 const defaultState = {
   networkState: NetworkState.READY,
@@ -53,22 +53,24 @@ const padWithZeros = (data, bucketUnit) => {
   return paddedData;
 }
 
-const aggregateSample = createReducer({
-  [start]: (state) => ({...state, networkState: NetworkState.LOADING}),
-  [success]: (state, result) => {
-    debugger
-    return {
-      ...state,
-      networkState: NetworkState.READY,
-      mapDeviceToData: {
-        ...state.mapDeviceToData,
-        [result.macAddress]: {
-          [getBucketKeyWithConfig({...result.bucketConfig, bucketUnit: 'SECOND'})]: padWithZeros(result.payload.data, 'SECOND'),
-        },
+const onSuccess = (state, result) => {
+  debugger
+  return {
+    ...state,
+    networkState: NetworkState.READY,
+    mapDeviceToData: {
+      ...state.mapDeviceToData,
+      [result.deviceId]: {
+        [getBucketKeyWithConfig({...result.bucketConfig, bucketUnit: 'SECOND'})]: padWithZeros(result.payload.data, 'SECOND'),
       },
-    }
-  },
-  [failure]: (state) => {
+    },
+  }
+};
+
+const aggregateSample = createReducer({
+  [startAnalyze]: (state) => ({...state, networkState: NetworkState.LOADING}),
+  [successAnalyze]: onSuccess,
+  [failureAnalyze]: (state) => {
     return {
       ...state,
       networkState: NetworkState.READY,

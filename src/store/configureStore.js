@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux'
 import devices from '../reducers/devices'
 import logEvents from '../reducers/logEvents'
 import aggregateSample from '../reducers/aggregateSampleReducer'
-import { start, success, failure } from '../actions/test'
+import { startAnalyze, successAnalyze, failureAnalyze } from '../actions/analyzeActions'
 import { startFetchDevices, successFetchDevices, failureFetchDevices } from '../actions/deviceActions'
 
 // Store creation
@@ -16,9 +16,10 @@ export default () => {
     // This is for Redux DevTools
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
-  start.assignTo(store)
-  success.assignTo(store)
-  failure.assignTo(store)
+
+  startAnalyze.assignTo(store)
+  successAnalyze.assignTo(store)
+  failureAnalyze.assignTo(store)
 
   startFetchDevices.assignTo(store)
   successFetchDevices.assignTo(store)
