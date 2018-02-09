@@ -2,6 +2,7 @@ import React from 'react'
 import Grid from './BeanUILibrary/Grid'
 import GridItem from './BeanUILibrary/GridItem'
 import moment from 'moment'
+import CardWrapper from './BeanUILibrary/CardWrapper'
 
 export default class DeviceListItem extends React.Component {
 
@@ -11,14 +12,14 @@ export default class DeviceListItem extends React.Component {
 
   render () {
     const {device, testCount} = this.props
-    const {socketAddr, alias, lastSeen} = device
+    const {macAddr, alias, lastSeen} = device
 
     return (
-      <div className="deviceListItem__wrapper">
+      <CardWrapper className="deviceListItem__wrapper m-bot-4" noPadding={true}>
         <Grid>
           <div className="deviceListItem__deviceInfo">
-            {socketAddr}
-            <h6 className='deviceListItem__deviceName'>
+            {macAddr}
+            <h6 className='deviceListItem__deviceName m-top-1'>
               {alias}
             </h6>
             {moment.unix(lastSeen / 1000.0).format('MMM Do YYYY, h:mm:ss a')}
@@ -28,11 +29,11 @@ export default class DeviceListItem extends React.Component {
               <h4 className="deviceListItem__count m-right-1">
                 {testCount}
               </h4>
-              <span>Requests</span>
+              <span>REQUESTS</span>
             </div>
           </div>
         </Grid>
-      </div>
+      </CardWrapper>
     )
   }
 

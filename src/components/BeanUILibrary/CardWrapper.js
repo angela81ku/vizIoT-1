@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class CardWrapper extends React.Component {
   constructor (props) {
@@ -6,9 +7,9 @@ class CardWrapper extends React.Component {
   }
 
   render () {
-    const {noShadow, noBorder, noPadding, noBackground, children} = this.props
+    const {noShadow, noBorder, noPadding, noBackground, className, children} = this.props
 
-    const classNames = ['cardWrapper']
+    const classNames = ['cardWrapper'].concat(className ? className.split(" ") : [])
     if (noShadow) {
       classNames.push('noShadow')
     }
@@ -28,6 +29,14 @@ class CardWrapper extends React.Component {
       </div>
     )
   }
+}
+
+CardWrapper.propTypes = {
+  noShadow: PropTypes.bool,
+  noBorder: PropTypes.bool,
+  noPadding: PropTypes.bool,
+  noBackground: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 export default CardWrapper

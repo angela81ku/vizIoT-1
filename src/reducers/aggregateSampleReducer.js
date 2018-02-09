@@ -62,6 +62,7 @@ const onSuccess = (state, result) => {
       ...state.mapDeviceToData,
       [result.deviceId]: {
         [getBucketKeyWithConfig({...result.bucketConfig, bucketUnit: 'SECOND'})]: padWithZeros(result.payload.data, 'SECOND'),
+        // TODO merge with old data
       },
     },
   }

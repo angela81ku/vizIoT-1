@@ -9,9 +9,9 @@ export const analyzeAggregationByTime = (networkId, deviceId, bucketConfig, star
   startAnalyze()
   return new Promise(resolve => {
 
-    const {call, requestRecord} = analyzeApi[analyzeApiKeys.analyzeAggregationByTime]
+    const {call, REQUEST_RECORD} = analyzeApi[analyzeApiKeys.analyzeAggregationByTime]
 
-    call(new requestRecord({
+    call(new REQUEST_RECORD({
       forDevice: deviceId,
       ...bucketConfig.
         startMS,
@@ -27,4 +27,35 @@ export const analyzeAggregationByTime = (networkId, deviceId, bucketConfig, star
       successAnalyze({payload: res.data, deviceId, bucketConfig})
     }
   )
+}
+
+// x: Location
+// y: [props]
+export const analyzeAggregationByLocation = (networkId, deviceId, bucketProps, startMS, endMS) => {
+  startAnalyze()
+  return new Promise(resolve => {
+
+    const {call, REQUEST_RECORD} = analyzeApi[analyzeApiKeys.analyzeAggregationByLocation]
+
+    call(new REQUEST_RECORD({
+      forNetwork: networkId,
+      forDevice: deviceId,
+      bucketProps,
+      startMS,
+      endMS,
+    }), networkId)
+      .then(resolve)
+      .catch((error) => {
+        console.log(`failed to aggregateDataByLocation for ${deviceId}: ${error}`)
+        failureAnalyze()
+      })
+  })
+    .then(res => {
+      console.log(`successfully aggregateDataByTime for ${deviceId}`)
+      successAnalyze({
+        payload: res.data,
+        deviceId,
+        bucketConfig: {bucketProps, bucketUnit: "LOCATION"}
+      })
+    })
 }

@@ -16,11 +16,23 @@
 }
 
 .padded-container {
-  padding-left: 0rem;
-  padding-right: 0rem;
+  padding-left: 20px;
+  padding-right: 20px;
   max-width: 190rem;
   margin: 0 auto;
-  background: $blue-grad;
+  background: $background-color;
+}
+
+.cardWrapper {
+  box-shadow: 0 1px 5px 0 $shadow-color-light;
+  border-radius: 0.1875rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .padded-container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }
 
 .fill-viewport {

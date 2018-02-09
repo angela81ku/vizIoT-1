@@ -64,13 +64,13 @@ class VizIoT extends React.Component {
 
             <Grid gutter={3}>
               <GridItem size={{'md': 12, 'lg': 3}}>
-                <h6 className="wide-letter deviceList__title">DEVICES</h6>
-                <CardWrapper noPadding={true}>
-                  <DeviceList devices={devices}/>
+                <h5 className="wide-letter deviceList__title">DEVICES</h5>
+                <CardWrapper noPadding={true} noBackground={true} noShadow={true}>
+                  <DeviceList devices={devices} />
                 </CardWrapper>
               </GridItem>
               <GridItem size={{'md': 12, 'lg': 9}}>
-                <h6 className="wide-letter deviceList__title">ACTIVITY<i className="material-icons">trending_up</i></h6>
+                <h5 className="wide-letter deviceList__title">ACTIVITY<i className="material-icons">trending_up</i></h5>
                 <Grid gutter={1}>
                   {this.renderBarChartCards()}
                 </Grid>

@@ -10,14 +10,31 @@ $super-light-color: hsl(220, 5, 95);
 $shadow-color-light: white;
 $shadow-color-norm: rgba(45, 62, 80, 0.12);
 
-
-// Inverted:
-$background-color: white;
 //$blue-grad: radial-gradient(circle, #1c254a 0%, #281d37 80%);
+$blue-grad: linear-gradient(to bottom, #1c254a 3%, #131829);
 
-$blue-grad: linear-gradient(to bottom, #2c2352 5%, #1c254a);
-$background-color-alt: #90f1f9;
 
+// App Background
+$background-color: $blue-grad;
+
+// Text Colors
+$body-text-color: hsl(0, 0, 98);
+$body-text-color-lighter: hsl(0, 0, 50);
+$body-text-color-inverted: hsl(0, 0, 40);
+$body-text-color-alt: #81b7fb;
+$heading-text-color: white;
+
+// Graph Colors
+$graph-prim-color: #12e9ff;
+$graph-body-color: $body-text-color-lighter;
+$graphColor: $lighter-color;
+
+// Card
+$card-color: hsla(228, 40%, 13%, 0.5);
+$card-shadow-color: $shadow-color-norm;
+$card-shadow: 0 1px 10px 0 $card-shadow-color;
+
+// Spacings
 $wide-screen-width: 1500px;
 $medium-screen-width: 1000px;
 

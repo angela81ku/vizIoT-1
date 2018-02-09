@@ -1,14 +1,14 @@
 .line {
   fill: none;
-  stroke: #12e9ff;
+  stroke: $graph-prim-color;
   stroke-width: 1.5;
 }
 
 .tick text {
-  fill: #FFF;
+  fill: $graph-body-color;
 }
 .tick line {
-  stroke: #FFF;
+  stroke: $graph-body-color;
 }
 
 .barChart-scrollable-wrapper {

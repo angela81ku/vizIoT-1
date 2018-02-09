@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: $background-color;
-  box-shadow: 0 1px 5px 0 $shadow-color-light;
+  background-color: $card-color;
+  box-shadow: $card-shadow;
   border-radius: 0.1875rem;
   padding: 1rem;
 }

@@ -9,7 +9,18 @@ const analyzeAggregationByTime = (payloadRecord, networkId) => {
 
   return axios({
     method: 'post',
-    url: url,
+    url,
+    headers,
+    data: payloadRecord.toJS()
+  })
+}
+
+const analyzeAggregationByLocation = (payloadRecord, networkId) => {
+  const url = `${baseUrl}/api/network/${networkId}/analyze/aggregateDataByLocation`
+
+  return axios({
+    method: 'post',
+    url,
     headers,
     data: payloadRecord.toJS()
   })
@@ -18,10 +29,20 @@ const analyzeAggregationByTime = (payloadRecord, networkId) => {
 export const analyzeApi = {
   ['analyzeAggregationByTime']: {
     call: analyzeAggregationByTime,
-    requestRecord: new Record({
+    REQUEST_RECORD: new Record({
       forNetwork: null,
       forDevice: DeviceGroupConstants.ALL_COMBINED,
-      bucketSize: 0,
+      bucketSize: 1,
+      bucketProps: [],
+      startMS: 0,
+      endMS: 0,
+    })
+  },
+  ['analyzeAggregationByLocation']: {
+    call: analyzeAggregationByLocation,
+    REQUEST_RECORD: new Record({
+      forNetwork: null,
+      forDevice: DeviceGroupConstants.ALL_COMBINED,
       bucketProps: [],
       startMS: 0,
       endMS: 0,
