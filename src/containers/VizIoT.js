@@ -59,7 +59,7 @@ class VizIoT extends React.Component {
         <div className="tint-background">
           <div className="padded-container">
             <div className="medium-spacer"/>
-            <AppTitle/>
+            <AppTitle />
             <div className="small-spacer"/>
 
             <Grid gutter={3}>

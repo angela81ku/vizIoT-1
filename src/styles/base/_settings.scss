@@ -1,6 +1,9 @@
 // Colors
+$RED: #ff4159;
+$GREEN: #7ef468;
+
 $prim-color: #6955f9;
-$link-color: #d94e6c;
+$link-color: $GREEN;
 $pageTitle-color: white;
 $lighter-color: hsl(220, 20.7, 55.8);
 $extra-light-color: hsl(220, 10, 90);
@@ -26,7 +29,7 @@ $heading-text-color: white;
 
 // Graph Colors
 $graph-prim-color: #12e9ff;
-$graph-body-color: $body-text-color-lighter;
+$graph-body-color: $lighter-color;
 $graphColor: $lighter-color;
 
 // Card

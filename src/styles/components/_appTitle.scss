@@ -22,12 +22,19 @@
       margin-bottom: 0;
     }
   }
+  .appTitle__rightStuff {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-end;
+    width: 30%;
+  }
   .appTitle__logo {
     align-self: flex-end;
     display: flex;
     justify-content: flex-end;
     color: $extra-light-color;
-    width: 30%;
 
     h1 {
       margin-bottom: 0;
@@ -37,5 +44,8 @@
       font-size: 3.5rem;
       padding-right: 1.0rem;
     }
+  }
+  .appTitle__time {
+    color: $lighter-color
   }
 }
