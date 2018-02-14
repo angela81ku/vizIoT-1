@@ -39,8 +39,16 @@ class BarChart extends Component {
     this.redrawChart()
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState(() => {
+      return {
+        ...this.updateGraphDimensions(this.state)
+      }
+    })
+  }
+
   updateGraphDimensions(state) {
-    const {margins, data, dimension} = this.props
+    const {margins, dimension} = this.props
     const {width, height} = dimension;
     const {left: margin} = margins;
 
@@ -65,7 +73,7 @@ class BarChart extends Component {
   }
 
   redrawChart() {
-    const {data, dimension, dataWindow} = this.props
+    const {data, dataWindow} = this.props
     const { leftAxisMargin, xStart, xEnd, graphDimensions} = this.state;
     const {graphWidth, graphHeight} = graphDimensions;
 
@@ -109,6 +117,7 @@ class BarChart extends Component {
     g.select('.xAxis')
       .call(this.redrawXAxis(xAxis))
       .attr("transform", null)
+      // .attr('transform', `translate(0, ${graphHeight})`)
       .transition()
       .duration(500)
       .ease(easeLinear)
@@ -116,6 +125,10 @@ class BarChart extends Component {
 
     g.select('.yAxis')
       .call(this.redrawYAxis(yAxis, leftAxisMargin))
+
+    g.select('#clip rect')
+      .attr("width", graphWidth)
+      .attr("height", graphHeight);
 
     // Path Update
     if (graphData && graphData.length > 1) {

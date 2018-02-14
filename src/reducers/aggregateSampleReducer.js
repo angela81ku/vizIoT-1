@@ -17,7 +17,7 @@ const padWithZeros = (data, bucketUnit) => {
   const endData = data[data.length - 1];
 
   const zeroData = Object.keys(startData).reduce((acc, k) => {
-    if (k === 'timestampMS') {
+    if (k === 'timestamp') {
       return acc;
     }
     acc[k] = 0;
@@ -28,22 +28,22 @@ const padWithZeros = (data, bucketUnit) => {
 
   switch (bucketUnit) {
     case 'SECOND':
-      const startTime = parseInt(startData.timestampMS);
-      const endTime = parseInt(endData.timestampMS);
-      for (let t = startTime; t <= endTime; t += 1000) {
+      const startTime = parseInt(startData.timestamp);
+      const endTime = parseInt(endData.timestamp);
+      for (let t = startTime; t <= endTime; t += 1) {
         const foundIdx = data.findIndex((i) => {
-          return i.timestampMS === t.toString()
+          return Math.floor(parseFloat(i.timestamp)) === t
         })
         if (foundIdx < 0) {
           const paddedValue = {
             ...zeroData,
-            timestampMS: t,
+            timestamp: t,
           }
           paddedData.push(paddedValue)
         } else {
           paddedData.push({
             ...data[foundIdx],
-            timestampMS: t,
+            timestamp: t,
           })
         }
       }

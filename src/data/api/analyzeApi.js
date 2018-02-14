@@ -5,7 +5,7 @@ import { DeviceGroupConstants } from '../../utility/RequestUtility'
 import keyMirror from 'keyMirror';
 
 const analyzeAggregationByTime = (payloadRecord, networkId) => {
-  const url = `${baseUrl}/api/network/${networkId}/analyze/aggregateDataByTime`;
+  const url = `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByTime`;
 
   return axios({
     method: 'post',
@@ -30,7 +30,7 @@ export const analyzeApi = {
   ['analyzeAggregationByTime']: {
     call: analyzeAggregationByTime,
     REQUEST_RECORD: new Record({
-      forNetwork: null,
+      forNetwork: '',
       forDevice: DeviceGroupConstants.ALL_COMBINED,
       bucketSize: 1,
       bucketProps: [],
@@ -41,7 +41,7 @@ export const analyzeApi = {
   ['analyzeAggregationByLocation']: {
     call: analyzeAggregationByLocation,
     REQUEST_RECORD: new Record({
-      forNetwork: null,
+      forNetwork: '',
       forDevice: DeviceGroupConstants.ALL_COMBINED,
       bucketProps: [],
       startMS: 0,

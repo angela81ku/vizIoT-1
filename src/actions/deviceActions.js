@@ -8,14 +8,15 @@ export const failureFetchDevices = createAction()
 export const fetchDevices = (networkId) => {
   startFetchDevices()
   return new Promise(resolve => {
-      deviceApi.fetchDevices(networkId)
+      // deviceApi.fetchDevices(networkId)
+    Promise.resolve()
       .then(resolve)
       .catch((error) => {
         console.log(`failed to fetchDevices from network ${networkId}: ${error}`)
         failureFetchDevices()
       })
   }).then(res => {
-      successFetchDevices({payload: res.data})
+      // successFetchDevices({payload: res.data})
       return res;
     }
   )

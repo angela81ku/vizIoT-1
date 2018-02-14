@@ -24,17 +24,18 @@ class DeviceActivityChart extends React.Component {
     if (sourceData && sourceData.length) {
       // Temporary Code for replaying old sourceData:
       const momentNow = moment()
-      const momentFirst = moment(sourceData[0].timestampMS)
+      const momentFirst = moment.unix(sourceData[0].timestamp)
       const catchUpSeconds = momentNow.diff(momentFirst, 'seconds')
       console.log(`catchUpSeconds = ${catchUpSeconds}`)
 
-      graphData = sourceData.map(({timestampMS, [bucketProps[0]]: yData}) => {
-        return {xData: moment(timestampMS).add(catchUpSeconds, 'seconds').toDate(), yData}
+      graphData = sourceData.map(({timestamp, [bucketProps[0]]: yData}) => {
+        return {xData: moment.unix(timestamp).add(catchUpSeconds, 'seconds').toDate(), yData}
       })
     }
 
     return (
       <BarGraphCard
+        className={this.props.className}
         dataWindowSize={dataWindowSize}
         device={device}
         data={graphData} />

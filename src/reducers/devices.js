@@ -3,7 +3,15 @@ import { createReducer } from 'redux-act'
 import { startFetchDevices, successFetchDevices, failureFetchDevices } from '../actions/deviceActions'
 
 const defaultState = {
-  devices: [],
+  devices: [{
+    "uuid": 123,
+    "alias": "Entire Network",
+    "socketAddr": "192.168.10.115:39490",
+    "ip": "192.168.10.115",
+    "port": "39490",
+    "macAddr": "ALL_COMBINED",
+    "lastSeen": "1517177323000"
+  }],
   networkState: NetworkState.READY,
 }
 

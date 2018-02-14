@@ -13,8 +13,9 @@ export const analyzeAggregationByTime = (networkId, deviceId, bucketConfig, star
 
     call(new REQUEST_RECORD({
       forDevice: deviceId,
-      ...bucketConfig.
-        startMS,
+      forNetwork: '34',
+      ...bucketConfig,
+      startMS,
       endMS,
     }), networkId)
       .then(resolve)
