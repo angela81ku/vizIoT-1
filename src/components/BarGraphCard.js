@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import BarChart from './d3/BarChart';
+import DataWindowUnit from '../constants/DataWindowUnit';
 
 class BarGraphCard extends React.Component {
   constructor(props) {
@@ -35,19 +36,15 @@ class BarGraphCard extends React.Component {
     const { device, data, dataWindowSize } = this.props;
     const { ip, port, alias } = device;
 
-    debugger;
     const shouldRenderChart =
       this.state.containerWidth && this.state.containerHeight;
 
-    // const dimension = {width: 300, height: 200}
     return (
       <CardWrapper noBackground={true} noShadow={true}>
         <h6 className="barGraphCard__addr">
           <strong>{ip}</strong>:{port}
         </h6>
         <h4 className="barGraphCard__alias">{alias}</h4>
-        {/*<h5>{start.toString()}</h5>*/}
-        {/*<h5>{end.toString()}</h5>*/}
         <div className="small-spacer" />
         <div
           ref={el => {
@@ -59,6 +56,7 @@ class BarGraphCard extends React.Component {
             <BarChart
               data={data}
               dataWindowSize={dataWindowSize}
+              dataWindowUnit={DataWindowUnit.SECONDS}
               dimension={{
                 width: this.state.containerWidth,
                 height: this.state.containerHeight,

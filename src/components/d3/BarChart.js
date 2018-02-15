@@ -3,35 +3,24 @@ import PropTypes from 'prop-types';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { max, range } from 'd3-array';
 import { select } from 'd3-selection';
-import { timeYear, timeMinute, timeSecond } from 'd3-time';
-import { axisLeft, axisRight, axisBottom } from 'd3-axis';
+import { timeSecond } from 'd3-time';
+import { axisRight, axisBottom } from 'd3-axis';
 import { formatPrefix } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
-import { line, curveBasis } from 'd3-shape';
-import { transition, active } from 'd3-transition';
+import { line } from 'd3-shape';
 import { easeLinear } from 'd3-ease';
+import { transition } from 'd3-transition';
 import moment from 'moment';
 
 class BarChart extends Component {
   constructor(props) {
     super(props);
-    this.launchChart = this.launchChart.bind(this);
-    const n = 40;
-    const nowMoment = moment();
-
-    const { dataWindowSize, margins } = this.props;
-
     this.state = {
-      dataPoints: n,
       leftAxisMargin: 15,
-      graphData: null,
-      xStart: nowMoment
-        .clone()
-        .subtract(dataWindowSize, 'seconds')
-        .toDate(),
-      xEnd: nowMoment.toDate(),
+      graphData: [],
+      ...this.getLiveDomainForX(),
+      graphDimensions: this.getGraphDimensions(),
     };
-    this.state = this.updateGraphDimensions(this.state);
   }
 
   componentDidMount() {
@@ -42,56 +31,32 @@ class BarChart extends Component {
     this.redrawChart();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(newProps) {
     this.setState(() => {
       return {
-        ...this.updateGraphDimensions(this.state),
+        graphDimensions: this.getGraphDimensions(),
+        graphData: newProps.data,
       };
     });
   }
 
-  updateGraphDimensions(state) {
-    const { margins, dimension } = this.props;
-    const { width, height } = dimension;
+  getGraphDimensions() {
+    const { margins, dimension: { width, height } } = this.props;
     const { left: margin } = margins;
 
     const graphWidth = width - margin * 2;
     const graphHeight = height - margin * 2;
-    const graphDimensions = { graphWidth, graphHeight };
-    return {
-      ...state,
-      graphDimensions,
-    };
-  }
-
-  makeDummyGraphData() {
-    const nowMoment = moment();
-    const n = 40;
-    return range(n).map(i => {
-      return {
-        xData: nowMoment
-          .clone()
-          .add(i, 'seconds')
-          .toDate(),
-        yData: Math.random() * 10,
-      };
-    });
+    return { graphWidth, graphHeight };
   }
 
   redrawChart() {
-    const { data, dataWindow } = this.props;
-    const { leftAxisMargin, xStart, xEnd, graphDimensions } = this.state;
-    const { graphWidth, graphHeight } = graphDimensions;
+    const { graphData, leftAxisMargin, xStart, xEnd, graphDimensions: { graphWidth, graphHeight } } = this.state;
 
     // =================================================================================================================
     // Start Data Update
     // =================================================================================================================
 
-    // Update data
-    const graphData = data;
     const dataMax = max(graphData.map(d => d.yData)) || 1;
-
-    // Scales
     const x = scaleTime()
       .domain([xStart, xEnd])
       .range([0, graphWidth]);
@@ -118,14 +83,14 @@ class BarChart extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
-    g.select('.xAxisContainer')
+    g
+      .select('.xAxisContainer')
       .attr('transform', `translate(0, ${graphHeight})`);
 
     g
       .select('.xAxis')
       .call(this.redrawXAxis(xAxis))
       .attr('transform', null)
-
       .transition()
       .duration(500)
       .ease(easeLinear)
@@ -140,20 +105,17 @@ class BarChart extends Component {
 
     // Path Update
     if (graphData && graphData.length > 1) {
-      this.redrawLine(
+      BarChart.redrawLine(
         g.select('.line'),
         this.createLinePathData(x, y, graphData)
       );
-      // lineGraphPath
-      //   .datum(graphData)
-      //   .attr("d", lineGraph(graphData))
     }
   }
 
   createLinePathData(x, y, data) {
     const lineFunction = line()
       // .curve(curveBasis())
-      .x((d, i) => {
+      .x((d) => {
         return x(d.xData);
       })
       .y(d => {
@@ -162,7 +124,7 @@ class BarChart extends Component {
     return lineFunction(data);
   }
 
-  redrawLine(g, linePathData) {
+  static redrawLine(g, linePathData) {
     g
       .attr('transform', null)
       .attr('d', linePathData)
@@ -174,11 +136,8 @@ class BarChart extends Component {
 
   redrawXAxis(xAxis) {
     return g => {
-      const lineColor = '#FFF';
       g.call(xAxis);
       g.select('.domain').remove();
-      g.selectAll('.tick text').attr('fill', lineColor);
-      g.selectAll('.tick line').attr('stroke', lineColor);
     };
   }
 
@@ -196,7 +155,7 @@ class BarChart extends Component {
     };
   }
 
-  launchChart() {
+  launchChart = () => {
     const { data, margins } = this.props;
     const { left: margin } = margins;
     const { leftAxisMargin, graphDimensions } = this.state;
@@ -207,7 +166,7 @@ class BarChart extends Component {
       return { graphData };
     });
 
-    this.appendChartSkeleton(
+    BarChart.appendChartSkeleton(
       this.node,
       graphWidth,
       graphHeight,
@@ -216,7 +175,7 @@ class BarChart extends Component {
     );
     this.redrawChart();
     this.loop('start');
-  }
+  };
 
   loop(whenToActivate) {
     select(this.node)
@@ -226,29 +185,28 @@ class BarChart extends Component {
       .on(whenToActivate, this.onEachLoop);
   }
 
-  onEachLoop = () => {
+  getLiveDomainForX = () => {
+    const { dataWindowSize, dataWindowUnit } = this.props;
     const nowMoment = moment();
     const xStart = nowMoment
       .clone()
-      .subtract(this.props.dataWindowSize, 'seconds')
+      .subtract(dataWindowSize, dataWindowUnit)
       .toDate();
-    const xEnd = moment().toDate();
-    this.setState(() => {
-      return {
-        xStart: xStart,
-        xEnd: xEnd,
-      };
-    });
+    const xEnd = nowMoment.toDate();
+    return { xStart, xEnd };
+  };
 
+  onEachLoop = () => {
+    this.setState(() => ({ ...this.getLiveDomainForX() }));
     this.loop('end');
   };
 
-  clearChartSkeleton() {
-    const svg = select(this.node);
-    svg.selectAll('chartWrapper').remove();
-  }
+  // clearChartSkeleton() {
+  //   const svg = select(this.node);
+  //   svg.selectAll('chartWrapper').remove();
+  // }
 
-  appendChartSkeleton(node, graphWidth, graphHeight, margin, leftAxisMargin) {
+  static appendChartSkeleton(node, graphWidth, graphHeight, margin, leftAxisMargin) {
     const svg = select(node);
     const g = svg
       .append('g')
@@ -278,15 +236,14 @@ class BarChart extends Component {
     const lineGraphWrapper = g
       .append('g')
       .attr('class', 'lineGraph__wrapper')
-      .attr('clip-path', 'url(#clip)')
-      .attr('transform', `translate(${leftAxisMargin}, 0)`);
+      .attr('transform', `translate(${leftAxisMargin}, 0)`)
+      .attr('clip-path', 'url(#clip)');
 
     lineGraphWrapper.append('path').attr('class', 'line');
   }
 
   render() {
-    const { dimension } = this.props;
-    const { width, height } = dimension;
+    const { dimension: { width, height } } = this.props;
     return (
       <div className="barChart-scrollable-wrapper">
         <svg ref={node => (this.node = node)} width={width} height={height} />
@@ -299,6 +256,7 @@ BarChart.propTypes = {
   dimension: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   dataWindowSize: PropTypes.number.isRequired,
+  dataWindowUnit: PropTypes.string.isRequired,
   margins: PropTypes.object.isRequired,
 };
 
@@ -325,3 +283,17 @@ export default BarChart;
 //   .attr('height', d => yScale(d))
 //   .attr('width', barWidth)
 //   .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
+
+// makeDummyGraphData() {
+//   const nowMoment = moment();
+//   const n = 40;
+//   return range(n).map(i => {
+//     return {
+//       xData: nowMoment
+//         .clone()
+//         .add(i, 'seconds')
+//         .toDate(),
+//       yData: Math.random() * 10,
+//     };
+//   });
+// }

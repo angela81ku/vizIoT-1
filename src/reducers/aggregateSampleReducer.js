@@ -58,7 +58,6 @@ const padWithZeros = (data, bucketUnit) => {
 };
 
 const onSuccess = (state, result) => {
-  debugger;
   return {
     ...state,
     networkState: NetworkState.READY,

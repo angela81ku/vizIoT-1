@@ -15,6 +15,9 @@ import { analyzeAggregationByTime } from '../actions/analyzeActions';
 import { fetchDevices } from '../actions/deviceActions';
 import { defaultNetwork } from '../constants/RequestConstants';
 import moment from 'moment';
+import DataWindowUnit from '../constants/DataWindowUnit';
+
+const DATA_REFRESH_DELAY_MS = 1000;
 
 class VizIoT extends React.Component {
   state = {};
@@ -26,7 +29,7 @@ class VizIoT extends React.Component {
 
     const startMS = (
       moment()
-        .subtract(2, 'minutes')
+        .subtract(10, DataWindowUnit.MINUTES)
         .valueOf() / 1000
     ).toString();
     const endMS = (moment().valueOf() / 1000).toString();

@@ -26,9 +26,12 @@ class DeviceActivityChart extends React.Component {
     let graphData = [];
     if (sourceData && sourceData.length) {
       // Temporary Code for replaying old sourceData:
-      const momentNow = moment();
-      const momentFirst = moment.unix(sourceData[0].timestamp);
-      const catchUpSeconds = momentNow.diff(momentFirst, 'seconds');
+      // const momentNow = moment();
+      // const momentFirst = moment.unix(sourceData[0].timestamp);
+      // const catchUpSeconds = momentNow.diff(momentFirst, 'seconds');
+      // console.log(`catchUpSeconds = ${catchUpSeconds}`);
+
+      const catchUpSeconds = 5;
       console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
       graphData = sourceData.map(({ timestamp, [bucketProps[0]]: yData }) => {
