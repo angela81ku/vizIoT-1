@@ -1,6 +1,5 @@
 import { createStore, combineReducers } from 'redux';
 import devices from '../reducers/devices';
-import logEvents from '../reducers/logEvents';
 import aggregateSample from '../reducers/aggregateSampleReducer';
 import {
   startAnalyze,
@@ -18,7 +17,6 @@ export default () => {
   const store = createStore(
     combineReducers({
       devices,
-      logEvents,
       aggregateSample,
     }),
     // This is for Redux DevTools
