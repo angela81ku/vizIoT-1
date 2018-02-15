@@ -50,7 +50,13 @@ class BarChart extends Component {
   }
 
   redrawChart() {
-    const { graphData, leftAxisMargin, xStart, xEnd, graphDimensions: { graphWidth, graphHeight } } = this.state;
+    const {
+      graphData,
+      leftAxisMargin,
+      xStart,
+      xEnd,
+      graphDimensions: { graphWidth, graphHeight },
+    } = this.state;
 
     // =================================================================================================================
     // Start Data Update
@@ -115,7 +121,7 @@ class BarChart extends Component {
   createLinePathData(x, y, data) {
     const lineFunction = line()
       // .curve(curveBasis())
-      .x((d) => {
+      .x(d => {
         return x(d.xData);
       })
       .y(d => {
@@ -206,7 +212,13 @@ class BarChart extends Component {
   //   svg.selectAll('chartWrapper').remove();
   // }
 
-  static appendChartSkeleton(node, graphWidth, graphHeight, margin, leftAxisMargin) {
+  static appendChartSkeleton(
+    node,
+    graphWidth,
+    graphHeight,
+    margin,
+    leftAxisMargin
+  ) {
     const svg = select(node);
     const g = svg
       .append('g')

@@ -2,7 +2,7 @@ const DataWindowUnit = {
   MINUTES: 'minutes',
   SECONDS: 'seconds',
   HOURS: 'hours',
-  DAYS: 'days,'
+  DAYS: 'days,',
 };
 
 export default DataWindowUnit;
