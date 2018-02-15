@@ -1,7 +1,7 @@
-import React from "react";
-import VizIoT from "../containers/VizIoT"
-import NotFoundPage from "../containers/NotFoundPage"
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React from 'react';
+import VizIoT from '../containers/VizIoT';
+import NotFoundPage from '../containers/NotFoundPage';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // exact prop means: exact path match
 const AppRouter = () => (

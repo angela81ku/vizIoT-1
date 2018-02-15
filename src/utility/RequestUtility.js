@@ -1,5 +1,5 @@
-import keyMirror from 'keyMirror'
+import keyMirror from 'keyMirror';
 
 export const DeviceGroupConstants = keyMirror({
-  "ALL_COMBINED": null
+  ALL_COMBINED: null,
 });

@@ -1,6 +1,6 @@
 const NetworkState = {
-  READY: "READY",
-  LOADING: "PENDING",
-}
+  READY: 'READY',
+  LOADING: 'PENDING',
+};
 
 export default NetworkState;

@@ -1,6 +1,6 @@
-import React from 'react'
-import Grid from './BeanUILibrary/Grid'
-import moment from 'moment'
+import React from 'react';
+import Grid from './BeanUILibrary/Grid';
+import moment from 'moment';
 
 class AppTitle extends React.Component {
   constructor(props) {
@@ -8,35 +8,32 @@ class AppTitle extends React.Component {
   }
 
   state = {
-    currentMoment: moment()
-  }
+    currentMoment: moment(),
+  };
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
   updateTime = () => {
-    this.setState(() => ({ currentMoment: moment() }))
-  }
+    this.setState(() => ({ currentMoment: moment() }));
+  };
   componentDidMount() {
-    this.interval = setInterval(this.updateTime, 1000)
+    this.interval = setInterval(this.updateTime, 1000);
   }
 
   render() {
     return (
       <header className="appTitle fade">
         <Grid>
-          <div className="appTitle__leftPlaceholder">
-          </div>
+          <div className="appTitle__leftPlaceholder" />
           <div className="appTitle__pageTitle">
             <div>
               <h3>
                 <strong>NETWORK</strong>
               </h3>
             </div>
-            <h3>
-              OVERVIEW
-            </h3>
+            <h3>OVERVIEW</h3>
           </div>
           <div className="appTitle__rightStuff">
             <div className="appTitle__logo">
@@ -44,13 +41,14 @@ class AppTitle extends React.Component {
               <h1>VizIoT</h1>
             </div>
 
-            <div className="appTitle__time m-top-1"><h4>{this.state.currentMoment.format('h:mm:ss a')}</h4></div>
+            <div className="appTitle__time m-top-1">
+              <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
+            </div>
           </div>
         </Grid>
-
       </header>
-    )
+    );
   }
 }
 
-export default AppTitle
+export default AppTitle;

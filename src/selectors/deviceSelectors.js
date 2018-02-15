@@ -1,4 +1,4 @@
 // Returns all devices
-export const selectAllDevices = ({devices}) => {
+export const selectAllDevices = ({ devices }) => {
   return devices.devices;
-}
+};

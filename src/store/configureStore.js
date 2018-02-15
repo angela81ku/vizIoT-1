@@ -1,9 +1,17 @@
-import { createStore, combineReducers } from 'redux'
-import devices from '../reducers/devices'
-import logEvents from '../reducers/logEvents'
-import aggregateSample from '../reducers/aggregateSampleReducer'
-import { startAnalyze, successAnalyze, failureAnalyze } from '../actions/analyzeActions'
-import { startFetchDevices, successFetchDevices, failureFetchDevices } from '../actions/deviceActions'
+import { createStore, combineReducers } from 'redux';
+import devices from '../reducers/devices';
+import logEvents from '../reducers/logEvents';
+import aggregateSample from '../reducers/aggregateSampleReducer';
+import {
+  startAnalyze,
+  successAnalyze,
+  failureAnalyze,
+} from '../actions/analyzeActions';
+import {
+  startFetchDevices,
+  successFetchDevices,
+  failureFetchDevices,
+} from '../actions/deviceActions';
 
 // Store creation
 export default () => {
@@ -11,22 +19,22 @@ export default () => {
     combineReducers({
       devices,
       logEvents,
-      aggregateSample
+      aggregateSample,
     }),
     // This is for Redux DevTools
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  );
 
-  startAnalyze.assignTo(store)
-  successAnalyze.assignTo(store)
-  failureAnalyze.assignTo(store)
+  startAnalyze.assignTo(store);
+  successAnalyze.assignTo(store);
+  failureAnalyze.assignTo(store);
 
-  startFetchDevices.assignTo(store)
-  successFetchDevices.assignTo(store)
-  failureFetchDevices.assignTo(store)
+  startFetchDevices.assignTo(store);
+  successFetchDevices.assignTo(store);
+  failureFetchDevices.assignTo(store);
 
-  return store
-}
+  return store;
+};
 
 // // Subscribe: returns a method that lets us unsubscribe in the future.
 // const unsubscribe = store.subscribe(() => {
@@ -35,4 +43,3 @@ export default () => {
 //
 // // After this, future calls to store will not trigger that one we set above.
 // unsubscribe()
-

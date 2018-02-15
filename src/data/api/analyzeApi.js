@@ -1,7 +1,7 @@
-import axios from 'axios'
-import { headers, baseUrl } from '../../constants/RequestConstants'
-import { Record } from 'immutable'
-import { DeviceGroupConstants } from '../../utility/RequestUtility'
+import axios from 'axios';
+import { headers, baseUrl } from '../../constants/RequestConstants';
+import { Record } from 'immutable';
+import { DeviceGroupConstants } from '../../utility/RequestUtility';
 import keyMirror from 'keyMirror';
 
 const analyzeAggregationByTime = (payloadRecord, networkId) => {
@@ -11,20 +11,20 @@ const analyzeAggregationByTime = (payloadRecord, networkId) => {
     method: 'post',
     url,
     headers,
-    data: payloadRecord.toJS()
-  })
-}
+    data: payloadRecord.toJS(),
+  });
+};
 
 const analyzeAggregationByLocation = (payloadRecord, networkId) => {
-  const url = `${baseUrl}/api/network/${networkId}/analyze/aggregateDataByLocation`
+  const url = `${baseUrl}/api/network/${networkId}/analyze/aggregateDataByLocation`;
 
   return axios({
     method: 'post',
     url,
     headers,
-    data: payloadRecord.toJS()
-  })
-}
+    data: payloadRecord.toJS(),
+  });
+};
 
 export const analyzeApi = {
   ['analyzeAggregationByTime']: {
@@ -36,7 +36,7 @@ export const analyzeApi = {
       bucketProps: [],
       startMS: 0,
       endMS: 0,
-    })
+    }),
   },
   ['analyzeAggregationByLocation']: {
     call: analyzeAggregationByLocation,
@@ -46,8 +46,8 @@ export const analyzeApi = {
       bucketProps: [],
       startMS: 0,
       endMS: 0,
-    })
-  }
-}
+    }),
+  },
+};
 
-export const analyzeApiKeys = keyMirror(analyzeApi)
+export const analyzeApiKeys = keyMirror(analyzeApi);

@@ -1,33 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class CardWrapper extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
   }
 
-  render () {
-    const {noShadow, noBorder, noPadding, noBackground, className, children} = this.props
+  render() {
+    const {
+      noShadow,
+      noBorder,
+      noPadding,
+      noBackground,
+      className,
+      children,
+    } = this.props;
 
-    const classNames = ['cardWrapper'].concat(className ? className.split(" ") : [])
+    const classNames = ['cardWrapper'].concat(
+      className ? className.split(' ') : []
+    );
     if (noShadow) {
-      classNames.push('noShadow')
+      classNames.push('noShadow');
     }
     if (noBorder) {
-      classNames.push('noBorder')
+      classNames.push('noBorder');
     }
     if (noPadding) {
-      classNames.push('noPadding')
+      classNames.push('noPadding');
     }
     if (noBackground) {
-      classNames.push('noBackground')
+      classNames.push('noBackground');
     }
 
-    return (
-      <div className={classNames.join(' ')}>
-        {children}
-      </div>
-    )
+    return <div className={classNames.join(' ')}>{children}</div>;
   }
 }
 
@@ -37,6 +42,6 @@ CardWrapper.propTypes = {
   noPadding: PropTypes.bool,
   noBackground: PropTypes.bool,
   className: PropTypes.string,
-}
+};
 
-export default CardWrapper
+export default CardWrapper;
