@@ -118,11 +118,14 @@ class BarChart extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
+    g.select('.xAxisContainer')
+      .attr('transform', `translate(0, ${graphHeight})`);
+
     g
       .select('.xAxis')
       .call(this.redrawXAxis(xAxis))
       .attr('transform', null)
-      // .attr('transform', `translate(0, ${graphHeight})`)
+
       .transition()
       .duration(500)
       .ease(easeLinear)
@@ -263,6 +266,7 @@ class BarChart extends Component {
     g
       .append('g')
       .attr('transform', `translate(${leftAxisMargin}, ${graphHeight})`)
+      .attr('class', 'xAxisContainer')
       .append('g')
       .attr('class', 'xAxis');
 
