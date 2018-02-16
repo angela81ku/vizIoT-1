@@ -35,7 +35,7 @@ export const analyzeAggregationByTime = (
       });
   }).then(res => {
     console.log(`successfully aggregateDataByTime for ${deviceId}`);
-    successAnalyze({ payload: res.data, deviceId, bucketConfig });
+    successAnalyze({ payload: res.data, deviceId, bucketConfig, startMS, endMS });
   });
 };
 

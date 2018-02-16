@@ -28,7 +28,7 @@ class BarChart extends Component {
   }
 
   componentDidUpdate() {
-    this.redrawChart();
+    // this.redrawChart();
   }
 
   componentWillReceiveProps(newProps) {
@@ -256,6 +256,7 @@ class BarChart extends Component {
 
   render() {
     const { dimension: { width, height } } = this.props;
+    this.redrawChart();
     return (
       <div className="barChart-scrollable-wrapper">
         <svg ref={node => (this.node = node)} width={width} height={height} />

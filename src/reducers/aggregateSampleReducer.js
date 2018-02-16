@@ -12,7 +12,7 @@ const defaultState = {
   mapDeviceToData: {},
 };
 
-const padWithZeros = (data, bucketUnit) => {
+const padWithZeros = (data, bucketUnit, startTimestamp, endTimestamp) => {
   if (!data || data.length <= 1) {
     return data;
   }
@@ -32,8 +32,8 @@ const padWithZeros = (data, bucketUnit) => {
 
   switch (bucketUnit) {
     case 'SECOND':
-      const startTime = parseInt(startData.timestamp);
-      const endTime = parseInt(endData.timestamp);
+      const startTime = Math.floor(startTimestamp);
+      const endTime =  Math.floor(endTimestamp);
       for (let t = startTime; t <= endTime; t += 1) {
         const foundIdx = data.findIndex(i => {
           return Math.floor(parseFloat(i.timestamp)) === t;
@@ -67,7 +67,7 @@ const onSuccess = (state, result) => {
         [getBucketKeyWithConfig({
           ...result.bucketConfig,
           bucketUnit: 'SECOND',
-        })]: padWithZeros(result.payload.data, 'SECOND'),
+        })]: padWithZeros(result.payload.data, 'SECOND', result.startMS, result.endMS),
         // TODO merge with old data
       },
     },

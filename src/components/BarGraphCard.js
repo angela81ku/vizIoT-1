@@ -10,8 +10,8 @@ class BarGraphCard extends React.Component {
   }
 
   state = {
-    containerWidth: 300,
-    containerHeight: 200,
+    containerWidth: 0,
+    containerHeight: 0,
   };
 
   fitChartToContainer = () => {

@@ -17,7 +17,7 @@ import { defaultNetwork } from '../constants/RequestConstants';
 import moment from 'moment';
 import DataWindowUnit from '../constants/DataWindowUnit';
 
-const DATA_REFRESH_DELAY_MS = 1000;
+const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
 class VizIoT extends React.Component {
   state = {};
@@ -27,16 +27,17 @@ class VizIoT extends React.Component {
     const bucketConfig = getIn(appConfig, ['chartConfig', 'bucketConfig'], {});
     const networkId = getIn(appConfig, ['networkId'], defaultNetwork);
 
-    const startMS = (
-      moment()
-        .subtract(10, DataWindowUnit.MINUTES)
-        .valueOf() / 1000
-    ).toString();
-    const endMS = (moment().valueOf() / 1000).toString();
+
 
     fetchDevices(networkId).then(() => {
       const { devices } = this.props;
       devices.forEach(({ macAddr }) => {
+        const startMS = (
+          moment()
+            .subtract(5, DataWindowUnit.MINUTES)
+            .valueOf() / 1000
+        ).toString();
+        const endMS = (moment().valueOf() / 1000).toString();
         analyzeAggregationByTime(
           networkId,
           macAddr,
@@ -46,6 +47,33 @@ class VizIoT extends React.Component {
         );
       });
     });
+
+    const liveConnectionsPerSecondLoop = setInterval(() => {
+      const { devices } = this.props;
+      devices.forEach(({ macAddr }) => {
+        const startMS = (
+          moment()
+            .subtract(10, DataWindowUnit.MINUTES)
+            .valueOf() / 1000
+        ).toString();
+        const endMS = (moment().valueOf() / 1000).toString();
+        analyzeAggregationByTime(
+          networkId,
+          macAddr,
+          bucketConfig,
+          startMS,
+          endMS
+        );
+      });
+    }, DATA_REFRESH_DELAY_MS);
+
+    this.setState(() => ({
+      liveConnectionsPerSecondLoop
+    }));
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.liveConnectionsPerSecondLoop);
   }
 
   renderBarChartCards() {
