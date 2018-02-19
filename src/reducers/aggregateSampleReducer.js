@@ -6,6 +6,7 @@ import {
 import { createReducer } from 'redux-act';
 import NetworkState from '../constants/NetworkState';
 import { getBucketKeyWithConfig } from '../utility/BucketUtility';
+import BucketUnitConstants from '../constants/BucketUnitConstants';
 
 const defaultState = {
   networkState: NetworkState.READY,
@@ -17,10 +18,8 @@ const padWithZeros = (data, bucketUnit, startTimestamp, endTimestamp) => {
     return data;
   }
 
-  const startData = data[0];
-  const endData = data[data.length - 1];
-
-  const zeroData = Object.keys(startData).reduce((acc, k) => {
+  const anyData = data[0];
+  const zeroData = Object.keys(anyData).reduce((acc, k) => {
     if (k === 'timestamp') {
       return acc;
     }
@@ -31,9 +30,9 @@ const padWithZeros = (data, bucketUnit, startTimestamp, endTimestamp) => {
   let paddedData = [];
 
   switch (bucketUnit) {
-    case 'SECOND':
+    case BucketUnitConstants.SECOND:
       const startTime = Math.floor(startTimestamp);
-      const endTime =  Math.floor(endTimestamp);
+      const endTime = Math.floor(endTimestamp);
       for (let t = startTime; t <= endTime; t += 1) {
         const foundIdx = data.findIndex(i => {
           return Math.floor(parseFloat(i.timestamp)) === t;
@@ -64,10 +63,12 @@ const onSuccess = (state, result) => {
     mapDeviceToData: {
       ...state.mapDeviceToData,
       [result.deviceId]: {
-        [getBucketKeyWithConfig({
-          ...result.bucketConfig,
-          bucketUnit: 'SECOND',
-        })]: padWithZeros(result.payload.data, 'SECOND', result.startMS, result.endMS),
+        [getBucketKeyWithConfig(result.bucketConfig)]: padWithZeros(
+          result.payload.data,
+          result.bucketConfig.bucketUnit,
+          result.startMS,
+          result.endMS
+        ),
         // TODO merge with old data
       },
     },

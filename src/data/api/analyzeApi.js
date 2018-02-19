@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { headers, baseUrl } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
-import { DeviceGroupConstants } from '../../utility/RequestUtility';
+import { DeviceGroupConstants } from '../../constants/DeviceGroupConstants';
 import keyMirror from 'keyMirror';
 
 const analyzeAggregationByTime = (payloadRecord, networkId) => {

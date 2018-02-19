@@ -1,5 +1,6 @@
 import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
+import BucketUnitConstants from '../constants/BucketUnitConstants';
 
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
@@ -35,7 +36,13 @@ export const analyzeAggregationByTime = (
       });
   }).then(res => {
     console.log(`successfully aggregateDataByTime for ${deviceId}`);
-    successAnalyze({ payload: res.data, deviceId, bucketConfig, startMS, endMS });
+    successAnalyze({
+      payload: res.data,
+      deviceId,
+      bucketConfig,
+      startMS,
+      endMS,
+    });
   });
 };
 
@@ -44,7 +51,7 @@ export const analyzeAggregationByTime = (
 export const analyzeAggregationByLocation = (
   networkId,
   deviceId,
-  bucketProps,
+  bucketConfig,
   startMS,
   endMS
 ) => {
@@ -58,7 +65,7 @@ export const analyzeAggregationByLocation = (
       new REQUEST_RECORD({
         forNetwork: networkId,
         forDevice: deviceId,
-        bucketProps,
+        ...bucketConfig,
         startMS,
         endMS,
       }),
@@ -76,7 +83,7 @@ export const analyzeAggregationByLocation = (
     successAnalyze({
       payload: res.data,
       deviceId,
-      bucketConfig: { bucketProps, bucketUnit: 'LOCATION' },
+      bucketConfig,
     });
   });
 };

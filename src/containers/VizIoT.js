@@ -16,6 +16,7 @@ import { fetchDevices } from '../actions/deviceActions';
 import { defaultNetwork } from '../constants/RequestConstants';
 import moment from 'moment';
 import DataWindowUnit from '../constants/DataWindowUnit';
+import BucketUnitConstants from '../constants/BucketUnitConstants';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -26,8 +27,6 @@ class VizIoT extends React.Component {
     const { appConfig } = this.props;
     const bucketConfig = getIn(appConfig, ['chartConfig', 'bucketConfig'], {});
     const networkId = getIn(appConfig, ['networkId'], defaultNetwork);
-
-
 
     fetchDevices(networkId).then(() => {
       const { devices } = this.props;
@@ -68,7 +67,7 @@ class VizIoT extends React.Component {
     }, DATA_REFRESH_DELAY_MS);
 
     this.setState(() => ({
-      liveConnectionsPerSecondLoop
+      liveConnectionsPerSecondLoop,
     }));
   }
 
@@ -161,7 +160,7 @@ VizIoT.defaultProps = {
       bucketConfig: {
         bucketSize: 1,
         bucketProps: ['ACTIVITY_COUNT'],
-        bucketUnit: 'SECOND',
+        bucketUnit: BucketUnitConstants.SECOND,
       },
       dataWindowSize: 4 * 60,
     },
@@ -169,7 +168,7 @@ VizIoT.defaultProps = {
       bucketConfig: {
         bucketSize: 1,
         bucketProps: ['ACTIVITY_COUNT'],
-        bucketUnit: 'SECOND',
+        bucketUnit: BucketUnitConstants.SECOND,
       },
       dataWindowSize: 60,
     },
