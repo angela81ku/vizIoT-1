@@ -15,7 +15,6 @@ import DeviceActivityChart from './DeviceActivityChart';
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
 class OverviewTab extends React.Component {
-
   componentWillMount() {
     const { singleDeviceChartConfig, networkId } = this.props;
     const { bucketConfig } = singleDeviceChartConfig;
@@ -107,11 +106,7 @@ class OverviewTab extends React.Component {
       <Grid gutter={3}>
         <GridItem size={{ md: 12, lg: 3 }}>
           <h5 className="wide-letter deviceList__title">DEVICES</h5>
-          <CardWrapper
-            noPadding={true}
-            noBackground={true}
-            noShadow={true}
-          >
+          <CardWrapper noPadding={true} noBackground={true} noShadow={true}>
             <DeviceList devices={devices} />
           </CardWrapper>
         </GridItem>

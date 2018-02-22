@@ -3,6 +3,7 @@ const DataWindowUnit = {
   SECONDS: 'seconds',
   HOURS: 'hours',
   DAYS: 'days,',
+  LOCATION: 'location',
 };
 
 export default DataWindowUnit;

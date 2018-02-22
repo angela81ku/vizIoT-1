@@ -189,6 +189,7 @@
   min-height: 400px;
 }
 
+
 a.nav-link {
   border: none;
   color: $prim-color;
@@ -203,6 +204,11 @@ a.is-active {
 }
 
 .main-chart {
+  height: 400px;
+}
+
+
+.location-bubble-chart {
   height: 400px;
 }
 

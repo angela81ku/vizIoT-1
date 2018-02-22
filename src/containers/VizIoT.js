@@ -6,9 +6,8 @@ import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 
 class VizIoT extends React.Component {
-
   renderCurrentTab() {
-    return <BubbleLocationTab />
+    return <BubbleLocationTab />;
   }
 
   render() {

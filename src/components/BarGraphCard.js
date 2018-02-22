@@ -1,73 +1,50 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import BarChart from './d3/BarChart';
 import DataWindowUnit from '../constants/DataWindowUnit';
+import AutoFitComponent from './AutoFitComponent';
+import { SPACING } from '../data/records/Spacing';
 
 class BarGraphCard extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  state = {
-    containerWidth: 0,
-    containerHeight: 0,
-  };
-
-  fitChartToContainer = () => {
-    this.setState(() => {
-      return {
-        containerWidth: this.chartContainer.getBoundingClientRect().width,
-        containerHeight: this.chartContainer.getBoundingClientRect().height,
-      };
-    });
-  };
-
-  componentDidMount() {
-    this.fitChartToContainer();
-    window.addEventListener('resize', this.fitChartToContainer);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.fitChartToContainer);
-  }
-
   render() {
-    const { device, data, dataWindowSize } = this.props;
-    const { ip, port, alias } = device;
-
-    const shouldRenderChart =
-      this.state.containerWidth && this.state.containerHeight;
+    const { title, subtitle, data, dataWindowSize } = this.props;
 
     return (
       <CardWrapper noBackground={true} noShadow={true}>
-        <h6 className="barGraphCard__addr">
-          <strong>{ip}</strong>:{port}
-        </h6>
-        <h4 className="barGraphCard__alias">{alias}</h4>
+        <h6 className="barGraphCard__subtitle">{subtitle}</h6>
+        <h4 className="barGraphCard__title">{title}</h4>
+
         <div className="small-spacer" />
-        <div
-          ref={el => {
-            this.chartContainer = el;
-          }}
-          className={this.props.className}
-        >
-          {shouldRenderChart && (
-            <BarChart
-              data={data}
-              dataWindowSize={dataWindowSize}
-              dataWindowUnit={DataWindowUnit.SECONDS}
-              dimension={{
-                width: this.state.containerWidth,
-                height: this.state.containerHeight,
-              }}
-              margins={{ left: 20, right: 20, top: 20, bottom: 20 }}
-            />
-          )}
-        </div>
+
+        <AutoFitComponent className={this.props.className}>
+          <BarChart
+            data={data}
+            dataWindowSize={dataWindowSize}
+            dataWindowUnit={DataWindowUnit.SECONDS}
+            dimension={{
+              width: 0,
+              height: 0,
+            }}
+            padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
+          />
+        </AutoFitComponent>
       </CardWrapper>
     );
   }
 }
 
-export default connect(state => ({ state }))(BarGraphCard);
+BarGraphCard.propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.string,
+  subtitle: PropTypes.node,
+  data: PropTypes.array.isRequired,
+  dataWindowSize: PropTypes.number.isRequired,
+  margins: PropTypes.instanceOf(SPACING),
+};
+
+export default BarGraphCard;

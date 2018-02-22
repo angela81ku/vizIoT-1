@@ -16,7 +16,7 @@ class DeviceActivityChart extends React.Component {
       chartConfig: { dataWindowSize, bucketConfig: { bucketProps } },
       data,
     } = this.props;
-    const { socketAddr, macAddr, alias } = device;
+    const { socketAddr, macAddr, port, ip, alias } = device;
     console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`);
 
     const sourceData = data;
@@ -45,11 +45,18 @@ class DeviceActivityChart extends React.Component {
       });
     }
 
+    const subtitle = (
+      <span>
+        <strong>{ip}</strong>
+        {`:${port}`}
+      </span>
+    );
     return (
       <BarGraphCard
         className={this.props.className}
         dataWindowSize={dataWindowSize}
-        device={device}
+        subtitle={subtitle}
+        title={alias}
         data={graphData}
       />
     );

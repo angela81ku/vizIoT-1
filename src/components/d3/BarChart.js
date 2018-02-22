@@ -11,6 +11,7 @@ import { line } from 'd3-shape';
 import { easeLinear } from 'd3-ease';
 import { transition } from 'd3-transition';
 import moment from 'moment';
+import { SPACING } from '../../data/records/Spacing';
 
 class BarChart extends Component {
   constructor(props) {
@@ -41,11 +42,11 @@ class BarChart extends Component {
   }
 
   getGraphDimensions() {
-    const { margins, dimension: { width, height } } = this.props;
-    const { left: margin } = margins;
+    const { padding, dimension: { width, height } } = this.props;
+    const { l, r } = padding;
 
-    const graphWidth = width - margin * 2;
-    const graphHeight = height - margin * 2;
+    const graphWidth = width - l - r;
+    const graphHeight = height - l - r;
     return { graphWidth, graphHeight };
   }
 
@@ -162,8 +163,8 @@ class BarChart extends Component {
   }
 
   launchChart = () => {
-    const { data, margins } = this.props;
-    const { left: margin } = margins;
+    const { data, padding } = this.props;
+    const { l, r, t, b } = padding;
     const { leftAxisMargin, graphDimensions } = this.state;
     const { graphWidth, graphHeight } = graphDimensions;
 
@@ -176,7 +177,7 @@ class BarChart extends Component {
       this.node,
       graphWidth,
       graphHeight,
-      margin,
+      l,
       leftAxisMargin
     );
     this.redrawChart();
@@ -212,18 +213,12 @@ class BarChart extends Component {
   //   svg.selectAll('chartWrapper').remove();
   // }
 
-  static appendChartSkeleton(
-    node,
-    graphWidth,
-    graphHeight,
-    margin,
-    leftAxisMargin
-  ) {
+  static appendChartSkeleton(node, graphWidth, graphHeight, l, leftAxisMargin) {
     const svg = select(node);
     const g = svg
       .append('g')
       .attr('class', 'chartWrapper')
-      .attr('transform', 'translate(' + margin + ',' + margin + ')');
+      .attr('transform', 'translate(' + l + ',' + l + ')');
 
     g
       .append('defs')
@@ -270,7 +265,7 @@ BarChart.propTypes = {
   data: PropTypes.array.isRequired,
   dataWindowSize: PropTypes.number.isRequired,
   dataWindowUnit: PropTypes.string.isRequired,
-  margins: PropTypes.object.isRequired,
+  padding: PropTypes.instanceOf(SPACING).isRequired,
 };
 
 export default BarChart;

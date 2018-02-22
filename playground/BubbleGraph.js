@@ -77,8 +77,8 @@ function circles(classes) {
       return 'url(#clip-' + d.id + ')';
     })
     .selectAll('tspan')
-    .data(function (d) {
-      return d.class;
+    .data(function(d) {
+      return d.class.split(/(?=[A-Z][^A-Z])/g);
     })
     .enter()
     .append('tspan')
