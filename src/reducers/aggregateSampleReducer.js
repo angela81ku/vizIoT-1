@@ -5,8 +5,8 @@ import {
 } from '../actions/analyzeActions';
 import { createReducer } from 'redux-act';
 import NetworkState from '../constants/NetworkState';
-import { getBucketKeyWithConfig } from '../utility/BucketUtility';
-import BucketUnitConstants from '../constants/BucketUnitConstants';
+import BucketUnitConstants from '../constants/BucketUnit';
+import { getDataKey } from '../utility/DataKey';
 
 const defaultState = {
   networkState: NetworkState.READY,
@@ -56,22 +56,52 @@ const padWithZeros = (data, bucketUnit, startTimestamp, endTimestamp) => {
   return paddedData;
 };
 
-const onSuccess = (state, result) => {
+/*
+
+macAddresses
+bucketConfig,
+timeRange,
+
+macAddress / combined ... bucketConfig + macAddresses
+
+mapDeviceToData: {
+  12:34: { 1,2,3,4 }
+  combined: { abc,2,3,4 }
+
+}
+
+ */
+const mergeData = (oldMapDeviceToData, chartConfig, payload) => {
+  const { macAddresses, startMS, endMS, ...rest } = chartConfig;
+  const { bucketUnit } = rest;
+
+  // TODO merge with old data
+  return payload.reduce((mapDeviceToData, { key, data }) => {
+    let dataKey;
+    if (key === 'COMBINED') {
+      debugger;
+      dataKey = getDataKey({ ...rest, macAddresses });
+    } else {
+      dataKey = getDataKey(rest);
+    }
+
+    mapDeviceToData = {
+      ...mapDeviceToData,
+      [key]: {
+        ...mapDeviceToData[key],
+        [dataKey]: padWithZeros(data, bucketUnit, startMS, endMS),
+      },
+    };
+
+    return mapDeviceToData;
+  }, oldMapDeviceToData);
+};
+
+const onSuccess = (state, { chartConfig, requestBody, payload }) => {
   return {
     ...state,
     networkState: NetworkState.READY,
-    mapDeviceToData: {
-      ...state.mapDeviceToData,
-      [result.deviceId]: {
-        [getBucketKeyWithConfig(result.bucketConfig)]: padWithZeros(
-          result.payload.data,
-          result.bucketConfig.bucketUnit,
-          result.startMS,
-          result.endMS
-        ),
-        // TODO merge with old data
-      },
-    },
+    mapDeviceToData: mergeData(state.mapDeviceToData, chartConfig, payload),
   };
 };
 

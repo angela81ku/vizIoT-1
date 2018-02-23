@@ -3,6 +3,7 @@ import { headers, baseUrl } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
 import { DeviceGroupConstants } from '../../constants/DeviceGroupConstants';
 import keyMirror from 'keyMirror';
+import SelectionMode from '../../constants/SelectionMode';
 
 const analyzeAggregationByTime = (payloadRecord, networkId) => {
   const url = `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByTime`;
@@ -30,8 +31,8 @@ export const analyzeApi = {
   ['analyzeAggregationByTime']: {
     call: analyzeAggregationByTime,
     REQUEST_RECORD: new Record({
-      forNetwork: '',
-      forDevice: DeviceGroupConstants.ALL_COMBINED,
+      selectionMode: SelectionMode.COMBINED,
+      macAddresses: [],
       bucketSize: 1,
       bucketProps: [],
       startMS: 0,
@@ -41,8 +42,8 @@ export const analyzeApi = {
   ['analyzeAggregationByLocation']: {
     call: analyzeAggregationByLocation,
     REQUEST_RECORD: new Record({
-      forNetwork: '',
-      forDevice: DeviceGroupConstants.ALL_COMBINED,
+      selectionMode: SelectionMode.COMBINED,
+      macAddresses: [],
       bucketProps: [],
       startMS: 0,
       endMS: 0,

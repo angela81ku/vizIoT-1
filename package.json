@@ -43,6 +43,7 @@
     "moment": "^2.20.1",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0",
+    "object-hash": "^1.2.0",
     "prettier": "^1.10.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",

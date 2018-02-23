@@ -1,6 +1,5 @@
 import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
-import BucketUnitConstants from '../constants/BucketUnitConstants';
 
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
@@ -8,40 +7,46 @@ export const failureAnalyze = createAction();
 
 export const analyzeAggregationByTime = (
   networkId,
-  deviceId,
+  selectionMode,
+  macAddresses,
   bucketConfig,
   startMS,
   endMS
 ) => {
   startAnalyze();
-  return new Promise(resolve => {
-    const { call, REQUEST_RECORD } = analyzeApi[
-      analyzeApiKeys.analyzeAggregationByTime
-    ];
+  const { call, REQUEST_RECORD } = analyzeApi[
+    analyzeApiKeys.analyzeAggregationByTime
+  ];
 
-    call(
-      new REQUEST_RECORD({
-        forDevice: deviceId,
-        forNetwork: '34',
-        ...bucketConfig,
-        startMS,
-        endMS,
-      }),
-      networkId
-    )
+  const requestBody = new REQUEST_RECORD({
+    selectionMode,
+    macAddresses,
+    ...bucketConfig,
+    startMS,
+    endMS,
+  });
+
+  return new Promise(resolve => {
+    call(requestBody, networkId)
       .then(resolve)
       .catch(error => {
-        console.log(`failed to aggregateDataByTime for ${deviceId}: ${error}`);
+        console.log(
+          `failed to aggregateDataByTime for ${requestBody.toJS()}: ${error}`
+        );
         failureAnalyze();
       });
   }).then(res => {
-    console.log(`successfully aggregateDataByTime for ${deviceId}`);
+    console.log(`successfully aggregateDataByTime for ${requestBody.toJS()}`);
     successAnalyze({
       payload: res.data,
-      deviceId,
-      bucketConfig,
-      startMS,
-      endMS,
+      requestBody,
+      chartConfig: {
+        selectionMode,
+        macAddresses,
+        ...bucketConfig,
+        startMS,
+        endMS,
+      },
     });
   });
 };

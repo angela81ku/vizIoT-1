@@ -1,9 +1,8 @@
-const DataWindowUnit = {
+const MomentUnit = {
   MINUTES: 'minutes',
   SECONDS: 'seconds',
   HOURS: 'hours',
   DAYS: 'days,',
-  LOCATION: 'location',
 };
 
-export default DataWindowUnit;
+export default MomentUnit;

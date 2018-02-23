@@ -10,14 +10,19 @@ const defaultState = {
   devices: [
     {
       uuid: 123,
-      alias: 'Entire Network',
+      alias: 'Test Device',
       socketAddr: '192.168.10.115:39490',
       ip: '192.168.10.115',
       port: '39490',
-      macAddr: 'ALL_COMBINED',
+      macAddr: 'Test Mac Addr',
       lastSeen: '1517177323000',
     },
   ],
+  entireNetwork: {
+    id: 123,
+    alias: 'Entire Network',
+    lastSeen: '1517177323000',
+  },
   networkState: NetworkState.READY,
 };
 
@@ -29,6 +34,7 @@ export default createReducer(
     }),
     [successFetchDevices]: (state, result) => {
       return {
+        ...state,
         networkState: NetworkState.READY,
         devices: result.payload.devices,
       };

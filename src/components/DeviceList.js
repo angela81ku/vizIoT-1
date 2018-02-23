@@ -15,7 +15,7 @@ export default class DeviceList extends React.Component {
             <DeviceListItem
               key={device.macAddr}
               device={device}
-              testCount={10}
+              testCount={0}
             />
           );
         })}

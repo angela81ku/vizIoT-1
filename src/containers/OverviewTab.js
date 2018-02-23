@@ -5,55 +5,84 @@ import CardWrapper from '../components/BeanUILibrary/CardWrapper';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
 import { analyzeAggregationByTime } from '../actions/analyzeActions';
-import DataWindowUnit from '../constants/DataWindowUnit';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import BucketUnitConstants from '../constants/BucketUnitConstants';
-import { selectAllDevices } from '../selectors/deviceSelectors';
+import {
+  selectAllDevices,
+  selectEntireNetwork,
+} from '../selectors/deviceSelectors';
 import DeviceActivityChart from './DeviceActivityChart';
+import {
+  selectMainChartConfig,
+  selectSingleDeviceChartConfig,
+} from '../selectors/chartSelectors';
+import { getDataKey } from '../utility/DataKey';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
 class OverviewTab extends React.Component {
-  componentWillMount() {
+  fetchCombinedTrafficData() {
+    const { mainChartConfig, networkId } = this.props;
+    const { bucketConfig, dataWindowSize, selectionMode } = mainChartConfig;
+    // Fetch Data for overall chart:
+    const startMS = (
+      moment()
+        .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
+        .valueOf() / 1000
+    ).toString();
+    const endMS = (moment().valueOf() / 1000).toString();
+    analyzeAggregationByTime(
+      networkId,
+      selectionMode,
+      [],
+      bucketConfig,
+      startMS,
+      endMS
+    );
+  }
+
+  fetchSingleDeviceTrafficData(macAddr) {
     const { singleDeviceChartConfig, networkId } = this.props;
-    const { bucketConfig } = singleDeviceChartConfig;
+
+    const {
+      bucketConfig,
+      dataWindowSize,
+      selectionMode,
+    } = singleDeviceChartConfig;
+
+    const startMS = (
+      moment()
+        .subtract(dataWindowSize, bucketConfig.bucketUnit)
+        .valueOf() / 1000
+    ).toString();
+    const endMS = (moment().valueOf() / 1000).toString();
+    analyzeAggregationByTime(
+      networkId,
+      selectionMode,
+      [macAddr],
+      bucketConfig,
+      startMS,
+      endMS
+    );
+  }
+
+  componentWillMount() {
+    const { networkId } = this.props;
+
+    this.fetchCombinedTrafficData();
 
     fetchDevices(networkId).then(() => {
       const { devices } = this.props;
       devices.forEach(({ macAddr }) => {
-        const startMS = (
-          moment()
-            .subtract(5, DataWindowUnit.MINUTES)
-            .valueOf() / 1000
-        ).toString();
-        const endMS = (moment().valueOf() / 1000).toString();
-        analyzeAggregationByTime(
-          networkId,
-          macAddr,
-          bucketConfig,
-          startMS,
-          endMS
-        );
+        this.fetchSingleDeviceTrafficData(macAddr);
       });
     });
 
     const liveConnectionsPerSecondLoop = setInterval(() => {
+      this.fetchCombinedTrafficData();
       const { devices } = this.props;
       devices.forEach(({ macAddr }) => {
-        const startMS = (
-          moment()
-            .subtract(10, DataWindowUnit.MINUTES)
-            .valueOf() / 1000
-        ).toString();
-        const endMS = (moment().valueOf() / 1000).toString();
-        analyzeAggregationByTime(
-          networkId,
-          macAddr,
-          bucketConfig,
-          startMS,
-          endMS
-        );
+        this.fetchSingleDeviceTrafficData(macAddr);
       });
     }, DATA_REFRESH_DELAY_MS);
 
@@ -66,8 +95,9 @@ class OverviewTab extends React.Component {
     clearInterval(this.state.liveConnectionsPerSecondLoop);
   }
 
-  renderBarChartCards() {
+  renderSingleDeviceCharts() {
     const { singleDeviceChartConfig, devices } = this.props;
+    const { bucketConfig, selectionMode } = singleDeviceChartConfig;
 
     return devices.map(d => {
       return (
@@ -78,6 +108,8 @@ class OverviewTab extends React.Component {
         >
           <DeviceActivityChart
             className="device-chart"
+            deviceKey={d.macAddr}
+            dataKey={getDataKey({ ...bucketConfig, selectionMode })}
             device={d}
             chartConfig={singleDeviceChartConfig}
           />
@@ -87,15 +119,20 @@ class OverviewTab extends React.Component {
   }
 
   renderMainChart() {
-    const { devices, mainChartConfig } = this.props;
-    const allCombinedIndex = devices.findIndex(i => {
-      return i.macAddr === 'ALL_COMBINED';
-    });
+    const { combinedNetworkDevice, mainChartConfig } = this.props;
+    const { bucketConfig, selectionMode } = mainChartConfig;
     return (
       <DeviceActivityChart
         className="main-chart"
-        device={devices[allCombinedIndex]}
+        device={combinedNetworkDevice}
+        deviceKey={'COMBINED'}
+        dataKey={getDataKey({
+          ...bucketConfig,
+          selectionMode,
+          macAddresses: [],
+        })}
         chartConfig={mainChartConfig}
+        placeholderSubtitle={'Combined activity graph for this network'}
       />
     );
   }
@@ -115,7 +152,7 @@ class OverviewTab extends React.Component {
             ACTIVITY<i className="material-icons">trending_up</i>
           </h5>
           {this.renderMainChart()}
-          <Grid gutter={1}>{this.renderBarChartCards()}</Grid>
+          <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
         </GridItem>
       </Grid>
     );
@@ -123,28 +160,15 @@ class OverviewTab extends React.Component {
 }
 
 OverviewTab.defaultProps = {
-  mainChartConfig: {
-    bucketConfig: {
-      bucketSize: 1,
-      bucketProps: ['ACTIVITY_COUNT'],
-      bucketUnit: BucketUnitConstants.SECOND,
-    },
-    dataWindowSize: 4 * 60,
-  },
-  singleDeviceChartConfig: {
-    bucketConfig: {
-      bucketSize: 1,
-      bucketProps: ['ACTIVITY_COUNT'],
-      bucketUnit: BucketUnitConstants.SECOND,
-    },
-    dataWindowSize: 60,
-  },
   networkId: 42,
 };
 
 const mapStateToProps = state => {
   return {
     devices: selectAllDevices(state),
+    combinedNetworkDevice: selectEntireNetwork(state),
+    mainChartConfig: selectMainChartConfig(state),
+    singleDeviceChartConfig: selectSingleDeviceChartConfig(state),
   };
 };
 export default connect(mapStateToProps)(OverviewTab);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import BarChart from './d3/BarChart';
-import DataWindowUnit from '../constants/DataWindowUnit';
+import DataWindowUnit from '../constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from '../data/records/Spacing';
 

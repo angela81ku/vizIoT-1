@@ -4,8 +4,8 @@ import GridItem from '../components/BeanUILibrary/GridItem';
 import { connect } from 'react-redux';
 import BubbleChart from '../components/d3/BubbleChart';
 import { SPACING } from '../data/records/Spacing';
-import DataWindowUnit from '../constants/DataWindowUnit';
 import AutoFitComponent from '../components/AutoFitComponent';
+import BucketUnitConstants from '../constants/BucketUnit';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -53,7 +53,7 @@ class BubbleLocationTab extends React.Component {
               }}
               data={data}
               dataWindowSize={0}
-              dataWindowUnit={DataWindowUnit.LOCATION}
+              dataWindowUnit={BucketUnitConstants.LOCATION}
               padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
             />
           </AutoFitComponent>

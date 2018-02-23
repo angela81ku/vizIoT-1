@@ -15,26 +15,26 @@ class DeviceActivityChart extends React.Component {
       device,
       chartConfig: { dataWindowSize, bucketConfig: { bucketProps } },
       data,
+      placeholderSubtitle,
     } = this.props;
-    const { socketAddr, macAddr, port, ip, alias } = device;
-    console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`);
 
-    const sourceData = data;
-    console.log('sourceData:');
-    console.log(sourceData);
+    const { socketAddr = '', macAddr = '', port = '', ip = '', alias } = device;
+    console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`);
+    console.log('using data:');
+    console.log(data);
 
     let graphData = [];
-    if (sourceData && sourceData.length) {
-      // Temporary Code for replaying old sourceData:
+    if (data && data.length) {
+      // Temporary Code for replaying old data:
       // const momentNow = moment();
-      // const momentFirst = moment.unix(sourceData[0].timestamp);
+      // const momentFirst = moment.unix(data[0].timestamp);
       // const catchUpSeconds = momentNow.diff(momentFirst, 'seconds');
       // console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
       const catchUpSeconds = 10;
       console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
-      graphData = sourceData.map(({ timestamp, [bucketProps[0]]: yData }) => {
+      graphData = data.map(({ timestamp, [bucketProps[0]]: yData }) => {
         return {
           xData: moment
             .unix(timestamp)
@@ -45,31 +45,41 @@ class DeviceActivityChart extends React.Component {
       });
     }
 
-    const subtitle = (
-      <span>
-        <strong>{ip}</strong>
-        {`:${port}`}
-      </span>
-    );
-    return (
-      <BarGraphCard
-        className={this.props.className}
-        dataWindowSize={dataWindowSize}
-        subtitle={subtitle}
-        title={alias}
-        data={graphData}
-      />
-    );
+    let subtitle = <span>{placeholderSubtitle}</span>;
+    if (ip && port) {
+      subtitle = (
+        <span>
+          <strong>{ip}</strong>
+          {`:${port}`}
+        </span>
+      );
+    } else if (macAddr) {
+      subtitle = (
+        <span>
+          <strong>{macAddr}</strong>
+        </span>
+      );
+    }
+
+    if (graphData.length >= 2) {
+      return (
+        <BarGraphCard
+          className={this.props.className}
+          dataWindowSize={dataWindowSize}
+          subtitle={subtitle}
+          title={alias || macAddr}
+          data={graphData}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }
 
 export default connect((state, props) => {
-  const { device: { macAddr }, chartConfig: { bucketConfig } } = props;
+  const { deviceKey, dataKey } = props;
   return {
-    data: selectSingleAggregation(
-      state,
-      macAddr,
-      getBucketKeyWithConfig(bucketConfig)
-    ),
+    data: selectSingleAggregation(state, deviceKey, dataKey),
   };
 })(DeviceActivityChart);

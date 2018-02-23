@@ -11,6 +11,7 @@ import {
   successFetchDevices,
   failureFetchDevices,
 } from '../actions/deviceActions';
+import chartConfig from '../reducers/chartConfig';
 
 // Store creation
 export default () => {
@@ -18,6 +19,7 @@ export default () => {
     combineReducers({
       devices,
       aggregateSample,
+      chartConfig,
     }),
     // This is for Redux DevTools
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

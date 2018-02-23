@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import AppTitle from '../components/AppTitle';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 
 class VizIoT extends React.Component {
   renderCurrentTab() {
-    return <BubbleLocationTab />;
+    return <OverviewTab />;
   }
 
   render() {
@@ -46,6 +45,4 @@ VizIoT.propTypes = {
   appConfig: PropTypes.object,
 };
 
-const mapDispatchToProps = dispatch => {};
-
-export default connect(() => ({}))(VizIoT);
+export default VizIoT;

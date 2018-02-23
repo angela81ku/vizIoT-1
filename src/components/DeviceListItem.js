@@ -18,8 +18,12 @@ export default class DeviceListItem extends React.Component {
         <Grid>
           <div className="deviceListItem__deviceInfo">
             {macAddr}
-            <h6 className="deviceListItem__deviceName m-top-1">{alias}</h6>
-            {moment.unix(lastSeen / 1000.0).format('MMM Do YYYY, h:mm:ss a')}
+            <h6 className="deviceListItem__deviceName m-top-1">
+              {alias ? alias : macAddr}
+            </h6>
+            {lastSeen
+              ? moment.unix(lastSeen / 1000.0).format('MMM Do YYYY, h:mm:ss a')
+              : 'Unknown last seen'}
           </div>
           <div className="deviceListItem__countWrapper flex-center-parent">
             <div>
