@@ -61,7 +61,7 @@ class DeviceActivityChart extends React.Component {
       );
     }
 
-    if (graphData.length >= 2) {
+    if (graphData.length >= 1) {
       return (
         <BarGraphCard
           className={this.props.className}

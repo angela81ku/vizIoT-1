@@ -43,10 +43,10 @@ class BarChart extends Component {
 
   getGraphDimensions() {
     const { padding, dimension: { width, height } } = this.props;
-    const { l, r } = padding;
+    const { l, r, t, b } = padding;
 
     const graphWidth = width - l - r;
-    const graphHeight = height - l - r;
+    const graphHeight = height - t - b;
     return { graphWidth, graphHeight };
   }
 
@@ -63,12 +63,17 @@ class BarChart extends Component {
     // Start Data Update
     // =================================================================================================================
 
+    const axisAtLeast = 3;
+
     const dataMax = max(graphData.map(d => d.yData)) || 1;
+
+    const axisMax = Math.max(dataMax, axisAtLeast);
+
     const x = scaleTime()
       .domain([xStart, xEnd])
       .range([0, graphWidth]);
     const y = scaleLinear()
-      .domain([-1, dataMax])
+      .domain([-1, axisMax])
       .range([graphHeight, 0]);
 
     // =================================================================================================================
@@ -80,10 +85,10 @@ class BarChart extends Component {
       .ticks(timeSecond, 15)
       .tickFormat(timeFormat('%Mm %Ss'));
     const yMin = y.domain()[0];
-    const yMax = dataMax;
+    const yMax = axisMax;
     const yAxis = axisRight(y)
       .tickSize(graphWidth)
-      .tickValues([yMin, 0, Math.floor((yMax - yMin) / 2), yMax])
+      .tickValues([yMin, 0, Math.floor((dataMax - yMin) / 2), dataMax, yMax])
       .tickFormat(formatPrefix('.1', 1e2));
 
     const node = this.node;

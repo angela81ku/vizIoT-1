@@ -24,7 +24,6 @@ class OverviewTab extends React.Component {
   fetchCombinedTrafficData() {
     const { mainChartConfig, networkId } = this.props;
     const { bucketConfig, dataWindowSize, selectionMode } = mainChartConfig;
-    // Fetch Data for overall chart:
     const startMS = (
       moment()
         .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
