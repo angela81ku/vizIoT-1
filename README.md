@@ -1,5 +1,10 @@
-# VizIoT
-A React + d3 data visualization. Visually illustrates Internet of Things (IoT) network traffic behavior.
+<h1 align=center>VizIoT</h2>
+<div align=center>
+  <p align=center>A React + d3 data visualization.</p>
+  <p align=center>Visually illustrates Internet of Things (IoT) network traffic behavior and patterns.</p>
+</div>
+
+<br />
 
 ### 📦 Setup & Run
 1. yarn
