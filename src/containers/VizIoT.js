@@ -4,18 +4,34 @@ import AppTitle from '../components/AppTitle';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 
+const Tabs = {
+  OVERVIEW: 'OVERVIEW',
+  LOCATIONS: 'LOCATIONS',
+}
+
 class VizIoT extends React.Component {
+  state = {
+    currentTab: Tabs.LOCATIONS,
+  };
+
   renderCurrentTab() {
-    return <BubbleLocationTab />;
+    switch (this.state.currentTab) {
+      case Tabs.OVERVIEW:
+        return <OverviewTab />;
+      case Tabs.LOCATIONS:
+        return <BubbleLocationTab />;
+    }
+    return <OverviewTab />;
   }
 
   render() {
     return (
       <div className="">
+        <AppTitle subtitle={this.state.currentTab}/>
+
         <div className="tint-background">
           <div className="padded-container">
-            <div className="medium-spacer" />
-            <AppTitle />
+            <div className="large-spacer" />
             <div className="small-spacer" />
 
             {this.renderCurrentTab()}

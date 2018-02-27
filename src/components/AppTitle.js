@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from './BeanUILibrary/Grid';
 import moment from 'moment';
 
@@ -18,23 +19,25 @@ class AppTitle extends React.Component {
   updateTime = () => {
     this.setState(() => ({ currentMoment: moment() }));
   };
+
   componentDidMount() {
     this.interval = setInterval(this.updateTime, 1000);
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   render() {
     return (
-      <header className="appTitle fade">
+      <header className={`appTitle fade ${this.state.showShadow && 'showShadow' || ''}`}>
         <Grid>
-          <div className="appTitle__leftPlaceholder" />
           <div className="appTitle__pageTitle">
             <div>
               <h3>
                 <strong>NETWORK</strong>
               </h3>
             </div>
-            <h3>OVERVIEW</h3>
+            <h3>{this.props.subtitle}</h3>
           </div>
+          <div className="appTitle__centerPlaceholder" />
           <div className="appTitle__rightStuff">
             <div className="appTitle__logo">
               <i className="material-icons">visibility</i>
@@ -49,6 +52,17 @@ class AppTitle extends React.Component {
       </header>
     );
   }
+
+  handleScroll = (event) => {
+    let scrollTop = window.scrollY;
+    this.setState(() => ({
+      showShadow: scrollTop > 20,
+    }));
+  }
 }
+
+AppTitle.propTypes = {
+  subtitle: PropTypes.string.isRequired,
+};
 
 export default AppTitle;

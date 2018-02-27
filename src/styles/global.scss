@@ -30,8 +30,7 @@
 
 @media only screen and (max-width: 1200px) {
   .padded-container {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: $main-app-padding;
   }
 }
 

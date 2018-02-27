@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { scaleLinear, scaleTime, scaleOrdinal } from 'd3-scale';
+import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory20c } from 'd3-scale';
 import { select } from 'd3-selection';
 import { pack, hierarchy } from 'd3-hierarchy';

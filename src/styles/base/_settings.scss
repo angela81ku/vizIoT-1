@@ -2,7 +2,7 @@
 $RED: #ff4159;
 $GREEN: #7ef468;
 
-$prim-color: #6955f9;
+$prim-color: white;
 $link-color: $GREEN;
 $pageTitle-color: white;
 $lighter-color: hsl(220, 20.7, 55.8);
@@ -40,6 +40,8 @@ $card-shadow: 0 1px 10px 0 $card-shadow-color;
 // Spacings
 $wide-screen-width: 1500px;
 $medium-screen-width: 1000px;
+
+$main-app-padding: 0 30px 0 30px;
 
 $l-space: 10rem;
 $m-space: 5rem;
