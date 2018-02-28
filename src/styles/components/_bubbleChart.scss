@@ -1,0 +1,19 @@
+.bubbleChart {
+
+  .chartWrapper {
+
+    .labels {
+      //mix-blend-mode: darken;
+      //mix-blend-mode: hard-light;
+
+      text {
+        text-transform: uppercase;
+        font-family: $angular-text-font;
+        font-size: 18px;
+        font-weight: normal;
+      }
+    }
+
+  }
+
+}

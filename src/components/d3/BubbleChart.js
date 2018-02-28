@@ -8,9 +8,23 @@ import { easeLinear } from 'd3-ease';
 import { formatLocale } from 'd3-format';
 import moment from 'moment';
 import { SPACING } from '../../data/records/Spacing';
+import { invertColor } from '../../utility/ColorUtility';
+import tinygradient from 'tinygradient';
 
 const format = formatLocale(',d');
-const colorScheme = scaleOrdinal(schemeCategory20c);
+const colorScheme = tinygradient([
+  { color: '#FFFFFF', pos: 0 },
+  { color: '#FFECB3', pos: 0.2 },
+  { color: '#E85285', pos: 0.45 },
+  { color: '#6A1B9A', pos: 0.65 },
+  { color: '#000000', pos: 1.0 },
+]);
+
+// TODO Types of variables
+// Categorical/Nominal/Class
+// Ordinal: distance between is not equal, but there is ordering
+// Interval: distance is equal, but zero is not sig (IQ level)
+// Ratio: there is an absolute 0, distance, weight...
 
 class BubbleChart extends Component {
   constructor(props) {
@@ -73,7 +87,7 @@ class BubbleChart extends Component {
       }
 
       const root = hierarchy({ children: classes })
-        .sum(d => ( d.value ))
+        .sum(d => d.value)
         .each(d => {
           let id = d.data.id;
           if (id) {
@@ -81,7 +95,7 @@ class BubbleChart extends Component {
             d.id = id;
             d.package = id.slice(0, i);
             d.class = id.slice(i + 1);
-            d.name = `${d.class.split(/(?=[A-Z][^A-Z])/g)}`
+            d.name = `${d.class.split(/(?=[A-Z][^A-Z])/g)}`;
           }
         });
 
@@ -95,25 +109,53 @@ class BubbleChart extends Component {
         .selectAll('.node')
         .data(packedData, d => d.id);
 
-      // update - This only applies to updating nodes
-      node.transition()
-        .duration(duration)
-        .delay(function(d, i) {delay = i * 7; return delay;})
-        .attr('transform', d => { return `translate(${d.x},${d.y})`; });
+      const max = packedData.reduce((a, b) => {
+        if (a.data.value > b.data.value) {
+          return a;
+        } else {
+          return b;
+        }
+      }).data.value;
 
-      // debugger
-      let updateCircleSelection = node
-        .select('circle');
+      const numLevels = 12;
+      const colorsRgb = colorScheme.rgb(numLevels);
+      const valueToColor = d => {
+        const thisLevel = Math.floor(
+          d.data.value / (max * 1.0) * (numLevels - 1)
+        );
+        return colorsRgb[thisLevel].toHexString();
+      };
+
+      // update - This only applies to updating nodes
+      node
+        .transition()
+        .duration(duration)
+        .delay(function(d, i) {
+          delay = i * 7;
+          return delay;
+        })
+        .attr('transform', d => {
+          return `translate(${d.x},${d.y})`;
+        });
+
+      let updateCircleSelection = node.select('circle');
       updateCircleSelection
         .transition()
         .duration(duration)
-        .delay(function(d, i) {delay = i * 7; return delay;})
-        .attr('r', d => { return d.r; });
+        .delay(function(d, i) {
+          delay = i * 7;
+          return delay;
+        })
+        .attr('r', d => {
+          return d.r;
+        })
+        .style('fill', valueToColor);
 
       // ===============================================================================================================
       // Enter
       // ===============================================================================================================
-      const newNodes = node.enter()
+      const newNodes = node
+        .enter()
         .append('g')
         .attr('class', 'node')
         .attr('transform', function(d) {
@@ -124,7 +166,7 @@ class BubbleChart extends Component {
         .append('circle')
         .attr('id', d => d.id)
         .attr('r', d => d.r)
-        .style('fill', d => colorScheme(d.package))
+        .style('fill', valueToColor)
         .attr('class', d => d.class)
         .style('opacity', 0)
         .transition()
@@ -145,51 +187,44 @@ class BubbleChart extends Component {
         .select('.labels')
         .selectAll('text')
         .data(packedData)
+        .attr('fill', d => invertColor(valueToColor(d), true))
+        .style('background', valueToColor)
         .attr('x', d => d.x)
         .attr('y', (d, i, nodes) => {
-          return d.y;
+          return d.y + 3;
           // return 13 + (i - nodes.length / 2 - 0.5) * 10;
         })
-        .text(d => d.name);
+        .text(d => (d.r > 25 ? d.name : ''));
 
-      textNode.enter()
+      textNode
+        .enter()
         .append('text')
         .attr('clip-path', d => `url(#clip-${d.id}')`)
         .attr('text-anchor', 'middle')
+        .style('background', valueToColor)
+        .attr('fill', d => invertColor(valueToColor(d), true))
         .attr('x', d => d.x)
         .attr('y', (d, i, nodes) => {
-          return d.y;
+          return d.y + 3;
           // return 13 + (i - nodes.length / 2 - 0.5) * 10;
         })
-        .text(d => d.name);
+        .text(d => (d.r > 25 ? d.name : ''));
 
-      textNode.exit()
-        .remove();
+      textNode.exit().remove();
 
-
-      newNodes
-        .append('title').text(function(d) {
+      newNodes.append('title').text(function(d) {
         return d.id + '\n' + format.format(d.value);
       });
 
       // exit
-      node.exit()
+      node
+        .exit()
         .transition()
         .duration(duration + delay)
         .style('opacity', 0)
         .remove();
     }
     circles(graphData);
-  }
-
-  static redrawLine(g, linePathData) {
-    g
-      .attr('transform', null)
-      .attr('d', linePathData)
-      .transition()
-      .duration(500)
-      .ease(easeLinear)
-      .attr('transform', `translate(${-2}, 0)`);
   }
 
   launchChart = () => {
@@ -236,9 +271,8 @@ class BubbleChart extends Component {
   onEachLoop = () => {
     this.setState(() => {
       return {
-        ...this.getLiveDomainForX()
-
-      }
+        ...this.getLiveDomainForX(),
+      };
     });
     this.loop('end');
   };
@@ -259,15 +293,14 @@ class BubbleChart extends Component {
     const { l: lPadding, t: tPadding, r: rPadding, b: bPadding } = padding;
     const svg = select(rootNode);
 
-    const chartWrapper = svg.append('g')
+    const chartWrapper = svg
+      .append('g')
       .attr('class', 'chartWrapper')
       .attr('transform', `translate(${lPadding}, ${tPadding})`);
 
-    chartWrapper.append('g')
-      .attr('class', 'geo');
+    chartWrapper.append('g').attr('class', 'geo');
 
-    chartWrapper.append('g')
-      .attr('class', 'labels')
+    chartWrapper.append('g').attr('class', 'labels');
   }
 
   render() {
@@ -276,6 +309,7 @@ class BubbleChart extends Component {
     return (
       <div>
         <svg
+          className="bubbleChart"
           ref={node => (this.node = node)}
           width={width}
           height={height}

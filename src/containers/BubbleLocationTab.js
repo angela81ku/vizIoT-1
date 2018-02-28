@@ -32,11 +32,11 @@ class BubbleLocationTab extends React.Component {
       { id: 'main.network1.device1.apple', value: 1 },
       { id: 'main.network1.device1.google', value: 4 },
       { id: 'main.network2.device2.google', value: 3 },
-      { id: 'main.network1.device3.xiaomi', value: 1 },
-      { id: 'main.network1.device3.xiaomi', value: 1 },
-      { id: 'main.network2.device3.xiaomi', value: 1 },
+      { id: 'main.network1.device3.xiaomi', value: 8 },
+      { id: 'main.network1.device3.xiaomi', value: 10 },
+      { id: 'main.network2.device3.xiaomi', value: 15 },
       { id: 'main.network2.device3.xiaomi', value: 20 },
-      { id: 'main.network1.device3.xiaomi', value: 1 },
+      { id: 'main.network1.device3.xiaomi', value: 10 },
     ];
 
     return (

@@ -14,10 +14,18 @@ class AppTitle extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   updateTime = () => {
     this.setState(() => ({ currentMoment: moment() }));
+  };
+
+  handleScroll = event => {
+    let scrollTop = window.scrollY;
+    this.setState(() => ({
+      showShadow: scrollTop > 20,
+    }));
   };
 
   componentDidMount() {
@@ -27,7 +35,10 @@ class AppTitle extends React.Component {
 
   render() {
     return (
-      <header className={`appTitle fade ${this.state.showShadow && 'showShadow' || ''}`}>
+      <header
+        className={`appTitle fade ${(this.state.showShadow && 'showShadow') ||
+          ''}`}
+      >
         <Grid>
           <div className="appTitle__pageTitle">
             <div>
@@ -51,13 +62,6 @@ class AppTitle extends React.Component {
         </Grid>
       </header>
     );
-  }
-
-  handleScroll = (event) => {
-    let scrollTop = window.scrollY;
-    this.setState(() => ({
-      showShadow: scrollTop > 20,
-    }));
   }
 }
 
