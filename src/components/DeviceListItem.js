@@ -28,7 +28,9 @@ export default class DeviceListItem extends React.Component {
           </div>
           <div className="deviceListItem__countWrapper flex-center-parent">
             <div>
-              <TruncateString className="deviceListItem__count m-right-1">{testCount}</TruncateString>
+              <TruncateString className="deviceListItem__count m-right-1">
+                {testCount}
+              </TruncateString>
               <span>CONNECTIONS</span>
             </div>
           </div>

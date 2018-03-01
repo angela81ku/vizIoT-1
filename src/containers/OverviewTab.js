@@ -141,29 +141,29 @@ class OverviewTab extends React.Component {
     const { devices } = this.props;
     return (
       <div className="overview-tab">
-      <Grid gutter={3}>
-        <GridItem size={{ md: 12, lg: 3 }}>
-          <CardWrapper>
-          <h5 className="wide-letter deviceList__title">
-            {/*<i className="material-icons m-right-2">access_time</i>*/}
-            RECENT DEVICES
-          </h5>
-          <FlexWrapper>
-            <DeviceList devices={devices} />
-          </FlexWrapper>
-          </CardWrapper>
-        </GridItem>
-        <GridItem size={{ md: 12, lg: 9 }}>
-          <CardWrapper>
-          <h5 className="wide-letter deviceList__title">
-            {/*<i className="material-icons m-right-2">trending_up</i>*/}
-            ACTIVITY
-          </h5>
-          {this.renderMainChart()}
-          <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
-          </CardWrapper>
-        </GridItem>
-      </Grid>
+        <Grid gutter={3}>
+          <GridItem size={{ md: 12, lg: 3 }}>
+            <CardWrapper>
+              <h5 className="wide-letter deviceList__title">
+                {/*<i className="material-icons m-right-2">access_time</i>*/}
+                RECENT DEVICES
+              </h5>
+              <FlexWrapper>
+                <DeviceList devices={devices} />
+              </FlexWrapper>
+            </CardWrapper>
+          </GridItem>
+          <GridItem size={{ md: 12, lg: 9 }}>
+            <CardWrapper>
+              <h5 className="wide-letter deviceList__title">
+                {/*<i className="material-icons m-right-2">trending_up</i>*/}
+                ACTIVITY
+              </h5>
+              {this.renderMainChart()}
+              <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
+            </CardWrapper>
+          </GridItem>
+        </Grid>
       </div>
     );
   }

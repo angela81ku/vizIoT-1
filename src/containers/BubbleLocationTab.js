@@ -42,27 +42,27 @@ class BubbleLocationTab extends React.Component {
 
     return (
       <div className="location-bubble-tab">
-      <Grid gutter={3}>
-        <GridItem size={{ md: 12 }}>
-          <AutoFitComponent className="location-bubble-chart">
-            <BubbleChart
-              dimension={{
-                width: 0,
-                height: 0,
-              }}
-              data={data}
-              dataWindowSize={0}
-              dataWindowUnit={BucketUnitConstants.LOCATION}
-              padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
-            />
-          </AutoFitComponent>
-          <FlexWrapper className="location-bubble-tab__titleWrapper">
-            <h5 className="wide-letter location-bubble-tab__title">
-              DESTINATIONS BY LOCATION
-            </h5>
-          </FlexWrapper>
-        </GridItem>
-      </Grid>
+        <Grid gutter={3}>
+          <GridItem size={{ md: 12 }}>
+            <AutoFitComponent className="location-bubble-chart">
+              <BubbleChart
+                dimension={{
+                  width: 0,
+                  height: 0,
+                }}
+                data={data}
+                dataWindowSize={0}
+                dataWindowUnit={BucketUnitConstants.LOCATION}
+                padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
+              />
+            </AutoFitComponent>
+            <FlexWrapper className="location-bubble-tab__titleWrapper">
+              <h5 className="wide-letter location-bubble-tab__title">
+                DESTINATIONS BY LOCATION
+              </h5>
+            </FlexWrapper>
+          </GridItem>
+        </Grid>
       </div>
     );
   }

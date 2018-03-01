@@ -318,12 +318,11 @@ class BubbleChart extends Component {
         >
           <defs>
             <linearGradient id="Gradient1" x1="0%" y1="8%" x2="100%" y2="92%">
-              <stop className="stop1" offset="0%"/>
-              <stop className="stop3" offset="100%"/>
+              <stop className="stop1" offset="0%" />
+              <stop className="stop3" offset="100%" />
             </linearGradient>
           </defs>
         </svg>
-
       </div>
     );
   }

@@ -8,12 +8,11 @@ class FlexWrapper extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
 
-    return <div className={classnames('flexWrapper', className)}>{children}</div>;
+    return (
+      <div className={classnames('flexWrapper', className)}>{children}</div>
+    );
   }
 }
 

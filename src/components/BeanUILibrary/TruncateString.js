@@ -8,8 +8,12 @@ class TruncateString extends React.Component {
   }
 
   render() {
-    const {children, className, useFlex} = this.props;
-    const content = <span className={classnames('truncateString', className)}>{children}</span>;
+    const { children, className, useFlex } = this.props;
+    const content = (
+      <span className={classnames('truncateString', className)}>
+        {children}
+      </span>
+    );
 
     if (useFlex) {
       return <span className="truncateStringParent">{content}</span>;
