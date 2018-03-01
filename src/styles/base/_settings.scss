@@ -31,6 +31,7 @@ $body-text-color-inverted: hsl(0, 0, 40);
 $body-text-color-alt: #81b7fb;
 $heading-text-color: white;
 
+
 // Graph Colors
 $graph-prim-color: #12e9ff;
 $graph-body-color: $lighter-color;
@@ -38,6 +39,7 @@ $graphColor: $lighter-color;
 
 // Card
 $card-color: hsla(228, 40%, 13%, 0.5);
+//#181f3c
 $card-shadow-color: $shadow-color-norm;
 $card-shadow: 0 1px 10px 0 $card-shadow-color;
 
@@ -45,7 +47,8 @@ $card-shadow: 0 1px 10px 0 $card-shadow-color;
 $wide-screen-width: 1500px;
 $medium-screen-width: 1000px;
 
-$main-app-padding: 0 30px 0 30px;
+$main-app-padding: 0 50px 0 50px;
+$card-content-padding: 0 0 0 20px;
 
 $l-space: 10rem;
 $m-space: 5rem;

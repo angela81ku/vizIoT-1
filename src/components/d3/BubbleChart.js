@@ -101,7 +101,7 @@ class BubbleChart extends Component {
 
       const packer = pack()
         .size([graphWidth, graphHeight])
-        .padding(1.5);
+        .padding(8);
 
       let packedData = packer(root).leaves();
       const node = chartWrapper
@@ -123,7 +123,8 @@ class BubbleChart extends Component {
         const thisLevel = Math.floor(
           d.data.value / (max * 1.0) * (numLevels - 1)
         );
-        return colorsRgb[thisLevel].toHexString();
+        return 'url(#Gradient1)';
+        // return colorsRgb[thisLevel].toHexString();
       };
 
       // update - This only applies to updating nodes
@@ -314,7 +315,15 @@ class BubbleChart extends Component {
           width={width}
           height={height}
           textAnchor="middle"
-        />
+        >
+          <defs>
+            <linearGradient id="Gradient1" x1="0%" y1="8%" x2="100%" y2="92%">
+              <stop className="stop1" offset="0%"/>
+              <stop className="stop3" offset="100%"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
       </div>
     );
   }

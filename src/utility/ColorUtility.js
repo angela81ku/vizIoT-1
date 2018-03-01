@@ -1,5 +1,6 @@
 // From: https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
 export function invertColor(hex, bw) {
+  return '#FFF'
   if (hex.indexOf('#') === 0) {
     hex = hex.slice(1);
   }

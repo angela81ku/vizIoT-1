@@ -79,7 +79,7 @@ const mergeData = (oldMapDeviceToData, chartConfig, payload) => {
   return payload.reduce((mapDeviceToData, { key, data }) => {
     let dataKey;
     if (key === 'COMBINED') {
-      debugger;
+      // debugger;
       dataKey = getDataKey({ ...rest, macAddresses });
     } else {
       dataKey = getDataKey(rest);

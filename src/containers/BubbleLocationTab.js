@@ -6,6 +6,7 @@ import BubbleChart from '../components/d3/BubbleChart';
 import { SPACING } from '../data/records/Spacing';
 import AutoFitComponent from '../components/AutoFitComponent';
 import BucketUnitConstants from '../constants/BucketUnit';
+import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -40,11 +41,9 @@ class BubbleLocationTab extends React.Component {
     ];
 
     return (
+      <div className="location-bubble-tab">
       <Grid gutter={3}>
         <GridItem size={{ md: 12 }}>
-          <h5 className="wide-letter deviceList__title">
-            REQUESTS BY LOCATION
-          </h5>
           <AutoFitComponent className="location-bubble-chart">
             <BubbleChart
               dimension={{
@@ -57,8 +56,14 @@ class BubbleLocationTab extends React.Component {
               padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
             />
           </AutoFitComponent>
+          <FlexWrapper className="location-bubble-tab__titleWrapper">
+            <h5 className="wide-letter location-bubble-tab__title">
+              DESTINATIONS BY LOCATION
+            </h5>
+          </FlexWrapper>
         </GridItem>
       </Grid>
+      </div>
     );
   }
 }

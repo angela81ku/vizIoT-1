@@ -23,6 +23,8 @@ class DeviceActivityChart extends React.Component {
     console.log('using data:');
     console.log(data);
 
+    macAddr && macAddr.toUpperCase();
+
     let graphData = [];
     if (data && data.length) {
       // Temporary Code for replaying old data:

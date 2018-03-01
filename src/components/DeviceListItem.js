@@ -3,6 +3,7 @@ import Grid from './BeanUILibrary/Grid';
 import GridItem from './BeanUILibrary/GridItem';
 import moment from 'moment';
 import CardWrapper from './BeanUILibrary/CardWrapper';
+import TruncateString from './BeanUILibrary/TruncateString';
 
 export default class DeviceListItem extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class DeviceListItem extends React.Component {
     const { macAddr, alias, lastSeen } = device;
 
     return (
-      <CardWrapper className="deviceListItem__wrapper m-bot-4" noPadding={true}>
+      <CardWrapper className="deviceListItem__wrapper m-bot-3" noPadding={true}>
         <Grid>
           <div className="deviceListItem__deviceInfo">
             {macAddr}
@@ -27,8 +28,8 @@ export default class DeviceListItem extends React.Component {
           </div>
           <div className="deviceListItem__countWrapper flex-center-parent">
             <div>
-              <h4 className="deviceListItem__count m-right-1">{testCount}</h4>
-              <span>REQUESTS</span>
+              <TruncateString className="deviceListItem__count m-right-1">{testCount}</TruncateString>
+              <span>CONNECTIONS</span>
             </div>
           </div>
         </Grid>

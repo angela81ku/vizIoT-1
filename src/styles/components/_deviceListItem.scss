@@ -14,7 +14,7 @@
 }
 
 .deviceListItem__deviceInfo {
-  padding-left: 20px;
+  padding: $card-content-padding;
   text-wrap: normal;
   max-width: 150px;
 
@@ -29,12 +29,15 @@
   padding-left: 25px;
   padding-right: 25px;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: flex-start;
   color: $body-text-color;
 
   .deviceListItem__count {
     color: $link-color;
     font-weight: 500;
-    display:inline-block;
+    //display:inline-block;
+    margin-top: 0;
+    font-size: 2.0rem;
   }
 }

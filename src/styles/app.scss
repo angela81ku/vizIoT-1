@@ -4,6 +4,8 @@
 @import "/base/base";
 @import "/base/grid";
 @import "/base/spacers";
+@import "/base/baseMixins";
+@import "/components/truncateString";
 @import "/components/likeBtn";
 @import "/components/cardWrapper";
 @import "/components/appTitle";
@@ -12,3 +14,5 @@
 @import "/components/deviceList";
 @import "/components/barGraphCard";
 @import "/components/bubbleChart";
+@import "/containers/locationTab";
+@import "/containers/overviewTab";

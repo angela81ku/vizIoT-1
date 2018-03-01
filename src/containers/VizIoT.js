@@ -5,8 +5,15 @@ import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 
 const Tabs = {
-  OVERVIEW: 'OVERVIEW',
-  LOCATIONS: 'LOCATIONS',
+  OVERVIEW: {
+    key: 'OVERVIEW',
+    background: ''
+
+  },
+  LOCATIONS: {
+    key: 'LOCATIONS',
+    background: 'location-bubble-tab-background'
+  },
 };
 
 class VizIoT extends React.Component {
@@ -25,15 +32,13 @@ class VizIoT extends React.Component {
   }
 
   render() {
+    const {key, background} = this.state.currentTab;
     return (
       <div className="">
-        <AppTitle subtitle={this.state.currentTab} />
+        <AppTitle subtitle={key} />
 
-        <div className="tint-background">
+        <div className={`tint-background ${background}`}>
           <div className="padded-container">
-            <div className="large-spacer" />
-            <div className="small-spacer" />
-
             {this.renderCurrentTab()}
 
             <div className="large-spacer" />

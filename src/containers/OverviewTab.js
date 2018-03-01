@@ -17,6 +17,7 @@ import {
   selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
+import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -139,21 +140,31 @@ class OverviewTab extends React.Component {
   render() {
     const { devices } = this.props;
     return (
+      <div className="overview-tab">
       <Grid gutter={3}>
         <GridItem size={{ md: 12, lg: 3 }}>
-          <h5 className="wide-letter deviceList__title">DEVICES</h5>
-          <CardWrapper noPadding={true} noBackground={true} noShadow={true}>
+          <CardWrapper>
+          <h5 className="wide-letter deviceList__title">
+            {/*<i className="material-icons m-right-2">access_time</i>*/}
+            RECENT DEVICES
+          </h5>
+          <FlexWrapper>
             <DeviceList devices={devices} />
+          </FlexWrapper>
           </CardWrapper>
         </GridItem>
         <GridItem size={{ md: 12, lg: 9 }}>
+          <CardWrapper>
           <h5 className="wide-letter deviceList__title">
-            ACTIVITY<i className="material-icons">trending_up</i>
+            {/*<i className="material-icons m-right-2">trending_up</i>*/}
+            ACTIVITY
           </h5>
           {this.renderMainChart()}
           <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
+          </CardWrapper>
         </GridItem>
       </Grid>
+      </div>
     );
   }
 }

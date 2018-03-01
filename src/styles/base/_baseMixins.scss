@@ -1,0 +1,10 @@
+@mixin truncateParent() {
+  flex: 1;
+  min-width: 0;
+}
+
+@mixin truncate() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

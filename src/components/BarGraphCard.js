@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CardWrapper from './BeanUILibrary/CardWrapper';
 import BarChart from './d3/BarChart';
 import DataWindowUnit from '../constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from '../data/records/Spacing';
+import FlexWrapper from './BeanUILibrary/FlexWrapper';
 
 class BarGraphCard extends React.Component {
   constructor(props) {
@@ -15,9 +15,9 @@ class BarGraphCard extends React.Component {
     const { title, subtitle, data, dataWindowSize } = this.props;
 
     return (
-      <CardWrapper noBackground={true} noShadow={true}>
-        <h6 className="barGraphCard__subtitle">{subtitle}</h6>
+      <FlexWrapper className="barGraphCard">
         <h4 className="barGraphCard__title">{title}</h4>
+        <h6 className="barGraphCard__subtitle">{subtitle}</h6>
 
         <div className="small-spacer" />
 
@@ -33,7 +33,7 @@ class BarGraphCard extends React.Component {
             padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
           />
         </AutoFitComponent>
-      </CardWrapper>
+      </FlexWrapper>
     );
   }
 }

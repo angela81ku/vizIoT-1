@@ -12,15 +12,14 @@
 
 .tint-background {
   z-index: -1;
-  background-color: #fBfBfB;
+  //background-color: #fBfBfB;
+  background: $background-color;
 }
 
 .padded-container {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: $main-app-padding;
   max-width: 190rem;
   margin: 0 auto;
-  background: $background-color;
 }
 
 .cardWrapper {
@@ -208,7 +207,7 @@ a.is-active {
 
 
 .location-bubble-chart {
-  height: 400px;
+  height: 600px;
 }
 
 .device-chart {
