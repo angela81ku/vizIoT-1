@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/BeanRider/VizIoT/master/public/media/images/logo.png" width="210px" height="210px"/>
+</p>
 <h1 align=center>VizIoT</h2>
 <div align=center>
   <p align=center>A React + d3 data visualization.</p>
