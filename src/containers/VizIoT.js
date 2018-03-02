@@ -17,7 +17,7 @@ const Tabs = {
 
 class VizIoT extends React.Component {
   state = {
-    currentTab: Tabs.LOCATIONS,
+    currentTab: Tabs.OVERVIEW,
   };
 
   renderCurrentTab() {
