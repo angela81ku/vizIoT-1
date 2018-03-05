@@ -14,7 +14,7 @@ const defaultState = {
 };
 
 const padWithZeros = (data, bucketUnit, startTimestamp, endTimestamp) => {
-  if (!data || data.length <= 1) {
+  if (!data || !data.length) {
     return data;
   }
 

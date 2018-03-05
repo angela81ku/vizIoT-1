@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from '../components/BeanUILibrary/Grid';
 import GridItem from '../components/BeanUILibrary/GridItem';
 import CardWrapper from '../components/BeanUILibrary/CardWrapper';
@@ -18,6 +19,10 @@ import {
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
 import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
+import {
+  hasAggregationData,
+  mapDeviceToHasData,
+} from '../selectors/aggregateSampleSelector';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -96,25 +101,30 @@ class OverviewTab extends React.Component {
   }
 
   renderSingleDeviceCharts() {
-    const { singleDeviceChartConfig, devices } = this.props;
+    const { singleDeviceChartConfig, devices, devicesToHasData } = this.props;
     const { bucketConfig, selectionMode } = singleDeviceChartConfig;
 
     return devices.map(d => {
-      return (
-        <GridItem
-          key={d.macAddr}
-          size={{ xs: 12, md: 12, lg: 4 }}
-          space="p-bot-6"
-        >
-          <DeviceActivityChart
-            className="device-chart"
-            deviceKey={d.macAddr}
-            dataKey={getDataKey({ ...bucketConfig, selectionMode })}
-            device={d}
-            chartConfig={singleDeviceChartConfig}
-          />
-        </GridItem>
-      );
+      const { macAddr } = d;
+      const dataKey = getDataKey({ ...bucketConfig, selectionMode });
+      if (devicesToHasData[d.macAddr]) {
+        return (
+          <GridItem
+            key={macAddr}
+            size={{ xs: 12, md: 12, lg: 4 }}
+            space="p-bot-6"
+          >
+            <DeviceActivityChart
+              className="device-chart"
+              deviceKey={macAddr}
+              dataKey={dataKey}
+              device={d}
+              chartConfig={singleDeviceChartConfig}
+            />
+          </GridItem>
+        );
+      }
+      return null;
     });
   }
 
@@ -144,7 +154,7 @@ class OverviewTab extends React.Component {
         <Grid gutter={3}>
           <GridItem size={{ md: 12, lg: 3 }}>
             <CardWrapper>
-              <h5 className="wide-letter deviceList__title">
+              <h5 className="wide-letter cardTitle">
                 {/*<i className="material-icons m-right-2">access_time</i>*/}
                 RECENT DEVICES
               </h5>
@@ -155,11 +165,14 @@ class OverviewTab extends React.Component {
           </GridItem>
           <GridItem size={{ md: 12, lg: 9 }}>
             <CardWrapper>
-              <h5 className="wide-letter deviceList__title">
+              <h5 className="wide-letter cardTitle">
                 {/*<i className="material-icons m-right-2">trending_up</i>*/}
                 ACTIVITY
               </h5>
               {this.renderMainChart()}
+            </CardWrapper>
+            <div className="small-spacer" />
+            <CardWrapper>
               <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
             </CardWrapper>
           </GridItem>
@@ -173,12 +186,25 @@ OverviewTab.defaultProps = {
   networkId: 42,
 };
 
+OverviewTab.propTypes = {
+  device: PropTypes.array.isRequired,
+  devicesToHasData: PropTypes.object.isRequired,
+  combinedNetworkDevice: PropTypes.object.isRequired,
+  mainChartConfig: PropTypes.object.isRequired,
+  singleDeviceChartConfig: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = state => {
+  const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
+  const { bucketConfig, selectionMode } = singleDeviceChartConfig;
+  const dataKey = getDataKey({ ...bucketConfig, selectionMode });
+
   return {
     devices: selectAllDevices(state),
+    devicesToHasData: mapDeviceToHasData(state, dataKey),
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
-    singleDeviceChartConfig: selectSingleDeviceChartConfig(state),
+    singleDeviceChartConfig: singleDeviceChartConfig,
   };
 };
 export default connect(mapStateToProps)(OverviewTab);

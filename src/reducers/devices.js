@@ -7,17 +7,7 @@ import {
 } from '../actions/deviceActions';
 
 const defaultState = {
-  devices: [
-    {
-      uuid: 123,
-      alias: 'Test Device',
-      socketAddr: '192.168.10.115:39490',
-      ip: '192.168.10.115',
-      port: '39490',
-      macAddr: 'Test Mac Addr',
-      lastSeen: '1517177323000',
-    },
-  ],
+  devices: [],
   entireNetwork: {
     id: 123,
     alias: 'Entire Network',
