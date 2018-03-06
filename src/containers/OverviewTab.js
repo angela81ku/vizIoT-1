@@ -57,7 +57,7 @@ class OverviewTab extends React.Component {
 
     const startMS = (
       moment()
-        .subtract(dataWindowSize, bucketConfig.bucketUnit)
+        .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
         .valueOf() / 1000
     ).toString();
     const endMS = (moment().valueOf() / 1000).toString();
@@ -153,7 +153,7 @@ class OverviewTab extends React.Component {
       <div className="overview-tab">
         <Grid gutter={3}>
           <GridItem size={{ md: 12, lg: 3 }}>
-            <CardWrapper>
+            <CardWrapper noShadow={true}>
               <h5 className="wide-letter cardTitle">
                 {/*<i className="material-icons m-right-2">access_time</i>*/}
                 RECENT DEVICES
