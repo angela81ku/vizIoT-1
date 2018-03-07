@@ -8,18 +8,15 @@ class CoverFlowContainer extends React.Component {
   }
 
   render() {
-    const {
-      classNames,
-      children
-    } = this.props;
+    const { classNames, children } = this.props;
 
     return (
       <div className={classnames('coverFlowContainer', classNames)}>
         <div className="coverFlowContainer__leftButton">
-          <i class="fas fa-angle-left"></i>
+          <i class="fas fa-angle-left" />
         </div>
         <div className="coverFlowContainer__rightButton">
-          <i class="fas fa-angle-right"></i>
+          <i class="fas fa-angle-right" />
         </div>
         {children}
       </div>

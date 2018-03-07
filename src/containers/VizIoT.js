@@ -35,7 +35,7 @@ class VizIoT extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        showTitle: false
+        showTitle: false,
       });
     }, 3000);
   }

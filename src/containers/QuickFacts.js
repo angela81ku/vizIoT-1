@@ -10,7 +10,12 @@ import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 
 class QuickFacts extends React.Component {
   render() {
-    const { numberOfDevices, percentOfHttpConnections, busiestDevice, mostContactedHost } = this.props;
+    const {
+      numberOfDevices,
+      percentOfHttpConnections,
+      busiestDevice,
+      mostContactedHost,
+    } = this.props;
 
     const facts = [
       {
@@ -27,30 +32,28 @@ class QuickFacts extends React.Component {
       },
       {
         title: 'MOST POPULAR HOST',
-        data: mostContactedHost
-      }
+        data: mostContactedHost,
+      },
     ];
 
     return (
       <div className="">
         {/*<h5 className="wide-letter cardTitle">*/}
-          {/*/!*<i className="material-icons m-right-2">access_time</i>*!/*/}
-          {/*QUICK FACTS*/}
+        {/*/!*<i className="material-icons m-right-2">access_time</i>*!/*/}
+        {/*QUICK FACTS*/}
         {/*</h5>*/}
-          <Grid gutter={3}>
-            {
-              facts.map(({ title, data }) => {
-                return (
-                  <GridItem key={title} size={{ md: 6, lg: 3 }} space='m-bot-5'>
-                      <DataWell>
-                        <DataWellValue>{data}</DataWellValue>
-                        <DataWellTitle>{title}</DataWellTitle>
-                      </DataWell>
-                  </GridItem>
-                );
-              })
-            }
-          </Grid>
+        <Grid gutter={3}>
+          {facts.map(({ title, data }) => {
+            return (
+              <GridItem key={title} size={{ md: 6, lg: 3 }} space="m-bot-5">
+                <DataWell>
+                  <DataWellValue>{data}</DataWellValue>
+                  <DataWellTitle>{title}</DataWellTitle>
+                </DataWell>
+              </GridItem>
+            );
+          })}
+        </Grid>
       </div>
     );
   }
@@ -67,9 +70,8 @@ const mapStateToProps = state => {
   return {
     numberOfDevices: selectNumberOfDevices(state),
     percentOfHttpConnections: `${0.5 * 100}%`,
-    busiestDevice: {name: 'XiaoMi'},
+    busiestDevice: { name: 'XiaoMi' },
     mostContactedHost: 'Google',
   };
 };
 export default connect(mapStateToProps)(QuickFacts);
-

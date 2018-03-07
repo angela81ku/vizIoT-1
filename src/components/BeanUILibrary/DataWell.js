@@ -11,9 +11,7 @@ class DataWell extends React.Component {
     const { className, children } = this.props;
     return (
       <li className={classnames('dataWell', className)}>
-        <div className="dataWell__inner">
-          {children}
-        </div>
+        <div className="dataWell__inner">{children}</div>
       </li>
     );
   }

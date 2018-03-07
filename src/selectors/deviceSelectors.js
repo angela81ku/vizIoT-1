@@ -3,7 +3,7 @@ export const selectAllDevices = ({ devices }) => {
   return devices.devices;
 };
 
-export const selectNumberOfDevices = (state) => {
+export const selectNumberOfDevices = state => {
   let deviceList = selectAllDevices(state);
   return deviceList ? deviceList.length : 0;
 };
