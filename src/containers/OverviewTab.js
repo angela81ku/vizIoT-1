@@ -23,6 +23,7 @@ import {
   hasAggregationData,
   mapDeviceToHasData,
 } from '../selectors/aggregateSampleSelector';
+import QuickFacts from './QuickFacts';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -151,6 +152,8 @@ class OverviewTab extends React.Component {
     const { devices } = this.props;
     return (
       <div className="overview-tab">
+        <QuickFacts />
+        <div className="small-spacer" />
         <Grid gutter={3}>
           <GridItem size={{ md: 12, lg: 3 }}>
             <CardWrapper noShadow={true}>

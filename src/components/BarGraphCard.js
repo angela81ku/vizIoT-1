@@ -18,9 +18,6 @@ class BarGraphCard extends React.Component {
       <FlexWrapper className="barGraphCard">
         <h4 className="barGraphCard__title">{title}</h4>
         <h6 className="barGraphCard__subtitle">{subtitle}</h6>
-
-        <div className="small-spacer" />
-
         <AutoFitComponent className={this.props.className}>
           <BarChart
             data={data}

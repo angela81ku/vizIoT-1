@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AppTitle from '../components/AppTitle';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
+import CoverFlowContainer from '../components/BeanUILibrary/CoverFlowContainer';
 
 const Tabs = {
   OVERVIEW: {
@@ -18,6 +19,7 @@ const Tabs = {
 class VizIoT extends React.Component {
   state = {
     currentTab: Tabs.OVERVIEW,
+    showTitle: true,
   };
 
   renderCurrentTab() {
@@ -30,26 +32,40 @@ class VizIoT extends React.Component {
     return <OverviewTab />;
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        showTitle: false
+      });
+    }, 3000);
+  }
+
+  renderOverlayTitle(key) {
+    if (this.state.showTitle) {
+      return null;
+    }
+    return null;
+  }
+
   render() {
     const { key, background } = this.state.currentTab;
+
     return (
       <div className="">
+        {this.renderOverlayTitle(key)}
         <AppTitle subtitle={key} />
+        <CoverFlowContainer>
+          <div className={`tint-background ${background}`}>
+            <div className="padded-container">
+              {this.renderCurrentTab()}
 
-        <div className={`tint-background ${background}`}>
-          <div className="padded-container">
-            {this.renderCurrentTab()}
-
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
-            <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+            </div>
           </div>
-        </div>
+        </CoverFlowContainer>
       </div>
     );
   }
