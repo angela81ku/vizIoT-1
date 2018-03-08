@@ -21,7 +21,9 @@ $shadow-color-light: white;
 $shadow-color-norm: rgba(45, 62, 80, 0.12);
 
 //$blue-grad: radial-gradient(circle, #1c254a 0%, #281d37 80%);
-$blue-grad: linear-gradient(to bottom, #1c254a 3%, #131829);
+$blue-grad: linear-gradient(to bottom, rgb(28, 37, 74) 3%, #131829);
+$second-grad: radial-gradient(ellipse 70% 40%, rgba(18, 116, 130, 0.2) 45%, transparent);
+
 
 // App Background
 $background-color: $blue-grad;

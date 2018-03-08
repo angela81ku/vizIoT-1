@@ -6,14 +6,18 @@ class Grid extends React.Component {
   }
 
   render() {
-    const { gutter } = this.props;
+    const { gutter, className } = this.props;
 
     const classNames = ['flex-row', 'fade'];
     if (gutter) {
       classNames.push(`gutter-${gutter}`);
     }
 
-    return <div className={classNames.join(' ')}>{this.props.children}</div>;
+    return (
+      <div className={classNames.concat(className).join(' ')}>
+        {this.props.children}
+      </div>
+    );
   }
 }
 

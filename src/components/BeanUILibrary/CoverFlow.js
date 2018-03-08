@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-class CoverFlowContainer extends React.Component {
+class CoverFlow extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -11,11 +11,11 @@ class CoverFlowContainer extends React.Component {
     const { classNames, children } = this.props;
 
     return (
-      <div className={classnames('coverFlowContainer', classNames)}>
-        <div className="coverFlowContainer__leftButton">
+      <div className={classnames('coverFlow', classNames)}>
+        <div className="coverFlow__leftButton coverFlow__button">
           <i class="fas fa-angle-left" />
         </div>
-        <div className="coverFlowContainer__rightButton">
+        <div className="coverFlow__rightButton coverFlow__button">
           <i class="fas fa-angle-right" />
         </div>
         {children}
@@ -24,9 +24,9 @@ class CoverFlowContainer extends React.Component {
   }
 }
 
-CoverFlowContainer.propTypes = {
+CoverFlow.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
 };
 
-export default CoverFlowContainer;
+export default CoverFlow;

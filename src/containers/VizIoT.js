@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppTitle from '../components/AppTitle';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
-import CoverFlowContainer from '../components/BeanUILibrary/CoverFlowContainer';
+import CoverFlow from '../components/BeanUILibrary/CoverFlow';
 
 const Tabs = {
   OVERVIEW: {
@@ -54,7 +54,10 @@ class VizIoT extends React.Component {
       <div className="">
         {this.renderOverlayTitle(key)}
         <AppTitle subtitle={key} />
-        <CoverFlowContainer>
+        <CoverFlow>
+          <div className="tint-background2">
+            <div />
+          </div>
           <div className={`tint-background ${background}`}>
             <div className="padded-container">
               {this.renderCurrentTab()}
@@ -65,7 +68,7 @@ class VizIoT extends React.Component {
               <div className="large-spacer" />
             </div>
           </div>
-        </CoverFlowContainer>
+        </CoverFlow>
       </div>
     );
   }

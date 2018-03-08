@@ -35,32 +35,34 @@ class AppTitle extends React.Component {
 
   render() {
     return (
-      <header
-        className={`appTitle fade ${(this.state.showShadow && 'showShadow') ||
-          ''}`}
-      >
-        <Grid>
-          <div className="appTitle__pageTitle">
-            <div>
-              <h3>
-                <strong>NETWORK</strong>
-              </h3>
+      <div className="appTitle__wrapper">
+        <header
+          className={`appTitle fade ${(this.state.showShadow && 'showShadow') ||
+            ''}`}
+        >
+          <Grid>
+            <div className="appTitle__leftPlaceholder" />
+            <div className="appTitle__title">
+              <div>
+                <h3>
+                  <strong>NETWORK</strong>
+                </h3>
+              </div>
+              <h3>{this.props.subtitle}</h3>
             </div>
-            <h3>{this.props.subtitle}</h3>
-          </div>
-          <div className="appTitle__centerPlaceholder" />
-          <div className="appTitle__rightStuff">
-            <div className="appTitle__logo">
-              <i className="material-icons">visibility</i>
-              <h1>VizIoT</h1>
-            </div>
+            <div className="appTitle__rightStuff">
+              <div className="appTitle__logo">
+                <i className="material-icons">visibility</i>
+                <h1>VizIoT</h1>
+              </div>
 
-            <div className="appTitle__time m-top-1">
-              <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
+              <div className="appTitle__time m-top-1">
+                <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
+              </div>
             </div>
-          </div>
-        </Grid>
-      </header>
+          </Grid>
+        </header>
+      </div>
     );
   }
 }
