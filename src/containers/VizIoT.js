@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppTitle from '../components/AppTitle';
+import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from '../components/BeanUILibrary/CoverFlow';
@@ -73,6 +74,7 @@ class VizIoT extends React.Component {
       <div className="">
         {this.renderOverlayTitle(key)}
         <AppTitle subtitle={key} />
+        <AppTime />
         <div className={`tint-background ${background}`}>
           <CoverFlow
             onLeft={this.handleLeftArrow}

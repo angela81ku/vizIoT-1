@@ -26,7 +26,7 @@ export default createReducer(
       return {
         ...state,
         networkState: NetworkState.READY,
-        value: result.payload.devices,
+        value: {},
       };
     },
     [failureFetchDevices]: state => {

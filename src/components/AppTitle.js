@@ -8,18 +8,12 @@ class AppTitle extends React.Component {
     super(props);
   }
 
-  state = {
-    currentMoment: moment(),
-  };
+  state = {}
 
   componentWillUnmount() {
     clearInterval(this.interval);
     window.removeEventListener('scroll', this.handleScroll);
   }
-
-  updateTime = () => {
-    this.setState(() => ({ currentMoment: moment() }));
-  };
 
   handleScroll = event => {
     let scrollTop = window.scrollY;
@@ -51,14 +45,6 @@ class AppTitle extends React.Component {
               <h3>{this.props.subtitle}</h3>
             </div>
             <div className="appTitle__rightStuff">
-              <div className="appTitle__logo">
-                <i className="material-icons">visibility</i>
-                <h1>VizIoT</h1>
-              </div>
-
-              <div className="appTitle__time m-top-1">
-                <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
-              </div>
             </div>
           </Grid>
         </header>

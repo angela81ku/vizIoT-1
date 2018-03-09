@@ -1,0 +1,24 @@
+.appTime__wrapper {
+    position: fixed;
+    z-index: 10;
+
+    .appTitle__logo {
+        align-self: flex-start;
+        display: flex;
+        justify-content: flex-start;
+        color: $extra-light-color;
+
+        h1 {
+        margin-bottom: 0;
+        display: inline-block;
+        }
+        .material-icons {
+        font-size: 3.5rem;
+        padding-right: 1.0rem;
+        }
+    }
+
+    .appTitle__time {
+        color: $lighter-color;
+    }
+}
