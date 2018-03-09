@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux';
-import devices from '../reducers/devices';
+import devices from '../reducers/devices/devices';
 import aggregateSample from '../reducers/aggregateSampleReducer';
 import {
   startAnalyze,

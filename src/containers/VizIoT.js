@@ -16,14 +16,20 @@ const Tabs = {
   },
 };
 
+const tabOrder = [Tabs.OVERVIEW, Tabs.LOCATIONS];
 class VizIoT extends React.Component {
   state = {
-    currentTab: Tabs.OVERVIEW,
+    currentTab: 0,
     showTitle: true,
   };
 
+  getCurrentTabInfo() {
+    return tabOrder[this.state.currentTab];
+  }
+
   renderCurrentTab() {
-    switch (this.state.currentTab) {
+    let currentTabInfo = this.getCurrentTabInfo();
+    switch (currentTabInfo) {
       case Tabs.OVERVIEW:
         return <OverviewTab />;
       case Tabs.LOCATIONS:
@@ -47,28 +53,41 @@ class VizIoT extends React.Component {
     return null;
   }
 
-  render() {
-    const { key, background } = this.state.currentTab;
+  handleLeftArrow = () => {
+    this.setState(({ currentTab }) => ({
+      currentTab: --currentTab % tabOrder.length,
+    }));
+  };
 
+  handleRightArrow = () => {
+    this.setState(({ currentTab }) => ({
+      currentTab: ++currentTab % tabOrder.length,
+    }));
+  };
+
+  render() {
+    const { key, background } = this.getCurrentTabInfo();
+
+    console.log(key);
     return (
       <div className="">
         {this.renderOverlayTitle(key)}
         <AppTitle subtitle={key} />
-        <CoverFlow>
-          <div className="tint-background2">
-            <div />
-          </div>
-          <div className={`tint-background ${background}`}>
-            <div className="padded-container">
-              {this.renderCurrentTab()}
-
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
+        <div className={`tint-background ${background}`}>
+          <CoverFlow
+            onLeft={this.handleLeftArrow}
+            onRight={this.handleRightArrow}
+          >
+            <div key={key}>
+              <div className="padded-container">
+                {this.renderCurrentTab()}
+                <div className="large-spacer" />
+                <div className="large-spacer" />
+                <div className="large-spacer" />
+              </div>
             </div>
-          </div>
-        </CoverFlow>
+          </CoverFlow>
+        </div>
       </div>
     );
   }

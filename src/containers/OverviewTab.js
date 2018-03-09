@@ -9,8 +9,10 @@ import { analyzeAggregationByTime } from '../actions/analyzeActions';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {
-  selectAllDevices,
+  selectDeviceList,
   selectEntireNetwork,
+  selectLastSeen,
+  selectNumberOfConnections,
 } from '../selectors/deviceSelectors';
 import DeviceActivityChart from './DeviceActivityChart';
 import {
@@ -21,7 +23,7 @@ import { getDataKey } from '../utility/DataKey';
 import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
 import {
   hasAggregationData,
-  mapDeviceToHasData,
+  hasDataForKey,
 } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 
@@ -149,9 +151,13 @@ class OverviewTab extends React.Component {
   }
 
   render() {
-    const { devices } = this.props;
+    const { devices, deviceToNumConnection, lastSeen } = this.props;
+
     return (
       <div className="overview-tab">
+        <div className="tint-background2">
+          <div />
+        </div>
         <QuickFacts />
         <div className="small-spacer" />
         <Grid gutter={3}>
@@ -162,7 +168,11 @@ class OverviewTab extends React.Component {
                 RECENT DEVICES
               </h5>
               <FlexWrapper>
-                <DeviceList devices={devices} />
+                <DeviceList
+                  devices={devices}
+                  deviceToNumConnection={deviceToNumConnection}
+                  lastSeen={lastSeen}
+                />
               </FlexWrapper>
             </CardWrapper>
           </GridItem>
@@ -190,8 +200,10 @@ OverviewTab.defaultProps = {
 };
 
 OverviewTab.propTypes = {
-  device: PropTypes.array.isRequired,
+  devices: PropTypes.array.isRequired,
   devicesToHasData: PropTypes.object.isRequired,
+  deviceToNumConnection: PropTypes.object.isRequired,
+  lastSeen: PropTypes.object.isRequired,
   combinedNetworkDevice: PropTypes.object.isRequired,
   mainChartConfig: PropTypes.object.isRequired,
   singleDeviceChartConfig: PropTypes.object.isRequired,
@@ -203,8 +215,10 @@ const mapStateToProps = state => {
   const dataKey = getDataKey({ ...bucketConfig, selectionMode });
 
   return {
-    devices: selectAllDevices(state),
-    devicesToHasData: mapDeviceToHasData(state, dataKey),
+    devices: selectDeviceList(state),
+    devicesToHasData: hasDataForKey(state, dataKey),
+    deviceToNumConnection: selectNumberOfConnections(state),
+    lastSeen: selectLastSeen(state),
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
     singleDeviceChartConfig: singleDeviceChartConfig,

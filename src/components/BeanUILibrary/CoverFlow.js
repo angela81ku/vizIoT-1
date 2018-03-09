@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 class CoverFlow extends React.Component {
   constructor(props) {
@@ -8,17 +9,29 @@ class CoverFlow extends React.Component {
   }
 
   render() {
-    const { classNames, children } = this.props;
+    const { classNames, children, onLeft, onRight } = this.props;
 
     return (
       <div className={classnames('coverFlow', classNames)}>
-        <div className="coverFlow__leftButton coverFlow__button">
-          <i class="fas fa-angle-left" />
+        <div
+          className="coverFlow__leftButton coverFlow__button"
+          onClick={onLeft}
+        >
+          <i className="fas fa-angle-left" />
         </div>
-        <div className="coverFlow__rightButton coverFlow__button">
-          <i class="fas fa-angle-right" />
+        <div
+          className="coverFlow__rightButton coverFlow__button"
+          onClick={onRight}
+        >
+          <i className="fas fa-angle-right" />
         </div>
-        {children}
+        <CSSTransitionGroup
+          transitionName="carousel"
+          transitionEnterTimeout={2000}
+          transitionLeaveTimeout={2000}
+        >
+          {children}
+        </CSSTransitionGroup>
       </div>
     );
   }

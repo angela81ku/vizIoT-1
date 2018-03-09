@@ -1,17 +1,17 @@
-import NetworkState from '../constants/NetworkState';
+import NetworkState from '../../constants/NetworkState';
 import { createReducer } from 'redux-act';
 import {
   startFetchDevices,
   successFetchDevices,
   failureFetchDevices,
-} from '../actions/deviceActions';
+} from '../../actions/deviceActions';
+import MomentUnit from '../../constants/MomentUnit';
 
 const defaultState = {
-  devices: [],
-  entireNetwork: {
-    id: 123,
-    alias: 'Entire Network',
-    lastSeen: '1517177323000',
+  value: {},
+  refreshRate: {
+    unit: MomentUnit.SECONDS,
+    value: 1,
   },
   networkState: NetworkState.READY,
 };
@@ -26,7 +26,7 @@ export default createReducer(
       return {
         ...state,
         networkState: NetworkState.READY,
-        devices: result.payload.devices,
+        value: result.payload.devices,
       };
     },
     [failureFetchDevices]: state => {
