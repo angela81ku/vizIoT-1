@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Grid from './BeanUILibrary/Grid';
 import moment from 'moment';
 
-class AppTitle extends React.Component {
+class TabTitle extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  state = {}
+  state = {};
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -29,14 +29,14 @@ class AppTitle extends React.Component {
 
   render() {
     return (
-      <div className="appTitle__wrapper">
+      <div className="tabTitle__wrapper">
         <header
-          className={`appTitle fade ${(this.state.showShadow && 'showShadow') ||
+          className={`tabTitle fade ${(this.state.showShadow && 'showShadow') ||
             ''}`}
         >
           <Grid>
-            <div className="appTitle__leftPlaceholder" />
-            <div className="appTitle__title">
+            <div className="tabTitle__leftPlaceholder" />
+            <div className="tabTitle__title">
               <div>
                 <h3>
                   <strong>NETWORK</strong>
@@ -44,8 +44,7 @@ class AppTitle extends React.Component {
               </div>
               <h3>{this.props.subtitle}</h3>
             </div>
-            <div className="appTitle__rightStuff">
-            </div>
+            <div className="tabTitle__rightStuff" />
           </Grid>
         </header>
       </div>
@@ -53,8 +52,8 @@ class AppTitle extends React.Component {
   }
 }
 
-AppTitle.propTypes = {
+TabTitle.propTypes = {
   subtitle: PropTypes.string.isRequired,
 };
 
-export default AppTitle;
+export default TabTitle;

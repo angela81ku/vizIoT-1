@@ -34,18 +34,17 @@ class AppTime extends React.Component {
     return (
       <div className="appTime__wrapper">
         <div className="appTitle__logo">
-        <i className="material-icons">visibility</i>
-        <h1>VizIoT</h1>
+          <i className="material-icons p-right-1">visibility</i>
+          <h4>VizIoT</h4>
         </div>
         <div className="appTitle__time m-top-1">
-        <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
+          <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
         </div>
       </div>
     );
   }
 }
 
-AppTime.propTypes = {
-};
+AppTime.propTypes = {};
 
 export default AppTime;

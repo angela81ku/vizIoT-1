@@ -3,14 +3,14 @@ $short-title-height: 600px;
 
 $title-width: 100%;
 
-.appTitle__wrapper {
+.tabTitle__wrapper {
   position: fixed;
   width: 100%;
   z-index: 10;
   bottom: $short-title-height * -0.52;
   height: $short-title-height;
 
-  .appTitle {
+  .tabTitle {
     -webkit-transition: background 1s ease-in-out;
     -moz-transition: background 1s ease-in-out;
     -o-transition: background 1s ease-in-out;
@@ -48,7 +48,7 @@ $title-width: 100%;
       z-index: -2;
     }
 
-    .appTitle__title {
+    .tabTitle__title {
       margin-left: auto;
       margin-right: auto;
       text-align: center;
@@ -59,11 +59,11 @@ $title-width: 100%;
       }
     }
 
-    .appTitle__leftPlaceholder {
+    .tabTitle__leftPlaceholder {
       text-align: left;
       width: 30%;
     }
-    .appTitle__rightStuff {
+    .tabTitle__rightStuff {
       align-self: center;
       display: flex;
       flex-direction: column;
@@ -73,7 +73,7 @@ $title-width: 100%;
     }
   }
 
-  .appTitle.showShadow {
+  .tabTitle.showShadow {
     .flex-row {
       height: $short-title-height;
     }

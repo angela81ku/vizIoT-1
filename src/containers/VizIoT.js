@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppTitle from '../components/AppTitle';
+import AppTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
