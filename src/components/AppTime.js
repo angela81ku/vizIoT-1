@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from './BeanUILibrary/Grid';
 import moment from 'moment';
+import Sticky from './BeanUILibrary/Sticky';
 
 class AppTime extends React.Component {
   constructor(props) {
@@ -32,15 +31,15 @@ class AppTime extends React.Component {
 
   render() {
     return (
-      <div className="appTime__wrapper">
-        <div className="appTitle__logo">
+      <Sticky className="appTime__wrapper">
+        <div className="appTime__logo">
           <i className="material-icons p-right-1">visibility</i>
           <h4>VizIoT</h4>
         </div>
         <div className="appTitle__time m-top-1">
           <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
         </div>
-      </div>
+      </Sticky>
     );
   }
 }

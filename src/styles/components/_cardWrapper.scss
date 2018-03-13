@@ -2,11 +2,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
+
   width: 100%;
+  padding: 1rem;
+
   background: $card-color;
   box-shadow: $card-shadow;
   border-radius: 0.1875rem;
-  padding: 1rem;
 }
 
 .noShadow {

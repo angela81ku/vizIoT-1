@@ -1,4 +1,4 @@
-.just-center > .like-container  {
+.text-center > .like-container  {
   margin-left: auto;
   margin-right: auto;
 }
@@ -19,10 +19,6 @@
 
 .like-container.likeIsOff:hover  {
   animation-fill-mode: backwards;
-  -webkit-animation: beat 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: beat 2s; /* Firefox < 16 */
-  -ms-animation: beat 2s; /* Internet Explorer */
-  -o-animation: beat 2s; /* Opera < 12.1 */
   animation: beat 1s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -31,10 +27,6 @@
 .likeIsOn {
   color: $link-color;
   animation-fill-mode: backwards;
-  -webkit-animation: pop 0.5s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: pop 0.5s; /* Firefox < 16 */
-  -ms-animation: pop 0.5s; /* Internet Explorer */
-  -o-animation: pop 0.5s; /* Opera < 12.1 */
   animation: pop 0.5s;
   animation-iteration-count: 1;
   animation-timing-function: ease-in-out;

@@ -22,10 +22,10 @@ import {
 import { getDataKey } from '../utility/DataKey';
 import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
 import {
-  hasAggregationData,
   hasDataForKey,
 } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
+import SectionTitle from '../components/SectionTitle';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -107,10 +107,14 @@ class OverviewTab extends React.Component {
     const { singleDeviceChartConfig, devices, devicesToHasData } = this.props;
     const { bucketConfig, selectionMode } = singleDeviceChartConfig;
 
-    return devices.map(d => {
-      const { macAddr } = d;
-      const dataKey = getDataKey({ ...bucketConfig, selectionMode });
-      if (devicesToHasData[d.macAddr]) {
+    const listOfGraphs = devices
+      .filter(d => {
+        return devicesToHasData[d.macAddr];
+      })
+      .map(d => {
+        const { macAddr } = d;
+        const dataKey = getDataKey({ ...bucketConfig, selectionMode });
+
         return (
           <GridItem
             key={macAddr}
@@ -126,9 +130,9 @@ class OverviewTab extends React.Component {
             />
           </GridItem>
         );
-      }
-      return null;
-    });
+      });
+
+    return listOfGraphs.length ? <Grid gutter={1}>{listOfGraphs}</Grid> : null;
   }
 
   renderMainChart() {
@@ -163,10 +167,7 @@ class OverviewTab extends React.Component {
         <Grid gutter={3}>
           <GridItem size={{ md: 12, lg: 3 }}>
             <CardWrapper noShadow={true}>
-              <h5 className="wide-letter cardTitle">
-                {/*<i className="material-icons m-right-2">access_time</i>*/}
-                RECENT DEVICES
-              </h5>
+              <SectionTitle title="RECENT DEVICES" />
               <FlexWrapper>
                 <DeviceList
                   devices={devices}
@@ -178,16 +179,11 @@ class OverviewTab extends React.Component {
           </GridItem>
           <GridItem size={{ md: 12, lg: 9 }}>
             <CardWrapper>
-              <h5 className="wide-letter cardTitle">
-                {/*<i className="material-icons m-right-2">trending_up</i>*/}
-                ACTIVITY
-              </h5>
+              <SectionTitle title="ACTIVITY" />
               {this.renderMainChart()}
             </CardWrapper>
             <div className="small-spacer" />
-            <CardWrapper>
-              <Grid gutter={1}>{this.renderSingleDeviceCharts()}</Grid>
-            </CardWrapper>
+            <CardWrapper>{this.renderSingleDeviceCharts()}</CardWrapper>
           </GridItem>
         </Grid>
       </div>
