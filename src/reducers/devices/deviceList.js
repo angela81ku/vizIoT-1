@@ -21,7 +21,12 @@ export default createReducer(
       return {
         ...state,
         networkState: NetworkState.READY,
-        value: result.payload.devices,
+        value: result.payload.devices.map(d => {
+          return {
+            ...d,
+            macAddr: d.macAddress,
+          }
+        }),
       };
     },
     [failureFetchDevices]: state => {
