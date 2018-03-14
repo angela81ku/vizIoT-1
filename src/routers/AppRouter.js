@@ -9,7 +9,7 @@ const AppRouter = () => (
     <Switch>
       <Route path="/" component={VizIoT} exact={true} />
       <Route path="/404" component={NotFoundPage} />
-      <Route component={NotFoundPage} />
+      <Route component={VizIoT} />
     </Switch>
   </HashRouter>
 );
