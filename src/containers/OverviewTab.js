@@ -111,7 +111,7 @@ class OverviewTab extends React.Component {
       })
       .map(d => {
         const { macAddr } = d;
-        const dataKey = getDataKey({ ...bucketConfig, selectionMode });
+        const dataKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
         return (
           <GridItem
@@ -136,13 +136,14 @@ class OverviewTab extends React.Component {
   renderMainChart() {
     const { combinedNetworkDevice, mainChartConfig } = this.props;
     const { bucketConfig, selectionMode } = mainChartConfig;
+
     return (
       <DeviceActivityChart
         className="main-chart"
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
         dataKey={getDataKey({
-          ...bucketConfig,
+          ...bucketConfig.toJS(),
           selectionMode,
           macAddresses: [],
         })}
@@ -206,7 +207,7 @@ OverviewTab.propTypes = {
 const mapStateToProps = state => {
   const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
   const { bucketConfig, selectionMode } = singleDeviceChartConfig;
-  const deviceGraphKey = getDataKey({ ...bucketConfig, selectionMode });
+  const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
   return {
     devices: selectDeviceList(state),

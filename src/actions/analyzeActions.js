@@ -30,14 +30,17 @@ export const analyzeAggregationByTime = (
   startAnalyze();
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_TIME];
 
+  let bucketConfigJS = bucketConfig.toJS();
+
   const requestBody = new REQUEST_RECORD({
     selectionMode,
     macAddresses,
-    ...bucketConfig,
+    ...bucketConfigJS,
     startMS,
     endMS,
   });
 
+  // debugger
   return new Promise(resolve => {
     call(requestBody, networkId)
       .then(resolve)
@@ -51,7 +54,7 @@ export const analyzeAggregationByTime = (
       chartConfig: {
         selectionMode,
         macAddresses,
-        ...bucketConfig,
+        ...bucketConfigJS,
         startMS,
         endMS,
       },
