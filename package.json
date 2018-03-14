@@ -7,7 +7,8 @@
   "scripts": {
     "serve": "live-server public/",
     "build": "webpack",
-    "dev-server": "webpack-dev-server"
+    "dev-server": "webpack-dev-server",
+    "deploy": "node githubpages.js"
   },
   "dependencies": {
     "autoprefixer": "^8.1.0",
@@ -39,6 +40,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.6.1",
     "fs": "^0.0.1-security",
+    "gh-pages": "^1.1.0",
     "immutable": "4.0.0-rc.9",
     "keymirror": "^0.1.1",
     "live-server": "^1.2.0",
