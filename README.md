@@ -6,7 +6,7 @@
   <p align=center>A React + d3 data visualization.</p>
   <p align=center>Visually illustrates Internet of Things (IoT) network traffic behavior and patterns.</p>
 </div>
-
+[https://beanrider.github.io/VizIoT/#/](https://beanrider.github.io/VizIoT/#/)
 <br />
 
 ### 📦 Setup & Run
