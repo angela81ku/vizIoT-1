@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from './BeanUILibrary/Grid';
-import moment from 'moment';
 
 class TabTitle extends React.Component {
   constructor(props) {
@@ -29,7 +28,7 @@ class TabTitle extends React.Component {
 
   render() {
     return (
-      <div className="tabTitle__wrapper">
+      <div className={`tabTitle__wrapper ${this.props.show ? 'show' : ''}`}>
         <header
           className={`tabTitle fade ${(this.state.showShadow && 'showShadow') ||
             ''}`}
@@ -54,6 +53,7 @@ class TabTitle extends React.Component {
 
 TabTitle.propTypes = {
   subtitle: PropTypes.string.isRequired,
+  show: PropTypes.bool,
 };
 
 export default TabTitle;

@@ -3,7 +3,13 @@ $short-title-height: 600px;
 
 $title-width: 100%;
 
+.tabTitle__wrapper.show {
+  transform: translateY(0);
+}
+
 .tabTitle__wrapper {
+  transition: transform 1s ease-in-out;
+  transform: translateY($short-title-height * 0.48);
   position: fixed;
   width: 100%;
   z-index: 10;
@@ -11,9 +17,6 @@ $title-width: 100%;
   height: $short-title-height;
 
   .tabTitle {
-    -webkit-transition: background 1s ease-in-out;
-    -moz-transition: background 1s ease-in-out;
-    -o-transition: background 1s ease-in-out;
     transition: background 1s ease-in-out;
 
     //padding: $main-app-padding;

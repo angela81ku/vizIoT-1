@@ -6,18 +6,20 @@ $button-font-size: 3.4rem;
   .coverFlow__button {
     padding: 5px;
     font-size: $button-font-size;
-    -webkit-transition: all 0.3s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-transition: all 0.3s; /* Firefox < 16 */
-    -o-transition: all 0.3s; /* Opera < 12.1 */
-    transition: all 0.3s;
+    transition: all 0.2s;
     transition-timing-function: ease-in-out;
     color: $body-text-color-lighter;
     z-index: 1;
   }
+
   .coverFlow__button:hover {
     cursor: pointer;
     transform: scale(1.2, 1.2);
     color: white;
+  }
+
+  .coverFlow__button:active {
+    transform: scale(0.92, 0.92);
   }
 
   .coverFlow__leftButton {

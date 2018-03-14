@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BarChart from './d3/BarChart';
-import DataWindowUnit from '../constants/MomentUnit';
+import MomentUnit from '../constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from '../data/records/Spacing';
 import FlexWrapper from './BeanUILibrary/FlexWrapper';
@@ -22,7 +22,7 @@ class BarGraphCard extends React.Component {
           <BarChart
             data={data}
             dataWindowSize={dataWindowSize}
-            dataWindowUnit={DataWindowUnit.SECONDS}
+            dataWindowUnit={MomentUnit.SECONDS}
             dimension={{
               width: 0,
               height: 0,

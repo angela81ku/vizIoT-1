@@ -21,9 +21,7 @@ import {
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
 import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
-import {
-  hasDataForKey,
-} from '../selectors/aggregateSampleSelector';
+import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 
@@ -208,11 +206,11 @@ OverviewTab.propTypes = {
 const mapStateToProps = state => {
   const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
   const { bucketConfig, selectionMode } = singleDeviceChartConfig;
-  const dataKey = getDataKey({ ...bucketConfig, selectionMode });
+  const deviceGraphKey = getDataKey({ ...bucketConfig, selectionMode });
 
   return {
     devices: selectDeviceList(state),
-    devicesToHasData: hasDataForKey(state, dataKey),
+    devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),
     lastSeen: selectLastSeen(state),
     combinedNetworkDevice: selectEntireNetwork(state),

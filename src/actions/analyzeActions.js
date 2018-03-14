@@ -1,10 +1,24 @@
 import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
+import DeviceDimension from '../data/dimensions/DeviceDimension';
+import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
 
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
 export const failureAnalyze = createAction();
 
+export const startAnalyzeLocation = createAction();
+export const successAnalyzeLocation = createAction();
+export const failureAnalyzeLocation = createAction();
+
+export const startAnalyzeDevice = createAction();
+export const successAnalyzeDevice = createAction();
+export const failureAnalyzeDevice = createAction();
+
+/**
+ * dimensions: ['seconds']
+ * metrics: ['connections']
+ */
 export const analyzeAggregationByTime = (
   networkId,
   selectionMode,
@@ -14,9 +28,7 @@ export const analyzeAggregationByTime = (
   endMS
 ) => {
   startAnalyze();
-  const { call, REQUEST_RECORD } = analyzeApi[
-    analyzeApiKeys.analyzeAggregationByTime
-  ];
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_TIME];
 
   const requestBody = new REQUEST_RECORD({
     selectionMode,
@@ -30,13 +42,9 @@ export const analyzeAggregationByTime = (
     call(requestBody, networkId)
       .then(resolve)
       .catch(error => {
-        console.log(
-          `failed to aggregateDataByTime for ${requestBody.toJS()}: ${error}`
-        );
         failureAnalyze();
       });
   }).then(res => {
-    console.log(`successfully aggregateDataByTime for ${requestBody.toJS()}`);
     successAnalyze({
       payload: res.data,
       requestBody,
@@ -51,44 +59,76 @@ export const analyzeAggregationByTime = (
   });
 };
 
+/**
+ * dimensions: ['location']
+ * metrics: ['connections']
+ */
 // x: Location
 // y: [props]
 export const analyzeAggregationByLocation = (
   networkId,
-  deviceId,
-  bucketConfig,
+  selectionMode,
   startMS,
   endMS
 ) => {
-  startAnalyze();
-  return new Promise(resolve => {
-    const { call, REQUEST_RECORD } = analyzeApi[
-      analyzeApiKeys.analyzeAggregationByLocation
-    ];
+  startAnalyzeLocation();
 
-    call(
-      new REQUEST_RECORD({
-        forNetwork: networkId,
-        forDevice: deviceId,
-        ...bucketConfig,
-        startMS,
-        endMS,
-      }),
-      networkId
-    )
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_LOCATION];
+
+  const requestBody = new REQUEST_RECORD({
+    dimensions: [DeviceDimension.DOMAIN],
+    metrics: [ConnectionMetric.HITS],
+    selectionMode,
+    startMS,
+    endMS,
+  });
+
+  return new Promise(resolve => {
+    call(requestBody, networkId)
       .then(resolve)
       .catch(error => {
-        console.log(
-          `failed to aggregateDataByLocation for ${deviceId}: ${error}`
-        );
-        failureAnalyze();
+        failureAnalyzeLocation(error);
       });
   }).then(res => {
-    console.log(`successfully aggregateDataByTime for ${deviceId}`);
-    successAnalyze({
+    successAnalyzeLocation({
       payload: res.data,
-      deviceId,
-      bucketConfig,
+      request: requestBody,
+    });
+  });
+};
+
+/**
+ * dimensions: ['device']
+ * metrics: ['connections']
+ */
+export const analyzeAggregationByDevice = (
+  networkId,
+  selectionMode,
+  startMS,
+  endMS
+) => {
+  startAnalyzeDevice();
+
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_DEVICE];
+
+  const requestBody = new REQUEST_RECORD({
+    dimensions: [DeviceDimension.MAC],
+    metrics: [ConnectionMetric.HITS],
+    selectionMode,
+    startMS,
+    endMS,
+  });
+
+  return new Promise(resolve => {
+    call(requestBody, networkId)
+      .then(resolve)
+      .catch(error => {
+        failureAnalyzeDevice(error);
+      });
+  }).then(res => {
+    successAnalyzeDevice({
+      payload: res.data,
+      request: requestBody,
     });
   });
 };

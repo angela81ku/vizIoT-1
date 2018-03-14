@@ -1,8 +1,7 @@
-const MomentUnit = {
+const TimeDimension = {
   MINUTES: 'minutes',
   SECONDS: 'seconds',
   HOURS: 'hours',
   DAYS: 'days',
 };
-
-export default MomentUnit;
+export default TimeDimension;

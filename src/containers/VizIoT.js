@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppTitle from '../components/TabTitle';
+import TabTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
@@ -12,7 +12,7 @@ const Tabs = {
     background: '',
   },
   LOCATIONS: {
-    key: 'LOCATIONS',
+    key: 'GEOGRAPHY',
     background: 'location-bubble-tab-background',
   },
 };
@@ -22,6 +22,7 @@ class VizIoT extends React.Component {
   state = {
     currentTab: 0,
     showTitle: true,
+    scheduler: null,
   };
 
   getCurrentTabInfo() {
@@ -39,31 +40,43 @@ class VizIoT extends React.Component {
     return <OverviewTab />;
   }
 
+  scheduleHideTitle = () => {
+    const { scheduler } = this.state;
+    scheduler && clearTimeout(scheduler);
+
+    this.setState(() => ({
+      scheduler: setTimeout(() => {
+        this.setState({
+          showTitle: false,
+        });
+      }, 6000),
+    }));
+  };
+
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        showTitle: false,
-      });
-    }, 3000);
+    this.scheduleHideTitle();
   }
 
-  renderOverlayTitle(key) {
-    if (this.state.showTitle) {
-      return null;
-    }
-    return null;
+  renderTitle(key) {
+    return <TabTitle subtitle={key} show={this.state.showTitle} />;
   }
 
   handleLeftArrow = () => {
     this.setState(({ currentTab }) => ({
-      currentTab: --currentTab % tabOrder.length,
+      currentTab: --currentTab < 0 ? tabOrder.length - 1 : currentTab,
+      showTitle: true,
+      scheduler: null,
     }));
+    this.scheduleHideTitle();
   };
 
   handleRightArrow = () => {
-    this.setState(({ currentTab }) => ({
+    this.setState(({ currentTab, scheduler }) => ({
       currentTab: ++currentTab % tabOrder.length,
+      showTitle: true,
+      scheduler: null,
     }));
+    this.scheduleHideTitle();
   };
 
   render() {
@@ -71,9 +84,8 @@ class VizIoT extends React.Component {
 
     console.log(key);
     return (
-      <div className="">
-        {this.renderOverlayTitle(key)}
-        <AppTitle subtitle={key} />
+      <div>
+        {this.renderTitle(key)}
         <AppTime />
         <div className={`tint-background ${background}`}>
           <CoverFlow
@@ -83,7 +95,6 @@ class VizIoT extends React.Component {
             <div key={key}>
               <div className="padded-container">
                 {this.renderCurrentTab()}
-                <div className="large-spacer" />
                 <div className="large-spacer" />
                 <div className="large-spacer" />
               </div>

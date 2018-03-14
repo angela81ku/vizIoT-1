@@ -5,6 +5,12 @@ import {
   startAnalyze,
   successAnalyze,
   failureAnalyze,
+  startAnalyzeLocation,
+  successAnalyzeLocation,
+  failureAnalyzeLocation,
+  startAnalyzeDevice,
+  successAnalyzeDevice,
+  failureAnalyzeDevice,
 } from '../actions/analyzeActions';
 import {
   startFetchDevices,
@@ -28,6 +34,14 @@ export default () => {
   startAnalyze.assignTo(store);
   successAnalyze.assignTo(store);
   failureAnalyze.assignTo(store);
+
+  startAnalyzeLocation.assignTo(store);
+  successAnalyzeLocation.assignTo(store);
+  failureAnalyzeLocation.assignTo(store);
+
+  startAnalyzeDevice.assignTo(store);
+  successAnalyzeDevice.assignTo(store);
+  failureAnalyzeDevice.assignTo(store);
 
   startFetchDevices.assignTo(store);
   successFetchDevices.assignTo(store);

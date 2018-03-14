@@ -1,24 +1,28 @@
 import { createReducer } from 'redux-act';
 import BucketUnit from '../constants/BucketUnit';
 import SelectionMode from '../constants/SelectionMode';
+import BucketProperty from '../constants/BucketProperty';
+import { BucketRecord } from '../data/records/BucketConfig';
 
 const defaultState = {
   mainChartConfig: {
-    bucketConfig: {
+    bucketConfig: new BucketRecord({
       bucketSize: 1,
-      bucketProps: ['ACTIVITY_COUNT'],
+      bucketProps: [BucketProperty.ACTIVITY_COUNT],
       bucketUnit: BucketUnit.SECOND,
-    },
+    }),
     selectionMode: SelectionMode.COMBINED,
     dataWindowSize: 4 * 60,
   },
 
+  // analyzeAggregationByDevice
+
   singleDeviceChartConfig: {
-    bucketConfig: {
+    bucketConfig: new BucketRecord({
       bucketSize: 1,
-      bucketProps: ['ACTIVITY_COUNT'],
+      bucketProps: [BucketProperty.ACTIVITY_COUNT],
       bucketUnit: BucketUnit.SECOND,
-    },
+    }),
     selectionMode: SelectionMode.INDIVIDUAL,
     dataWindowSize: 60,
   },
