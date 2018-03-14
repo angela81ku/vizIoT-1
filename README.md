@@ -6,8 +6,8 @@
   <p align=center>A React + d3 data visualization.</p>
   <p align=center>Visually illustrates Internet of Things (IoT) network traffic behavior and patterns.</p>
 </div>
-[live demo](https://beanrider.github.io/VizIoT/#/)
 <br />
+[live demo](https://beanrider.github.io/VizIoT/#/)
 
 ### 📦 Setup & Run
 1. `yarn`
