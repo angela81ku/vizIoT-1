@@ -7,7 +7,9 @@
   <p align=center>Visually illustrates Internet of Things (IoT) network traffic behavior and patterns.</p>
 </div>
 <br />
-[live demo](https://beanrider.github.io/VizIoT/#/)
+
+### :rocket: Demo
+https://beanrider.github.io/VizIoT/
 
 ### 📦 Setup & Run
 1. `yarn`
