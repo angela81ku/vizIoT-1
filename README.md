@@ -8,7 +8,7 @@
 </div>
 <br />
 
-### :rocket: Demo
+### :rocket: Demo (Work in Progress)
 https://beanrider.github.io/VizIoT/
 
 ### 📦 Setup & Run
