@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-act';
 import BucketUnit from '../constants/BucketUnit';
-import SelectionMode from '../constants/SelectionMode';
+import SelectionMode from '../constants/DataReducerTypes';
 import BucketProperty from '../constants/BucketProperty';
 import { BucketRecord } from '../data/records/BucketConfig';
 

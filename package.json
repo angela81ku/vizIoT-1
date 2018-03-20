@@ -68,7 +68,8 @@
     "tinygradient": "^0.3.1",
     "uuid": "^3.1.0",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.9.7",
+    "lodash": "latest"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

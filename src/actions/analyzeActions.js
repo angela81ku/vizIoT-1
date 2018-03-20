@@ -7,9 +7,9 @@ export const startAnalyze = createAction();
 export const successAnalyze = createAction();
 export const failureAnalyze = createAction();
 
-export const startAnalyzeLocation = createAction();
-export const successAnalyzeLocation = createAction();
-export const failureAnalyzeLocation = createAction();
+export const startCoreAnalyze = createAction();
+export const successCoreAnalyze = createAction();
+export const failureCoreAnalyze = createAction();
 
 export const startAnalyzeDevice = createAction();
 export const successAnalyzeDevice = createAction();
@@ -68,34 +68,29 @@ export const analyzeAggregationByTime = (
  */
 // x: Location
 // y: [props]
-export const analyzeAggregationByLocation = (
-  networkId,
-  selectionMode,
-  startMS,
-  endMS
-) => {
-  startAnalyzeLocation();
+export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
+  startCoreAnalyze();
 
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_LOCATION];
 
   const requestBody = new REQUEST_RECORD({
     dimensions: [DeviceDimension.DOMAIN],
     metrics: [ConnectionMetric.HITS],
-    selectionMode,
-    startMS,
-    endMS,
+    reducer,
+    startTime,
+    endTime,
   });
 
   return new Promise(resolve => {
-    call(requestBody, networkId)
+    call(requestBody)
       .then(resolve)
       .catch(error => {
-        failureAnalyzeLocation(error);
+        failureCoreAnalyze(error);
       });
   }).then(res => {
-    successAnalyzeLocation({
+    successCoreAnalyze({
       payload: res.data,
-      request: requestBody,
+      requestBody,
     });
   });
 };
@@ -131,7 +126,7 @@ export const analyzeAggregationByDevice = (
   }).then(res => {
     successAnalyzeDevice({
       payload: res.data,
-      request: requestBody,
+      requestBody,
     });
   });
 };

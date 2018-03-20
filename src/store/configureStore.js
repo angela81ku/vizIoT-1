@@ -5,9 +5,9 @@ import {
   startAnalyze,
   successAnalyze,
   failureAnalyze,
-  startAnalyzeLocation,
-  successAnalyzeLocation,
-  failureAnalyzeLocation,
+  startCoreAnalyze,
+  successCoreAnalyze,
+  failureCoreAnalyze,
   startAnalyzeDevice,
   successAnalyzeDevice,
   failureAnalyzeDevice,
@@ -35,9 +35,9 @@ export default () => {
   successAnalyze.assignTo(store);
   failureAnalyze.assignTo(store);
 
-  startAnalyzeLocation.assignTo(store);
-  successAnalyzeLocation.assignTo(store);
-  failureAnalyzeLocation.assignTo(store);
+  startCoreAnalyze.assignTo(store);
+  successCoreAnalyze.assignTo(store);
+  failureCoreAnalyze.assignTo(store);
 
   startAnalyzeDevice.assignTo(store);
   successAnalyzeDevice.assignTo(store);

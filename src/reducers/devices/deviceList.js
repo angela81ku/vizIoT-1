@@ -25,7 +25,7 @@ export default createReducer(
           return {
             ...d,
             macAddr: d.macAddress,
-          }
+          };
         }),
       };
     },

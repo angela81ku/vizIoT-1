@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { headers, baseUrl } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
-import keyMirror from 'keyMirror';
-import SelectionMode from '../../constants/SelectionMode';
+import DataReducerTypes from '../../constants/DataReducerTypes';
+import AnalyticsRequest from '../records/AnalyticsRequest';
+import GeoDimension from '../dimensions/GeoDimension';
+import { ConnectionMetric } from '../metrics/ConnectionMetric';
+import DateConstants from '../../constants/DateConstants';
 
-const analyzeAggregationByTime = (payloadRecord, networkId) => {
-  const url = `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByTime`;
-
+const postCallWithRecord = (payloadRecord, url) => {
   return axios({
     method: 'post',
     url,
@@ -15,29 +16,29 @@ const analyzeAggregationByTime = (payloadRecord, networkId) => {
   });
 };
 
-const analyzeAggregationByLocation = (payloadRecord, networkId) => {
-  const url = `${baseUrl}/api/network/${networkId}/analyze/aggregateDataByLocation`;
+const analyzeAggregationCore = payloadRecord => {
+  return postCallWithRecord(payloadRecord, `${baseUrl}/api/analyze/core`);
+};
 
-  return axios({
-    method: 'post',
-    url,
-    headers,
-    data: payloadRecord.toJS(),
-  });
+const analyzeAggregationByTime = (payloadRecord, networkId) => {
+  return postCallWithRecord(
+    payloadRecord,
+    `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByTime`
+  );
+};
+
+const analyzeAggregationByLocation = payloadRecord => {
+  return analyzeAggregationCore(payloadRecord);
 };
 
 const analyzeAggregationByDevice = (payloadRecord, networkId) => {
-  const url = `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByDevice`;
-
-  return axios({
-    method: 'post',
-    url,
-    headers,
-    data: payloadRecord.toJS(),
-  });
+  return postCallWithRecord(
+    payloadRecord`${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByDevice`
+  );
 };
 
 export const analyzeApiKeys = {
+  CORE: 'analyzeAggregationCore',
   BY_TIME: 'analyzeAggregationByTime',
   BY_LOCATION: 'analyzeAggregationByLocation',
   BY_DEVICE: 'analyzeAggregationByDevice',
@@ -48,7 +49,7 @@ export const analyzeApi = {
   [analyzeApiKeys.BY_TIME]: {
     call: analyzeAggregationByTime,
     REQUEST_RECORD: new Record({
-      selectionMode: SelectionMode.COMBINED,
+      selectionMode: DataReducerTypes.COMBINED,
       macAddresses: [],
       bucketSize: 1,
       bucketProps: [],
@@ -60,12 +61,23 @@ export const analyzeApi = {
   // Within a time range: for each device, for each location, give me a tally for [bucketProps]
   [analyzeApiKeys.BY_LOCATION]: {
     call: analyzeAggregationByLocation,
-    REQUEST_RECORD: new Record({
+    REQUEST_RECORD: new AnalyticsRequest({
+      dimensions: [GeoDimension.DOMAIN],
+      metrics: [ConnectionMetric.HITS],
+      reducer: DataReducerTypes.INDIVIDUAL,
+      startTime: DateConstants.NOW,
+      endTime: DateConstants.TODAY,
+    }),
+  },
+
+  [analyzeApiKeys.CORE]: {
+    call: analyzeAggregationCore,
+    REQUEST_RECORD: new AnalyticsRequest({
       dimensions: [],
       metrics: [],
-      selectionMode: SelectionMode.COMBINED,
-      startMS: 0,
-      endMS: 0,
+      reducer: DataReducerTypes.INDIVIDUAL,
+      startTime: DateConstants.NOW,
+      endTime: DateConstants.TODAY,
     }),
   },
 
@@ -75,7 +87,7 @@ export const analyzeApi = {
     REQUEST_RECORD: new Record({
       dimensions: [],
       metrics: [],
-      selectionMode: SelectionMode.COMBINED,
+      selectionMode: DataReducerTypes.COMBINED,
       startMS: 0,
       endMS: 0,
     }),
