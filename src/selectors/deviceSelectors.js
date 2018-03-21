@@ -24,3 +24,18 @@ export const selectNumberOfConnections = ({
 }) => {
   return value;
 };
+
+export const selectBusiestDevice = (state) => {
+  const map = selectNumberOfConnections(state);
+  const mostPopularEntry = Object.keys(map).reduce((acc, k) => {
+    let value = map[k];
+    if (value > acc.value) {
+      return {
+        name: k,
+        value,
+      };
+    }
+    return acc;
+  }, { name: '~', value: 0 });
+  return mostPopularEntry;
+};

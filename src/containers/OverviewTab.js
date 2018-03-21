@@ -5,7 +5,7 @@ import GridItem from '../components/BeanUILibrary/GridItem';
 import CardWrapper from '../components/BeanUILibrary/CardWrapper';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
-import { analyzeAggregationByTime } from '../actions/analyzeActions';
+import { analyzeAggregationByDevice, analyzeAggregationByTime } from '../actions/analyzeActions';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {

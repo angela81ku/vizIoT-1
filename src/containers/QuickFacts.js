@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectNumberOfDevices } from '../selectors/deviceSelectors';
+import { selectBusiestDevice, selectNumberOfConnections, selectNumberOfDevices } from '../selectors/deviceSelectors';
 import Grid from '../components/BeanUILibrary/Grid';
 import GridItem from '../components/BeanUILibrary/GridItem';
 import DataWell from '../components/BeanUILibrary/DataWell';
@@ -70,7 +70,7 @@ const mapStateToProps = state => {
   return {
     numberOfDevices: selectNumberOfDevices(state),
     percentOfHttpConnections: `${0.5 * 100}%`,
-    busiestDevice: { name: 'XiaoMi' },
+    busiestDevice: selectBusiestDevice(state),
     mostContactedHost: 'Google',
   };
 };

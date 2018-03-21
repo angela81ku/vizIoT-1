@@ -25,15 +25,15 @@ const fakeResponse = {
     data: {
       rows: [
         {
-          dimensions: ['mac1'],
+          dimensions: ['0:17:88:68:5f:61'],
           metrics: ['20'],
         },
         {
-          dimensions: ['mac2'],
+          dimensions: ['fc:65:de:5f:15:a'],
           metrics: ['50'],
         },
         {
-          dimensions: ['mac3'],
+          dimensions: ['18:74:2e:41:4d:35'],
           metrics: ['34'],
         },
       ],
@@ -65,7 +65,7 @@ export default createReducer(
         value: convertData(requestBody, payload),
       };
     },
-    [failureAnalyzeDevice]: (state, error, { requestBody, payload }) => {
+    [failureAnalyzeDevice]: (state, { requestBody, payload }) => {
       return {
         ...state,
         networkState: NetworkState.READY,

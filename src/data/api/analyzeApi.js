@@ -35,7 +35,8 @@ const analyzeAggregationByLocation = payloadRecord => {
 
 const analyzeAggregationByDevice = (payloadRecord, networkId) => {
   return postCallWithRecord(
-    payloadRecord`${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByDevice`
+    payloadRecord,
+    `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByDevice`
   );
 };
 

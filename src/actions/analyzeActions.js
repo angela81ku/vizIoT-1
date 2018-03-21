@@ -109,24 +109,16 @@ export const analyzeAggregationByDevice = (
 
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_DEVICE];
 
-  const requestBody = new REQUEST_RECORD({
-    dimensions: [DeviceDimension.MAC],
-    metrics: [ConnectionMetric.HITS],
-    reducer,
-    startTime,
-    endTime,
-  });
-
   return new Promise(resolve => {
-    call(requestBody, networkId)
+    call(REQUEST_RECORD, networkId)
       .then(resolve)
       .catch(error => {
-        failureAnalyzeDevice(error, {});
+        failureAnalyzeDevice({ error, requestBody: REQUEST_RECORD, payload: {} });
       });
   }).then(res => {
     successAnalyzeDevice({
       payload: res.data,
-      requestBody,
+      requestBody: REQUEST_RECORD,
     });
   });
 };
