@@ -101,9 +101,9 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
  */
 export const analyzeAggregationByDevice = (
   networkId,
-  selectionMode,
-  startMS,
-  endMS
+  reducer,
+  startTime,
+  endTime
 ) => {
   startAnalyzeDevice();
 
@@ -112,16 +112,16 @@ export const analyzeAggregationByDevice = (
   const requestBody = new REQUEST_RECORD({
     dimensions: [DeviceDimension.MAC],
     metrics: [ConnectionMetric.HITS],
-    selectionMode,
-    startMS,
-    endMS,
+    reducer,
+    startTime,
+    endTime,
   });
 
   return new Promise(resolve => {
     call(requestBody, networkId)
       .then(resolve)
       .catch(error => {
-        failureAnalyzeDevice(error);
+        failureAnalyzeDevice(error, {});
       });
   }).then(res => {
     successAnalyzeDevice({

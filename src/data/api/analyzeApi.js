@@ -5,7 +5,9 @@ import DataReducerTypes from '../../constants/DataReducerTypes';
 import AnalyticsRequest from '../records/AnalyticsRequest';
 import GeoDimension from '../dimensions/GeoDimension';
 import { ConnectionMetric } from '../metrics/ConnectionMetric';
-import DateConstants from '../../constants/DateConstants';
+import { DateConstants } from '../../constants/DateConstants';
+import { convertDateTypeToString } from '../../utility/TimeUtility';
+import DeviceDimension from '../dimensions/DeviceDimension';
 
 const postCallWithRecord = (payloadRecord, url) => {
   return axios({
@@ -65,8 +67,8 @@ export const analyzeApi = {
       dimensions: [GeoDimension.DOMAIN],
       metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
-      startTime: DateConstants.NOW,
-      endTime: DateConstants.TODAY,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
   },
 
@@ -74,22 +76,22 @@ export const analyzeApi = {
     call: analyzeAggregationCore,
     REQUEST_RECORD: new AnalyticsRequest({
       dimensions: [],
-      metrics: [],
+      metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
-      startTime: DateConstants.NOW,
-      endTime: DateConstants.TODAY,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
   },
 
   // Within a time range: for each device, give me a tally for [bucketProps]
   [analyzeApiKeys.BY_DEVICE]: {
     call: analyzeAggregationByDevice,
-    REQUEST_RECORD: new Record({
-      dimensions: [],
-      metrics: [],
-      selectionMode: DataReducerTypes.COMBINED,
-      startMS: 0,
-      endMS: 0,
+    REQUEST_RECORD: new AnalyticsRequest({
+      dimensions: [DeviceDimension.MAC],
+      metrics: [ConnectionMetric.HITS],
+      reducer: DataReducerTypes.COMBINED,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
   },
 };

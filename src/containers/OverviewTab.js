@@ -47,6 +47,11 @@ class OverviewTab extends React.Component {
     );
   }
 
+  fetchDeviceConnectionCount() {
+    const { networkId } = this.props;
+    analyzeAggregationByDevice(networkId);
+  }
+
   fetchSingleDeviceTrafficData(macAddr) {
     const { singleDeviceChartConfig, networkId } = this.props;
 
@@ -90,6 +95,7 @@ class OverviewTab extends React.Component {
       devices.forEach(({ macAddr }) => {
         this.fetchSingleDeviceTrafficData(macAddr);
       });
+      this.fetchDeviceConnectionCount();
     }, DATA_REFRESH_DELAY_MS);
 
     this.setState(() => ({
