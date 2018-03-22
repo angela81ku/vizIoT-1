@@ -103,10 +103,7 @@ export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
     call(REQUEST_RECORD)
       .then(resolve)
       .catch(error => {
-        failureMacToHits({
-          requestBody: REQUEST_RECORD,
-          payload: { report: { data: error.response.data } },
-        });
+        failureMacToHits();
       });
   }).then(res => {
     successMacToHits({
