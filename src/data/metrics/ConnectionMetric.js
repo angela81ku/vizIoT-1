@@ -1,7 +1,9 @@
 import DataType from '../DataType';
 
 export const ConnectionMetric = {
-  HITS: 'hits',
+  HITS: 'hit',
+  PERCENT_SECURED: 'percentSecured',
+  PERCENT_UNSECURED: 'percentUnsecured',
 };
 
 export const metricToDataType = {

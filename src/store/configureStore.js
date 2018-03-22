@@ -8,9 +8,9 @@ import {
   startCoreAnalyze,
   successCoreAnalyze,
   failureCoreAnalyze,
-  startAnalyzeDevice,
-  successAnalyzeDevice,
-  failureAnalyzeDevice,
+  startMacToHits,
+  successMacToHits,
+  failureMacToHits,
 } from '../actions/analyzeActions';
 import {
   startFetchDevices,
@@ -41,9 +41,9 @@ export default () => {
   successCoreAnalyze.assignTo(store);
   failureCoreAnalyze.assignTo(store);
 
-  startAnalyzeDevice.assignTo(store);
-  successAnalyzeDevice.assignTo(store);
-  failureAnalyzeDevice.assignTo(store);
+  startMacToHits.assignTo(store);
+  successMacToHits.assignTo(store);
+  failureMacToHits.assignTo(store);
 
   startFetchDevices.assignTo(store);
   successFetchDevices.assignTo(store);

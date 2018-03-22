@@ -11,9 +11,9 @@ export const startCoreAnalyze = createAction();
 export const successCoreAnalyze = createAction();
 export const failureCoreAnalyze = createAction();
 
-export const startAnalyzeDevice = createAction();
-export const successAnalyzeDevice = createAction();
-export const failureAnalyzeDevice = createAction();
+export const startMacToHits = createAction();
+export const successMacToHits = createAction();
+export const failureMacToHits = createAction();
 
 /**
  * dimensions: ['seconds']
@@ -62,10 +62,6 @@ export const analyzeAggregationByTime = (
   });
 };
 
-/**
- * dimensions: ['location']
- * metrics: ['connections']
- */
 // x: Location
 // y: [props]
 export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
@@ -99,24 +95,21 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
  * dimensions: ['device']
  * metrics: ['connections']
  */
-export const analyzeAggregationByDevice = (
-  networkId,
-  reducer,
-  startTime,
-  endTime
-) => {
-  startAnalyzeDevice();
+export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
+  startMacToHits();
 
-  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.BY_DEVICE];
-
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.MAC_TO_HITS];
   return new Promise(resolve => {
-    call(REQUEST_RECORD, networkId)
+    call(REQUEST_RECORD)
       .then(resolve)
       .catch(error => {
-        failureAnalyzeDevice({ error, requestBody: REQUEST_RECORD, payload: {} });
+        failureMacToHits({
+          requestBody: REQUEST_RECORD,
+          payload: { report: { data: error.response.data } },
+        });
       });
   }).then(res => {
-    successAnalyzeDevice({
+    successMacToHits({
       payload: res.data,
       requestBody: REQUEST_RECORD,
     });

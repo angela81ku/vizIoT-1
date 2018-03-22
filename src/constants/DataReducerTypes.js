@@ -3,13 +3,13 @@ const DataReducerTypes = {
   COMBINED: 'COMBINED',
 
   // Do nothing to the data
-  INDIVIDUAL: 'INDIVIDUAL',
+  INDIVIDUAL: 'individual',
 
   // Add up all data
-  SUM: 'SUM',
+  SUM: 'sum',
 
   // Average all the data
-  AVERAGE: 'AVERAGE',
+  AVERAGE: 'average',
 };
 
 export default DataReducerTypes;

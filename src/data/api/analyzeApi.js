@@ -33,18 +33,12 @@ const analyzeAggregationByLocation = payloadRecord => {
   return analyzeAggregationCore(payloadRecord);
 };
 
-const analyzeAggregationByDevice = (payloadRecord, networkId) => {
-  return postCallWithRecord(
-    payloadRecord,
-    `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByDevice`
-  );
-};
-
 export const analyzeApiKeys = {
   CORE: 'analyzeAggregationCore',
   BY_TIME: 'analyzeAggregationByTime',
   BY_LOCATION: 'analyzeAggregationByLocation',
   BY_DEVICE: 'analyzeAggregationByDevice',
+  MAC_TO_HITS: 'macToHits',
 };
 
 export const analyzeApi = {
@@ -84,13 +78,12 @@ export const analyzeApi = {
     }),
   },
 
-  // Within a time range: for each device, give me a tally for [bucketProps]
-  [analyzeApiKeys.BY_DEVICE]: {
-    call: analyzeAggregationByDevice,
+  [analyzeApiKeys.MAC_TO_HITS]: {
+    call: analyzeAggregationCore,
     REQUEST_RECORD: new AnalyticsRequest({
       dimensions: [DeviceDimension.MAC],
       metrics: [ConnectionMetric.HITS],
-      reducer: DataReducerTypes.COMBINED,
+      reducer: DataReducerTypes.INDIVIDUAL,
       startTime: convertDateTypeToString[DateConstants.TODAY](),
       endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
