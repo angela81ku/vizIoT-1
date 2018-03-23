@@ -74,13 +74,22 @@ export const selectMostPopularHost = state => {
 };
 
 export const selectBusiestDevice = state => {
+  const deviceList = selectDeviceList(state);
+  const deviceMap = deviceList.reduce((acc, { macAddress, alias }) => {
+    return {
+      ...acc,
+      [macAddress]: alias,
+    };
+  }, {});
+
   const map = selectNumberOfConnections(state);
   const mostPopularEntry = Object.keys(map).reduce(
     (acc, k) => {
       let value = map[k];
       if (value > acc.value) {
+        let alias = deviceMap[k];
         return {
-          name: k,
+          name: alias || k,
           value,
         };
       }
