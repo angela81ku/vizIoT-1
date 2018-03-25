@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '../components/BeanUILibrary/Grid';
 import GridItem from '../components/BeanUILibrary/GridItem';
@@ -29,8 +29,9 @@ import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
+const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
 
-class OverviewTab extends React.Component {
+class OverviewTab extends Component {
   fetchCombinedTrafficData() {
     const { mainChartConfig, networkId } = this.props;
     const { bucketConfig, dataWindowSize, selectionMode } = mainChartConfig;
@@ -80,34 +81,43 @@ class OverviewTab extends React.Component {
     );
   }
 
+  fetchAllDeviceGraphs() {
+    const { devices } = this.props;
+    devices.forEach(({ macAddr }) => {
+      this.fetchSingleDeviceTrafficData(macAddr);
+    });
+  }
+
   componentWillMount() {
     const { networkId } = this.props;
 
     this.fetchCombinedTrafficData();
 
-    fetchDevices(networkId).then(() => {
-      const { devices } = this.props;
-      devices.forEach(({ macAddr }) => {
-        this.fetchSingleDeviceTrafficData(macAddr);
-      });
-    });
+    // Fetch all the things.
+    fetchDevices(networkId);
+    this.fetchAllDeviceGraphs();
+    this.fetchDeviceConnectionCount();
 
+    // Set up update loops
     const liveConnectionsPerSecondLoop = setInterval(() => {
       this.fetchCombinedTrafficData();
-      const { devices } = this.props;
-      devices.forEach(({ macAddr }) => {
-        this.fetchSingleDeviceTrafficData(macAddr);
-      });
-      this.fetchDeviceConnectionCount();
+      this.fetchAllDeviceGraphs();
     }, DATA_REFRESH_DELAY_MS);
+
+    const deviceHitsLoop = setInterval(() => {
+      this.fetchDeviceConnectionCount();
+    }, DEVICE_HITS_REFRESH_DAY_MS);
 
     this.setState(() => ({
       liveConnectionsPerSecondLoop,
+      deviceHitsLoop,
     }));
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.liveConnectionsPerSecondLoop);
+    const { liveConnectionsPerSecondLoop, deviceHitsLoop } = this.state;
+    clearInterval(liveConnectionsPerSecondLoop);
+    clearInterval(deviceHitsLoop);
   }
 
   renderSingleDeviceCharts() {
