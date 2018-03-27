@@ -12,6 +12,11 @@ import GridItem from '../components/BeanUILibrary/GridItem';
 import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
+import styled from 'styled-components';
+
+const DataWellValueWithFontSize = styled(DataWellValue)`
+  font-size: ${props => props.fontSize};
+`;
 
 class QuickFacts extends React.Component {
   render() {
@@ -34,6 +39,7 @@ class QuickFacts extends React.Component {
       {
         title: 'BUSIEST DEVICE',
         data: busiestDevice.name,
+        fontSize: '3.6rem',
       },
       {
         title: 'MOST POPULAR HOST',
@@ -43,16 +49,14 @@ class QuickFacts extends React.Component {
 
     return (
       <div className="">
-        {/*<h5 className="wide-letter cardTitle">*/}
-        {/*/!*<i className="material-icons m-right-2">access_time</i>*!/*/}
-        {/*QUICK FACTS*/}
-        {/*</h5>*/}
         <Grid gutter={3}>
-          {facts.map(({ title, data }) => {
+          {facts.map(({ title, data, fontSize }) => {
             return (
               <GridItem key={title} size={{ md: 6, lg: 3 }} space="m-bot-5">
                 <DataWell>
-                  <DataWellValue>{data}</DataWellValue>
+                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                    {data}
+                  </DataWellValueWithFontSize>
                   <DataWellTitle>{title}</DataWellTitle>
                 </DataWell>
               </GridItem>

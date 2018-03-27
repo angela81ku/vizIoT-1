@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from './BeanUILibrary/Grid';
-import GridItem from './BeanUILibrary/GridItem';
 import moment from 'moment';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import TruncateString from './BeanUILibrary/TruncateString';
@@ -31,7 +30,7 @@ export default class DeviceListItem extends React.Component {
               <TruncateString className="deviceListItem__count m-right-1">
                 {testCount}
               </TruncateString>
-              <span>CONNECTIONS</span>
+              <span>msg</span>
             </div>
           </div>
         </Grid>

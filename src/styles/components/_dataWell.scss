@@ -3,16 +3,16 @@
   list-style-type: none;
   position: relative;
   justify-content: space-between;
-  align-items: center;
+  height: 100px;
+  align-items: flex-end;
 }
 .dataWell__inner {
   flex: 1 1;
-  height: 80px;
   text-align: left;
 }
 .dataWell__value {
   display: block;
-  font-size: 5.0rem;
+  //font-size: 5.0rem;
   font-weight: lighter;
   margin: 0;
 }

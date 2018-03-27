@@ -81,9 +81,10 @@ class BarChart extends Component {
     // =================================================================================================================
 
     // Axis Settings
+    debugger;
     const xAxis = axisBottom(x)
-      .ticks(timeSecond, 15)
-      .tickFormat(timeFormat('%Mm %Ss'));
+      .ticks(timeSecond, 30)
+      .tickFormat(d => `${moment().diff(moment(d), 'seconds')}s ago`);
     const yMin = y.domain()[0];
     const yMax = axisMax;
     const yAxis = axisRight(y)

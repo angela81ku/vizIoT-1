@@ -27,9 +27,31 @@ import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
 import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
+import styled from 'styled-components';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
+const DeviceListWrapper = styled.section`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 350px;
+  height: 100vh;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+`;
+
+const OverflowYScroll = styled.div`
+  overflow-y: scroll;
+`;
+
+const RightContentWrapper = styled.section`
+  @media (min-width: 1200px) {
+    margin-left: 350px;
+  }
+`;
 
 class OverviewTab extends Component {
   fetchCombinedTrafficData() {
@@ -138,13 +160,15 @@ class OverviewTab extends Component {
             size={{ xs: 12, md: 12, lg: 4 }}
             space="p-bot-6"
           >
-            <DeviceActivityChart
-              className="device-chart"
-              deviceKey={macAddr}
-              dataKey={dataKey}
-              device={d}
-              chartConfig={singleDeviceChartConfig}
-            />
+            <CardWrapper>
+              <DeviceActivityChart
+                className="device-chart"
+                deviceKey={macAddr}
+                dataKey={dataKey}
+                device={d}
+                chartConfig={singleDeviceChartConfig}
+              />
+            </CardWrapper>
           </GridItem>
         );
       });
@@ -180,12 +204,11 @@ class OverviewTab extends Component {
         <div className="tint-background2">
           <div />
         </div>
-        <QuickFacts />
-        <div className="small-spacer" />
-        <Grid gutter={3}>
-          <GridItem size={{ md: 12, lg: 3 }}>
-            <CardWrapper noShadow={true}>
-              <SectionTitle title="RECENT DEVICES" />
+
+        <DeviceListWrapper>
+          <CardWrapper noShadow={true} noPadding={false}>
+            <SectionTitle title="TODAY'S DEVICES" />
+            <OverflowYScroll>
               <FlexWrapper>
                 <DeviceList
                   devices={devices}
@@ -193,17 +216,19 @@ class OverviewTab extends Component {
                   lastSeen={lastSeen}
                 />
               </FlexWrapper>
-            </CardWrapper>
-          </GridItem>
-          <GridItem size={{ md: 12, lg: 9 }}>
-            <CardWrapper>
-              <SectionTitle title="ACTIVITY" />
-              {this.renderMainChart()}
-            </CardWrapper>
-            <div className="small-spacer" />
-            <CardWrapper>{this.renderSingleDeviceCharts()}</CardWrapper>
-          </GridItem>
-        </Grid>
+            </OverflowYScroll>
+          </CardWrapper>
+        </DeviceListWrapper>
+
+        <RightContentWrapper>
+          <QuickFacts />
+          <CardWrapper>
+            <SectionTitle title="LIVE TRAFFIC (MSG/SEC)" />
+            {this.renderMainChart()}
+          </CardWrapper>
+          <div className="small-spacer" />
+          {this.renderSingleDeviceCharts()}
+        </RightContentWrapper>
       </div>
     );
   }
