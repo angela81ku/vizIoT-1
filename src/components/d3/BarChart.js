@@ -81,7 +81,6 @@ class BarChart extends Component {
     // =================================================================================================================
 
     // Axis Settings
-    debugger;
     const xAxis = axisBottom(x)
       .ticks(timeSecond, 30)
       .tickFormat(d => `${moment().diff(moment(d), 'seconds')}s ago`);

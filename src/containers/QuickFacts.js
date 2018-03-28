@@ -48,22 +48,20 @@ class QuickFacts extends React.Component {
     ];
 
     return (
-      <div className="">
-        <Grid gutter={3}>
-          {facts.map(({ title, data, fontSize }) => {
-            return (
-              <GridItem key={title} size={{ md: 6, lg: 3 }} space="m-bot-5">
-                <DataWell>
-                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
-                    {data}
-                  </DataWellValueWithFontSize>
-                  <DataWellTitle>{title}</DataWellTitle>
-                </DataWell>
-              </GridItem>
-            );
-          })}
-        </Grid>
-      </div>
+      <Grid gutter={3}>
+        {facts.map(({ title, data, fontSize }) => {
+          return (
+            <GridItem key={title} size={{ md: 6, lg: 3 }} space="m-bot-12">
+              <DataWell>
+                <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                  {data}
+                </DataWellValueWithFontSize>
+                <DataWellTitle>{title}</DataWellTitle>
+              </DataWell>
+            </GridItem>
+          );
+        })}
+      </Grid>
     );
   }
 }

@@ -18,10 +18,10 @@ $extra-light-color: hsl(220, 10, 90);
 $super-light-color: hsl(220, 5, 95);
 
 $shadow-color-light: white;
-$shadow-color-norm: rgba(45, 62, 80, 0.12);
+$shadow-color-norm: rgba(0, 0, 0, 0.12);
 
 //$blue-grad: radial-gradient(circle, #1c254a 0%, #281d37 80%);
-$blue-grad: linear-gradient(to bottom, rgb(28, 37, 74) 3%, #131829);
+$blue-grad: linear-gradient(to bottom, #0c1a38 3%, #131829);
 $second-grad: radial-gradient(ellipse 70% 40%, rgba(18, 116, 130, 0.2) 45%, transparent);
 
 
@@ -46,7 +46,7 @@ $graphColor: $lighter-color;
 $card-color: rgba(255, 255, 255, 0.04);
 //#181f3c
 $card-shadow-color: $shadow-color-norm;
-$card-shadow: 0 1px 10px 0 $card-shadow-color;
+$card-shadow: 0 5px 10px 0 $card-shadow-color;
 
 // Spacings
 $wide-screen-width: 1500px;
