@@ -92,8 +92,59 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
 };
 
 /**
+ * dimensions: ['DOMAIN']
+ * metrics: ['HITS']
+ */
+export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
+  startCoreAnalyze();
+
+  const reportsExample = {
+    report: {
+      columns: {
+        dimensions: ['DOMAIN'],
+        metrics: ['HITS'],
+      },
+      data: {
+        rows: [
+          {
+            dimensions: ['google.com'],
+            metrics: ['20'],
+          },
+          {
+            dimensions: ['baidu.com'],
+            metrics: ['50'],
+          },
+          {
+            dimensions: ['apple.com'],
+            metrics: ['34'],
+          },
+        ],
+      },
+    },
+  };
+
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
+  successCoreAnalyze({
+    payload: reportsExample,
+    requestBody: REQUEST_RECORD,
+  });
+  return new Promise(resolve => {
+    call(REQUEST_RECORD)
+      .then(resolve)
+      .catch(error => {
+        failureCoreAnalyze();
+      });
+  }).then(res => {
+    // successCoreAnalyze({
+    //   payload: res.data,
+    //   requestBody: REQUEST_RECORD,
+    // });
+  });
+};
+
+/**
  * dimensions: ['device']
- * metrics: ['connections']
+ * metrics: ['hits']
  */
 export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
   startMacToHits();

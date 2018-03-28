@@ -7,6 +7,7 @@ import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
 import {
   analyzeAggregationByDevice,
+  analyzeAggregationByDomain,
   analyzeAggregationByTime,
 } from '../actions/analyzeActions';
 import moment from 'moment';
@@ -73,11 +74,6 @@ class OverviewTab extends Component {
     );
   }
 
-  fetchDeviceConnectionCount() {
-    const { networkId } = this.props;
-    analyzeAggregationByDevice(networkId);
-  }
-
   fetchSingleDeviceTrafficData(macAddr) {
     const { singleDeviceChartConfig, networkId } = this.props;
 
@@ -118,7 +114,8 @@ class OverviewTab extends Component {
     // Fetch all the things.
     fetchDevices(networkId);
     this.fetchAllDeviceGraphs();
-    this.fetchDeviceConnectionCount();
+    analyzeAggregationByDevice();
+    analyzeAggregationByDomain();
 
     // Set up update loops
     const liveConnectionsPerSecondLoop = setInterval(() => {
@@ -127,7 +124,8 @@ class OverviewTab extends Component {
     }, DATA_REFRESH_DELAY_MS);
 
     const deviceHitsLoop = setInterval(() => {
-      this.fetchDeviceConnectionCount();
+      analyzeAggregationByDevice();
+      analyzeAggregationByDomain();
     }, DEVICE_HITS_REFRESH_DAY_MS);
 
     this.setState(() => ({

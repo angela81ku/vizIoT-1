@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   selectBusiestDevice,
-  selectMostPopularHost,
   selectNumberOfDevices,
   selectPercentUnsecuredToday,
 } from '../selectors/deviceSelectors';
@@ -13,6 +12,7 @@ import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
+import { selectMostContactedHostToday } from '../selectors/analyticsSelector';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -78,7 +78,7 @@ const mapStateToProps = state => {
     numberOfDevices: selectNumberOfDevices(state),
     percentOfHttpConnections: `${selectPercentUnsecuredToday(state)}%`,
     busiestDevice: selectBusiestDevice(state),
-    mostContactedHost: selectMostPopularHost(state),
+    mostContactedHost: selectMostContactedHostToday(state).domainName,
   };
 };
 export default connect(mapStateToProps)(QuickFacts);

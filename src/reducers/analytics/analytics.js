@@ -74,7 +74,8 @@ const padWithZeros = (rawData, requestRecord) => {
       }
     };
   */
-  const rawReport = rawData.reports;
+  debugger;
+  const rawReport = rawData.report;
   const rawRows = rawReport.data.rows;
 
   const numMetrics = rawReport.columns.metrics.length;
@@ -130,12 +131,12 @@ const mergeData = (oldMapping, requestRecord, payload) => {
     ...oldMapping,
     [requestRecord.hashCode()]: {
       config: requestRecord,
-      data: padWithZeros(payload),
+      data: padWithZeros(payload, requestRecord),
     },
   };
 };
 
-const onSuccess = (state, { requestBody, payload }) => {
+const onSuccess = (state, { payload, requestBody }) => {
   return {
     ...state,
     networkState: NetworkState.READY,

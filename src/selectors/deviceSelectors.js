@@ -46,33 +46,6 @@ export const selectPercentUnsecuredToday = state => {
   return '~';
 };
 
-export const selectMostPopularHost = state => {
-  // const { analytics } = state;
-  // const key = new AnalyticsRequest({
-  //   dimensions: [GeoDimension.DOMAIN],
-  //   metrics: [ConnectionMetric.HITS],
-  //   reducer: DataReducerTypes.INDIVIDUAL,
-  //   startTime: convertDateTypeToString[DateConstants.TODAY](),
-  //   endTime: convertDateTypeToString[DateConstants.NOW](),
-  // }).hashCode();
-
-  // const rows = analytics.values[key].report.data.rows;
-  // const mostPopularDomain = rows.reduce(
-  //   (acc, { dimensions, metrics }) => {
-  //     const { hits } = acc;
-  //     if (metrics[0] > hits) {
-  //       return {
-  //         domainName: dimensions[0],
-  //         hits,
-  //       }
-  //     }
-  //     return acc;
-  //   },
-  //   { domainName: '~', hits: 0 }
-  // );
-  return '~';
-};
-
 export const selectMacAddressToAlias = state => {
   const deviceList = selectDeviceList(state);
   return deviceList.reduce((acc, { macAddress, alias }) => {
