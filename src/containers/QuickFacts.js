@@ -13,6 +13,7 @@ import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
 import { selectMostContactedHostToday } from '../selectors/analyticsSelector';
+import CountUp from 'react-countup';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -50,7 +51,11 @@ class QuickFacts extends React.Component {
             <GridItem key={title} size={{ md: 6, lg: 4 }} space="m-bot-12">
               <DataWell>
                 <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
-                  {data}
+                  {Number(data) ? (
+                    <CountUp start={0} end={data} duration={3} />
+                  ) : (
+                    data
+                  )}
                 </DataWellValueWithFontSize>
                 <DataWellTitle>{title}</DataWellTitle>
               </DataWell>

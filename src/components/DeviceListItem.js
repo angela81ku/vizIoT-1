@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from './BeanUILibrary/Grid';
-import moment from 'moment';
+import CountUp from 'react-countup';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import TruncateString from './BeanUILibrary/TruncateString';
 
@@ -28,7 +28,7 @@ export default class DeviceListItem extends React.Component {
           <div className="deviceListItem__countWrapper flex-center-parent">
             <div>
               <TruncateString className="deviceListItem__count m-right-1">
-                {testCount}
+                <CountUp start={0} end={testCount} duration={3} />
               </TruncateString>
               <span>msg</span>
             </div>
