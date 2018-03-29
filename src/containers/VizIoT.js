@@ -97,6 +97,10 @@ class VizIoT extends React.Component {
                 {this.renderCurrentTab()}
                 <div className="large-spacer" />
                 <div className="large-spacer" />
+                <div className="large-spacer" />
+                <div className="large-spacer" />
+                <div className="large-spacer" />
+                <div className="large-spacer" />
               </div>
             </div>
           </CoverFlow>
