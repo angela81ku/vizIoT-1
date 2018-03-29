@@ -33,13 +33,9 @@ class QuickFacts extends React.Component {
         data: numberOfDevices,
       },
       {
-        title: 'UNSECURED CONNECTIONS',
-        data: percentOfHttpConnections,
-      },
-      {
         title: 'BUSIEST DEVICE',
         data: busiestDevice.name,
-        fontSize: '3.6rem',
+        // fontSize: '3.6rem',
       },
       {
         title: 'MOST POPULAR HOST',
@@ -51,7 +47,7 @@ class QuickFacts extends React.Component {
       <Grid gutter={3}>
         {facts.map(({ title, data, fontSize }) => {
           return (
-            <GridItem key={title} size={{ md: 6, lg: 3 }} space="m-bot-12">
+            <GridItem key={title} size={{ md: 6, lg: 4 }} space="m-bot-12">
               <DataWell>
                 <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
                   {data}

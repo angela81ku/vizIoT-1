@@ -124,10 +124,6 @@ export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
   };
 
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
-  successCoreAnalyze({
-    payload: reportsExample,
-    requestBody: REQUEST_RECORD,
-  });
   return new Promise(resolve => {
     call(REQUEST_RECORD)
       .then(resolve)
@@ -135,10 +131,10 @@ export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
         failureCoreAnalyze();
       });
   }).then(res => {
-    // successCoreAnalyze({
-    //   payload: res.data,
-    //   requestBody: REQUEST_RECORD,
-    // });
+    successCoreAnalyze({
+      payload: res.data,
+      requestBody: REQUEST_RECORD,
+    });
   });
 };
 

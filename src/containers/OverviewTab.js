@@ -38,6 +38,7 @@ const DeviceListWrapper = styled.section`
   top: 0;
   width: 350px;
   height: 100vh;
+  overflow-y: scroll;
 
   @media (max-width: 1200px) {
     display: none;
