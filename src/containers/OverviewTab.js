@@ -156,8 +156,8 @@ class OverviewTab extends Component {
         return (
           <GridItem
             key={macAddr}
-            size={{ xs: 12, md: 12, lg: 4 }}
-            space="p-bot-6"
+            size={{ xs: 12 }}
+            space="m-bot-6"
           >
             <CardWrapper>
               <DeviceActivityChart
@@ -221,12 +221,17 @@ class OverviewTab extends Component {
 
         <RightContentWrapper>
           <QuickFacts />
-          <CardWrapper>
-            <SectionTitle title="LIVE TRAFFIC (MSG/SEC)" />
-            {this.renderMainChart()}
-          </CardWrapper>
-          <div className="small-spacer" />
-          {this.renderSingleDeviceCharts()}
+          <Grid gutter={1}>
+            <GridItem size={{ lg: 7 }}>
+              <CardWrapper>
+                <SectionTitle title="LIVE TRAFFIC (MSG/SEC)" />
+                {this.renderMainChart()}
+              </CardWrapper>
+            </GridItem>
+            <GridItem size={{ lg: 5 }}>
+              {this.renderSingleDeviceCharts()}
+            </GridItem>
+          </Grid>
         </RightContentWrapper>
       </div>
     );

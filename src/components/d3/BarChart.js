@@ -18,11 +18,52 @@ class BarChart extends Component {
     super(props);
     this.state = {
       leftAxisMargin: 15,
-      graphData: [],
-      ...this.getLiveDomainForX(),
-      graphDimensions: this.getGraphDimensions(),
+      transitionDuration: 1000,
+      ...this.mapPropsToState(props),
     };
   }
+
+  static getGraphDimensions(props) {
+    const { padding, dimension: { width, height } } = props;
+    const { l, r, t, b } = padding;
+
+    const graphWidth = width - l - r;
+    const graphHeight = height - t - b;
+    return { graphWidth, graphHeight };
+  }
+
+  getLiveDomainForX = () => {
+    const { dataWindowSize, dataWindowUnit } = this.props;
+    const nowMoment = moment();
+    const xStart = nowMoment
+      .clone()
+      .subtract(dataWindowSize, dataWindowUnit)
+      .toDate();
+    const xEnd = nowMoment.toDate();
+    return { xStart, xEnd };
+  };
+
+  getTransitionAmount = (xStart, xEnd, graphWidth) => {
+    const startUnix = Math.round(xStart.getTime() / 1000);
+    const endUnix = Math.round(xEnd.getTime() / 1000);
+    return Math.round(graphWidth / (endUnix - startUnix));
+  };
+
+  mapPropsToState = props => {
+    const { data } = props;
+
+    const graphDimensions = BarChart.getGraphDimensions(props);
+    const domain = this.getLiveDomainForX();
+    const transitionAmount = this.getTransitionAmount(domain.xStart, domain.xEnd, graphDimensions.graphWidth);
+
+    return {
+      graphDimensions,
+      ...domain,
+      graphData: data,
+      transitionAmount,
+    }
+  };
+
 
   componentDidMount() {
     this.launchChart();
@@ -33,21 +74,7 @@ class BarChart extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(() => {
-      return {
-        graphDimensions: this.getGraphDimensions(),
-        graphData: newProps.data,
-      };
-    });
-  }
-
-  getGraphDimensions() {
-    const { padding, dimension: { width, height } } = this.props;
-    const { l, r, t, b } = padding;
-
-    const graphWidth = width - l - r;
-    const graphHeight = height - t - b;
-    return { graphWidth, graphHeight };
+    this.setState(() => this.mapPropsToState(newProps) );
   }
 
   redrawChart() {
@@ -57,6 +84,8 @@ class BarChart extends Component {
       xStart,
       xEnd,
       graphDimensions: { graphWidth, graphHeight },
+      transitionAmount,
+      transitionDuration
     } = this.state;
 
     // =================================================================================================================
@@ -104,9 +133,9 @@ class BarChart extends Component {
       .call(this.redrawXAxis(xAxis))
       .attr('transform', null)
       .transition()
-      .duration(500)
+      .duration(transitionDuration)
       .ease(easeLinear)
-      .attr('transform', `translate(${-2}, 0)`);
+      .attr('transform', `translate(${-transitionAmount}, 0)`);
 
     g.select('.yAxis').call(this.redrawYAxis(yAxis, leftAxisMargin));
 
@@ -119,7 +148,9 @@ class BarChart extends Component {
     if (graphData && graphData.length > 1) {
       BarChart.redrawLine(
         g.select('.line'),
-        this.createLinePathData(x, y, graphData)
+        this.createLinePathData(x, y, graphData),
+        transitionDuration,
+        transitionAmount
       );
     }
   }
@@ -136,14 +167,14 @@ class BarChart extends Component {
     return lineFunction(data);
   }
 
-  static redrawLine(g, linePathData) {
+  static redrawLine(g, linePathData, transitionDuration, transitionAmount) {
     g
       .attr('transform', null)
       .attr('d', linePathData)
       .transition()
-      .duration(500)
+      .duration(transitionDuration)
       .ease(easeLinear)
-      .attr('transform', `translate(${-2}, 0)`);
+      .attr('transform', `translate(${-transitionAmount}, 0)`); // TODO make this dynamic to width
   }
 
   redrawXAxis(xAxis) {
@@ -196,17 +227,6 @@ class BarChart extends Component {
       .ease(easeLinear)
       .on(whenToActivate, this.onEachLoop);
   }
-
-  getLiveDomainForX = () => {
-    const { dataWindowSize, dataWindowUnit } = this.props;
-    const nowMoment = moment();
-    const xStart = nowMoment
-      .clone()
-      .subtract(dataWindowSize, dataWindowUnit)
-      .toDate();
-    const xEnd = nowMoment.toDate();
-    return { xStart, xEnd };
-  };
 
   onEachLoop = () => {
     this.setState(() => ({ ...this.getLiveDomainForX() }));
