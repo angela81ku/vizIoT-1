@@ -4,10 +4,6 @@ import FlipMove from 'react-flip-move';
 import moment from 'moment';
 
 export default class DeviceList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { devices, deviceToNumConnection, lastSeen } = this.props;
     return (

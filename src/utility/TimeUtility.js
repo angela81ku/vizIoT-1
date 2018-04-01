@@ -8,11 +8,13 @@ export const convertDateTypeToString = {
   [DateConstants.TODAY]: () => 'today',
   [DateConstants.YESTERDAY]: () => 'yesterday',
   [DateConstants.N_DAYS_AGO]: days => `${days}daysAgo`,
+  [DateConstants.N_SECONDS_AGO]: seconds => `${seconds}daysAgo`,
   [DateConstants.DATE]: moment => moment.format('YYYY-MM-DD'),
 };
 
 export const convertStringDateToMoment = stringDate => {
   const nDaysAgoReg = DateToRegex[DateConstants.N_DAYS_AGO];
+  const nSecondsAgoReg = DateToRegex[DateConstants.N_SECONDS_AGO];
   const dateReg = DateToRegex[DateConstants.DATE];
 
   if (nDaysAgoReg.test(stringDate)) {
@@ -20,6 +22,9 @@ export const convertStringDateToMoment = stringDate => {
     return moment()
       .subtract(days, 'days')
       .startOf('day');
+  } else if (nSecondsAgoReg.test(nSecondsAgoReg)) {
+    const seconds = nSecondsAgoReg.exec(stringDate)[0];
+    return moment().subtract(seconds, 'seconds');
   } else if (dateReg.test(stringDate)) {
     return moment(stringDate, 'YYYY-MM-DD');
   } else if (stringDate === DateConstants.NOW) {

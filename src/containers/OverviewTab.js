@@ -29,10 +29,13 @@ import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
+import HostList from '../components/HostList';
+import { selectMostRecentDomains } from '../selectors/analyticsSelector';
+import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
 
-const DATA_REFRESH_DELAY_MS = 5 * 1000;
+const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
-const DeviceListWrapper = styled.section`
+const FixedSidebarWrapper = styled.section`
   position: fixed;
   left: 0;
   top: 0;
@@ -43,10 +46,6 @@ const DeviceListWrapper = styled.section`
   @media (max-width: 1200px) {
     display: none;
   }
-`;
-
-const OverflowYScroll = styled.div`
-  overflow-y: scroll;
 `;
 
 const RightContentWrapper = styled.section`
@@ -154,12 +153,9 @@ class OverviewTab extends Component {
         const dataKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
         return (
-          <GridItem
-            key={macAddr}
-            size={{ xs: 12 }}
-            space="m-bot-6"
-          >
+          <GridItem key={macAddr} size={{ xs: 12 }} space="m-bot-2">
             <CardWrapper>
+              <div className="extra-small-spacer" />
               <DeviceActivityChart
                 className="device-chart"
                 deviceKey={macAddr}
@@ -195,8 +191,35 @@ class OverviewTab extends Component {
     );
   }
 
+  handleSidebarSwitch = newIndex => {
+    console.log(newIndex);
+  };
+
   render() {
-    const { devices, deviceToNumConnection, lastSeen } = this.props;
+    const {
+      devices,
+      deviceToNumConnection,
+      lastSeen,
+      mostRecentHosts,
+    } = this.props;
+
+    const deviceList = (
+      <div>
+        <SectionTitle title="TODAY'S DEVICES" />
+        <DeviceList
+          devices={devices}
+          deviceToNumConnection={deviceToNumConnection}
+          lastSeen={lastSeen}
+        />
+      </div>
+    );
+
+    const hostList = (
+      <div>
+        <SectionTitle title="ACTIVITY FEED" />
+        <HostList hosts={mostRecentHosts} />
+      </div>
+    );
 
     return (
       <div className="overview-tab">
@@ -204,20 +227,19 @@ class OverviewTab extends Component {
           <div />
         </div>
 
-        <DeviceListWrapper>
+        <FixedSidebarWrapper>
           <CardWrapper noShadow={true} noPadding={false}>
-            <SectionTitle title="TODAY'S DEVICES" />
-            <OverflowYScroll>
-              <FlexWrapper>
-                <DeviceList
-                  devices={devices}
-                  deviceToNumConnection={deviceToNumConnection}
-                  lastSeen={lastSeen}
-                />
-              </FlexWrapper>
-            </OverflowYScroll>
+            <FlexWrapper>
+              <TimedSwitcher
+                options={[
+                  { value: deviceList, delay: 5000 },
+                  { value: hostList, delay: 10000 },
+                ]}
+                onSwitch={this.handleSidebarSwitch}
+              />
+            </FlexWrapper>
           </CardWrapper>
-        </DeviceListWrapper>
+        </FixedSidebarWrapper>
 
         <RightContentWrapper>
           <QuickFacts />
@@ -259,6 +281,7 @@ const mapStateToProps = state => {
 
   return {
     devices: selectDeviceList(state),
+    mostRecentHosts: selectMostRecentDomains(state, 10),
     devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),
     lastSeen: selectLastSeen(state),

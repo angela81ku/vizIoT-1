@@ -98,31 +98,6 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
 export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
   startCoreAnalyze();
 
-  const reportsExample = {
-    report: {
-      columns: {
-        dimensions: ['DOMAIN'],
-        metrics: ['HITS'],
-      },
-      data: {
-        rows: [
-          {
-            dimensions: ['google.com'],
-            metrics: ['20'],
-          },
-          {
-            dimensions: ['baidu.com'],
-            metrics: ['50'],
-          },
-          {
-            dimensions: ['apple.com'],
-            metrics: ['34'],
-          },
-        ],
-      },
-    },
-  };
-
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
   return new Promise(resolve => {
     call(REQUEST_RECORD)

@@ -54,16 +54,19 @@ class BarChart extends Component {
 
     const graphDimensions = BarChart.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
-    const transitionAmount = this.getTransitionAmount(domain.xStart, domain.xEnd, graphDimensions.graphWidth);
+    const transitionAmount = this.getTransitionAmount(
+      domain.xStart,
+      domain.xEnd,
+      graphDimensions.graphWidth
+    );
 
     return {
       graphDimensions,
       ...domain,
       graphData: data,
       transitionAmount,
-    }
+    };
   };
-
 
   componentDidMount() {
     this.launchChart();
@@ -74,7 +77,7 @@ class BarChart extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(() => this.mapPropsToState(newProps) );
+    this.setState(() => this.mapPropsToState(newProps));
   }
 
   redrawChart() {
@@ -85,7 +88,7 @@ class BarChart extends Component {
       xEnd,
       graphDimensions: { graphWidth, graphHeight },
       transitionAmount,
-      transitionDuration
+      transitionDuration,
     } = this.state;
 
     // =================================================================================================================

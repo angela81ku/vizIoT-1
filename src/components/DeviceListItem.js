@@ -4,10 +4,6 @@ import CardWrapper from './BeanUILibrary/CardWrapper';
 import TruncateString from './BeanUILibrary/TruncateString';
 
 export default class DeviceListItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { device, testCount } = this.props;
     const { macAddr, alias, lastSeen } = device;

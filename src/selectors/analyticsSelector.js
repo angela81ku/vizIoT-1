@@ -3,11 +3,13 @@
 import _ from 'lodash';
 import GeoDimension from '../data/dimensions/GeoDimension';
 import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
+import TimeDimension from '../data/dimensions/TimeDimension';
 import DataReducerTypes from '../constants/DataReducerTypes';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
 import { getIn } from 'immutable';
+import TimeMetric from '../data/metrics/TimeMetric';
 
 export const selectDataWithHash = ({ analytics }, hash) => {
   return analytics.values[hash];
@@ -44,6 +46,27 @@ export const selectMacAddressToAlias = state => {
       [macAddress]: alias,
     };
   }, {});
+};
+
+export const selectMostRecentDomains = (state, numberOf) => {
+  const requestKey = new AnalyticsRequest({
+    dimensions: [TimeDimension.SECONDS],
+    metrics: [GeoDimension.DOMAIN],
+    reducer: DataReducerTypes.INDIVIDUAL,
+    startTime: convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
+    endTime: convertDateTypeToString[DateConstants.NOW](),
+  });
+  const data = selectDataWithRequest(state, requestKey);
+  const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
+  return rows
+    .sort((a, b) => {
+      return b.dimensions[0] - a.dimensions[0];
+    })
+    .slice(0, numberOf)
+    .map(({ dimensions, metrics }) => ({
+      name: metrics[0],
+      lastSeen: dimensions[0],
+    }));
 };
 
 export const selectBusiestDevice = state => {
