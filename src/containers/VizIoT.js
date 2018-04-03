@@ -81,8 +81,6 @@ class VizIoT extends React.Component {
 
   render() {
     const { key, background } = this.getCurrentTabInfo();
-
-    console.log(key);
     return (
       <div>
         {this.renderTitle(key)}

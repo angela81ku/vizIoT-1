@@ -19,6 +19,10 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
 `;
 
+const QuickFactsWrapper = styled.div`
+  margin-bottom: 60px;
+`;
+
 class QuickFacts extends React.Component {
   render() {
     const {
@@ -34,35 +38,37 @@ class QuickFacts extends React.Component {
         data: numberOfDevices,
       },
       {
-        title: 'BUSIEST DEVICE',
+        title: 'BUSIEST DEVICE TODAY',
         data: busiestDevice.name,
         // fontSize: '3.6rem',
       },
       {
-        title: 'MOST POPULAR HOST',
+        title: 'MOST POPULAR HOST TODAY',
         data: mostContactedHost,
       },
     ];
 
     return (
-      <Grid gutter={3}>
-        {facts.map(({ title, data, fontSize }) => {
-          return (
-            <GridItem key={title} size={{ md: 6, lg: 4 }} space="m-bot-12">
-              <DataWell>
-                <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
-                  {Number(data) ? (
-                    <CountUp start={0} end={data} duration={3} />
-                  ) : (
-                    data
-                  )}
-                </DataWellValueWithFontSize>
-                <DataWellTitle>{title}</DataWellTitle>
-              </DataWell>
-            </GridItem>
-          );
-        })}
-      </Grid>
+      <QuickFactsWrapper>
+        <Grid gutter={3}>
+          {facts.map(({ title, data, fontSize }) => {
+            return (
+              <GridItem key={title} size={{ md: 6, lg: 4 }}>
+                <DataWell>
+                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                    {Number(data) ? (
+                      <CountUp start={0} end={data} duration={3} />
+                    ) : (
+                      data
+                    )}
+                  </DataWellValueWithFontSize>
+                  <DataWellTitle>{title}</DataWellTitle>
+                </DataWell>
+              </GridItem>
+            );
+          })}
+        </Grid>
+      </QuickFactsWrapper>
     );
   }
 }

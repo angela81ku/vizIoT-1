@@ -13,13 +13,13 @@
 .dataWell__value {
   display: block;
   //font-size: 5.0rem;
-  font-weight: lighter;
+  font-weight: bold;
   margin: 0;
 }
 .dataWell__title {
   display: inline-block;
   font-size: $h5-font-size;
-  margin-top: $xs-space;
+  margin-top: 1rem;
   margin-bottom: $xs-space;
   color: $body-text-color-lighter;
 }

@@ -9,6 +9,7 @@ import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
   analyzeAggregationByTime,
+  analyzeAggregationByTimeToDomain,
 } from '../actions/analyzeActions';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -32,6 +33,8 @@ import styled from 'styled-components';
 import HostList from '../components/HostList';
 import { selectMostRecentDomains } from '../selectors/analyticsSelector';
 import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
+import { DateConstants } from '../constants/DateConstants';
+import { convertDateTypeToString } from '../utility/TimeUtility';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
@@ -116,11 +119,20 @@ class OverviewTab extends Component {
     this.fetchAllDeviceGraphs();
     analyzeAggregationByDevice();
     analyzeAggregationByDomain();
+    // TODO enable
+    analyzeAggregationByTimeToDomain(
+      convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
+      convertDateTypeToString[DateConstants.NOW]()
+    );
 
     // Set up update loops
     const liveConnectionsPerSecondLoop = setInterval(() => {
       this.fetchCombinedTrafficData();
       this.fetchAllDeviceGraphs();
+      // TODO enable
+      // analyzeAggregationByTimeToDomain(
+      //   convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
+      //   convertDateTypeToString[DateConstants.NOW]());
     }, DATA_REFRESH_DELAY_MS);
 
     const deviceHitsLoop = setInterval(() => {
@@ -153,7 +165,7 @@ class OverviewTab extends Component {
         const dataKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
         return (
-          <GridItem key={macAddr} size={{ xs: 12 }} space="m-bot-2">
+          <GridItem key={macAddr} size={{ xs: 12 }} space="m-bot-3">
             <CardWrapper>
               <div className="extra-small-spacer" />
               <DeviceActivityChart
@@ -243,7 +255,7 @@ class OverviewTab extends Component {
 
         <RightContentWrapper>
           <QuickFacts />
-          <Grid gutter={1}>
+          <Grid gutter={2}>
             <GridItem size={{ lg: 7 }}>
               <CardWrapper>
                 <SectionTitle title="LIVE TRAFFIC (MSG/SEC)" />

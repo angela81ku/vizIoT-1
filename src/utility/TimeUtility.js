@@ -8,7 +8,7 @@ export const convertDateTypeToString = {
   [DateConstants.TODAY]: () => 'today',
   [DateConstants.YESTERDAY]: () => 'yesterday',
   [DateConstants.N_DAYS_AGO]: days => `${days}daysAgo`,
-  [DateConstants.N_SECONDS_AGO]: seconds => `${seconds}daysAgo`,
+  [DateConstants.N_SECONDS_AGO]: seconds => `${seconds}secondsAgo`,
   [DateConstants.DATE]: moment => moment.format('YYYY-MM-DD'),
 };
 

@@ -114,6 +114,33 @@ export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
 };
 
 /**
+ * dimensions: ['seconds']
+ * metrics: ['domain']
+ */
+export const analyzeAggregationByTimeToDomain = (startTime, endTime) => {
+  startCoreAnalyze();
+
+  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.TIME_TO_DOMAIN];
+  const customRecord = REQUEST_RECORD.set('startTime', startTime).set(
+    'endTime',
+    endTime
+  );
+
+  return new Promise(resolve => {
+    call(customRecord)
+      .then(resolve)
+      .catch(error => {
+        failureCoreAnalyze();
+      });
+  }).then(res => {
+    successCoreAnalyze({
+      payload: res.data,
+      requestBody: customRecord,
+    });
+  });
+};
+
+/**
  * dimensions: ['device']
  * metrics: ['hits']
  */

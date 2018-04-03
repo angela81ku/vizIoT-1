@@ -8,6 +8,7 @@ import { ConnectionMetric } from '../metrics/ConnectionMetric';
 import { DateConstants } from '../../constants/DateConstants';
 import { convertDateTypeToString } from '../../utility/TimeUtility';
 import DeviceDimension from '../dimensions/DeviceDimension';
+import TimeDimension from '../dimensions/TimeDimension';
 
 const postCallWithRecord = (payloadRecord, url) => {
   return axios({
@@ -40,6 +41,7 @@ export const analyzeApiKeys = {
   BY_DEVICE: 'analyzeAggregationByDevice',
   MAC_TO_HITS: 'macToHits',
   DOMAIN_TO_HITS: 'domainToHits',
+  TIME_TO_DOMAIN: 'timeToDomain',
 };
 
 export const analyzeApi = {
@@ -95,6 +97,17 @@ export const analyzeApi = {
     REQUEST_RECORD: new AnalyticsRequest({
       dimensions: [GeoDimension.DOMAIN],
       metrics: [ConnectionMetric.HITS],
+      reducer: DataReducerTypes.INDIVIDUAL,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
+    }),
+  },
+
+  [analyzeApiKeys.TIME_TO_DOMAIN]: {
+    call: analyzeAggregationCore,
+    REQUEST_RECORD: new AnalyticsRequest({
+      dimensions: [TimeDimension.SECONDS],
+      metrics: [GeoDimension.DOMAIN],
       reducer: DataReducerTypes.INDIVIDUAL,
       startTime: convertDateTypeToString[DateConstants.TODAY](),
       endTime: convertDateTypeToString[DateConstants.NOW](),

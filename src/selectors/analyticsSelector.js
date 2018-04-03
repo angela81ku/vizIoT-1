@@ -60,7 +60,7 @@ export const selectMostRecentDomains = (state, numberOf) => {
   const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
   return rows
     .sort((a, b) => {
-      return b.dimensions[0] - a.dimensions[0];
+      return Number(b.dimensions[0]) - Number(a.dimensions[0]);
     })
     .slice(0, numberOf)
     .map(({ dimensions, metrics }) => ({
