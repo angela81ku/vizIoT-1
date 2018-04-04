@@ -106,8 +106,8 @@ export const analyzeApi = {
   [analyzeApiKeys.TIME_TO_DOMAIN]: {
     call: analyzeAggregationCore,
     REQUEST_RECORD: new AnalyticsRequest({
-      dimensions: [TimeDimension.SECONDS],
-      metrics: [GeoDimension.DOMAIN],
+      dimensions: [TimeDimension.TIMESTAMP],
+      metrics: [GeoDimension.DESTINATION],
       reducer: DataReducerTypes.INDIVIDUAL,
       startTime: convertDateTypeToString[DateConstants.TODAY](),
       endTime: convertDateTypeToString[DateConstants.NOW](),

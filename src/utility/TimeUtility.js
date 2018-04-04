@@ -18,12 +18,12 @@ export const convertStringDateToMoment = stringDate => {
   const dateReg = DateToRegex[DateConstants.DATE];
 
   if (nDaysAgoReg.test(stringDate)) {
-    const days = nDaysAgoReg.exec(stringDate)[0];
+    const days = Number(nDaysAgoReg.exec(stringDate)[1]);
     return moment()
       .subtract(days, 'days')
       .startOf('day');
   } else if (nSecondsAgoReg.test(nSecondsAgoReg)) {
-    const seconds = nSecondsAgoReg.exec(stringDate)[0];
+    const seconds = Number(nSecondsAgoReg.exec(stringDate)[1]);
     return moment().subtract(seconds, 'seconds');
   } else if (dateReg.test(stringDate)) {
     return moment(stringDate, 'YYYY-MM-DD');

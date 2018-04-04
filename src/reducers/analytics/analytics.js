@@ -6,39 +6,15 @@ import {
 import { createReducer } from 'redux-act';
 import NetworkState from '../../constants/NetworkState';
 import TimeDimension from '../../data/dimensions/TimeDimension';
-/*
-Example rawReport with time.
-const reportsExample =
-  {
-    columns: {
-      dimensions: ['SECOND'],
-      metrics: ['HITS'],
-    },
-    data: {
-      rows: [
-        {
-          dimensions: ['1330030030'],
-          metrics: ['20'],
-        },
-        {
-          dimensions: ['1330030031'],
-          metrics: ['50'],
-        },
-        {
-          dimensions: ['1330030032'],
-          metrics: ['34'],
-        }
-      ],
-    }
-  };
-*/
+
 const defaultState = {
   networkState: NetworkState.READY,
   values: {},
 };
 
 const padWithZeros = (rawData, requestRecord) => {
-  if (!rawData || !rawData.length) {
+  // TODO pad with zeros if necessary
+  if (!rawData || true) {
     return rawData;
   }
 
@@ -48,33 +24,6 @@ const padWithZeros = (rawData, requestRecord) => {
   const reducer = requestRecord.getReducer();
   const filter = requestRecord.getFilter();
 
-  /*
-  Example rawReport:
-  const reportsExample =
-    {
-      columns: {
-        dimensions: ['DOMAIN'],
-        metrics: ['HITS'],
-      },
-      data: {
-        rows: [
-          {
-            dimensions: ['google.com'],
-            metrics: ['20'],
-          },
-          {
-            dimensions: ['baidu.com'],
-            metrics: ['50'],
-          },
-          {
-            dimensions: ['apple.com'],
-            metrics: ['34'],
-          }
-        ],
-      }
-    };
-  */
-  debugger;
   const rawReport = rawData.report;
   const rawRows = rawReport.data.rows;
 

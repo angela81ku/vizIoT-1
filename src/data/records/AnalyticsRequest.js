@@ -28,8 +28,7 @@ export default class AnalyticsRequest extends Record(
   }
 
   hashCode() {
-    const hashValue = hash(Object.values(this), { unorderedArrays: true });
-    return hashValue;
+    return hash(this.toJS());
   }
 
   getStartTime() {

@@ -37,6 +37,7 @@ import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
+const LOG_REFRESH_DELAY_MS = 3 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
 const FixedSidebarWrapper = styled.section`
   position: fixed;
@@ -109,6 +110,13 @@ class OverviewTab extends Component {
     });
   }
 
+  fetchTimestampToDomain = () => {
+    analyzeAggregationByTimeToDomain(
+      convertDateTypeToString[DateConstants.N_SECONDS_AGO](360),
+      convertDateTypeToString[DateConstants.NOW]()
+    );
+  };
+
   componentWillMount() {
     const { networkId } = this.props;
 
@@ -119,20 +127,16 @@ class OverviewTab extends Component {
     this.fetchAllDeviceGraphs();
     analyzeAggregationByDevice();
     analyzeAggregationByDomain();
-    // TODO enable
-    analyzeAggregationByTimeToDomain(
-      convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
-      convertDateTypeToString[DateConstants.NOW]()
-    );
+    this.fetchTimestampToDomain();
 
     // Set up update loops
+    const logLoop = setInterval(() => {
+      this.fetchTimestampToDomain();
+    }, LOG_REFRESH_DELAY_MS);
+
     const liveConnectionsPerSecondLoop = setInterval(() => {
       this.fetchCombinedTrafficData();
       this.fetchAllDeviceGraphs();
-      // TODO enable
-      // analyzeAggregationByTimeToDomain(
-      //   convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
-      //   convertDateTypeToString[DateConstants.NOW]());
     }, DATA_REFRESH_DELAY_MS);
 
     const deviceHitsLoop = setInterval(() => {
@@ -141,13 +145,19 @@ class OverviewTab extends Component {
     }, DEVICE_HITS_REFRESH_DAY_MS);
 
     this.setState(() => ({
+      logLoop,
       liveConnectionsPerSecondLoop,
       deviceHitsLoop,
     }));
   }
 
   componentWillUnmount() {
-    const { liveConnectionsPerSecondLoop, deviceHitsLoop } = this.state;
+    const {
+      logLoop,
+      liveConnectionsPerSecondLoop,
+      deviceHitsLoop,
+    } = this.state;
+    clearInterval(logLoop);
     clearInterval(liveConnectionsPerSecondLoop);
     clearInterval(deviceHitsLoop);
   }
@@ -244,8 +254,8 @@ class OverviewTab extends Component {
             <FlexWrapper>
               <TimedSwitcher
                 options={[
-                  { value: deviceList, delay: 5000 },
-                  { value: hostList, delay: 10000 },
+                  { value: deviceList, delay: 7000 },
+                  { value: hostList, delay: 35000 },
                 ]}
                 onSwitch={this.handleSidebarSwitch}
               />

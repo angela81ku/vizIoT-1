@@ -50,10 +50,10 @@ export const selectMacAddressToAlias = state => {
 
 export const selectMostRecentDomains = (state, numberOf) => {
   const requestKey = new AnalyticsRequest({
-    dimensions: [TimeDimension.SECONDS],
-    metrics: [GeoDimension.DOMAIN],
+    dimensions: [TimeDimension.TIMESTAMP],
+    metrics: [GeoDimension.DESTINATION],
     reducer: DataReducerTypes.INDIVIDUAL,
-    startTime: convertDateTypeToString[DateConstants.N_SECONDS_AGO](60),
+    startTime: convertDateTypeToString[DateConstants.N_SECONDS_AGO](360),
     endTime: convertDateTypeToString[DateConstants.NOW](),
   });
   const data = selectDataWithRequest(state, requestKey);
@@ -65,7 +65,7 @@ export const selectMostRecentDomains = (state, numberOf) => {
     .slice(0, numberOf)
     .map(({ dimensions, metrics }) => ({
       name: metrics[0],
-      lastSeen: dimensions[0],
+      timestamp: dimensions[0],
     }));
 };
 
