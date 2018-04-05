@@ -1,3 +1,5 @@
+'use es6';
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '../components/BeanUILibrary/Grid';
@@ -8,7 +10,7 @@ import { fetchDevices } from '../actions/deviceActions';
 import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
-  analyzeAggregationByTime,
+  requestAggregationByTime,
   analyzeAggregationByTimeToDomain,
 } from '../actions/analyzeActions';
 import moment from 'moment';
@@ -68,7 +70,7 @@ class OverviewTab extends Component {
         .valueOf() / 1000
     ).toString();
     const endMS = (moment().valueOf() / 1000).toString();
-    analyzeAggregationByTime(
+    requestAggregationByTime(
       networkId,
       selectionMode,
       [],
@@ -78,8 +80,11 @@ class OverviewTab extends Component {
     );
   }
 
-  fetchSingleDeviceTrafficData(macAddr) {
+  fetchAllDeviceGraphs() {
+    const { devices } = this.props;
     const { singleDeviceChartConfig, networkId } = this.props;
+
+    const deviceIdList = devices.map(({ macAddr }) => macAddr);
 
     const {
       bucketConfig,
@@ -93,21 +98,14 @@ class OverviewTab extends Component {
         .valueOf() / 1000
     ).toString();
     const endMS = (moment().valueOf() / 1000).toString();
-    analyzeAggregationByTime(
+    requestAggregationByTime(
       networkId,
       selectionMode,
-      [macAddr],
+      deviceIdList,
       bucketConfig,
       startMS,
       endMS
     );
-  }
-
-  fetchAllDeviceGraphs() {
-    const { devices } = this.props;
-    devices.forEach(({ macAddr }) => {
-      this.fetchSingleDeviceTrafficData(macAddr);
-    });
   }
 
   fetchTimestampToDomain = () => {

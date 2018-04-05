@@ -36,7 +36,7 @@ const analyzeAggregationByLocation = payloadRecord => {
 
 export const analyzeApiKeys = {
   CORE: 'analyzeAggregationCore',
-  BY_TIME: 'analyzeAggregationByTime',
+  BY_TIME: 'requestAggregationByTime',
   BY_LOCATION: 'analyzeAggregationByLocation',
   BY_DEVICE: 'analyzeAggregationByDevice',
   MAC_TO_HITS: 'macToHits',

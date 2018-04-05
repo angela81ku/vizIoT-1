@@ -19,7 +19,7 @@ export const failureMacToHits = createAction();
  * dimensions: ['seconds']
  * metrics: ['connections']
  */
-export const analyzeAggregationByTime = (
+export const requestAggregationByTime = (
   networkId,
   selectionMode,
   macAddresses,

@@ -82,7 +82,7 @@ const mergeData = (oldMapDeviceToData, chartConfig, payload) => {
       // debugger;
       dataKey = getDataKey({ ...rest, macAddresses });
     } else {
-      dataKey = getDataKey(rest);
+      dataKey = getDataKey({ ...rest });
     }
 
     mapDeviceToData = {
