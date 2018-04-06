@@ -174,6 +174,8 @@ class BarChart extends Component {
     g
       .attr('transform', null)
       .attr('d', linePathData)
+      .attr('shadowBlur', 20)
+      .attr('shadowColor', 'black')
       .transition()
       .duration(transitionDuration)
       .ease(easeLinear)
