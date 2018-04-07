@@ -54,6 +54,10 @@ const FixedSidebarWrapper = styled.section`
   }
 `;
 
+const FullHeightCardWrapper = styled(CardWrapper)`
+  height: 100%;
+`;
+
 const RightContentWrapper = styled.section`
   @media (min-width: 1200px) {
     margin-left: 350px;
@@ -248,17 +252,17 @@ class OverviewTab extends Component {
         </div>
 
         <FixedSidebarWrapper>
-          <CardWrapper noShadow={true} noPadding={false}>
+          <FullHeightCardWrapper noShadow={true} noPadding={false}>
             <FlexWrapper>
               <TimedSwitcher
                 options={[
                   { value: deviceList, delay: 7000 },
-                  { value: hostList, delay: 35000 },
+                  { value: hostList, delay: 3500000 },
                 ]}
                 onSwitch={this.handleSidebarSwitch}
               />
             </FlexWrapper>
-          </CardWrapper>
+          </FullHeightCardWrapper>
         </FixedSidebarWrapper>
 
         <RightContentWrapper>
@@ -301,7 +305,7 @@ const mapStateToProps = state => {
 
   return {
     devices: selectDeviceList(state),
-    mostRecentHosts: selectMostRecentDomains(state, 10),
+    mostRecentHosts: selectMostRecentDomains(state, 15),
     devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),
     lastSeen: selectLastSeen(state),

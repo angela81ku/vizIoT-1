@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
 import CardWrapper from './BeanUILibrary/CardWrapper';
 import styled from 'styled-components';
+import * as theme from '../styles/base/viz-theme';
 
 const Card = styled(CardWrapper)`
   font-size: 1rem;
+  
   ${props =>
     props.theme === 'log'
-      ? 'height: 5.0rem'
-      : 'height: 8.0rem;'} color: $lighter-color;
+      ? `color: ${theme.OFF_BLACK};`
+      : 'color: hsl(220, 20.7%, 55.8%);'}
+  
+  ${props =>
+    props.theme === 'log' &&
+    `border-top-right-radius: 10px !important;
+          border-bottom-right-radius: 10px !important;
+          border-bottom-left-radius: 10px !important;
+          border-top-left-radius: 5px !important;`}
+ 
+  
+  
+  ${props => (props.theme === 'log' ? 'height: 5.0rem;' : 'height: 8.0rem;')}
+
+  ${props =>
+    props.theme === 'log'
+      ? 'border-radius: 2.8rem;'
+      : 'border-radius: inherit;'}
+      
+  ${props =>
+    props.theme === 'log'
+      ? 'background-color: white !important;'
+      : 'background: inherit;'}
+  
+  .flex-row {
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
 `;
 
 export default class ListItem extends Component {
   render() {
     const { theme, children } = this.props;
     return (
-      <Card
-        className="deviceListItem__wrapper m-bot-3"
-        noPadding={true}
-        theme={theme}
-      >
+      <Card className="m-bot-3" noPadding={true} theme={theme}>
         {children}
       </Card>
     );

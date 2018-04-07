@@ -8,10 +8,10 @@ import TruncateString from './BeanUILibrary/TruncateString';
 import moment from 'moment';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import * as theme from '../styles/base/viz-theme';
 
 const FillHeightOrMore = styled(List)`
   flex: 1;
-
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -23,23 +23,47 @@ const FillHeightOrMore = styled(List)`
   }
 `;
 
+const LeftWrapper = styled.div`
+  padding: 0 0 0 17px;
+  text-wrap: normal;
+`;
+
+const MainContent = styled.div`
+  font-size: 1rem;
+  color: ${theme.OFF_BLACK};
+`;
+
+const RightWrapper = styled.div`
+  height: 100%;
+  padding-left: 17px;
+  padding-right: 17px;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-start;
+  color: ${theme.LIGHTER_COLOR};
+`;
+
+const SmallCopy = styled.span`
+  font-size: 1.1rem;
+`;
+
 const HostList = ({ hosts }) => {
   const hostItems = hosts.map((host, i) => {
     return (
-      <ListItem key={i} theme={'log'}>
+      <ListItem key={host.timestamp + host.name} theme={'log'}>
         <Grid>
-          <div className="deviceListItem__deviceInfo">
-            <h6 className="deviceListItem__deviceName m-top-1">{host.name}</h6>
-            {moment.unix(host.timestamp).format('h:mm:ss a')}
-          </div>
-          <div className="deviceListItem__countWrapper flex-center-parent">
+          <LeftWrapper>
+            <SmallCopy>{host.origin || 'Unknown origin'}</SmallCopy>
+            <MainContent className="m-top-1">{host.name}</MainContent>
+          </LeftWrapper>
+          <RightWrapper className="flex-center-parent">
             <div>
               <TruncateString className="deviceListItem__count m-right-1">
                 {moment.unix(host.timestamp).format('h:mm:ss')}
               </TruncateString>
               {/*<span>msg</span>*/}
             </div>
-          </div>
+          </RightWrapper>
         </Grid>
       </ListItem>
     );
@@ -50,7 +74,12 @@ const HostList = ({ hosts }) => {
 
 HostList.defaultProps = { hosts: [] };
 HostList.propType = {
-  hosts: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  hosts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 export default HostList;

@@ -12,7 +12,7 @@ const defaultState = {
       bucketUnit: BucketUnit.SECOND,
     }),
     selectionMode: SelectionMode.COMBINED,
-    dataWindowSize: 4 * 60,
+    dataWindowSize: 3 * 60,
   },
 
   // analyzeAggregationByDevice
