@@ -1,3 +1,6 @@
+.lineGraph__wrapper {
+}
+
 .line {
   fill: none;
   stroke: $graph-prim-color;
@@ -12,5 +15,9 @@
 }
 
 .barChart-scrollable-wrapper {
-  overflow-y: scroll;
+   overflow-y: scroll;
+ }
+
+.graphSvg__wrapper {
+  filter: drop-shadow( -5px -5px 5px #FFFFFF );
 }

@@ -15,6 +15,7 @@ const FillHeightOrMore = styled(List)`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: left;
 
   .flex-row {
     justify-content: space-between;
@@ -28,7 +29,7 @@ const LeftWrapper = styled.div`
   text-wrap: normal;
 `;
 
-const MainContent = styled.div`
+const Content = styled.div`
   font-size: 1rem;
   color: ${theme.OFF_BLACK};
 `;
@@ -54,7 +55,7 @@ const HostList = ({ hosts }) => {
         <Grid>
           <LeftWrapper>
             <SmallCopy>{host.origin || 'Unknown origin'}</SmallCopy>
-            <MainContent className="m-top-1">{host.name}</MainContent>
+            <Content className="m-top-1">{host.name}</Content>
           </LeftWrapper>
           <RightWrapper className="flex-center-parent">
             <div>

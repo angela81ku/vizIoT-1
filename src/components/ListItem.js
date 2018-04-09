@@ -13,20 +13,15 @@ const Card = styled(CardWrapper)`
   
   ${props =>
     props.theme === 'log' &&
-    `border-top-right-radius: 10px !important;
-          border-bottom-right-radius: 10px !important;
-          border-bottom-left-radius: 10px !important;
-          border-top-left-radius: 5px !important;`}
- 
-  
+    `
+    border-top-right-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    border-top-left-radius: 8px !important;
+  `}  
   
   ${props => (props.theme === 'log' ? 'height: 5.0rem;' : 'height: 8.0rem;')}
 
-  ${props =>
-    props.theme === 'log'
-      ? 'border-radius: 2.8rem;'
-      : 'border-radius: inherit;'}
-      
   ${props =>
     props.theme === 'log'
       ? 'background-color: white !important;'

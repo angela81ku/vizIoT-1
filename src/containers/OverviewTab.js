@@ -240,7 +240,7 @@ class OverviewTab extends Component {
 
     const hostList = (
       <div>
-        <SectionTitle title="ACTIVITY FEED" />
+        <SectionTitle title="LATEST ACTIVITY" />
         <HostList hosts={mostRecentHosts} />
       </div>
     );

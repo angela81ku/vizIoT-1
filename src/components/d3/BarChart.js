@@ -174,8 +174,6 @@ class BarChart extends Component {
     g
       .attr('transform', null)
       .attr('d', linePathData)
-      .attr('shadowBlur', 20)
-      .attr('shadowColor', 'black')
       .transition()
       .duration(transitionDuration)
       .ease(easeLinear)
@@ -271,6 +269,8 @@ class BarChart extends Component {
       .attr('transform', `translate(${leftAxisMargin}, 0)`);
 
     const lineGraphWrapper = g
+      .append('svg')
+      .attr('class', 'graphSvg__wrapper')
       .append('g')
       .attr('class', 'lineGraph__wrapper')
       .attr('transform', `translate(${leftAxisMargin}, 0)`)
