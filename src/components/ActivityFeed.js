@@ -92,7 +92,7 @@ const LightH5 = styled.h5`
 `;
 const HostName = ({ name }) => name && <LightH5>{name}</LightH5>;
 
-const HostList = ({ hosts }) => {
+const ActivityFeed = ({ hosts }) => {
   let lastSeenHost = null;
 
   const hostItems = hosts.map((host, i) => {
@@ -128,8 +128,8 @@ const HostList = ({ hosts }) => {
   return <FillHeightOrMore>{hostItems}</FillHeightOrMore>;
 };
 
-HostList.defaultProps = { hosts: [] };
-HostList.propType = {
+ActivityFeed.defaultProps = { hosts: [] };
+ActivityFeed.propType = {
   hosts: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -138,4 +138,4 @@ HostList.propType = {
   ).isRequired,
 };
 
-export default HostList;
+export default ActivityFeed;

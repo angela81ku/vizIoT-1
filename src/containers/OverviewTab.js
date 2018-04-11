@@ -32,7 +32,7 @@ import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
-import HostList from '../components/HostList';
+import HostList from '../components/ActivityFeed';
 import { selectMostRecentDomains } from '../selectors/analyticsSelector';
 import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
