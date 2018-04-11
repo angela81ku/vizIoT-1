@@ -1,7 +1,7 @@
 import React from 'react';
 import DeviceListItem from './DeviceListItem';
 import moment from 'moment';
-import List from './List';
+import List from './BeanList';
 
 export default class DeviceList extends React.Component {
   render() {

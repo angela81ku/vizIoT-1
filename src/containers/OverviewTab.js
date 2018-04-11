@@ -256,8 +256,8 @@ class OverviewTab extends Component {
             <FlexWrapper>
               <TimedSwitcher
                 options={[
-                  { value: deviceList, delay: 7000 },
                   { value: hostList, delay: 3500000 },
+                  { value: deviceList, delay: 7000 },
                 ]}
                 onSwitch={this.handleSidebarSwitch}
               />

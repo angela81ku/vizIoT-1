@@ -1,10 +1,6 @@
 import React from 'react';
 
 class Grid extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { gutter, className } = this.props;
 
