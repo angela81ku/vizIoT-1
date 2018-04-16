@@ -7,16 +7,27 @@ import { SPACING } from '../data/records/Spacing';
 import AutoFitComponent from '../components/AutoFitComponent';
 import BucketUnitConstants from '../constants/BucketUnit';
 import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
+import { analyzeAggregationByDomain } from '../actions/analyzeActions';
+import { selectDomainsToday } from '../selectors/analyticsSelector';
+import { DateConstants } from '../constants/DateConstants';
+import { convertDateTypeToString } from '../utility/TimeUtility';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
 class BubbleLocationTab extends React.Component {
   componentWillMount() {
+    // First calls:
+    analyzeAggregationByDomain(
+      convertDateTypeToString[DateConstants.TODAY](),
+      convertDateTypeToString[DateConstants.NOW]()
+    );
+
+    // Looped calls:
     const dataFetchLoop = setInterval(() => {
-      //   TODO Fetch Locational Data
-      // const { devices } = this.props;
-      // devices.forEach(({ macAddr }) => {
-      // });
+      analyzeAggregationByDomain(
+        convertDateTypeToString[DateConstants.TODAY](),
+        convertDateTypeToString[DateConstants.NOW]()
+      );
     }, DATA_REFRESH_DELAY_MS);
 
     this.setState(() => ({
@@ -29,16 +40,17 @@ class BubbleLocationTab extends React.Component {
   }
 
   render() {
-    const data = [
-      { id: 'main.network1.device1.apple', value: 1 },
-      { id: 'main.network1.device1.google', value: 4 },
-      { id: 'main.network2.device2.google', value: 3 },
-      { id: 'main.network1.device3.xiaomi', value: 8 },
-      { id: 'main.network1.device3.xiaomi', value: 10 },
-      { id: 'main.network2.device3.xiaomi', value: 15 },
-      { id: 'main.network2.device3.xiaomi', value: 20 },
-      { id: 'main.network1.device3.xiaomi', value: 10 },
-    ];
+    // const data = [
+    //   { id: 'main.network1.device1.apple', value: 1 },
+    //   { id: 'main.network1.device1.google', value: 4 },
+    //   { id: 'main.network2.device2.google', value: 3 },
+    //   { id: 'main.network1.device3.xiaomi', value: 8 },
+    //   { id: 'main.network1.device3.xiaomi', value: 10 },
+    //   { id: 'main.network2.device3.xiaomi', value: 15 },
+    //   { id: 'main.network2.device3.xiaomi', value: 20 },
+    //   { id: 'main.network1.device3.xiaomi', value: 10 },
+    // ];
+    const data = this.props.domain;
 
     return (
       <div className="location-bubble-tab">
@@ -71,6 +83,8 @@ class BubbleLocationTab extends React.Component {
 BubbleLocationTab.defaultProps = {};
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    domain: selectDomainsToday(state),
+  };
 };
 export default connect(mapStateToProps)(BubbleLocationTab);

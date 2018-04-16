@@ -56,6 +56,7 @@ const FixedSidebarWrapper = styled.section`
 
 const FullHeightCardWrapper = styled(CardWrapper)`
   height: 100%;
+  background: rgba(8, 22, 39, 0.4) !important;
 `;
 
 const RightContentWrapper = styled.section`
@@ -256,8 +257,8 @@ class OverviewTab extends Component {
             <FlexWrapper>
               <TimedSwitcher
                 options={[
-                  { value: hostList, delay: 3500000 },
-                  { value: deviceList, delay: 7000 },
+                  { value: deviceList, delay: 3500000 },
+                  { value: hostList, delay: 7000 },
                 ]}
                 onSwitch={this.handleSidebarSwitch}
               />
@@ -270,7 +271,7 @@ class OverviewTab extends Component {
           <Grid gutter={2}>
             <GridItem size={{ lg: 7 }}>
               <CardWrapper>
-                <SectionTitle title="LIVE TRAFFIC (MSG/SEC)" />
+                <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
                 {this.renderMainChart()}
               </CardWrapper>
             </GridItem>

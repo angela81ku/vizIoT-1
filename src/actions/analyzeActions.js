@@ -95,12 +95,17 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
  * dimensions: ['DOMAIN']
  * metrics: ['HITS']
  */
-export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
+export const analyzeAggregationByDomain = (startTime, endTime) => {
   startCoreAnalyze();
 
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
+  const customRecord = REQUEST_RECORD.set('startTime', startTime).set(
+    'endTime',
+    endTime
+  );
+
   return new Promise(resolve => {
-    call(REQUEST_RECORD)
+    call(customRecord)
       .then(resolve)
       .catch(error => {
         failureCoreAnalyze();
@@ -108,7 +113,7 @@ export const analyzeAggregationByDomain = (reducer, startTime, endTime) => {
   }).then(res => {
     successCoreAnalyze({
       payload: res.data,
-      requestBody: REQUEST_RECORD,
+      requestBody: customRecord,
     });
   });
 };

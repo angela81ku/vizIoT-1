@@ -48,6 +48,24 @@ export const selectMacAddressToAlias = state => {
   }, {});
 };
 
+export const selectDomainsToday = (state, numberOf) => {
+  const requestKey = new AnalyticsRequest({
+    dimensions: [GeoDimension.DOMAIN],
+    metrics: [ConnectionMetric.HITS],
+    reducer: DataReducerTypes.INDIVIDUAL,
+    startTime: convertDateTypeToString[DateConstants.TODAY](),
+    endTime: convertDateTypeToString[DateConstants.NOW](),
+  });
+
+  const data = selectDataWithRequest(state, requestKey);
+  const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
+
+  return rows.map(({ dimensions, metrics }) => ({
+    id: `device ${dimensions[0]}`,
+    value: Number(metrics[0]),
+  }));
+};
+
 export const selectMostRecentDomains = (state, numberOf) => {
   const requestKey = new AnalyticsRequest({
     dimensions: [TimeDimension.TIMESTAMP],

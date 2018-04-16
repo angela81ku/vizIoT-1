@@ -25,7 +25,7 @@ export default class DeviceListItem extends React.Component {
               <TruncateString className="deviceListItem__count m-right-1">
                 {testCount}
               </TruncateString>
-              <span>msg</span>
+              <span>conns</span>
             </div>
           </div>
         </Grid>

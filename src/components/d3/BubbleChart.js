@@ -91,7 +91,8 @@ class BubbleChart extends Component {
         .each(d => {
           let id = d.data.id;
           if (id) {
-            let i = id.lastIndexOf('.');
+            let i = id.lastIndexOf(' ');
+
             d.id = id;
             d.package = id.slice(0, i);
             d.class = id.slice(i + 1);

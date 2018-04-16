@@ -1,13 +1,13 @@
 import React from 'react';
 import DeviceListItem from './DeviceListItem';
 import moment from 'moment';
-import List from './BeanList';
+import BeanList from './BeanList';
 
 export default class DeviceList extends React.Component {
   render() {
     const { devices, deviceToNumConnection, lastSeen } = this.props;
     return (
-      <List>
+      <BeanList>
         {devices
           .filter(
             ({ macAddr }) =>
@@ -28,7 +28,7 @@ export default class DeviceList extends React.Component {
               />
             );
           })}
-      </List>
+      </BeanList>
     );
   }
 }
