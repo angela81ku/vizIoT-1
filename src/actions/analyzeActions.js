@@ -2,6 +2,8 @@ import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
 import DeviceDimension from '../data/dimensions/DeviceDimension';
 import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
+import { convertDateTypeToString } from '../utility/TimeUtility';
+import { DateConstants } from '../constants/DateConstants';
 
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
@@ -95,7 +97,10 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
  * dimensions: ['DOMAIN']
  * metrics: ['HITS']
  */
-export const analyzeAggregationByDomain = (startTime, endTime) => {
+export const analyzeAggregationByDomain = (
+  startTime = convertDateTypeToString[DateConstants.TODAY](),
+  endTime = convertDateTypeToString[DateConstants.NOW]()
+) => {
   startCoreAnalyze();
 
   const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
