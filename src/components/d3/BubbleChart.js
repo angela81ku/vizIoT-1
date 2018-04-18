@@ -45,7 +45,7 @@ class BubbleChart extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.redrawChart();
+    // this.redrawChart();
 
     this.setState(() => {
       return {
@@ -96,13 +96,13 @@ class BubbleChart extends Component {
             d.id = id;
             d.package = id.slice(0, i);
             d.class = id.slice(i + 1);
-            d.name = `${d.class.split(/(?=[A-Z][^A-Z])/g)}`;
+            d.name = `${d.class.split(/(?=[A-Z][^A-Z])/g)} ${d.value}`;
           }
         });
 
       const packer = pack()
         .size([graphWidth, graphHeight])
-        .padding(8);
+        .padding(10);
 
       let packedData = packer(root).leaves();
       const node = chartWrapper
@@ -128,29 +128,42 @@ class BubbleChart extends Component {
         // return colorsRgb[thisLevel].toHexString();
       };
 
-      // update - This only applies to updating nodes
+      // exit
       node
-        .transition()
-        .duration(duration)
-        .delay(function(d, i) {
-          delay = i * 7;
-          return delay;
-        })
-        .attr('transform', d => {
-          return `translate(${d.x},${d.y})`;
-        });
+        .exit()
+        // .transition()
+        // .duration(duration + delay)
+        .style('opacity', 0)
+        .remove();
+
+      // update - This only applies to updating nodes
+      // node
+      // .transition()
+      // .duration(duration)
+      // .delay(function(d, i) {
+      //   delay = i * 7;
+      //   return delay;
+      // })
+      // .attr('transform', d => {
+      //   return `translate(${d.x},${d.y})`;
+      // });
+
+      const enterDuration = duration * 1.2;
 
       let updateCircleSelection = node.select('circle');
       updateCircleSelection
         .transition()
         .duration(duration)
         .delay(function(d, i) {
-          delay = i * 7;
+          delay = enterDuration + i * 7;
           return delay;
         })
         .attr('r', d => {
           return d.r;
         })
+        // .attr('transform', d => {
+        //   return `translate(${d.x},${d.y})`;
+        // })
         .style('fill', valueToColor);
 
       // ===============================================================================================================
@@ -169,11 +182,11 @@ class BubbleChart extends Component {
         .attr('id', d => d.id)
         .attr('r', d => d.r)
         .style('fill', valueToColor)
+        .style('fill-opacity', 0)
         .attr('class', d => d.class)
-        .style('opacity', 0)
         .transition()
-        .duration(duration * 1.2)
-        .style('opacity', 1);
+        .duration(enterDuration)
+        .style('fill-opacity', 1);
 
       newNodes
         .append('clipPath')
@@ -217,14 +230,6 @@ class BubbleChart extends Component {
       newNodes.append('title').text(function(d) {
         return d.id + '\n' + format.format(d.value);
       });
-
-      // exit
-      node
-        .exit()
-        .transition()
-        .duration(duration + delay)
-        .style('opacity', 0)
-        .remove();
     }
     circles(graphData);
   }
@@ -255,7 +260,7 @@ class BubbleChart extends Component {
   //   select(this.node)
   //     .transition()
   //     .duration(500)
-  //     .ease(easeLinear)
+  //
   //     .on(whenToActivate, this.onEachLoop);
   // }
 

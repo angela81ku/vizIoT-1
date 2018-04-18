@@ -70,7 +70,7 @@ class BubbleLocationTab extends React.Component {
             </AutoFitComponent>
             <FlexWrapper className="location-bubble-tab__titleWrapper">
               <h5 className="wide-letter location-bubble-tab__title">
-                DESTINATIONS BY LOCATION
+                DESTINATIONS BY 2ND LEVEL DOMAIN
               </h5>
             </FlexWrapper>
           </GridItem>
