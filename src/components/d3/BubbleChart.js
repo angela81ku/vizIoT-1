@@ -131,25 +131,28 @@ class BubbleChart extends Component {
       // exit
       node
         .exit()
-        // .transition()
-        // .duration(duration + delay)
+        .transition()
+        .duration(duration + delay)
         .style('opacity', 0)
         .remove();
 
       // update - This only applies to updating nodes
-      // node
-      // .transition()
-      // .duration(duration)
-      // .delay(function(d, i) {
-      //   delay = i * 7;
-      //   return delay;
-      // })
-      // .attr('transform', d => {
-      //   return `translate(${d.x},${d.y})`;
-      // });
+
+      // This updates nodes
+      node
+        .transition()
+        .duration(duration)
+        .delay(function(d, i) {
+          delay = i * 7;
+          return delay;
+        })
+        .attr('transform', d => {
+          return `translate(${d.x},${d.y})`;
+        });
 
       const enterDuration = duration * 1.2;
 
+      // This updates circles in the nodes
       let updateCircleSelection = node.select('circle');
       updateCircleSelection
         .transition()
