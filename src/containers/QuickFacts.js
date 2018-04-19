@@ -55,14 +55,16 @@ class QuickFacts extends React.Component {
             return (
               <GridItem key={title} size={{ md: 6, lg: 4 }}>
                 <DataWell>
-                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
-                    {Number(data) ? (
-                      <CountUp start={0} end={data} duration={3} />
-                    ) : (
-                      data
-                    )}
-                  </DataWellValueWithFontSize>
-                  <DataWellTitle>{title}</DataWellTitle>
+                  <div>
+                    <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                      {Number(data) ? (
+                        <CountUp start={0} end={data} duration={3} />
+                      ) : (
+                        data
+                      )}
+                    </DataWellValueWithFontSize>
+                    <DataWellTitle>{title}</DataWellTitle>
+                  </div>
                 </DataWell>
               </GridItem>
             );

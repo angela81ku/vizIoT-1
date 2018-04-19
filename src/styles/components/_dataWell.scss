@@ -3,12 +3,13 @@
   list-style-type: none;
   position: relative;
   justify-content: space-between;
-  height: 100px;
+  height: 100%;
   align-items: flex-end;
 }
 .dataWell__inner {
   flex: 1 1;
   text-align: left;
+  display: flex;
 }
 .dataWell__value {
   display: block;

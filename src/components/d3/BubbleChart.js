@@ -321,8 +321,7 @@ class BubbleChart extends Component {
         <svg
           className="bubbleChart"
           ref={node => (this.node = node)}
-          width={width}
-          height={height}
+          viewBox={`0 0 ${width} ${height}`}
           textAnchor="middle"
         >
           <defs>
