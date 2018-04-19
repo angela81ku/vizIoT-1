@@ -42,6 +42,7 @@ export const analyzeApiKeys = {
   MAC_TO_HITS: 'macToHits',
   DOMAIN_TO_HITS: 'domainToHits',
   TIME_TO_DOMAIN: 'timeToDomain',
+  TIME_TO_LOG: 'timeToLog',
 };
 
 export const analyzeApi = {
@@ -108,6 +109,17 @@ export const analyzeApi = {
     REQUEST_RECORD: new AnalyticsRequest({
       dimensions: [TimeDimension.TIMESTAMP],
       metrics: [GeoDimension.DESTINATION],
+      reducer: DataReducerTypes.INDIVIDUAL,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
+    }),
+  },
+
+  [analyzeApiKeys.TIME_TO_LOG]: {
+    call: analyzeAggregationCore,
+    REQUEST_RECORD: new AnalyticsRequest({
+      dimensions: [TimeDimension.TIMESTAMP],
+      metrics: [GeoDimension.DESTINATION, GeoDimension.ORIGIN],
       reducer: DataReducerTypes.INDIVIDUAL,
       startTime: convertDateTypeToString[DateConstants.TODAY](),
       endTime: convertDateTypeToString[DateConstants.NOW](),

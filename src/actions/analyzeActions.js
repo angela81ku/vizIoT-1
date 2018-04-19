@@ -123,14 +123,10 @@ export const analyzeAggregationByDomain = (
   });
 };
 
-/**
- * dimensions: ['seconds']
- * metrics: ['domain']
- */
-export const analyzeAggregationByTimeToDomain = (startTime, endTime) => {
+export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
   startCoreAnalyze();
 
-  const { call, REQUEST_RECORD } = analyzeApi[analyzeApiKeys.TIME_TO_DOMAIN];
+  const { call, REQUEST_RECORD } = analyzeApi[apiKey];
   const customRecord = REQUEST_RECORD.set('startTime', startTime).set(
     'endTime',
     endTime

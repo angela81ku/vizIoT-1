@@ -11,7 +11,7 @@ import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
   requestAggregationByTime,
-  analyzeAggregationByTimeToDomain,
+  analyzeAggregationCore,
 } from '../actions/analyzeActions';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -37,6 +37,7 @@ import { selectMostRecentDomains } from '../selectors/analyticsSelector';
 import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
+import { analyzeApiKeys } from '../data/api/analyzeApi';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -114,7 +115,8 @@ class OverviewTab extends Component {
   }
 
   fetchTimestampToDomain = () => {
-    analyzeAggregationByTimeToDomain(
+    analyzeAggregationCore(
+      analyzeApiKeys.TIME_TO_LOG,
       convertDateTypeToString[DateConstants.N_SECONDS_AGO](360),
       convertDateTypeToString[DateConstants.NOW]()
     );

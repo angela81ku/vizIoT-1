@@ -96,16 +96,15 @@ const ActivityFeed = ({ hosts }) => {
   let lastSeenHost = null;
 
   const hostItems = hosts.map((host, i) => {
+    const { timestamp, name, origin } = host;
     const itemToRender = (
-      <ListItem key={host.timestamp + host.name}>
-        <HostName
-          name={lastSeenHost !== 'google-home-mini' && 'google-home-mini'}
-        />
+      <ListItem key={timestamp + name}>
+        <HostName name={lastSeenHost !== origin && origin} />
         <Card noPadding={true} theme={'log'}>
           <Grid>
             <LeftWrapper>
               {/*<SmallCopy>{host.origin || 'Unknown origin'}</SmallCopy>*/}
-              <Content>{host.name}</Content>
+              <Content>{name}</Content>
             </LeftWrapper>
             <RightWrapper className="flex-center-parent">
               <div>
@@ -120,7 +119,7 @@ const ActivityFeed = ({ hosts }) => {
       </ListItem>
     );
 
-    lastSeenHost = 'google-home-mini';
+    lastSeenHost = origin;
 
     return itemToRender;
   });

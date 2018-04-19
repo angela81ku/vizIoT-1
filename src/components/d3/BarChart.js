@@ -284,7 +284,10 @@ class BarChart extends Component {
     this.redrawChart();
     return (
       <div className="barChart-scrollable-wrapper">
-        <svg ref={node => (this.node = node)} viewBox={`0 0 ${width} ${height}`} />
+        <svg
+          ref={node => (this.node = node)}
+          viewBox={`0 0 ${width} ${height}`}
+        />
       </div>
     );
   }

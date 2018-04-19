@@ -69,22 +69,26 @@ export const selectDomainsToday = (state, numberOf) => {
 export const selectMostRecentDomains = (state, numberOf) => {
   const requestKey = new AnalyticsRequest({
     dimensions: [TimeDimension.TIMESTAMP],
-    metrics: [GeoDimension.DESTINATION],
+    metrics: [GeoDimension.DESTINATION, GeoDimension.ORIGIN],
     reducer: DataReducerTypes.INDIVIDUAL,
     startTime: convertDateTypeToString[DateConstants.N_SECONDS_AGO](360),
     endTime: convertDateTypeToString[DateConstants.NOW](),
   });
   const data = selectDataWithRequest(state, requestKey);
   const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
-  return rows
-    .sort((a, b) => {
-      return Number(b.dimensions[0]) - Number(a.dimensions[0]);
-    })
-    .slice(0, numberOf)
-    .map(({ dimensions, metrics }) => ({
-      name: metrics[0],
-      timestamp: dimensions[0],
-    }));
+  return (
+    rows
+      .sort((a, b) => {
+        return Number(b.dimensions[0]) - Number(a.dimensions[0]);
+      })
+      .slice(0, numberOf)
+      // TODO tell backend to fix this flipped bug
+      .map(({ dimensions, metrics }) => ({
+        name: metrics[1],
+        origin: metrics[0],
+        timestamp: dimensions[0],
+      }))
+  );
 };
 
 export const selectBusiestDevice = state => {
