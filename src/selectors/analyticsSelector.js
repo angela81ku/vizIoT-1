@@ -19,12 +19,12 @@ export const selectDataWithRequest = (state, request) => {
   return selectDataWithHash(state, request.hashCode());
 };
 
-export const selectMostContactedHostToday = state => {
+export const selectMostContactedHostLastPeriod = (state, startTime) => {
   const request = new AnalyticsRequest({
     dimensions: [GeoDimension.DOMAIN],
     metrics: [ConnectionMetric.HITS],
     reducer: DataReducerTypes.INDIVIDUAL,
-    startTime: convertDateTypeToString[DateConstants.TODAY](),
+    startTime: startTime,
     endTime: convertDateTypeToString[DateConstants.NOW](),
   });
 

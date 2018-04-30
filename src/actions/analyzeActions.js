@@ -98,7 +98,7 @@ export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
  * metrics: ['HITS']
  */
 export const analyzeAggregationByDomain = (
-  startTime = convertDateTypeToString[DateConstants.TODAY](),
+  startTime = convertDateTypeToString[DateConstants.N_SECONDS_AGO](600),
   endTime = convertDateTypeToString[DateConstants.NOW]()
 ) => {
   startCoreAnalyze();

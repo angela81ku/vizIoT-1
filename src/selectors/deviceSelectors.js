@@ -56,6 +56,15 @@ export const selectMacAddressToAlias = state => {
   }, {});
 };
 
+export const selectConnectionsToday = state => {
+  const deviceToHitCount = selectNumberOfConnections(state);
+  const sum = Object.values(deviceToHitCount).reduce(
+    (acc, k) => acc + deviceToHitCount[k],
+    0
+  );
+  return sum;
+};
+
 export const selectBusiestDevice = state => {
   const macToAlias = selectMacAddressToAlias(state);
 

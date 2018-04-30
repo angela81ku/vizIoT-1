@@ -13,3 +13,5 @@ export const BODY_TEXT_COLOR_LIGHTER = LIGHTER_COLOR;
 export const BODY_TEXT_COLOR_INVERTED = 'hsl(0, 0%, 40%)';
 export const BODY_TEXT_COLOR_ALT = '#81b7fb';
 export const HEADING_TEXT_COLOR = 'white';
+
+export const CARD_CONTENT_PADDING = '0 0 0 20px';

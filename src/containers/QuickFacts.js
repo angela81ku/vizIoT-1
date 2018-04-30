@@ -12,8 +12,11 @@ import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
-import { selectMostContactedHostToday } from '../selectors/analyticsSelector';
+import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
 import CountUp from 'react-countup';
+import { DateConstants } from '../constants/DateConstants';
+import { convertDateTypeToString } from '../utility/TimeUtility';
+import SectionTitle from '../components/SectionTitle';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -24,32 +27,10 @@ const QuickFactsWrapper = styled.div`
 `;
 
 class QuickFacts extends React.Component {
-  render() {
-    const {
-      numberOfDevices,
-      percentOfHttpConnections,
-      busiestDevice,
-      mostContactedHost,
-    } = this.props;
-
-    const facts = [
-      {
-        title: 'DEVICES',
-        data: numberOfDevices,
-      },
-      {
-        title: 'BUSIEST DEVICE TODAY',
-        data: busiestDevice.name,
-        // fontSize: '3.6rem',
-      },
-      {
-        title: 'MOST POPULAR HOST TODAY',
-        data: mostContactedHost,
-      },
-    ];
-
+  renderQuickFactRow(facts, title) {
     return (
-      <QuickFactsWrapper>
+      <div className="m-bot-5">
+        <SectionTitle title={title} cardPadding={false} />
         <Grid gutter={3}>
           {facts.map(({ title, data, fontSize }) => {
             return (
@@ -70,6 +51,52 @@ class QuickFacts extends React.Component {
             );
           })}
         </Grid>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      numberOfDevices,
+      percentOfHttpConnections,
+      busiestDevice,
+      mostContactedHost,
+    } = this.props;
+
+    const factsToday = [
+      {
+        title: 'DEVICES',
+        data: numberOfDevices,
+      },
+      {
+        title: 'CONNECTIONS',
+        data: '~',
+      },
+      {
+        title: 'UNSECURED',
+        data: '~',
+      },
+    ];
+
+    const factsLast10Min = [
+      {
+        title: 'AVG CONN / SEC',
+        data: 'N/A',
+      },
+      {
+        title: 'BUSIEST DEVICE',
+        data: busiestDevice.name,
+      },
+      {
+        title: 'MOST POPULAR HOST',
+        data: mostContactedHost,
+      },
+    ];
+
+    return (
+      <QuickFactsWrapper>
+        {this.renderQuickFactRow(factsToday, 'TODAY...')}
+        {this.renderQuickFactRow(factsLast10Min, 'LAST 10 MINUTES...')}
       </QuickFactsWrapper>
     );
   }
@@ -87,7 +114,10 @@ const mapStateToProps = state => {
     numberOfDevices: selectNumberOfDevices(state),
     percentOfHttpConnections: `${selectPercentUnsecuredToday(state)}%`,
     busiestDevice: selectBusiestDevice(state),
-    mostContactedHost: selectMostContactedHostToday(state).domainName,
+    mostContactedHost: selectMostContactedHostLastPeriod(
+      state,
+      convertDateTypeToString[DateConstants.N_SECONDS_AGO](600)
+    ).domainName,
   };
 };
 export default connect(mapStateToProps)(QuickFacts);
