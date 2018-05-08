@@ -32,12 +32,14 @@ import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
-import HostList from '../components/ActivityFeed';
+import ActivityFeed from '../components/ActivityFeed';
 import { selectMostRecentDomains } from '../selectors/analyticsSelector';
 import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';
+import { SPACING } from '../data/records/Spacing';
+import ScheduleCard from './ScheduleCard';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -125,46 +127,46 @@ class OverviewTab extends Component {
   componentWillMount() {
     const { networkId } = this.props;
 
-    this.fetchCombinedTrafficData();
-
-    // Fetch all the things.
-    fetchDevices(networkId);
-    this.fetchAllDeviceGraphs();
-    analyzeAggregationByDevice();
-    analyzeAggregationByDomain();
-    this.fetchTimestampToDomain();
-
-    // Set up update loops
-    const logLoop = setInterval(() => {
-      this.fetchTimestampToDomain();
-    }, LOG_REFRESH_DELAY_MS);
-
-    const liveConnectionsPerSecondLoop = setInterval(() => {
-      this.fetchCombinedTrafficData();
-      this.fetchAllDeviceGraphs();
-    }, DATA_REFRESH_DELAY_MS);
-
-    const deviceHitsLoop = setInterval(() => {
-      analyzeAggregationByDevice();
-      analyzeAggregationByDomain();
-    }, DEVICE_HITS_REFRESH_DAY_MS);
-
-    this.setState(() => ({
-      logLoop,
-      liveConnectionsPerSecondLoop,
-      deviceHitsLoop,
-    }));
+    // this.fetchCombinedTrafficData();
+    //
+    // // Fetch all the things.
+    // fetchDevices(networkId);
+    // this.fetchAllDeviceGraphs();
+    // analyzeAggregationByDevice();
+    // analyzeAggregationByDomain();
+    // this.fetchTimestampToDomain();
+    //
+    // // Set up update loops
+    // const logLoop = setInterval(() => {
+    //   this.fetchTimestampToDomain();
+    // }, LOG_REFRESH_DELAY_MS);
+    //
+    // const liveConnectionsPerSecondLoop = setInterval(() => {
+    //   this.fetchCombinedTrafficData();
+    //   this.fetchAllDeviceGraphs();
+    // }, DATA_REFRESH_DELAY_MS);
+    //
+    // const deviceHitsLoop = setInterval(() => {
+    //   analyzeAggregationByDevice();
+    //   analyzeAggregationByDomain();
+    // }, DEVICE_HITS_REFRESH_DAY_MS);
+    //
+    // this.setState(() => ({
+    //   logLoop,
+    //   liveConnectionsPerSecondLoop,
+    //   deviceHitsLoop,
+    // }));
   }
 
   componentWillUnmount() {
-    const {
-      logLoop,
-      liveConnectionsPerSecondLoop,
-      deviceHitsLoop,
-    } = this.state;
-    clearInterval(logLoop);
-    clearInterval(liveConnectionsPerSecondLoop);
-    clearInterval(deviceHitsLoop);
+    // const {
+    //   logLoop,
+    //   liveConnectionsPerSecondLoop,
+    //   deviceHitsLoop,
+    // } = this.state;
+    // clearInterval(logLoop);
+    // clearInterval(liveConnectionsPerSecondLoop);
+    // clearInterval(deviceHitsLoop);
   }
 
   renderSingleDeviceCharts() {
@@ -244,7 +246,7 @@ class OverviewTab extends Component {
     const hostList = (
       <div>
         <SectionTitle title="LATEST ACTIVITY" />
-        <HostList hosts={mostRecentHosts} />
+        <ActivityFeed hosts={mostRecentHosts} />
       </div>
     );
 
@@ -269,6 +271,7 @@ class OverviewTab extends Component {
         </FixedSidebarWrapper>
 
         <RightContentWrapper>
+          <ScheduleCard />
           <QuickFacts />
           <Grid gutter={2}>
             <GridItem size={{ lg: 7 }}>
