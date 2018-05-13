@@ -10,44 +10,6 @@ import { select } from 'd3-selection';
 import { SPACING } from '../../data/records/Spacing';
 import { invertColor } from '../../utility/ColorUtility';
 
-// const ResponseData = Record({
-//   header: {
-//     dimensions: ['date', 'time of day'],
-//     metrics: ['hits'],
-//   },
-//   rows: [
-//     {
-//       dimensions: ['March 10, 2017', '12:00pm'],
-//       metrics: ['10'],
-//     },
-//   ]
-// });
-//
-// const TableData = Record({
-//   header: {
-//     dimensions: ['date', 'time of day'],
-//     metrics: ['hits'],
-//   },
-//   rows: [
-//     {
-//       dimensions: ['April 30, 2018', '12:00'],
-//       metrics: ['10'],
-//     },
-//     {
-//       dimensions: ['April 30, 2018', '12:00'],
-//       metrics: ['10'],
-//     },
-//     {
-//       dimensions: ['April 30, 2018', '13:00'],
-//       metrics: ['10'],
-//     },
-//     {
-//       dimensions: ['April 30, 2018', '13:00'],
-//       metrics: ['10'],
-//     },
-//   ]
-// });
-
 const colors = [
   '#ffffe0',
   '#ffe0a9',
@@ -70,63 +32,60 @@ const determineColor = (value, max) => {
   return colors[Math.floor(percent * (colors.length - 1))];
 };
 
-let CELL_PIXEL_WIDTH = 54;
-let CELL_PIXEL_HEIGHT = 15;
-let ITEMS_IN_ROW = 8;
-let ITEMS_IN_COL = 24;
-let X_CELL_PADDING = 5;
-let CELL_WIDTH_W_PADDING = CELL_PIXEL_WIDTH + X_CELL_PADDING;
-
-const calculateRC = (i, colHeight) => {
-  return { row: i % colHeight, col: Math.floor(i / colHeight) };
+const calculateRC = (dimensions, mapDimensionsToRowColValue, rowValues, colValues) => {
+  const { rowValue, colValue } = mapDimensionsToRowColValue(dimensions);
+  return {
+    rowI: rowValues.findIndex(rVal => rVal === rowValue),
+    colI: colValues.findIndex(cVal => cVal === colValue)
+  };
 };
 
-const calculateXY = (i, colHeight) => {
-  const { row, col } = calculateRC(i, colHeight);
-  return { x: col * CELL_WIDTH_W_PADDING, y: row * CELL_PIXEL_HEIGHT };
+// returns null if no position can be determined.
+const calculateXY = (dimensions, mapDimensionsToRowColValue, rowValues, colValues, w, h) => {
+  const { rowI, colI } = calculateRC(dimensions, mapDimensionsToRowColValue, rowValues, colValues);
+  if (rowI < 0 || colI < 0) {
+    return null;
+  }
+  return { x: colI * w, y: rowI * h };
+};
+
+const getGraphDimensions = (width, height, padding) => {
+  const { l, r, t, b } = padding;
+
+  const graphWidth = width - l - r;
+  const graphHeight = height - t - b;
+  return { graphWidth, graphHeight };
 };
 
 class TemporalHeatTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      graphData: [],
-      graphDimensions: this.getGraphDimensions(),
-    };
-  }
-
   componentDidMount() {
     this.launchChart();
   }
 
-  componentWillReceiveProps(newProps) {
-    const graphDimensions = this.getGraphDimensions();
-    const { graphHeight, graphWidth } = graphDimensions;
-    CELL_PIXEL_HEIGHT = Math.floor(graphHeight / ITEMS_IN_COL);
-    CELL_PIXEL_WIDTH = Math.floor(graphWidth / ITEMS_IN_ROW - X_CELL_PADDING);
-    CELL_WIDTH_W_PADDING = CELL_PIXEL_WIDTH + X_CELL_PADDING;
-    this.setState(() => {
-      return {
-        graphDimensions: graphDimensions,
-        graphData: newProps.data,
-      };
-    });
-  }
-
-  getGraphDimensions() {
-    const { padding, dimension: { width, height } } = this.props;
-    const { l, r, t, b } = padding;
-
-    const graphWidth = width - l - r;
-    const graphHeight = height - t - b;
-    return { graphWidth, graphHeight };
-  }
-
   redrawChart() {
     const {
-      graphData,
-      graphDimensions: { graphWidth, graphHeight },
-    } = this.state;
+      dimension: { width, height },
+      padding,
+      rowValuesGenerator,
+      colValuesGenerator,
+      mapDimensionsToRowColValue,
+      data,
+    } = this.props;
+    const graphDimensions = getGraphDimensions(width, height, padding);
+
+    const { graphHeight, graphWidth } = graphDimensions;
+
+    const X_CELL_PADDING = 5;
+
+    const rowValues = rowValuesGenerator();
+    const ITEMS_IN_COL = rowValues.length;
+    const colValues = colValuesGenerator();
+    const ITEMS_IN_ROW = colValues.length;
+
+    const CELL_PIXEL_HEIGHT = Math.floor(graphHeight / ITEMS_IN_COL);
+    const CELL_PIXEL_WIDTH = Math.floor(graphWidth / ITEMS_IN_ROW - X_CELL_PADDING);
+    const CELL_WIDTH_W_PADDING = CELL_PIXEL_WIDTH + X_CELL_PADDING;
+
 
     // =================================================================================================================
     // Start Render Content
@@ -140,8 +99,18 @@ class TemporalHeatTable extends Component {
     let delay = 100;
 
     // Assume graphData is sorted in oldest to newest order
-    const convertedData = graphData.map((rawData, i) => {
-      const { x, y } = calculateXY(i, ITEMS_IN_COL);
+    const graphData = data.map((rawData, i) => {
+      const [dim1, dim2] = rawData.dimensions;
+      const xy = calculateXY(
+        { rowDimension: dim2, colDimension: dim1 },
+        mapDimensionsToRowColValue,
+        rowValues, colValues,
+        CELL_WIDTH_W_PADDING, CELL_PIXEL_HEIGHT
+      );
+      if (!xy) {
+        return null;
+      }
+      const { x, y } = xy;
       const value = rawData.metrics[0];
       const color = determineColor(value, 100);
       return {
@@ -153,7 +122,7 @@ class TemporalHeatTable extends Component {
         textColor: invertColor(color, true),
         value,
       };
-    });
+    }).filter(x => !!x);
 
     const getTextX = d => d.textX;
     const getTextY = d => d.textY;
@@ -165,7 +134,7 @@ class TemporalHeatTable extends Component {
     const nodes = chartWrapper
       .select('.geo')
       .selectAll('.nodes')
-      .data(convertedData, d => hash(d));
+      .data(graphData, d => hash(d));
 
     // const numLevels = 12;
     // const colorsRgb = colorScheme.rgb(numLevels);
@@ -283,7 +252,7 @@ class TemporalHeatTable extends Component {
     const textNode = chartWrapper
       .select('.labels')
       .selectAll('text')
-      .data(convertedData);
+      .data(graphData);
     setTextAttr(textNode);
 
     const enterText = textNode.enter().append('text');
@@ -294,9 +263,6 @@ class TemporalHeatTable extends Component {
 
   launchChart = () => {
     const { data, padding } = this.props;
-    const { leftAxisMargin, graphDimensions } = this.state;
-    const { graphWidth, graphHeight } = graphDimensions;
-
     const graphData = data;
     this.setState(() => {
       return { graphData };
@@ -345,9 +311,23 @@ class TemporalHeatTable extends Component {
 }
 
 TemporalHeatTable.propTypes = {
-  dimension: PropTypes.object.isRequired,
+  dimension: PropTypes.object,
   data: PropTypes.array.isRequired,
-  padding: PropTypes.instanceOf(SPACING).isRequired,
+  padding: PropTypes.instanceOf(SPACING),
+
+  rowValuesGenerator: PropTypes.func,
+  colValuesGenerator: PropTypes.func,
+};
+
+TemporalHeatTable.defaultProps = {
+  dimension: {
+    width: 0,
+    height: 0,
+  },
+  padding: new SPACING(),
+
+  rowValuesGenerator: () => [],
+  colValuesGenerator: () => [],
 };
 
 export default TemporalHeatTable;
