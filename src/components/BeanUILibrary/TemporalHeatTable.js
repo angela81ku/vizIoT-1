@@ -52,9 +52,19 @@ const calculateXY = (dimensions, mapDimensionsToRowColValue, rowValues, colValue
 const getGraphDimensions = (width, height, padding) => {
   const { l, r, t, b } = padding;
 
-  const graphWidth = width - l - r;
-  const graphHeight = height - t - b;
-  return { graphWidth, graphHeight };
+  const contentWidth = width - l - r;
+  const contentHeight = height - t - b;
+  return { contentWidth, contentHeight };
+};
+
+const feedDataToNode = (node, nodeType, data, attrSetter) => {
+  const nodeWithData = node.data(data);
+  attrSetter(nodeWithData);
+
+  const newNodes = nodeWithData.enter().append(nodeType);
+  attrSetter(newNodes);
+
+  nodeWithData.exit().remove();
 };
 
 class TemporalHeatTable extends Component {
@@ -68,12 +78,20 @@ class TemporalHeatTable extends Component {
       padding,
       rowValuesGenerator,
       colValuesGenerator,
+      renderRowLabel,
+      renderColumnLabel,
       mapDimensionsToRowColValue,
       data,
     } = this.props;
     const graphDimensions = getGraphDimensions(width, height, padding);
 
-    const { graphHeight, graphWidth } = graphDimensions;
+    const { contentHeight, contentWidth } = graphDimensions;
+
+    const Y_AXIS_WIDTH = 55;
+    const X_AXIS_HEIGHT = 45;
+
+    const MAIN_CHART_HEIGHT = contentHeight - X_AXIS_HEIGHT;
+    const MAIN_CHART_WIDTH = contentWidth - Y_AXIS_WIDTH;
 
     const X_CELL_PADDING = 5;
 
@@ -82,10 +100,9 @@ class TemporalHeatTable extends Component {
     const colValues = colValuesGenerator();
     const ITEMS_IN_ROW = colValues.length;
 
-    const CELL_PIXEL_HEIGHT = Math.floor(graphHeight / ITEMS_IN_COL);
-    const CELL_PIXEL_WIDTH = Math.floor(graphWidth / ITEMS_IN_ROW - X_CELL_PADDING);
+    const CELL_PIXEL_HEIGHT = Math.floor(MAIN_CHART_HEIGHT / ITEMS_IN_COL);
+    const CELL_PIXEL_WIDTH = Math.floor(MAIN_CHART_WIDTH / ITEMS_IN_ROW - X_CELL_PADDING);
     const CELL_WIDTH_W_PADDING = CELL_PIXEL_WIDTH + X_CELL_PADDING;
-
 
     // =================================================================================================================
     // Start Render Content
@@ -131,8 +148,12 @@ class TemporalHeatTable extends Component {
     const getColor = d => d.color;
     const getClass = d => d.class;
 
+    chartWrapper
+      .select('.chartBody')
+      .attr('transform', `translate(${Y_AXIS_WIDTH}, ${X_AXIS_HEIGHT})`);
+
     const nodes = chartWrapper
-      .select('.geo')
+      .select('.dataNodes')
       .selectAll('.nodes')
       .data(graphData, d => hash(d));
 
@@ -231,11 +252,11 @@ class TemporalHeatTable extends Component {
 
     newNodes
       .append('clipPath')
-      .attr('id', function(d) {
+      .attr('id', d => {
         return 'clip-' + d.id;
       })
       .append('use')
-      .attr('xlink:href', function(d) {
+      .attr('xlink:href', d => {
         return '#' + d.id;
       });
 
@@ -249,16 +270,47 @@ class TemporalHeatTable extends Component {
         .text(getValue);
     };
 
-    const textNode = chartWrapper
-      .select('.labels')
-      .selectAll('text')
-      .data(graphData);
-    setTextAttr(textNode);
+    const setLeftAxisAttr = target => {
+      // const yOffSet = 15;
+      return target
+        .attr('text-anchor', 'start')
+        .attr('dominant-baseline', 'text-before-edge')
+        // .attr('fill', '#FFFFFF')
+        .attr('x', 0)
+        .attr('y', (d, i) => X_AXIS_HEIGHT + i * CELL_PIXEL_HEIGHT)
+        .text(d => renderRowLabel(d));
+    };
 
-    const enterText = textNode.enter().append('text');
-    setTextAttr(enterText);
+    const setRightAxisAttr = target => {
+      return target
+        .attr('text-anchor', 'start')
+        .attr('dominant-baseline', 'text-before-edge')
+        // .attr('fill', '#FFFFFF')
+        .attr('x', (d, i) => Y_AXIS_WIDTH + i * CELL_WIDTH_W_PADDING)
+        .attr('y', 0)
+        .text(d => renderColumnLabel(d));
+    };
 
-    textNode.exit().remove();
+    feedDataToNode(
+      chartWrapper.select('.leftAxis').selectAll('text'),
+      'text',
+      rowValues,
+      setLeftAxisAttr
+    );
+
+    feedDataToNode(
+      select('.topAxis').selectAll('text'),
+      'text',
+      colValues,
+      setRightAxisAttr
+    );
+
+    feedDataToNode(
+      chartWrapper.select('.labels').selectAll('text'),
+      'text',
+      graphData,
+      setTextAttr
+    );
   }
 
   launchChart = () => {
@@ -281,9 +333,15 @@ class TemporalHeatTable extends Component {
       .attr('class', 'chartWrapper')
       .attr('transform', `translate(${lPadding}, ${tPadding})`);
 
-    chartWrapper.append('g').attr('class', 'geo');
+    chartWrapper.append('g').attr('class', 'chartBody');
 
-    chartWrapper.append('g').attr('class', 'labels');
+    chartWrapper.select('.chartBody').append('g').attr('class', 'dataNodes');
+
+    chartWrapper.select('.chartBody').append('g').attr('class', 'labels');
+
+    const axisWrapper = chartWrapper.append('g').attr('class', 'axis');
+    axisWrapper.append('g').attr('class', 'topAxis');
+    axisWrapper.append('g').attr('class', 'leftAxis');
   }
 
   render() {

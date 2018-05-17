@@ -13,11 +13,12 @@ import SectionSubtitle from '../components/SectionSubtitle';
 import { SPACING } from '../data/records/Spacing';
 
 const dayFormat = 'M DD, YYYY';
-const colLabelFormat = 'M/DD';
-const timeFormat = 'HH:ss';
+const colLabelFormat = 'dd';
+const timeFormat = 'HHA';
 
 const AutofitWithHeight = styled(AutoFitComponent)`
-  height: 470px;
+  height: 520px;
+  padding: 20px;
 `;
 
 const logMoment = (m, prefix) => {
@@ -67,13 +68,16 @@ const ScheduleCard = ({ className }) => {
       />
       <AutofitWithHeight>
         <TemporalHeatTable
-          padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
+          padding={new SPACING({ l: 5 })}
           data={createPlaceholderData()}
-          renderRowLabel={rowValue => moment(rowValue, 'HH').format(timeFormat)}
-          renderColumnLabel={colValue => colValue.format(colLabelFormat)}
+          renderRowLabel={rowValue => {
+            const date = moment(rowValue, 'HH');
+            const hourNumber = date.hours();
+            return hourNumber % 2 === 0 ? date.format(timeFormat) : ''
+          }}
+          renderColumnLabel={colValue => moment(colValue, dayFormat).format(colLabelFormat).toUpperCase()}
           mapDimensionsToRowColValue={({ rowDimension, colDimension }) => {
             const rowValue = moment(rowDimension, timeFormat).hour();
-            debugger
             const colValue = colDimension;
             return { rowValue, colValue };
           }}
