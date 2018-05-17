@@ -17,7 +17,7 @@ const colLabelFormat = 'dd';
 const timeFormat = 'HHA';
 
 const AutofitWithHeight = styled(AutoFitComponent)`
-  height: 520px;
+  height: 538px;
   padding: 20px;
 `;
 
@@ -32,6 +32,8 @@ const createPlaceholderData = () => {
 
   const now = moment();
   const nowFlooredHour = moment(now).startOf('hour');
+  const nowEndDay = moment(now).endOf('day');
+
   const startOfDayAWeekAgo = moment(now)
     .subtract('week', 1)
     .startOf('day');
@@ -40,14 +42,20 @@ const createPlaceholderData = () => {
   logMoment(nowFlooredHour, 'nowFlooredHour');
   logMoment(startOfDayAWeekAgo, 'startOfDayAWeekAgo');
 
-  let iTime = nowFlooredHour;
+  let iTime = nowEndDay;
   while (iTime.unix() >= startOfDayAWeekAgo.unix()) {
     logMoment(iTime, 'generating for: ');
+
+    let metricValue = [Math.floor(Math.random() * 100)];
+
+    if (iTime.unix() > now.unix()) {
+      metricValue = [null];
+    }
 
     rows = [
       {
         dimensions: [iTime.format(dayFormat), iTime.format(timeFormat)],
-        metrics: [Math.floor(Math.random() * 100)],
+        metrics: metricValue,
       },
       ...rows,
     ];

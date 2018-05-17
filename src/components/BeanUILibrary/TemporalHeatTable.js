@@ -129,6 +129,21 @@ class TemporalHeatTable extends Component {
       }
       const { x, y } = xy;
       const value = rawData.metrics[0];
+
+      // Edge case if metric is null:
+      if (value === null) {
+        const blankCellRenderData = {
+          x,
+          y,
+          textX: x + CELL_PIXEL_WIDTH / 2 + 2,
+          textY: y + CELL_PIXEL_HEIGHT / 2 + 3,
+          color: '#FFFFFF33',
+          textColor: invertColor('#FFFFFF', true),
+          value: '',
+        };
+        return blankCellRenderData;
+      }
+
       const color = determineColor(value, 100);
       return {
         x,
