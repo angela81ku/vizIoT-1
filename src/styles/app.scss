@@ -7,7 +7,6 @@
 
 @import "/components/appTime";
 @import "/components/likeBtn";
-@import "/components/cardWrapper";
 @import "/components/tabTitle";
 @import "/components/barChart";
 @import "/components/deviceListItem";
@@ -22,6 +21,22 @@
 @import "/containers/locationTab";
 @import "/containers/overviewTab";
 @import "/containers/playground";
+
+.noShadow {
+  box-shadow: none;
+}
+
+.noBorder {
+  border: none;
+}
+
+.noPadding {
+  padding: 0;
+}
+
+.noBackground {
+  background: transparent none;
+}
 
 .tint-background {
   z-index: -1;

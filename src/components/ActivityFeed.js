@@ -9,7 +9,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import * as theme from '../styles/base/viz-theme';
-import CardWrapper from './BeanUILibrary/CardWrapper';
+import BCard from './BeanUILibrary/BCard';
 
 const FillHeightOrMore = styled(BeanList)`
   flex: 1;
@@ -54,7 +54,7 @@ const SmallCopy = styled.span`
   font-size: 1.1rem;
 `;
 
-const Card = styled(CardWrapper)`
+const Card = styled(BCard)`
   font-size: 1rem;
   
   ${props =>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from './BeanUILibrary/Grid';
-import CardWrapper from './BeanUILibrary/CardWrapper';
+import BCard from './BeanUILibrary/BCard';
 import TruncateString from './BeanUILibrary/TruncateString';
 
 export default class DeviceListItem extends React.Component {
@@ -9,7 +9,7 @@ export default class DeviceListItem extends React.Component {
     const { macAddr, alias, lastSeen } = device;
 
     return (
-      <CardWrapper className="deviceListItem__wrapper m-bot-3" noPadding={true}>
+      <BCard className="deviceListItem__wrapper m-bot-3" noPadding={true}>
         <Grid>
           <div className="deviceListItem__deviceInfo">
             <h6 className="deviceListItem__deviceName m-top-1">
@@ -29,7 +29,7 @@ export default class DeviceListItem extends React.Component {
             </div>
           </div>
         </Grid>
-      </CardWrapper>
+      </BCard>
     );
   }
 }

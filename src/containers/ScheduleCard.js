@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import styled from 'styled-components';
 
-import CardWrapper from '../components/BeanUILibrary/CardWrapper';
+import BCard from '../components/BeanUILibrary/BCard';
 import AutoFitComponent from '../components/AutoFitComponent';
 import TemporalHeatTable from '../components/BeanUILibrary/TemporalHeatTable';
 import SectionTitle from '../components/SectionTitle';
@@ -68,7 +68,7 @@ const createPlaceholderData = () => {
 
 const ScheduleCard = ({ className }) => {
   return (
-    <CardWrapper>
+    <BCard>
       <SectionTitle title="SCHEDULE VIEW" />
       <SectionSubtitle
         text="THROUGHPUT BY HOUR OVER LAST WEEK"
@@ -114,7 +114,7 @@ const ScheduleCard = ({ className }) => {
           }}
         />
       </AutofitWithHeight>
-    </CardWrapper>
+    </BCard>
   );
 };
 

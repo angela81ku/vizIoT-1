@@ -1,7 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { CARD_COLOR, CARD_SHADOW } from '../../styles/base/viz-theme';
 
-class CardWrapper extends React.Component {
+const StyledBCard = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  padding: 1rem;
+
+  background: ${CARD_COLOR};
+  box-shadow: ${CARD_SHADOW};
+  border-radius: 0.1875rem;
+`;
+
+class BCard extends React.Component {
   render() {
     const {
       noShadow,
@@ -12,7 +27,7 @@ class CardWrapper extends React.Component {
       children,
     } = this.props;
 
-    const classNames = ['cardWrapper'].concat(
+    const classNames = ['bean--card'].concat(
       className ? className.split(' ') : []
     );
     if (noShadow) {
@@ -28,11 +43,11 @@ class CardWrapper extends React.Component {
       classNames.push('noBackground');
     }
 
-    return <div className={classNames.join(' ')}>{children}</div>;
+    return <StyledBCard className={classNames.join(' ')}>{children}</StyledBCard>;
   }
 }
 
-CardWrapper.propTypes = {
+BCard.propTypes = {
   noShadow: PropTypes.bool,
   noBorder: PropTypes.bool,
   noPadding: PropTypes.bool,
@@ -40,4 +55,4 @@ CardWrapper.propTypes = {
   className: PropTypes.string,
 };
 
-export default CardWrapper;
+export default BCard;

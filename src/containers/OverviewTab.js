@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '../components/BeanUILibrary/Grid';
 import GridItem from '../components/BeanUILibrary/GridItem';
-import CardWrapper from '../components/BeanUILibrary/CardWrapper';
+import BCard from '../components/BeanUILibrary/BCard';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
 import {
@@ -57,7 +57,7 @@ const FixedSidebarWrapper = styled.section`
   }
 `;
 
-const FullHeightCardWrapper = styled(CardWrapper)`
+const FullHeightBCard = styled(BCard)`
   height: 100%;
   background: rgba(8, 22, 39, 0.4) !important;
 `;
@@ -183,7 +183,7 @@ class OverviewTab extends Component {
 
         return (
           <GridItem key={macAddr} size={{ xs: 12 }} space="m-bot-3">
-            <CardWrapper>
+            <BCard>
               <div className="extra-small-spacer" />
               <DeviceActivityChart
                 className="device-chart"
@@ -192,7 +192,7 @@ class OverviewTab extends Component {
                 device={d}
                 chartConfig={singleDeviceChartConfig}
               />
-            </CardWrapper>
+            </BCard>
           </GridItem>
         );
       });
@@ -257,7 +257,7 @@ class OverviewTab extends Component {
         </div>
 
         <FixedSidebarWrapper>
-          <FullHeightCardWrapper noShadow={true} noPadding={false}>
+          <FullHeightBCard noShadow={true} noPadding={false}>
             <FlexWrapper>
               <TimedSwitcher
                 options={[
@@ -267,7 +267,7 @@ class OverviewTab extends Component {
                 onSwitch={this.handleSidebarSwitch}
               />
             </FlexWrapper>
-          </FullHeightCardWrapper>
+          </FullHeightBCard>
         </FixedSidebarWrapper>
 
         <RightContentWrapper>
@@ -275,10 +275,10 @@ class OverviewTab extends Component {
           <QuickFacts />
           <Grid gutter={2}>
             <GridItem size={{ lg: 7 }}>
-              <CardWrapper>
+              <BCard>
                 <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
                 {this.renderMainChart()}
-              </CardWrapper>
+              </BCard>
             </GridItem>
             <GridItem size={{ lg: 5 }}>
               {this.renderSingleDeviceCharts()}
