@@ -6,7 +6,7 @@ class GridItem extends React.Component {
   }
 
   render() {
-    const { size, style, space } = this.props;
+    const { size, space, className: passedCN } = this.props;
     let classNames = Object.entries(size).reduce((result, ting) => {
       result += `col-${ting[0]}-${ting[1]} `;
       return result;
@@ -16,7 +16,7 @@ class GridItem extends React.Component {
     // console.log(classNames)
 
     return (
-      <div className={classNames} style={style}>
+      <div className={`${classNames} ${passedCN}`}>
         {this.props.children}
       </div>
     );
