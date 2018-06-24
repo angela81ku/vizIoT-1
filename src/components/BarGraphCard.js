@@ -4,7 +4,7 @@ import BarChart from './d3/BarChart';
 import MomentUnit from '../constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from '../data/records/Spacing';
-import FlexWrapper from './BeanUILibrary/FlexWrapper';
+import FlexWrapper from 'UIBean/FlexWrapper';
 
 class BarGraphCard extends React.Component {
   constructor(props) {

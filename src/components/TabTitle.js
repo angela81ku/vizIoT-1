@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from './BeanUILibrary/Grid';
+import Grid from 'UIBean/Grid';
 
 class TabTitle extends React.Component {
   constructor(props) {

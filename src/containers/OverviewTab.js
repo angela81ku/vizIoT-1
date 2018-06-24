@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '../components/BeanUILibrary/Grid';
-import GridItem from '../components/BeanUILibrary/GridItem';
-import BCard from '../components/BeanUILibrary/BCard';
+import Grid from 'UIBean/Grid';
+import GridItem from 'UIBean/GridItem';
+import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
 import {
@@ -27,14 +27,14 @@ import {
   selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
-import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
+import FlexWrapper from 'UIBean/FlexWrapper';
 import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
 import ActivityFeed from '../components/ActivityFeed';
 import { selectMostRecentDomains } from '../selectors/analyticsSelector';
-import TimedSwitcher from '../components/BeanUILibrary/TimedSwitcher';
+import TimedSwitcher from 'UIBean/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';

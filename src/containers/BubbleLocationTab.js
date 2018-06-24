@@ -1,12 +1,12 @@
 import React from 'react';
-import Grid from '../components/BeanUILibrary/Grid';
-import GridItem from '../components/BeanUILibrary/GridItem';
+import Grid from 'UIBean/Grid';
+import GridItem from 'UIBean/GridItem';
 import { connect } from 'react-redux';
 import BubbleChart from '../components/d3/BubbleChart';
 import { SPACING } from '../data/records/Spacing';
 import AutoFitComponent from '../components/AutoFitComponent';
 import BucketUnitConstants from '../constants/BucketUnit';
-import FlexWrapper from '../components/BeanUILibrary/FlexWrapper';
+import FlexWrapper from 'UIBean/FlexWrapper';
 import { analyzeAggregationByDomain } from '../actions/analyzeActions';
 import { selectDomainsToday } from '../selectors/analyticsSelector';
 import { DateConstants } from '../constants/DateConstants';

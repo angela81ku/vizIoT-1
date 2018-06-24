@@ -6,11 +6,11 @@ import {
   selectNumberOfDevices,
   selectPercentUnsecuredToday,
 } from '../selectors/deviceSelectors';
-import Grid from '../components/BeanUILibrary/Grid';
-import GridItem from '../components/BeanUILibrary/GridItem';
-import DataWell from '../components/BeanUILibrary/DataWell';
-import DataWellValue from '../components/BeanUILibrary/DataWellValue';
-import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
+import Grid from 'UIBean/Grid';
+import GridItem from 'UIBean/GridItem';
+import DataWell from 'UIBean/DataWell';
+import DataWellValue from 'UIBean/DataWellValue';
+import DataWellTitle from 'UIBean/DataWellTitle';
 import styled from 'styled-components';
 import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
 import CountUp from 'react-countup';

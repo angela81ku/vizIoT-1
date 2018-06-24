@@ -3,13 +3,13 @@
 import React from 'react';
 import BeanList from './BeanList';
 import ListItem from './ListItem';
-import Grid from './BeanUILibrary/Grid';
-import TruncateString from './BeanUILibrary/TruncateString';
+import Grid from 'UIBean/Grid';
+import TruncateString from 'UIBean/TruncateString';
 import moment from 'moment';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import * as theme from '../styles/base/viz-theme';
-import BCard from './BeanUILibrary/BCard';
+import BCard from 'UIBean/BCard';
 
 const FillHeightOrMore = styled(BeanList)`
   flex: 1;

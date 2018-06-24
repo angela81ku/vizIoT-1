@@ -1,7 +1,7 @@
 import React from 'react';
-import Grid from './BeanUILibrary/Grid';
-import BCard from './BeanUILibrary/BCard';
-import TruncateString from './BeanUILibrary/TruncateString';
+import Grid from 'UIBean/Grid';
+import BCard from 'UIBean/BCard';
+import TruncateString from 'UIBean/TruncateString';
 
 export default class DeviceListItem extends React.Component {
   render() {

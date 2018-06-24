@@ -4,7 +4,7 @@ import TabTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
-import CoverFlow from '../components/BeanUILibrary/CoverFlow';
+import CoverFlow from 'UIBean/CoverFlow';
 
 const Tabs = {
   OVERVIEW: {

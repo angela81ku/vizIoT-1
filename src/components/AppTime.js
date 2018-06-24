@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Sticky from './BeanUILibrary/Sticky';
+import Sticky from 'UIBean/Sticky';
 
 class AppTime extends React.Component {
   constructor(props) {

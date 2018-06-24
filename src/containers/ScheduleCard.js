@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import styled from 'styled-components';
 
-import BCard from '../components/BeanUILibrary/BCard';
+import BCard from 'UIBean/BCard';
 import AutoFitComponent from '../components/AutoFitComponent';
-import TemporalHeatTable from '../components/BeanUILibrary/TemporalHeatTable';
+import TemporalHeatTable from 'UIBean/TemporalHeatTable';
 import SectionTitle from '../components/SectionTitle';
 import SectionSubtitle from '../components/SectionSubtitle';
 import { SPACING } from '../data/records/Spacing';
