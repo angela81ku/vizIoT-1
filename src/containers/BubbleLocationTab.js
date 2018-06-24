@@ -1,6 +1,6 @@
 import React from 'react';
 import Flex from 'UIBean/Flex';
-import GridItem from 'UIBean/GridItem';
+import FlexSize from 'UIBean/FlexSize';
 import { connect } from 'react-redux';
 import BubbleChart from 'VizIoT/components/d3/BubbleChart';
 import { SPACING } from 'VizIoT/data/records/Spacing';
@@ -55,7 +55,7 @@ class BubbleLocationTab extends React.Component {
     return (
       <div className="location-bubble-tab">
         <Flex gutter={3}>
-          <GridItem size={{ md: 12 }}>
+          <FlexSize size={{ md: 12 }}>
             <AutoFitComponent className="location-bubble-chart">
               <BubbleChart
                 dimension={{
@@ -73,7 +73,7 @@ class BubbleLocationTab extends React.Component {
                 DESTINATIONS BY 2ND LEVEL DOMAIN
               </h5>
             </Flex>
-          </GridItem>
+          </FlexSize>
         </Flex>
       </div>
     );

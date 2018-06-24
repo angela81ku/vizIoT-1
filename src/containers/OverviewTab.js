@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Flex from 'UIBean/Flex';
-import GridItem from 'UIBean/GridItem';
+import FlexSize from 'UIBean/FlexSize';
 import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
@@ -182,7 +182,7 @@ class OverviewTab extends Component {
         const dataKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
         return (
-          <GridItem key={macAddr} size={{ xs: 12 }} space="m-bot-3">
+          <FlexSize key={macAddr} size={{ xs: 12 }} space="m-bot-3">
             <BCard>
               <div className="extra-small-spacer" />
               <DeviceActivityChart
@@ -193,7 +193,7 @@ class OverviewTab extends Component {
                 chartConfig={singleDeviceChartConfig}
               />
             </BCard>
-          </GridItem>
+          </FlexSize>
         );
       });
 
@@ -274,15 +274,15 @@ class OverviewTab extends Component {
           <ScheduleCard />
           <QuickFacts />
           <Flex gutter={2}>
-            <GridItem size={{ lg: 7 }}>
+            <FlexSize size={{ lg: 7 }}>
               <BCard>
                 <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
                 {this.renderMainChart()}
               </BCard>
-            </GridItem>
-            <GridItem size={{ lg: 5 }}>
+            </FlexSize>
+            <FlexSize size={{ lg: 5 }}>
               {this.renderSingleDeviceCharts()}
-            </GridItem>
+            </FlexSize>
           </Flex>
         </RightContentWrapper>
       </div>

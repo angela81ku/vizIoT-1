@@ -16,15 +16,15 @@ class Flex extends React.Component {
   render() {
     const { direction, gutter, className, animate } = this.props;
     return (
-      <div className={classNames(className,
-        {
-          'flex': true,
+      <div
+        className={classNames(className, {
+          flex: true,
           [`gutter-${gutter}`]: gutter,
-          'fade': animate,
+          fade: animate,
           'flex-row': direction === FlexDirection.ROW,
           'flex-column': direction === FlexDirection.COLUMN,
-        }
-      )}>
+        })}
+      >
         {this.props.children}
       </div>
     );

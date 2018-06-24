@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export default FlexChild = ({
+// TODO, rename to 'Box'
+const FlexChild = ({
   alignSelf,
   basis,
   grow,
@@ -22,7 +23,7 @@ export default FlexChild = ({
   })``;
 
   return <StyledDiv {...props}>{children}</StyledDiv>;
-}
+};
 
 FlexChild.defaultProps = {
   alignSelf: 'auto',
@@ -50,3 +51,5 @@ FlexChild.propTypes = {
   ]),
   shrink: PropTypes.number,
 };
+
+export default FlexChild;

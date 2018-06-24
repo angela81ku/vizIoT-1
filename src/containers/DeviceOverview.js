@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';
-import GridItem from 'UIBean/GridItem';
+import FlexSize from 'UIBean/FlexSize';
 
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import { OFF_BLACK } from 'VizIoT/styles/base/viz-theme';
@@ -22,7 +22,7 @@ const PageContent = styled.div`
   padding-top: 80px;
 `;
 
-const DeviceCardWrapper = styled(GridItem)`
+const DeviceCardWrapper = styled(FlexSize)`
   display: inline-flex;
   justify-content: center;
   width: 100%;
@@ -55,11 +55,11 @@ class DeviceOverview extends Component {
         <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
           <DeviceCard>
             <Flex>
-              <GridItem>
+              <FlexSize>
                 <DeviceName>{alias}</DeviceName>
                 <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
-              </GridItem>
-              <GridItem>{`hello world ${id}`}</GridItem>
+              </FlexSize>
+              <FlexSize>{`hello world ${id}`}</FlexSize>
             </Flex>
           </DeviceCard>
         </DeviceCardWrapper>

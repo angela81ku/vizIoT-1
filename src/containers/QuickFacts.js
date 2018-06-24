@@ -7,7 +7,7 @@ import {
   selectPercentUnsecuredToday,
 } from '../selectors/deviceSelectors';
 import Flex from 'UIBean/Flex';
-import GridItem from 'UIBean/GridItem';
+import FlexSize from 'UIBean/FlexSize';
 import DataWell from 'UIBean/DataWell';
 import DataWellValue from 'UIBean/DataWellValue';
 import DataWellTitle from 'UIBean/DataWellTitle';
@@ -34,7 +34,7 @@ class QuickFacts extends React.Component {
         <Flex gutter={3}>
           {facts.map(({ title, data, fontSize }) => {
             return (
-              <GridItem key={title} size={{ md: 6, lg: 4 }}>
+              <FlexSize key={title} size={{ md: 6, lg: 4 }}>
                 <DataWell>
                   <div>
                     <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
@@ -47,7 +47,7 @@ class QuickFacts extends React.Component {
                     <DataWellTitle>{title}</DataWellTitle>
                   </div>
                 </DataWell>
-              </GridItem>
+              </FlexSize>
             );
           })}
         </Flex>
