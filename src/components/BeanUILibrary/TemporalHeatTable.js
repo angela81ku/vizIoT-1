@@ -32,17 +32,34 @@ const determineColor = (value, max) => {
   return colors[Math.floor(percent * (colors.length - 1))];
 };
 
-const calculateRC = (dimensions, mapDimensionsToRowColValue, rowValues, colValues) => {
+const calculateRC = (
+  dimensions,
+  mapDimensionsToRowColValue,
+  rowValues,
+  colValues
+) => {
   const { rowValue, colValue } = mapDimensionsToRowColValue(dimensions);
   return {
     rowI: rowValues.findIndex(rVal => rVal === rowValue),
-    colI: colValues.findIndex(cVal => cVal === colValue)
+    colI: colValues.findIndex(cVal => cVal === colValue),
   };
 };
 
 // returns null if no position can be determined.
-const calculateXY = (dimensions, mapDimensionsToRowColValue, rowValues, colValues, w, h) => {
-  const { rowI, colI } = calculateRC(dimensions, mapDimensionsToRowColValue, rowValues, colValues);
+const calculateXY = (
+  dimensions,
+  mapDimensionsToRowColValue,
+  rowValues,
+  colValues,
+  w,
+  h
+) => {
+  const { rowI, colI } = calculateRC(
+    dimensions,
+    mapDimensionsToRowColValue,
+    rowValues,
+    colValues
+  );
   if (rowI < 0 || colI < 0) {
     return null;
   }
@@ -101,7 +118,9 @@ class TemporalHeatTable extends Component {
     const ITEMS_IN_ROW = colValues.length;
 
     const CELL_PIXEL_HEIGHT = Math.floor(MAIN_CHART_HEIGHT / ITEMS_IN_COL);
-    const CELL_PIXEL_WIDTH = Math.floor(MAIN_CHART_WIDTH / ITEMS_IN_ROW - X_CELL_PADDING);
+    const CELL_PIXEL_WIDTH = Math.floor(
+      MAIN_CHART_WIDTH / ITEMS_IN_ROW - X_CELL_PADDING
+    );
     const CELL_WIDTH_W_PADDING = CELL_PIXEL_WIDTH + X_CELL_PADDING;
 
     // =================================================================================================================
@@ -116,45 +135,49 @@ class TemporalHeatTable extends Component {
     let delay = 100;
 
     // Assume graphData is sorted in oldest to newest order
-    const graphData = data.map((rawData, i) => {
-      const [dim1, dim2] = rawData.dimensions;
-      const xy = calculateXY(
-        { rowDimension: dim2, colDimension: dim1 },
-        mapDimensionsToRowColValue,
-        rowValues, colValues,
-        CELL_WIDTH_W_PADDING, CELL_PIXEL_HEIGHT
-      );
-      if (!xy) {
-        return null;
-      }
-      const { x, y } = xy;
-      const value = rawData.metrics[0];
+    const graphData = data
+      .map((rawData, i) => {
+        const [dim1, dim2] = rawData.dimensions;
+        const xy = calculateXY(
+          { rowDimension: dim2, colDimension: dim1 },
+          mapDimensionsToRowColValue,
+          rowValues,
+          colValues,
+          CELL_WIDTH_W_PADDING,
+          CELL_PIXEL_HEIGHT
+        );
+        if (!xy) {
+          return null;
+        }
+        const { x, y } = xy;
+        const value = rawData.metrics[0];
 
-      // Edge case if metric is null:
-      if (value === null) {
-        const blankCellRenderData = {
+        // Edge case if metric is null:
+        if (value === null) {
+          const blankCellRenderData = {
+            x,
+            y,
+            textX: x + CELL_PIXEL_WIDTH / 2 + 2,
+            textY: y + CELL_PIXEL_HEIGHT / 2 + 3,
+            color: '#FFFFFF33',
+            textColor: invertColor('#FFFFFF', true),
+            value: '',
+          };
+          return blankCellRenderData;
+        }
+
+        const color = determineColor(value, 100);
+        return {
           x,
           y,
           textX: x + CELL_PIXEL_WIDTH / 2 + 2,
           textY: y + CELL_PIXEL_HEIGHT / 2 + 3,
-          color: '#FFFFFF33',
-          textColor: invertColor('#FFFFFF', true),
-          value: '',
+          color,
+          textColor: invertColor(color, true),
+          value,
         };
-        return blankCellRenderData;
-      }
-
-      const color = determineColor(value, 100);
-      return {
-        x,
-        y,
-        textX: x + CELL_PIXEL_WIDTH / 2 + 2,
-        textY: y + CELL_PIXEL_HEIGHT / 2 + 3,
-        color,
-        textColor: invertColor(color, true),
-        value,
-      };
-    }).filter(x => !!x);
+      })
+      .filter(x => !!x);
 
     const getTextX = d => d.textX;
     const getTextY = d => d.textY;
@@ -287,23 +310,27 @@ class TemporalHeatTable extends Component {
 
     const setLeftAxisAttr = target => {
       // const yOffSet = 15;
-      return target
-        .attr('text-anchor', 'start')
-        .attr('dominant-baseline', 'text-before-edge')
-        // .attr('fill', '#FFFFFF')
-        .attr('x', 0)
-        .attr('y', (d, i) => X_AXIS_HEIGHT + i * CELL_PIXEL_HEIGHT)
-        .text(d => renderRowLabel(d));
+      return (
+        target
+          .attr('text-anchor', 'start')
+          .attr('dominant-baseline', 'text-before-edge')
+          // .attr('fill', '#FFFFFF')
+          .attr('x', 0)
+          .attr('y', (d, i) => X_AXIS_HEIGHT + i * CELL_PIXEL_HEIGHT)
+          .text(d => renderRowLabel(d))
+      );
     };
 
     const setRightAxisAttr = target => {
-      return target
-        .attr('text-anchor', 'start')
-        .attr('dominant-baseline', 'text-before-edge')
-        // .attr('fill', '#FFFFFF')
-        .attr('x', (d, i) => Y_AXIS_WIDTH + i * CELL_WIDTH_W_PADDING)
-        .attr('y', 0)
-        .text(d => renderColumnLabel(d));
+      return (
+        target
+          .attr('text-anchor', 'start')
+          .attr('dominant-baseline', 'text-before-edge')
+          // .attr('fill', '#FFFFFF')
+          .attr('x', (d, i) => Y_AXIS_WIDTH + i * CELL_WIDTH_W_PADDING)
+          .attr('y', 0)
+          .text(d => renderColumnLabel(d))
+      );
     };
 
     feedDataToNode(
@@ -350,9 +377,15 @@ class TemporalHeatTable extends Component {
 
     chartWrapper.append('g').attr('class', 'chartBody');
 
-    chartWrapper.select('.chartBody').append('g').attr('class', 'dataNodes');
+    chartWrapper
+      .select('.chartBody')
+      .append('g')
+      .attr('class', 'dataNodes');
 
-    chartWrapper.select('.chartBody').append('g').attr('class', 'labels');
+    chartWrapper
+      .select('.chartBody')
+      .append('g')
+      .attr('class', 'labels');
 
     const axisWrapper = chartWrapper.append('g').attr('class', 'axis');
     axisWrapper.append('g').attr('class', 'topAxis');
@@ -360,7 +393,9 @@ class TemporalHeatTable extends Component {
   }
 
   render() {
-    const { dimension: { width, height } } = this.props;
+    const {
+      dimension: { width, height },
+    } = this.props;
     this.redrawChart();
     return (
       <div>

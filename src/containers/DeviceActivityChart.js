@@ -13,7 +13,10 @@ class DeviceActivityChart extends React.Component {
   render() {
     const {
       device,
-      chartConfig: { dataWindowSize, bucketConfig: { bucketProps } },
+      chartConfig: {
+        dataWindowSize,
+        bucketConfig: { bucketProps },
+      },
       data,
       placeholderSubtitle,
     } = this.props;

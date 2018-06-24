@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Grid from '../components/BeanUILibrary/Grid';
-import BCard from '../components/BeanUILibrary/BCard';
+import Grid from 'UIBean/Grid';
+import BCard from 'UIBean/BCard';
+import GridItem from 'UIBean/GridItem';
 import styled from 'styled-components';
-import GridItem from '../components/BeanUILibrary/GridItem';
 import { selectDeviceList } from '../selectors/deviceSelectors';
 import { OFF_BLACK } from '../styles/base/viz-theme';
 
@@ -48,15 +48,17 @@ const DeviceCategory = styled.div`
 `;
 
 class DeviceOverview extends Component {
-
   static renderDevicesAsCards(devices) {
     return devices.map(({ id, alias }) => {
       return (
         <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
           <DeviceCard>
             <Grid>
-              <DeviceName>{alias}</DeviceName>
-              <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
+              <GridItem>
+                <DeviceName>{alias}</DeviceName>
+                <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
+              </GridItem>
+              <GridItem>{`hello world ${id}`}</GridItem>
             </Grid>
           </DeviceCard>
         </DeviceCardWrapper>
@@ -70,9 +72,9 @@ class DeviceOverview extends Component {
       <PageBackground>
         <PageContent>
           <BCard>
-          <Grid gutter={3}>
-            {DeviceOverview.renderDevicesAsCards(devices)}
-          </Grid>
+            <Grid gutter={3}>
+              {DeviceOverview.renderDevicesAsCards(devices)}
+            </Grid>
           </BCard>
         </PageContent>
       </PageBackground>
@@ -84,7 +86,16 @@ DeviceOverview.propTypes = {
   devices: PropTypes.array.isRequired,
 };
 
-const dummyDevices = [{id: 0, alias: 'Google Home Mini'}, {id: 1, alias: 'Name 1'}, {id: 2, alias: 'Name 2'}, {id: 3, alias: 'Name 3'}, {id: 4, alias: 'Name 4'}, {id: 5, alias: 'Name 5'}, {id: 6, alias: 'Name 6'}];
-export default connect((state) => ({
-  devices: selectDeviceList(state).length && selectDeviceList(state) || dummyDevices,
+const dummyDevices = [
+  { id: 0, alias: 'Google Home Mini' },
+  { id: 1, alias: 'Name 1' },
+  { id: 2, alias: 'Name 2' },
+  { id: 3, alias: 'Name 3' },
+  { id: 4, alias: 'Name 4' },
+  { id: 5, alias: 'Name 5' },
+  { id: 6, alias: 'Name 6' },
+];
+export default connect(state => ({
+  devices:
+    (selectDeviceList(state).length && selectDeviceList(state)) || dummyDevices,
 }))(DeviceOverview);

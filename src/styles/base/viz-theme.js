@@ -20,6 +20,3 @@ export const CARD_CONTENT_PADDING = '0 0 0 20px';
 export const CARD_COLOR = 'rgba(255, 255, 255, 0.04)';
 export const CARD_SHADOW_COLOR = SHADOW_COLOR_NORM;
 export const CARD_SHADOW = `0 5px 10px 0 ${CARD_SHADOW_COLOR}`;
-
-
-

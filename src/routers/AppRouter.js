@@ -12,7 +12,7 @@ const AppRouter = () => (
     <Switch>
       <Route path="/" component={VizIoT} exact={true} />
       <Route path="/404" component={NotFoundPage} />
-      <Route path="/playground" component={Playground}/>
+      <Route path="/playground" component={Playground} />
       <Route path="/devices" component={DeviceOverview} />
       <Route component={VizIoT} />
     </Switch>

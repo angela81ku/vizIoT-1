@@ -81,9 +81,13 @@ const ScheduleCard = ({ className }) => {
           renderRowLabel={rowValue => {
             const date = moment(rowValue, 'HH');
             const hourNumber = date.hours();
-            return hourNumber % 2 === 0 ? date.format(timeFormat) : ''
+            return hourNumber % 2 === 0 ? date.format(timeFormat) : '';
           }}
-          renderColumnLabel={colValue => moment(colValue, dayFormat).format(colLabelFormat).toUpperCase()}
+          renderColumnLabel={colValue =>
+            moment(colValue, dayFormat)
+              .format(colLabelFormat)
+              .toUpperCase()
+          }
           mapDimensionsToRowColValue={({ rowDimension, colDimension }) => {
             const rowValue = moment(rowDimension, timeFormat).hour();
             const colValue = colDimension;
@@ -104,10 +108,7 @@ const ScheduleCard = ({ className }) => {
             let dates = [];
             let iTime = aWeekAgo;
             while (iTime.unix() < now.unix()) {
-              dates = [
-                ...dates,
-                iTime.format(dayFormat)
-              ];
+              dates = [...dates, iTime.format(dayFormat)];
               iTime = moment(iTime).add('day', 1);
             }
             return dates;

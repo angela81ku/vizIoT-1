@@ -56,7 +56,10 @@ class BubbleChart extends Component {
   }
 
   getGraphDimensions() {
-    const { padding, dimension: { width, height } } = this.props;
+    const {
+      padding,
+      dimension: { width, height },
+    } = this.props;
     const { l, r, t, b } = padding;
 
     const graphWidth = width - l - r;
@@ -122,7 +125,7 @@ class BubbleChart extends Component {
       const colorsRgb = colorScheme.rgb(numLevels);
       const valueToColor = d => {
         const thisLevel = Math.floor(
-          d.data.value / (max * 1.0) * (numLevels - 1)
+          (d.data.value / (max * 1.0)) * (numLevels - 1)
         );
         return 'url(#Gradient1)';
         // return colorsRgb[thisLevel].toHexString();
@@ -314,7 +317,9 @@ class BubbleChart extends Component {
   }
 
   render() {
-    const { dimension: { width, height } } = this.props;
+    const {
+      dimension: { width, height },
+    } = this.props;
     this.redrawChart();
     return (
       <div>

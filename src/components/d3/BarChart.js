@@ -24,7 +24,10 @@ class BarChart extends Component {
   }
 
   static getGraphDimensions(props) {
-    const { padding, dimension: { width, height } } = props;
+    const {
+      padding,
+      dimension: { width, height },
+    } = props;
     const { l, r, t, b } = padding;
 
     const graphWidth = width - l - r;
@@ -127,12 +130,12 @@ class BarChart extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
-    g
-      .select('.xAxisContainer')
-      .attr('transform', `translate(0, ${graphHeight})`);
+    g.select('.xAxisContainer').attr(
+      'transform',
+      `translate(0, ${graphHeight})`
+    );
 
-    g
-      .select('.xAxis')
+    g.select('.xAxis')
       .call(this.redrawXAxis(xAxis))
       .attr('transform', null)
       .transition()
@@ -142,8 +145,7 @@ class BarChart extends Component {
 
     g.select('.yAxis').call(this.redrawYAxis(yAxis, leftAxisMargin));
 
-    g
-      .select('#clip rect')
+    g.select('#clip rect')
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
@@ -171,8 +173,7 @@ class BarChart extends Component {
   }
 
   static redrawLine(g, linePathData, transitionDuration, transitionAmount) {
-    g
-      .attr('transform', null)
+    g.attr('transform', null)
       .attr('d', linePathData)
       .transition()
       .duration(transitionDuration)
@@ -192,8 +193,7 @@ class BarChart extends Component {
       g.call(yAxis);
       g.select('.domain').remove();
 
-      g
-        .selectAll('.tick:not(:first-of-type) line')
+      g.selectAll('.tick:not(:first-of-type) line')
         .attr('stroke', '#777')
         .attr('stroke-dasharray', '2,2');
       g.selectAll('.tick:first-of-type text').remove();
@@ -248,23 +248,20 @@ class BarChart extends Component {
       .attr('class', 'chartWrapper')
       .attr('transform', 'translate(' + l + ',' + l + ')');
 
-    g
-      .append('defs')
+    g.append('defs')
       .append('clipPath')
       .attr('id', 'clip')
       .append('rect')
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
-    g
-      .append('g')
+    g.append('g')
       .attr('transform', `translate(${leftAxisMargin}, ${graphHeight})`)
       .attr('class', 'xAxisContainer')
       .append('g')
       .attr('class', 'xAxis');
 
-    g
-      .append('g')
+    g.append('g')
       .attr('class', 'yAxis')
       .attr('transform', `translate(${leftAxisMargin}, 0)`);
 
@@ -280,7 +277,9 @@ class BarChart extends Component {
   }
 
   render() {
-    const { dimension: { width, height } } = this.props;
+    const {
+      dimension: { width, height },
+    } = this.props;
     this.redrawChart();
     return (
       <div className="barChart-scrollable-wrapper">

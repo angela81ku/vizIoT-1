@@ -1,3 +1,5 @@
+'use es6';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -43,7 +45,9 @@ class BCard extends React.Component {
       classNames.push('noBackground');
     }
 
-    return <StyledBCard className={classNames.join(' ')}>{children}</StyledBCard>;
+    return (
+      <StyledBCard className={classNames.join(' ')}>{children}</StyledBCard>
+    );
   }
 }
 

@@ -6,7 +6,11 @@ import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
 
-export const selectDeviceList = ({ devices: { deviceList: { value } } }) => {
+export const selectDeviceList = ({
+  devices: {
+    deviceList: { value },
+  },
+}) => {
   return value;
 };
 
@@ -22,12 +26,18 @@ export const selectEntireNetwork = ({ devices: { entireNetwork } }) => {
 /**
  * Returns a map of device.macAddr -> last seen
  */
-export const selectLastSeen = ({ devices: { lastSeen: { value } } }) => {
+export const selectLastSeen = ({
+  devices: {
+    lastSeen: { value },
+  },
+}) => {
   return value;
 };
 
 export const selectNumberOfConnections = ({
-  devices: { numberOfConnections: { value } },
+  devices: {
+    numberOfConnections: { value },
+  },
 }) => {
   return value;
 };
