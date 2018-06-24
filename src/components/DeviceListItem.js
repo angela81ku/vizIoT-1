@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';
 import TruncateString from 'UIBean/TruncateString';
 
@@ -10,7 +10,7 @@ export default class DeviceListItem extends React.Component {
 
     return (
       <BCard className="deviceListItem__wrapper m-bot-3" noPadding={true}>
-        <Grid>
+        <Flex>
           <div className="deviceListItem__deviceInfo">
             <h6 className="deviceListItem__deviceName m-top-1">
               {alias ? alias : macAddr}
@@ -28,7 +28,7 @@ export default class DeviceListItem extends React.Component {
               <span>conns</span>
             </div>
           </div>
-        </Grid>
+        </Flex>
       </BCard>
     );
   }

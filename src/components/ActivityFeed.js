@@ -3,7 +3,7 @@
 import React from 'react';
 import BeanList from 'UIBean/BeanList';
 import ListItem from 'UIBean/ListItem';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import TruncateString from 'UIBean/TruncateString';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -19,7 +19,7 @@ const FillHeightOrMoreList = styled(BeanList)`
   align-items: left;
   margin-top: 30px;
 
-  .flex-row {
+  .flex {
     justify-content: space-between;
     align-items: center;
     height: 100%;
@@ -80,7 +80,7 @@ const Card = styled(BCard)`
   ${props =>
     props.theme === 'log' && 'box-shadow: 0px 0px 10px #888 !important;'}
   
-  .flex-row {
+  .flex {
     justify-content: space-between;
     align-items: center;
     height: 100%;
@@ -101,7 +101,7 @@ const ActivityFeed = ({ hosts }) => {
       <ListItem key={timestamp + name}>
         <HostName name={lastSeenHost !== origin && origin} />
         <Card noPadding={true} theme={'log'}>
-          <Grid>
+          <Flex>
             <LeftWrapper>
               {/*<SmallCopy>{host.origin || 'Unknown origin'}</SmallCopy>*/}
               <Content>{name}</Content>
@@ -114,7 +114,7 @@ const ActivityFeed = ({ hosts }) => {
                 {/*<span>msg</span>*/}
               </div>
             </RightWrapper>
-          </Grid>
+          </Flex>
         </Card>
       </ListItem>
     );

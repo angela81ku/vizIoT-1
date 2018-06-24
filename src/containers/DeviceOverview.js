@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';
 import GridItem from 'UIBean/GridItem';
 
@@ -54,13 +54,13 @@ class DeviceOverview extends Component {
       return (
         <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
           <DeviceCard>
-            <Grid>
+            <Flex>
               <GridItem>
                 <DeviceName>{alias}</DeviceName>
                 <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
               </GridItem>
               <GridItem>{`hello world ${id}`}</GridItem>
-            </Grid>
+            </Flex>
           </DeviceCard>
         </DeviceCardWrapper>
       );
@@ -73,9 +73,9 @@ class DeviceOverview extends Component {
       <PageBackground>
         <PageContent>
           <BCard>
-            <Grid gutter={3}>
+            <Flex gutter={3}>
               {DeviceOverview.renderDevicesAsCards(devices)}
-            </Grid>
+            </Flex>
           </BCard>
         </PageContent>
       </PageBackground>

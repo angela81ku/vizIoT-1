@@ -1,16 +1,16 @@
 import React from 'react';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import GridItem from 'UIBean/GridItem';
 import { connect } from 'react-redux';
-import BubbleChart from '../components/d3/BubbleChart';
-import { SPACING } from '../data/records/Spacing';
-import AutoFitComponent from '../components/AutoFitComponent';
-import BucketUnitConstants from '../constants/BucketUnit';
-import FlexWrapper from 'UIBean/FlexWrapper';
-import { analyzeAggregationByDomain } from '../actions/analyzeActions';
-import { selectDomainsToday } from '../selectors/analyticsSelector';
-import { DateConstants } from '../constants/DateConstants';
-import { convertDateTypeToString } from '../utility/TimeUtility';
+import BubbleChart from 'VizIoT/components/d3/BubbleChart';
+import { SPACING } from 'VizIoT/data/records/Spacing';
+import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
+import BucketUnitConstants from 'VizIoT/constants/BucketUnit';
+// import FlexWrapper from 'UIBean/FlexWrapper';
+import { analyzeAggregationByDomain } from 'VizIoT/actions/analyzeActions';
+import { selectDomainsToday } from 'VizIoT/selectors/analyticsSelector';
+import { DateConstants } from 'VizIoT/constants/DateConstants';
+import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -54,7 +54,7 @@ class BubbleLocationTab extends React.Component {
 
     return (
       <div className="location-bubble-tab">
-        <Grid gutter={3}>
+        <Flex gutter={3}>
           <GridItem size={{ md: 12 }}>
             <AutoFitComponent className="location-bubble-chart">
               <BubbleChart
@@ -68,13 +68,13 @@ class BubbleLocationTab extends React.Component {
                 padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
               />
             </AutoFitComponent>
-            <FlexWrapper className="location-bubble-tab__titleWrapper">
+            <Flex className="location-bubble-tab__titleWrapper">
               <h5 className="wide-letter location-bubble-tab__title">
                 DESTINATIONS BY 2ND LEVEL DOMAIN
               </h5>
-            </FlexWrapper>
+            </Flex>
           </GridItem>
-        </Grid>
+        </Flex>
       </div>
     );
   }

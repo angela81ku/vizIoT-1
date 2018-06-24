@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export default function FlexChild({
+export default FlexChild = ({
   alignSelf,
   basis,
   grow,
@@ -12,7 +12,7 @@ export default function FlexChild({
   shrink,
   children,
   ...props
-}) {
+}) => {
   const StyledDiv = styled.div.attrs({
     flexBasis: basis,
     flexGrow: grow,

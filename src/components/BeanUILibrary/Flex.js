@@ -9,12 +9,16 @@ const FlexDirection = keyMirror({
 });
 const FlexDirectionList = Object.keys(FlexDirection);
 
-class Grid extends React.Component {
+/**
+ * Can use as a simple container, or as a bootstrap style row or column grid system
+ */
+class Flex extends React.Component {
   render() {
     const { direction, gutter, className, animate } = this.props;
     return (
       <div className={classNames(className,
         {
+          'flex': true,
           [`gutter-${gutter}`]: gutter,
           'fade': animate,
           'flex-row': direction === FlexDirection.ROW,
@@ -27,16 +31,16 @@ class Grid extends React.Component {
   }
 }
 
-Grid.defaultProps = {
+Flex.defaultProps = {
   animate: true,
   direction: FlexDirection.ROW,
   gutter: 0,
 };
 
-Grid.propTypes = {
+Flex.propTypes = {
   animate: PropTypes.bool,
   direction: PropTypes.oneOf(FlexDirectionList),
   gutter: PropTypes.number,
 };
 
-export default Grid;
+export default Flex;

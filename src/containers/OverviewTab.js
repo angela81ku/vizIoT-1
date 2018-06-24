@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
@@ -27,7 +27,7 @@ import {
   selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
-import FlexWrapper from 'UIBean/FlexWrapper';
+// import FlexWrapper from 'UIBean/FlexWrapper';
 import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
@@ -197,7 +197,7 @@ class OverviewTab extends Component {
         );
       });
 
-    return listOfGraphs.length ? <Grid gutter={1}>{listOfGraphs}</Grid> : null;
+    return listOfGraphs.length ? <Flex gutter={1}>{listOfGraphs}</Flex> : null;
   }
 
   renderMainChart() {
@@ -258,7 +258,7 @@ class OverviewTab extends Component {
 
         <FixedSidebarWrapper>
           <FullHeightBCard noShadow={true} noPadding={false}>
-            <FlexWrapper>
+            <Flex>
               <TimedSwitcher
                 options={[
                   { value: hostList, delay: 3500000 },
@@ -266,14 +266,14 @@ class OverviewTab extends Component {
                 ]}
                 onSwitch={this.handleSidebarSwitch}
               />
-            </FlexWrapper>
+            </Flex>
           </FullHeightBCard>
         </FixedSidebarWrapper>
 
         <RightContentWrapper>
           <ScheduleCard />
           <QuickFacts />
-          <Grid gutter={2}>
+          <Flex gutter={2}>
             <GridItem size={{ lg: 7 }}>
               <BCard>
                 <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
@@ -283,7 +283,7 @@ class OverviewTab extends Component {
             <GridItem size={{ lg: 5 }}>
               {this.renderSingleDeviceCharts()}
             </GridItem>
-          </Grid>
+          </Flex>
         </RightContentWrapper>
       </div>
     );

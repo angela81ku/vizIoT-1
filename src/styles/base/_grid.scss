@@ -7,13 +7,19 @@
   background: $background-color;
 }
 
-.flex-row {
+.flex {
   display: flex;
   flex-wrap: wrap;
 }
+.flex-column {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
 
 @for $i from 0 through 12 {
-  .flex-row.gutter-#{$i} {
+  .flex.gutter-#{$i} {
     margin: 0 #{-0.4 * $i}rem;
 
     [class*='col-'] {
@@ -22,8 +28,7 @@
   }
 }
 
-.flex-row {
-
+.flex {
   [class*='col-'] {
     flex-grow: 0;
     flex-shrink: 0;

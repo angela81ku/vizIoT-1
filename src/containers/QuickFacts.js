@@ -6,7 +6,7 @@ import {
   selectNumberOfDevices,
   selectPercentUnsecuredToday,
 } from '../selectors/deviceSelectors';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 import GridItem from 'UIBean/GridItem';
 import DataWell from 'UIBean/DataWell';
 import DataWellValue from 'UIBean/DataWellValue';
@@ -31,7 +31,7 @@ class QuickFacts extends React.Component {
     return (
       <div className="m-bot-5">
         <SectionTitle title={title} cardPadding={false} />
-        <Grid gutter={3}>
+        <Flex gutter={3}>
           {facts.map(({ title, data, fontSize }) => {
             return (
               <GridItem key={title} size={{ md: 6, lg: 4 }}>
@@ -50,7 +50,7 @@ class QuickFacts extends React.Component {
               </GridItem>
             );
           })}
-        </Grid>
+        </Flex>
       </div>
     );
   }

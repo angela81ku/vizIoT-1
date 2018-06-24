@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from 'UIBean/Grid';
+import Flex from 'UIBean/Flex';
 
 class TabTitle extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class TabTitle extends React.Component {
           className={`tabTitle fade ${(this.state.showShadow && 'showShadow') ||
             ''}`}
         >
-          <Grid>
+          <Flex>
             <div className="tabTitle__leftPlaceholder" />
             <div className="tabTitle__title">
               <div>
@@ -44,7 +44,7 @@ class TabTitle extends React.Component {
               <h3>{this.props.subtitle}</h3>
             </div>
             <div className="tabTitle__rightStuff" />
-          </Grid>
+          </Flex>
         </header>
       </div>
     );
