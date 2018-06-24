@@ -1,8 +1,8 @@
 'use es6';
 
 import React from 'react';
-import BeanList from './BeanList';
-import ListItem from './ListItem';
+import BeanList from 'UIBean/BeanList';
+import ListItem from 'UIBean/ListItem';
 import Grid from 'UIBean/Grid';
 import TruncateString from 'UIBean/TruncateString';
 import moment from 'moment';
@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import * as theme from '../styles/base/viz-theme';
 import BCard from 'UIBean/BCard';
 
-const FillHeightOrMore = styled(BeanList)`
+const FillHeightOrMoreList = styled(BeanList)`
   flex: 1;
   display: flex;
   justify-content: center;
@@ -124,7 +124,7 @@ const ActivityFeed = ({ hosts }) => {
     return itemToRender;
   });
 
-  return <FillHeightOrMore>{hostItems}</FillHeightOrMore>;
+  return <FillHeightOrMoreList>{hostItems}</FillHeightOrMoreList>;
 };
 
 ActivityFeed.defaultProps = { hosts: [] };

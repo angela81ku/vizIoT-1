@@ -3,11 +3,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import Grid from 'UIBean/Grid';
 import BCard from 'UIBean/BCard';
 import GridItem from 'UIBean/GridItem';
-import styled from 'styled-components';
+
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import { OFF_BLACK } from 'VizIoT/styles/base/viz-theme';
 
