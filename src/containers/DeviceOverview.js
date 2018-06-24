@@ -8,8 +8,8 @@ import Grid from 'UIBean/Grid';
 import BCard from 'UIBean/BCard';
 import GridItem from 'UIBean/GridItem';
 import styled from 'styled-components';
-import { selectDeviceList } from '../selectors/deviceSelectors';
-import { OFF_BLACK } from '../styles/base/viz-theme';
+import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import { OFF_BLACK } from 'VizIoT/styles/base/viz-theme';
 
 const PageBackground = styled.div`
   background-image: linear-gradient(rgb(12, 26, 56) 3%, rgb(19, 24, 41));

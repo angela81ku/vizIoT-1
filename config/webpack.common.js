@@ -74,7 +74,7 @@ module.exports = {
     modules: [srcPath, 'node_modules'],
     alias: {
       'UIBean': uiBeanPath,
-      // 'VizIoT': srcPath,
+      'VizIoT': srcPath,
     },
     extensions: ['.js', '.jsx',],
   },

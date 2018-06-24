@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { headers, baseUrl } from '../../constants/RequestConstants';
+import { headers, baseUrl } from 'VizIoT/constants/RequestConstants';
 import { Record } from 'immutable';
-import DataReducerTypes from '../../constants/DataReducerTypes';
-import AnalyticsRequest from '../records/AnalyticsRequest';
-import GeoDimension from '../dimensions/GeoDimension';
-import { ConnectionMetric } from '../metrics/ConnectionMetric';
-import { DateConstants } from '../../constants/DateConstants';
-import { convertDateTypeToString } from '../../utility/TimeUtility';
-import DeviceDimension from '../dimensions/DeviceDimension';
-import TimeDimension from '../dimensions/TimeDimension';
+import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
+import AnalyticsRequest from 'VizIoT/data/records/AnalyticsRequest';
+import GeoDimension from 'VizIoT/data/dimensions/GeoDimension';
+import { ConnectionMetric } from 'VizIoT/data/metrics/ConnectionMetric';
+import { DateConstants } from 'VizIoT/constants/DateConstants';
+import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
+import DeviceDimension from 'VizIoT/data/dimensions/DeviceDimension';
+import TimeDimension from 'VizIoT/data/dimensions/TimeDimension';
 
 const postCallWithRecord = (payloadRecord, url) => {
   return axios({
