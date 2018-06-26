@@ -1,4 +1,4 @@
-export const OFF_BLACK = '#353535';
+export const OFF_BLACK = '#505050';
 
 export const SHADOW_COLOR_NORM = 'rgba(0, 0, 0, 0.12)';
 

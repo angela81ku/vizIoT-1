@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';
 import FlexSize from 'UIBean/FlexSize';
+import H6 from 'UIBean/H6';
 
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import { OFF_BLACK } from 'VizIoT/styles/base/viz-theme';
@@ -20,6 +21,8 @@ const PageBackground = styled.div`
 
 const PageContent = styled.div`
   padding-top: 80px;
+  padding-left: 80px;
+  padding-right: 80px;
 `;
 
 const DeviceCardWrapper = styled(FlexSize)`
@@ -30,22 +33,30 @@ const DeviceCardWrapper = styled(FlexSize)`
 
 const DeviceCard = styled(BCard)`
   min-width: 260px;
-  height: 140px;
+  height: 160px;
   background-color: white;
   color: ${OFF_BLACK};
   border-radius: 14px;
 `;
 
-const DeviceName = styled.div`
-  font-size: 12px;
+const DeviceName = styled(H6)`
   font-weight: 800;
   text-transform: uppercase;
 `;
 
-const DeviceCategory = styled.div`
-  font-size: 12px;
+const DeviceCategory = styled(H6)`
   font-weight: 400;
-  margin-top: 4px;
+  margin-bottom: 4px;
+`;
+
+const ConnectionsLabel = styled(H6)`
+  color: ${OFF_BLACK} 
+  font-weight: normal;
+  text-align: center;
+`;
+
+const ConnectionsValue = styled.span`
+  font-weight: 800;
 `;
 
 class DeviceOverview extends Component {
@@ -53,13 +64,19 @@ class DeviceOverview extends Component {
     return devices.map(({ id, alias }) => {
       return (
         <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
-          <DeviceCard>
+          <DeviceCard compact={false}>
             <Flex>
-              <FlexSize>
-                <DeviceName>{alias}</DeviceName>
+              <FlexSize padding={false}>
                 <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
+                <DeviceName>{alias}</DeviceName>
               </FlexSize>
-              <FlexSize>{`hello world ${id}`}</FlexSize>
+              <FlexSize padding={false} space="m-top-3">
+                <ConnectionsLabel>
+                  <ConnectionsValue>{id}</ConnectionsValue>
+                  {' connections'}
+                  <h6>Mostly visits google.com</h6>
+                </ConnectionsLabel>
+              </FlexSize>
             </Flex>
           </DeviceCard>
         </DeviceCardWrapper>
@@ -73,7 +90,7 @@ class DeviceOverview extends Component {
       <PageBackground>
         <PageContent>
           <BCard>
-            <Flex gutter={3}>
+            <Flex gutter={2}>
               {DeviceOverview.renderDevicesAsCards(devices)}
             </Flex>
           </BCard>
@@ -89,9 +106,9 @@ DeviceOverview.propTypes = {
 
 const dummyDevices = [
   { id: 0, alias: 'Google Home Mini' },
-  { id: 1, alias: 'Name 1' },
-  { id: 2, alias: 'Name 2' },
-  { id: 3, alias: 'Name 3' },
+  { id: 1, alias: 'Xiaomi' },
+  { id: 2, alias: 'Echo-1' },
+  { id: 3, alias: 'Philips' },
   { id: 4, alias: 'Name 4' },
   { id: 5, alias: 'Name 5' },
   { id: 6, alias: 'Name 6' },

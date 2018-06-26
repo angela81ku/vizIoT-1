@@ -22,7 +22,7 @@
   .flex.gutter-#{$i} {
     margin: 0 #{-0.4 * $i}rem;
 
-    [class*='col-'] {
+    & > [class*='col-'] {
       padding: 0 #{0.4 * $i}rem;
     }
   }

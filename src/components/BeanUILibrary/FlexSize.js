@@ -4,12 +4,9 @@ import React from 'react';
 import classnames from 'classnames';
 
 const toSizeClasses = size => {
-  return Object.entries(size).reduce(
-    (result, ting) => {
-      return [`col-${ting[0]}-${ting[1]}`, ...result];
-    },
-    []
-  );
+  return Object.entries(size).reduce((result, ting) => {
+    return [`col-${ting[0]}-${ting[1]}`, ...result];
+  }, []);
 };
 
 class FlexSize extends React.Component {
@@ -18,21 +15,20 @@ class FlexSize extends React.Component {
   }
 
   render() {
-    const { size, space, className } = this.props;
-    const joinedClassNames = classnames(
-      toSizeClasses(size).concat(space),
-      {
-        [className]: !!className,
-      }
-    );
+    const { size, space, className, padding, children } = this.props;
+    const joinedClassNames = classnames(toSizeClasses(size).concat(space), {
+      [className]: !!className,
+      noPadding: !padding,
+    });
 
-    return <div className={joinedClassNames}>{this.props.children}</div>;
+    return <div className={joinedClassNames}>{children}</div>;
   }
 }
 
 FlexSize.defaultProps = {
-  className: '',
+  className: null,
   size: { md: 12 },
+  padding: true,
 };
 
 export default FlexSize;

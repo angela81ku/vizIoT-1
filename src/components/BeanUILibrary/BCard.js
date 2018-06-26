@@ -11,7 +11,11 @@ const StyledBCard = styled.div`
   flex-direction: column;
 
   width: 100%;
-  padding: 1rem;
+  padding: ${({ compact, noPadding }) => {
+    console.log(`compact ${compact}`);
+    console.log(`noPadding ${noPadding}`);
+    return noPadding ? '0' : compact ? '1rem' : '2rem';
+  }};
 
   background: ${CARD_COLOR};
   box-shadow: ${CARD_SHADOW};
@@ -23,7 +27,6 @@ class BCard extends React.Component {
     const {
       noShadow,
       noBorder,
-      noPadding,
       noBackground,
       className,
       children,
@@ -38,24 +41,33 @@ class BCard extends React.Component {
     if (noBorder) {
       classNames.push('noBorder');
     }
-    if (noPadding) {
-      classNames.push('noPadding');
-    }
     if (noBackground) {
       classNames.push('noBackground');
     }
 
     return (
-      <StyledBCard className={classNames.join(' ')}>{children}</StyledBCard>
+      <StyledBCard className={classNames.join(' ')} {...this.props}>
+        {children}
+      </StyledBCard>
     );
   }
 }
+
+BCard.defaultProps = {
+  noShadow: false,
+  noBorder: false,
+  noPadding: false,
+  noBackground: false,
+  compact: true,
+  className: null,
+};
 
 BCard.propTypes = {
   noShadow: PropTypes.bool,
   noBorder: PropTypes.bool,
   noPadding: PropTypes.bool,
   noBackground: PropTypes.bool,
+  compact: PropTypes.bool,
   className: PropTypes.string,
 };
 
