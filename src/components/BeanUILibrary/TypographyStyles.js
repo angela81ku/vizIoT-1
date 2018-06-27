@@ -1,39 +1,43 @@
 'use es6';
 
 const fontStyles = {
-  h0: {
+  H0: {
     size: 5.5, // rem
     weight: 800,
   },
-  h1: {
+  H1: {
     size: 3.2,
   },
-  h2: {
+  H2: {
     size: 2.4,
   },
-  h3: {
+  H3: {
     size: 2.2,
   },
-  h4: {
+  H4: {
     size: 2.0,
     distance: 0.5, // rem
   },
-  h5: {
+  H5: {
     size: 1.6,
     weight: 'normal',
     distance: 1.0,
   },
-  h6: {
+  H6: {
     size: 1.4,
     weight: 600,
     distance: 0.5,
+  },
+  Paragraph: {
+    size: 1.2,
+    weight: 'normal',
   },
 };
 
 const convertToStyleString = setting => {
   const { size, weight, distance } = setting;
   return `
-    ${size ? `font-size: ${size}` : ''};
+    ${size ? `font-size: ${size}rem` : ''};
     ${weight ? `font-weight: ${weight}` : ''};
     ${distance ? `margin-bottom: ${distance}` : ''};
   `;

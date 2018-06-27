@@ -5,13 +5,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import FlexChild from 'UIBean/FlexChild';
 import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';
 import FlexSize from 'UIBean/FlexSize';
-import H6 from 'UIBean/H6';
+import TypographyComponent from 'UIBean/TypographyComponent';
+const { H6, H5, Paragraph } = TypographyComponent;
 
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
-import { OFF_BLACK } from 'VizIoT/styles/base/viz-theme';
+import {
+  JADE,
+  LIGHT_BLACK,
+  OFF_BLACK,
+  WRIGLEYS,
+} from 'VizIoT/styles/base/viz-theme';
 
 const PageBackground = styled.div`
   background-image: linear-gradient(rgb(12, 26, 56) 3%, rgb(19, 24, 41));
@@ -33,7 +40,7 @@ const DeviceCardWrapper = styled(FlexSize)`
 
 const DeviceCard = styled(BCard)`
   min-width: 260px;
-  height: 160px;
+  height: 180px;
   background-color: white;
   color: ${OFF_BLACK};
   border-radius: 14px;
@@ -47,16 +54,31 @@ const DeviceName = styled(H6)`
 const DeviceCategory = styled(H6)`
   font-weight: 400;
   margin-bottom: 4px;
+  color: ${LIGHT_BLACK};
 `;
 
-const ConnectionsLabel = styled(H6)`
-  color: ${OFF_BLACK} 
+const ConnectionsLabel = styled(H5)`
+  color: ${OFF_BLACK};
   font-weight: normal;
   text-align: center;
 `;
 
 const ConnectionsValue = styled.span`
   font-weight: 800;
+`;
+
+const ConnectionDestination = styled(Paragraph)`
+  margin-top: 6px;
+  color: ${LIGHT_BLACK};
+`;
+
+const ConnectionDestinationHost = styled.span`
+  color: ${WRIGLEYS};
+  font-weight: 700;
+`;
+
+const DeviceSecurityMetrics = styled(FlexChild)`
+  text-align: right;
 `;
 
 class DeviceOverview extends Component {
@@ -70,12 +92,29 @@ class DeviceOverview extends Component {
                 <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
                 <DeviceName>{alias}</DeviceName>
               </FlexSize>
-              <FlexSize padding={false} space="m-top-3">
+              <FlexSize padding={false} space="m-top-5">
                 <ConnectionsLabel>
                   <ConnectionsValue>{id}</ConnectionsValue>
                   {' connections'}
-                  <h6>Mostly visits google.com</h6>
+                  <ConnectionDestination>
+                    {'Mostly visits '}
+                    <ConnectionDestinationHost>
+                      google.com
+                    </ConnectionDestinationHost>
+                  </ConnectionDestination>
                 </ConnectionsLabel>
+              </FlexSize>
+              <FlexSize padding={false} space="m-top-4">
+                <Flex>
+                  <FlexChild alignSelf={'start'} grow={1}>
+                    <div>10</div>
+                    <div>cps</div>
+                  </FlexChild>
+                  <DeviceSecurityMetrics alignSelf={'end'}>
+                    <div>34%</div>
+                    <div>unsecured</div>
+                  </DeviceSecurityMetrics>
+                </Flex>
               </FlexSize>
             </Flex>
           </DeviceCard>

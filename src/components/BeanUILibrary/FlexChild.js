@@ -15,13 +15,14 @@ const FlexChild = ({
   ...props
 }) => {
   const StyledDiv = styled.div.attrs({
-    flexBasis: basis,
-    flexGrow: grow,
-    flexShrink: shrink,
-    order,
-    alignSelf,
+    style: props => ({
+      flexBasis: basis,
+      flexGrow: grow,
+      flexShrink: shrink,
+      order,
+      alignSelf,
+    }),
   })``;
-
   return <StyledDiv {...props}>{children}</StyledDiv>;
 };
 
