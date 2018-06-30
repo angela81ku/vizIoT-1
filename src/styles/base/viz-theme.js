@@ -1,6 +1,7 @@
 export const JADE = '#7ef468';
 export const WRIGLEYS = '#6EAF65';
-export const RED = `#ff4159`;
+export const ORANGE_PEEL = '#f7931e';
+export const RED = '#ff4159';
 
 export const LIGHT_BLACK = '#727272';
 export const OFF_BLACK = '#505050';

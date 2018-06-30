@@ -12,8 +12,6 @@ const StyledBCard = styled.div`
 
   width: 100%;
   padding: ${({ compact, noPadding }) => {
-    console.log(`compact ${compact}`);
-    console.log(`noPadding ${noPadding}`);
     return noPadding ? '0' : compact ? '1rem' : '2rem';
   }};
 

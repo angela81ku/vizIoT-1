@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { shouldUpdate } from 'recompose';
 
 import FlexChild from 'UIBean/FlexChild';
 import Flex from 'UIBean/Flex';
@@ -17,6 +18,7 @@ import {
   JADE,
   LIGHT_BLACK,
   OFF_BLACK,
+  ORANGE_PEEL,
   WRIGLEYS,
 } from 'VizIoT/styles/base/viz-theme';
 
@@ -38,13 +40,22 @@ const DeviceCardWrapper = styled(FlexSize)`
   width: 100%;
 `;
 
-const DeviceCard = styled(BCard)`
+const DeviceCard = shouldUpdate((props, nextProps) => {
+  return props.lowerOpacity !== nextProps.lowerOpacity;
+})(styled(BCard)`
   min-width: 260px;
   height: 180px;
   background-color: white;
   color: ${OFF_BLACK};
+  border-weight: 3px;
+  border-color: ${ORANGE_PEEL};
   border-radius: 14px;
-`;
+  transition: 0.5s;
+  &:hover {
+    transform: scale(1.1);
+  }
+  opacity: ${({ lowerOpacity }) => (lowerOpacity ? 0.5 : 1)};
+`);
 
 const DeviceName = styled(H6)`
   font-weight: 800;
@@ -81,13 +92,30 @@ const DeviceSecurityMetrics = styled(FlexChild)`
   text-align: right;
 `;
 
+const MetricsNumber = styled.div`
+  font-weight: ${700};
+  color: ${ORANGE_PEEL};
+`;
+
+const CardContent = shouldUpdate((props, nextProps) => {})(Flex);
+
 class DeviceOverview extends Component {
-  static renderDevicesAsCards(devices) {
+  static renderDevicesAsCards(
+    devices,
+    hoveredDevice,
+    onCardHover,
+    onCardLeaveHover
+  ) {
     return devices.map(({ id, alias }) => {
       return (
         <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
-          <DeviceCard compact={false}>
-            <Flex>
+          <DeviceCard
+            onMouseEnter={onCardHover(id)}
+            onMouseLeave={onCardLeaveHover}
+            compact={false}
+            lowerOpacity={hoveredDevice !== null && hoveredDevice !== id}
+          >
+            <CardContent>
               <FlexSize padding={false}>
                 <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
                 <DeviceName>{alias}</DeviceName>
@@ -107,30 +135,54 @@ class DeviceOverview extends Component {
               <FlexSize padding={false} space="m-top-4">
                 <Flex>
                   <FlexChild alignSelf={'start'} grow={1}>
-                    <div>10</div>
+                    <div>
+                      <strong>10</strong>
+                    </div>
                     <div>cps</div>
                   </FlexChild>
                   <DeviceSecurityMetrics alignSelf={'end'}>
-                    <div>34%</div>
+                    <MetricsNumber>34%</MetricsNumber>
                     <div>unsecured</div>
                   </DeviceSecurityMetrics>
                 </Flex>
               </FlexSize>
-            </Flex>
+            </CardContent>
           </DeviceCard>
         </DeviceCardWrapper>
       );
     });
   }
 
+  onCardHover = id => e => {
+    this.setState({
+      hoveredDevice: id,
+    });
+  };
+
+  onCardLeaveHover = e => {
+    this.setState({
+      hoveredDevice: null,
+    });
+  };
+
+  state = {
+    hoveredDevice: null,
+  };
+
   render() {
     const { devices } = this.props;
+    const { hoveredDevice } = this.state;
     return (
       <PageBackground>
         <PageContent>
           <BCard>
             <Flex gutter={2}>
-              {DeviceOverview.renderDevicesAsCards(devices)}
+              {DeviceOverview.renderDevicesAsCards(
+                devices,
+                hoveredDevice,
+                this.onCardHover,
+                this.onCardLeaveHover
+              )}
             </Flex>
           </BCard>
         </PageContent>
@@ -152,6 +204,7 @@ const dummyDevices = [
   { id: 5, alias: 'Name 5' },
   { id: 6, alias: 'Name 6' },
 ];
+
 export default connect(state => ({
   devices:
     (selectDeviceList(state).length && selectDeviceList(state)) || dummyDevices,
