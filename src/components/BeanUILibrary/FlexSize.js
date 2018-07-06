@@ -10,15 +10,11 @@ const toSizeClasses = size => {
 };
 
 class FlexSize extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { size, space, className, padding, children } = this.props;
+    const { size, space, className, children } = this.props;
     const joinedClassNames = classnames(toSizeClasses(size).concat(space), {
       [className]: !!className,
-      noPadding: !padding,
+      [space]: !!space,
     });
 
     return <div className={joinedClassNames}>{children}</div>;

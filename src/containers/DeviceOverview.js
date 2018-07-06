@@ -4,23 +4,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { shouldUpdate } from 'recompose';
 
-import FlexChild from 'UIBean/FlexChild';
 import Flex from 'UIBean/Flex';
-import BCard from 'UIBean/BCard';
 import FlexSize from 'UIBean/FlexSize';
-import TypographyComponent from 'UIBean/TypographyComponent';
-const { H6, H5, Paragraph } = TypographyComponent;
+import DeviceCard from '../components/device/DeviceCard';
 
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
-import {
-  JADE,
-  LIGHT_BLACK,
-  OFF_BLACK,
-  ORANGE_PEEL,
-  WRIGLEYS,
-} from 'VizIoT/styles/base/viz-theme';
 
 const PageBackground = styled.div`
   background-image: linear-gradient(rgb(12, 26, 56) 3%, rgb(19, 24, 41));
@@ -40,65 +29,6 @@ const DeviceCardWrapper = styled(FlexSize)`
   width: 100%;
 `;
 
-const DeviceCard = shouldUpdate((props, nextProps) => {
-  return props.lowerOpacity !== nextProps.lowerOpacity;
-})(styled(BCard)`
-  min-width: 260px;
-  height: 180px;
-  background-color: white;
-  color: ${OFF_BLACK};
-  border-weight: 3px;
-  border-color: ${ORANGE_PEEL};
-  border-radius: 14px;
-  transition: 0.5s;
-  &:hover {
-    transform: scale(1.1);
-  }
-  opacity: ${({ lowerOpacity }) => (lowerOpacity ? 0.5 : 1)};
-`);
-
-const DeviceName = styled(H6)`
-  font-weight: 800;
-  text-transform: uppercase;
-`;
-
-const DeviceCategory = styled(H6)`
-  font-weight: 400;
-  margin-bottom: 4px;
-  color: ${LIGHT_BLACK};
-`;
-
-const ConnectionsLabel = styled(H5)`
-  color: ${OFF_BLACK};
-  font-weight: normal;
-  text-align: center;
-`;
-
-const ConnectionsValue = styled.span`
-  font-weight: 800;
-`;
-
-const ConnectionDestination = styled(Paragraph)`
-  margin-top: 6px;
-  color: ${LIGHT_BLACK};
-`;
-
-const ConnectionDestinationHost = styled.span`
-  color: ${WRIGLEYS};
-  font-weight: 700;
-`;
-
-const DeviceSecurityMetrics = styled(FlexChild)`
-  text-align: right;
-`;
-
-const MetricsNumber = styled.div`
-  font-weight: ${700};
-  color: ${ORANGE_PEEL};
-`;
-
-const CardContent = shouldUpdate((props, nextProps) => {})(Flex);
-
 class DeviceOverview extends Component {
   static renderDevicesAsCards(
     devices,
@@ -106,48 +36,20 @@ class DeviceOverview extends Component {
     onCardHover,
     onCardLeaveHover
   ) {
-    return devices.map(({ id, alias }) => {
+    return devices.map(device => {
+      const { id } = device;
       return (
-        <DeviceCardWrapper key={id} size={{ xs: 2 }} space="m-bot-3">
+        <DeviceCardWrapper
+          key={id}
+          size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 3 }}
+          space="m-bot-4"
+        >
           <DeviceCard
-            onMouseEnter={onCardHover(id)}
-            onMouseLeave={onCardLeaveHover}
-            compact={false}
-            lowerOpacity={hoveredDevice !== null && hoveredDevice !== id}
-          >
-            <CardContent>
-              <FlexSize padding={false}>
-                <DeviceCategory>{'Voice Assistant'}</DeviceCategory>
-                <DeviceName>{alias}</DeviceName>
-              </FlexSize>
-              <FlexSize padding={false} space="m-top-5">
-                <ConnectionsLabel>
-                  <ConnectionsValue>{id}</ConnectionsValue>
-                  {' connections'}
-                  <ConnectionDestination>
-                    {'Mostly visits '}
-                    <ConnectionDestinationHost>
-                      google.com
-                    </ConnectionDestinationHost>
-                  </ConnectionDestination>
-                </ConnectionsLabel>
-              </FlexSize>
-              <FlexSize padding={false} space="m-top-4">
-                <Flex>
-                  <FlexChild alignSelf={'start'} grow={1}>
-                    <div>
-                      <strong>10</strong>
-                    </div>
-                    <div>cps</div>
-                  </FlexChild>
-                  <DeviceSecurityMetrics alignSelf={'end'}>
-                    <MetricsNumber>34%</MetricsNumber>
-                    <div>unsecured</div>
-                  </DeviceSecurityMetrics>
-                </Flex>
-              </FlexSize>
-            </CardContent>
-          </DeviceCard>
+            onHover={onCardHover(id)}
+            onLeaveHover={onCardLeaveHover}
+            active={hoveredDevice !== null && hoveredDevice !== id}
+            device={device}
+          />
         </DeviceCardWrapper>
       );
     });
@@ -175,16 +77,14 @@ class DeviceOverview extends Component {
     return (
       <PageBackground>
         <PageContent>
-          <BCard>
-            <Flex gutter={2}>
-              {DeviceOverview.renderDevicesAsCards(
-                devices,
-                hoveredDevice,
-                this.onCardHover,
-                this.onCardLeaveHover
-              )}
-            </Flex>
-          </BCard>
+          <Flex gutter={2}>
+            {DeviceOverview.renderDevicesAsCards(
+              devices,
+              hoveredDevice,
+              this.onCardHover,
+              this.onCardLeaveHover
+            )}
+          </Flex>
         </PageContent>
       </PageBackground>
     );

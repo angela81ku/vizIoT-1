@@ -17,7 +17,8 @@ const StyledBCard = styled.div`
 
   background: ${CARD_COLOR};
   box-shadow: ${CARD_SHADOW};
-  border-radius: 0.1875rem;
+  // border-radius: 0.1875rem;
+  border-radius: 10px;
 `;
 
 class BCard extends React.Component {

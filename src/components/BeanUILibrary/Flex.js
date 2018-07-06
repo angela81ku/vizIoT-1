@@ -1,9 +1,11 @@
+'use es6';
+
 import React from 'react';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import PropTypes from 'prop-types';
 
-const FlexDirection = keyMirror({
+export const FlexDirection = keyMirror({
   ROW: null,
   COLUMN: null,
 });
@@ -14,7 +16,7 @@ const FlexDirectionList = Object.keys(FlexDirection);
  */
 class Flex extends React.Component {
   render() {
-    const { direction, gutter, className, animate } = this.props;
+    const { direction, gutter, className, animate, fill } = this.props;
     return (
       <div
         className={classNames(className, {
@@ -23,6 +25,8 @@ class Flex extends React.Component {
           fade: animate,
           'flex-row': direction === FlexDirection.ROW,
           'flex-column': direction === FlexDirection.COLUMN,
+          fillWidth: fill && direction === FlexDirection.ROW,
+          fillHeight: fill && direction === FlexDirection.COLUMN,
         })}
       >
         {this.props.children}
@@ -35,12 +39,14 @@ Flex.defaultProps = {
   animate: true,
   direction: FlexDirection.ROW,
   gutter: 0,
+  fill: false,
 };
 
 Flex.propTypes = {
   animate: PropTypes.bool,
   direction: PropTypes.oneOf(FlexDirectionList),
   gutter: PropTypes.number,
+  fill: PropTypes.bool,
 };
 
 export default Flex;

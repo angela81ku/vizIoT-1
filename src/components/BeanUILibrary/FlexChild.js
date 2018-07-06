@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 // TODO, rename to 'Box'
+
+/*
+By default, this wraps the content, and does not grow to fit the parent.
+ */
 const FlexChild = ({
   alignSelf,
   basis,
