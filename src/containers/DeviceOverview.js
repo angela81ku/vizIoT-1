@@ -12,9 +12,10 @@ import DeviceCard from '../components/device/DeviceCard';
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 
 const PageBackground = styled.div`
-  background-image: linear-gradient(rgb(12, 26, 56) 3%, rgb(19, 24, 41));
-  min-height: 500px; // page min height
+  background-image: linear-gradient(rgb(35, 98, 113) 3%,rgb(27, 56, 95));
+  min-height: 700px; // page min height
   height: 100vh;
+  overflow-y: scroll;
 `;
 
 const PageContent = styled.div`
