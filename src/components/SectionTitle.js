@@ -10,7 +10,7 @@ import {
 
 const SectionTitleWrapper = styled.div`
   padding: ${props => props.cardPadding && CARD_CONTENT_PADDING};
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   padding-top: 30px;
   color: ${HEADING_TEXT_COLOR};
   display: flex;

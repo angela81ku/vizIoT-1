@@ -1,45 +1,80 @@
 'use es6';
 
+import { ScreenBreakPoints } from 'UIBean/Breakpoints';
+
+/**
+ * All size unites in rem.
+ */
 const fontStyles = {
   H0: {
-    size: 5.5, // rem
+    size: {
+      xs: 5.5,
+    },
     weight: 800,
   },
   H1: {
-    size: 3.2,
+    size: {
+      xs: 3.2,
+    },
   },
   H2: {
-    size: 2.4,
+    size: {
+      xs: 2.4,
+    },
   },
   H3: {
-    size: 2.2,
+    size: {
+      xs: 2.2,
+    },
   },
   H4: {
-    size: 2.0,
-    distance: 0.5, // rem
+    size: {
+      xs: 2.0,
+    },
+    distance: 0.5,
   },
   H5: {
-    size: 1.6,
+    size: {
+      xs: 1.6,
+    },
     weight: 'normal',
     distance: 1.0,
   },
   H6: {
-    size: 1.4,
+    size: {
+      xs: 1.4,
+      md: 1.5,
+      xl: 1.8,
+    },
     weight: 600,
     distance: 0.5,
   },
   Paragraph: {
-    size: 1.2,
+    size: {
+      xs: 1.2,
+    },
     weight: 'normal',
   },
+};
+
+const mediaQuery = (screenSize, styleStr) => `
+  @media only screen and (min-width: ${ScreenBreakPoints[screenSize] / 10.0}rem) {
+    ${styleStr}
+  }
+`;
+
+const generateResponsiveSizing = (sizeListing) => {
+  return Object
+    .keys(sizeListing)
+    .reduce((str, key) => str.concat(mediaQuery(key, `font-size: ${sizeListing[key]}rem;`)), '');
 };
 
 const convertToStyleString = setting => {
   const { size, weight, distance } = setting;
   return `
-    ${size ? `font-size: ${size}rem` : ''};
     ${weight ? `font-weight: ${weight}` : ''};
-    ${distance ? `margin-bottom: ${distance}` : ''};
+    ${distance ? `margin-bottom: ${distance}` : ''}rem;
+    ${generateResponsiveSizing(size)}
   `;
 };
 

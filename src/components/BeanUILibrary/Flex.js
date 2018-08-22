@@ -16,7 +16,7 @@ const FlexDirectionList = Object.keys(FlexDirection);
  */
 class Flex extends React.Component {
   render() {
-    const { direction, gutter, className, animate, fill } = this.props;
+    const { direction, noWrap, gutter, className, animate, fill } = this.props;
     return (
       <div
         className={classNames(className, {
@@ -27,6 +27,7 @@ class Flex extends React.Component {
           'flex-column': direction === FlexDirection.COLUMN,
           fillWidth: fill && direction === FlexDirection.ROW,
           fillHeight: fill && direction === FlexDirection.COLUMN,
+          'noWrap': noWrap,
         })}
       >
         {this.props.children}
@@ -40,6 +41,7 @@ Flex.defaultProps = {
   direction: FlexDirection.ROW,
   gutter: 0,
   fill: false,
+  noWrap: false,
 };
 
 Flex.propTypes = {
@@ -47,6 +49,7 @@ Flex.propTypes = {
   direction: PropTypes.oneOf(FlexDirectionList),
   gutter: PropTypes.number,
   fill: PropTypes.bool,
+  noWrap: PropTypes.bool,
 };
 
 export default Flex;

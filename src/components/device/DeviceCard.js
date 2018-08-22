@@ -23,17 +23,17 @@ const borderRadius = '15px';
 
 const DCard = styled(BCard)`
   min-width: 260px;
-  height: 218px;
+  min-height: 218px;
   background-color: white;
   color: ${OFF_BLACK};
 
   border-width: 3px;
   // border-style: solid;
-  border-color: ${ORANGE_PEEL};
+  // border-color: ${ORANGE_PEEL};
   border-radius: ${borderRadius};
 
-  border-left-width: ${borderRadius};
-  border-left-style: solid;
+  // border-left-width: ${borderRadius};
+  // border-left-style: solid;
   // border-left-color: red;
   // border-left-style: groove;
 
@@ -92,6 +92,7 @@ const DContent = shouldUpdate((props, nextProps) => false)(styled(Flex)`
 
 const DLeft = styled(FlexChild)`
   position: relative;
+  min-height: 200px;
 `;
 
 const GraphCurrentValue = styled(FlexChild)`
@@ -105,7 +106,7 @@ const DRight = styled(FlexChild)`
 const Symbol = styled(BIcon)`
   position: absolute;
   font-size: 75px;
-  opacity: 0.2;
+  opacity: 0.05;
   top: 30%;
   width: 100%;
   text-align: center;
@@ -163,8 +164,8 @@ const DeviceCard = ({
               </ConnectionDestination>
             </ConnectionsLabel>
           </FlexSize>
-          <FlexSize space="m-top-9 p-lr-4">
-            <Flex>
+          <FlexSize space="m-top-9 m-bot-4 p-lr-4">
+            <Flex noWrap={true}>
               <FlexSize size={{ xs: 4 }} alignSelf={'start'}>
                 <div>
                   <strong>1.3 Gb</strong>

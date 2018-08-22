@@ -1,3 +1,4 @@
+
 'use es6';
 
 import React, { Component } from 'react';
@@ -10,9 +11,11 @@ import FlexSize from 'UIBean/FlexSize';
 import DeviceCard from '../components/device/DeviceCard';
 
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import SectionSubtitle from '../components/SectionSubtitle';
+import SectionTitle from 'VizIoT/components/SectionTitle';
 
 const PageBackground = styled.div`
-  background-image: linear-gradient(rgb(35, 98, 113) 3%,rgb(27, 56, 95));
+  background-image: linear-gradient(rgb(24, 23, 60) 3%,rgb(7, 92, 142));
   min-height: 700px; // page min height
   height: 100vh;
   overflow-y: scroll;
@@ -78,7 +81,9 @@ class DeviceOverview extends Component {
     return (
       <PageBackground>
         <PageContent>
-          <Flex gutter={2}>
+          <SectionTitle title="DEVICE OVERVIEW" cardPadding={false} />
+          <SectionSubtitle text="SEE ALL OF YOUR DEVICES AT A GLANCE" />
+          <Flex gutter={2} className="p-top-5">
             {DeviceOverview.renderDevicesAsCards(
               devices,
               hoveredDevice,
