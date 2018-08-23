@@ -8,7 +8,8 @@ const TabRowContainer = styled.div`
    justify-content: center;
    align-items: flex-end;
    
-   height: 100px;
+   min-height: 100px;
+   flex-wrap: wrap;
 `;
 
 const Streak = styled.div`

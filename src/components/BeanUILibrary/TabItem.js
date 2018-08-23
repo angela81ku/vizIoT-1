@@ -9,18 +9,22 @@ import TypographyComponent from 'UIBean/TypographyComponent';
 
 const { H3 } = TypographyComponent;
 
+const TabContainer = styled.div`
+  margin: 0 30px;
+`;
+
 const Container = styled(H3)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   
-  width: 140px;
+  width: 100%;
+  
+  min-width: 130px;
   height: 70px;
-  padding: 5px 15px;
-  margin: 0 30px;
   line-height: 35px;
   
-  font-family: 'DINCondensed-Bold';
+  font-family: ${'DINCondensed-Bold'};
   font-weight: 500;
   letter-spacing: 2.2px;
   color: ${BODY_TEXT_COLOR};
@@ -54,12 +58,12 @@ export default class TabItem extends Component {
   render() {
     const { active, hover, children } = this.props;
     return (
-      <div>
+      <TabContainer>
         <Container active={active} hover={hover}>
           {children}
         </Container>
         { active && <Underline /> }
-      </div>
+      </TabContainer>
     );
   }
 }

@@ -2,23 +2,27 @@
     z-index: 10;
     right: 15px;
     top: 15px;
+    display: inline-flex;
+    align-items: center;
 
     .appTime__logo {
-        align-self: flex-start;
-        display: flex;
-        justify-content: flex-end;
+        display: inline-flex;
         color: $extra-light-color;
 
         h4 {
-        margin-bottom: 0;
-        display: inline-block;
+            margin: 0;
+            display: inline-block;
         }
         .material-icons {
-        font-size: 2.5rem;
+            font-size: 2.5rem;
         }
     }
 
     .appTitle__time {
-        color: $lighter-color;
+        h4 {
+            color: $lighter-color;
+            display: inline-block;
+            margin: 0;
+        }
     }
 }

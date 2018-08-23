@@ -32,11 +32,11 @@ class AppTime extends React.Component {
   render() {
     return (
       <Sticky className="appTime__wrapper">
-        <div className="appTime__logo">
+        <div className="appTime__logo p-right-1">
           <i className="material-icons p-right-1">visibility</i>
           <h4>VizIoT</h4>
         </div>
-        <div className="appTitle__time m-top-1">
+        <div className="appTitle__time">
           <h4>{this.state.currentMoment.format('h:mm:ss a')}</h4>
         </div>
       </Sticky>
