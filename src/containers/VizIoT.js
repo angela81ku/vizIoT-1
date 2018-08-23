@@ -1,23 +1,45 @@
+'use es6';
+
 import React from 'react';
 import PropTypes from 'prop-types';
+import keyMirror from 'keymirror';
+
 import TabTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from 'UIBean/CoverFlow';
 
+import TabRow from 'UIBean/TabRow';
+import TabItem from 'UIBean/TabItem';
+
+const tabKeys = keyMirror({
+  'OVERVIEW': null,
+  'DEVICES': null,
+  'GEOGRAPHY': null,
+});
+
+
 const Tabs = {
-  OVERVIEW: {
-    key: 'OVERVIEW',
+  [tabKeys.OVERVIEW]: {
+    key: tabKeys.OVERVIEW,
+    title: 'OVERVIEW',
     background: '',
   },
-  LOCATIONS: {
-    key: 'GEOGRAPHY',
+  [tabKeys.DEVICES]: {
+    key: tabKeys.DEVICES,
+    title: 'DEVICES',
+    background: '',
+  },
+  [tabKeys.GEOGRAPHY]: {
+    key: tabKeys.GEOGRAPHY,
+    title: 'GEOGRAPHY',
     background: 'location-bubble-tab-background',
   },
 };
 
-const tabOrder = [Tabs.OVERVIEW, Tabs.LOCATIONS];
+const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];
+
 class VizIoT extends React.Component {
   state = {
     currentTab: 0,
@@ -26,15 +48,17 @@ class VizIoT extends React.Component {
   };
 
   getCurrentTabInfo() {
-    return tabOrder[this.state.currentTab];
+    return Tabs[tabOrder[this.state.currentTab]];
   }
 
   renderCurrentTab() {
     let currentTabInfo = this.getCurrentTabInfo();
-    switch (currentTabInfo) {
-      case Tabs.OVERVIEW:
+    switch (currentTabInfo.key) {
+      case tabKeys.OVERVIEW:
         return <OverviewTab />;
-      case Tabs.LOCATIONS:
+      case tabKeys.DEVICES:
+        return <div />;
+      case tabKeys.GEOGRAPHY:
         return <BubbleLocationTab />;
     }
     return <OverviewTab />;
@@ -57,8 +81,24 @@ class VizIoT extends React.Component {
     this.scheduleHideTitle();
   }
 
-  renderTitle(key) {
-    return <TabTitle subtitle={key} show={this.state.showTitle} />;
+  renderTitle(title) {
+    return <TabTitle subtitle={title} show={this.state.showTitle} />;
+  }
+
+  renderTabBar() {
+    return (
+      <TabRow>
+        {
+          Object.keys(tabKeys).map(k => {
+            const { key } = this.getCurrentTabInfo();
+            const { title } = Tabs[k];
+            return (
+                <TabItem key={k} active={key === k}>{title}</TabItem>);
+            }
+          )
+        }
+      </TabRow>
+    );
   }
 
   handleLeftArrow = () => {
@@ -80,12 +120,14 @@ class VizIoT extends React.Component {
   };
 
   render() {
-    const { key, background } = this.getCurrentTabInfo();
+    const { key, title, background } = this.getCurrentTabInfo();
     return (
-      <div>
-        {this.renderTitle(key)}
+      <div id="rootContainer">
+        <div className={`tint-background ${background}`} />
+        {this.renderTitle(title)}
         <AppTime />
-        <div className={`tint-background ${background}`}>
+        <div>
+          {this.renderTabBar()}
           <CoverFlow
             onLeft={this.handleLeftArrow}
             onRight={this.handleRightArrow}
