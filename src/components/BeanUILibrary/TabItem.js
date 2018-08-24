@@ -3,13 +3,14 @@
 import { Component } from 'react';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { BODY_TEXT_COLOR } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
 
 const { H3 } = TypographyComponent;
 
-const TabContainer = styled.div`
+const TabContainer = styled(NavLink)`
   margin: 0 30px;
 `;
 
@@ -56,9 +57,9 @@ const Underline = styled.div`
 
 export default class TabItem extends Component {
   render() {
-    const { active, hover, children } = this.props;
+    const { active, hover, to, children } = this.props;
     return (
-      <TabContainer>
+      <TabContainer to={to}>
         <Container active={active} hover={hover}>
           {children}
         </Container>
@@ -70,11 +71,13 @@ export default class TabItem extends Component {
 
 TabItem.defaultProps = {
   active: false,
-  hover: false
+  hover: false,
+  to: '/',
 };
 
 TabItem.propTypes = {
   children: PropTypes.any,
   active: PropTypes.bool,
   hover: PropTypes.bool,
+  to: PropTypes.string.isRequired,
 };

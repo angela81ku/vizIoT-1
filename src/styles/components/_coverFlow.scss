@@ -42,11 +42,11 @@ $button-font-size: 3.4rem;
     transition: opacity 2s ease-in;
   }
 
-  .carousel-leave {
+  .carousel-exit {
     opacity: 1;
   }
 
-  .carousel-leave.carousel-leave-active {
+  .carousel-exit.carousel-exit-active {
     opacity: 0;
     transition: opacity 2s ease-out;
   }
