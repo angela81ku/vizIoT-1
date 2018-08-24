@@ -1,7 +1,7 @@
 import React from 'react';
 import VizIoT from '../containers/VizIoT';
 
-import NotFoundPage from '../containers/NotFoundPage';
+import NotFound from '../containers/NotFound';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Playground from '../containers/Playground';
 
@@ -12,7 +12,7 @@ const AppRouter = () => (
       <Redirect exact from="/" to='/overview' />
       <Route path="/playground" component={Playground} />
       <Route component={VizIoT} />
-      <Route render={() => <NotFoundPage />} />
+      <Route render={() => <NotFound />} />
     </Switch>
   </HashRouter>
 );

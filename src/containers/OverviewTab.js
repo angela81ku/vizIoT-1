@@ -285,6 +285,7 @@ class OverviewTab extends Component {
             </FlexSize>
           </Flex>
         </RightContentWrapper>
+        <div className="xl-spacer" />
       </div>
     );
   }

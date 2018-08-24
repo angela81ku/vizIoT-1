@@ -9,7 +9,6 @@ import {
   Route,
 } from 'react-router-dom';
 
-
 import TabTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
 import OverviewTab from './OverviewTab';
@@ -19,7 +18,7 @@ import CoverFlow from 'UIBean/CoverFlow';
 import TabRow from 'UIBean/TabRow';
 import TabItem from 'UIBean/TabItem';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
-import NotFoundPage from 'VizIoT/containers/NotFoundPage';
+import NotFound from 'VizIoT/containers/NotFound';
 
 const tabKeys = keyMirror({
   'OVERVIEW': null,
@@ -166,7 +165,7 @@ class VizIoT extends React.Component {
     const { title, background} = maybeTab || {};
 
     return (
-      <div id="rootContainer">
+      <div id="root-container">
         <div className={`tint-background ${background && background}`} />
         {title && this.renderTitle(title)}
         <AppTime />
@@ -182,14 +181,8 @@ class VizIoT extends React.Component {
                 <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
                 <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
                 <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
-                <Route render={() => <NotFoundPage />} />
+                <Route render={() => <NotFound />} />
               </Switch>
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
-              <div className="large-spacer" />
             </div>
           </CoverFlow>
         </div>

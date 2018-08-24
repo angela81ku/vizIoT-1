@@ -15,34 +15,19 @@ const StyledBCard = styled.div`
     return noPadding ? '0' : compact ? '1rem' : '2rem';
   }};
 
-  background: ${CARD_COLOR};
-  box-shadow: ${CARD_SHADOW};
+  background: ${({ noBackground }) => noBackground ? 'transparent none' : CARD_COLOR};
+  box-shadow: ${({ noShadow }) => noShadow ? 'none' : CARD_SHADOW};
   // border-radius: 0.1875rem;
   border-radius: 10px;
 `;
 
 class BCard extends React.Component {
   render() {
-    const {
-      noShadow,
-      noBorder,
-      noBackground,
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
 
     const classNames = ['bean--card'].concat(
       className ? className.split(' ') : []
     );
-    if (noShadow) {
-      classNames.push('noShadow');
-    }
-    if (noBorder) {
-      classNames.push('noBorder');
-    }
-    if (noBackground) {
-      classNames.push('noBackground');
-    }
 
     return (
       <StyledBCard className={classNames.join(' ')} {...this.props}>
@@ -54,7 +39,7 @@ class BCard extends React.Component {
 
 BCard.defaultProps = {
   noShadow: false,
-  noBorder: false,
+  noBorder: true,
   noPadding: false,
   noBackground: false,
   compact: true,
