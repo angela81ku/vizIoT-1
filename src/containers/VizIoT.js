@@ -59,14 +59,32 @@ const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];
 
 class VizIoT extends React.Component {
   state = {
-    currentTab: 0,
+    redirectTo: null,
     showTitle: true,
     scheduler: null,
   };
 
+  componentWillReceiveProps(props) {
+    const { location: { pathname } } = props;
+    this.setState(({ redirectTo }) => ({
+      // After we receive new or changed props, reset redirect when location === redirectTo.
+      redirectTo: pathname === redirectTo ? null : redirectTo,
+    }));
+  }
+
+  componentDidMount() {
+    this.scheduleHideTitle();
+  }
+
+  getCurrentTabIdxFromLocation() {
+    const { location } = this.props;
+    const { key } = this.getTabByPath(location.pathname) || {};
+    return _.indexOf(tabOrder, key)
+  }
+
   getTabByPath(path) {
-    const currentKey = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
-    return Tabs[currentKey];
+    const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
+    return Tabs[key];
   }
 
   scheduleHideTitle = () => {
@@ -82,22 +100,17 @@ class VizIoT extends React.Component {
     }));
   };
 
-  componentDidMount() {
-    this.scheduleHideTitle();
-  }
-
   renderTitle(title) {
     return <TabTitle subtitle={title} show={this.state.showTitle} />;
   }
 
   renderTabBar() {
+    const { key } = this.getTabByPath(this.props.location.pathname) || {};
     return (
       <TabRow>
         {
           Object.keys(tabKeys).map(k => {
-            const { key } = this.getTabByPath(this.props.location.pathname) || {};
             const { title, path } = Tabs[k];
-
             return (
                 <TabItem
                   key={k}
@@ -114,25 +127,41 @@ class VizIoT extends React.Component {
   }
 
   handleLeftArrow = () => {
-    this.setState(({ currentTab }) => ({
-      currentTab: --currentTab < 0 ? tabOrder.length - 1 : currentTab,
-      showTitle: true,
-      scheduler: null,
-    }));
-    this.scheduleHideTitle();
+    let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
+    if (currentTabIndex >= 0) {
+      const nextTabIndex = --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
+      this.setState(() => ({
+        showTitle: true,
+        scheduler: null,
+        redirectTo: Tabs[tabOrder[nextTabIndex]].path,
+      }));
+      this.scheduleHideTitle();
+    }
   };
 
   handleRightArrow = () => {
-    this.setState(({ currentTab, scheduler }) => ({
-      currentTab: ++currentTab % tabOrder.length,
-      showTitle: true,
-      scheduler: null,
-    }));
-    this.scheduleHideTitle();
+    let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
+    if (currentTabIndex >= 0) {
+      const nextTabIndex = ++currentTabIndex % tabOrder.length;
+      this.setState(() => ({
+        showTitle: true,
+        scheduler: null,
+        redirectTo: Tabs[tabOrder[nextTabIndex]].path,
+      }));
+      this.scheduleHideTitle();
+    }
   };
 
   render() {
+    const { redirectTo } = this.state;
     const { location } = this.props;
+
+    // If the current location is diff from the state's index
+    if (redirectTo && redirectTo !== location.pathname) {
+      // Redirect triggers when state is changed
+      return <Redirect to={redirectTo}/>
+    }
+
     const maybeTab = this.getTabByPath(location.pathname);
     const { title, background} = maybeTab || {};
 
@@ -148,21 +177,19 @@ class VizIoT extends React.Component {
             onLeft={this.handleLeftArrow}
             onRight={this.handleRightArrow}
           >
-            <div key={location.key}>
-              <div className="padded-container">
-                <Switch location={location}>
-                  <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
-                  <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
-                  <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
-                  <Route render={() => <NotFoundPage />} />
-                </Switch>
-                <div className="large-spacer" />
-                <div className="large-spacer" />
-                <div className="large-spacer" />
-                <div className="large-spacer" />
-                <div className="large-spacer" />
-                <div className="large-spacer" />
-              </div>
+            <div className="padded-container">
+              <Switch location={location}>
+                <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
+                <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
+                <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
+                <Route render={() => <NotFoundPage />} />
+              </Switch>
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
+              <div className="large-spacer" />
             </div>
           </CoverFlow>
         </div>

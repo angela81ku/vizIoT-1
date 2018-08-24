@@ -35,7 +35,7 @@ const createPlaceholderData = () => {
   const nowEndDay = moment(now).endOf('day');
 
   const startOfDayAWeekAgo = moment(now)
-    .subtract('week', 1)
+    .subtract(1, 'week')
     .startOf('day');
 
   logMoment(now, 'now');
@@ -59,7 +59,7 @@ const createPlaceholderData = () => {
       },
       ...rows,
     ];
-    iTime.subtract('hour', 1);
+    iTime.subtract(1, 'hour');
   }
 
   console.log(rows);
@@ -103,13 +103,13 @@ const ScheduleCard = ({ className }) => {
           colValuesGenerator={() => {
             const now = moment();
             const nowFlooredDay = moment(now).startOf('day');
-            const aWeekAgo = moment(nowFlooredDay).subtract('week', 1);
+            const aWeekAgo = moment(nowFlooredDay).subtract(1, 'week');
 
             let dates = [];
             let iTime = aWeekAgo;
             while (iTime.unix() < now.unix()) {
               dates = [...dates, iTime.format(dayFormat)];
-              iTime = moment(iTime).add('day', 1);
+              iTime = moment(iTime).add(1, 'day');
             }
             return dates;
           }}
