@@ -4,10 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import keyMirror from 'keymirror';
 import {
+  Redirect,
   Switch,
   Route,
-  Link,
-  Redirect
 } from 'react-router-dom';
 
 
@@ -20,10 +19,12 @@ import CoverFlow from 'UIBean/CoverFlow';
 import TabRow from 'UIBean/TabRow';
 import TabItem from 'UIBean/TabItem';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
+import NotFoundPage from 'VizIoT/containers/NotFoundPage';
 
 const tabKeys = keyMirror({
   'OVERVIEW': null,
   'DEVICES': null,
+  'TIME': null,
   'GEOGRAPHY': null,
 });
 
@@ -38,6 +39,12 @@ const Tabs = {
     key: tabKeys.DEVICES,
     title: 'DEVICES',
     path: '/devices',
+    background: '',
+  },
+  [tabKeys.TIME]: {
+    key: tabKeys.TIME,
+    title: 'TIME',
+    path: '/time',
     background: '',
   },
   [tabKeys.GEOGRAPHY]: {
@@ -144,11 +151,10 @@ class VizIoT extends React.Component {
             <div key={location.key}>
               <div className="padded-container">
                 <Switch location={location}>
-                  <Route exact path='/' component={OverviewTab} />
                   <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
                   <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
                   <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
-                  <Route render={() => <div>Not Found</div>} />
+                  <Route render={() => <NotFoundPage />} />
                 </Switch>
                 <div className="large-spacer" />
                 <div className="large-spacer" />
