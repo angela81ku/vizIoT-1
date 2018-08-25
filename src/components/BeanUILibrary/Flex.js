@@ -27,7 +27,7 @@ class Flex extends React.Component {
           'flex-column': direction === FlexDirection.COLUMN,
           fillWidth: fill && direction === FlexDirection.ROW,
           fillHeight: fill && direction === FlexDirection.COLUMN,
-          'noWrap': noWrap,
+          noWrap: noWrap,
         })}
       >
         {this.props.children}

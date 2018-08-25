@@ -58,15 +58,18 @@ const fontStyles = {
 };
 
 const mediaQuery = (screenSize, styleStr) => `
-  @media only screen and (min-width: ${ScreenBreakPoints[screenSize] / 10.0}rem) {
+  @media only screen and (min-width: ${ScreenBreakPoints[screenSize] /
+    10.0}rem) {
     ${styleStr}
   }
 `;
 
-const generateResponsiveSizing = (sizeListing) => {
-  return Object
-    .keys(sizeListing)
-    .reduce((str, key) => str.concat(mediaQuery(key, `font-size: ${sizeListing[key]}rem;`)), '');
+const generateResponsiveSizing = sizeListing => {
+  return Object.keys(sizeListing).reduce(
+    (str, key) =>
+      str.concat(mediaQuery(key, `font-size: ${sizeListing[key]}rem;`)),
+    ''
+  );
 };
 
 const convertToStyleString = setting => {

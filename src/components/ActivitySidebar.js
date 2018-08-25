@@ -11,10 +11,18 @@ import SectionTitle from 'VizIoT/components/SectionTitle';
 import DeviceList from 'VizIoT/components/DeviceList';
 import ActivityFeed from 'VizIoT/components/ActivityFeed';
 import connect from 'react-redux/es/connect/connect';
-import { selectDeviceList, selectLastSeen, selectNumberOfConnections } from 'VizIoT/selectors/deviceSelectors';
+import {
+  selectDeviceList,
+  selectLastSeen,
+  selectNumberOfConnections,
+} from 'VizIoT/selectors/deviceSelectors';
 import { selectMostRecentDomains } from 'VizIoT/selectors/analyticsSelector';
 import BIcon from 'UIBean/BIcon';
-import { CARD_COLOR, LIGHTER_COLOR, LIGHTER_COLOR_TRANS } from 'VizIoT/styles/base/viz-theme';
+import {
+  CARD_COLOR,
+  LIGHTER_COLOR,
+  LIGHTER_COLOR_TRANS,
+} from 'VizIoT/styles/base/viz-theme';
 
 const FixedSidebarWrapper = styled.section`
   position: fixed;
@@ -29,9 +37,9 @@ const FixedSidebarWrapper = styled.section`
     display: none;
   }
   z-index: 1;
-  
-  transform: ${({ hide }) => hide ? 'translateX(-350px)' : 'translateX(0)' };
-  opacity: ${({ hide }) => hide ? '0' : '1' };
+
+  transform: ${({ hide }) => (hide ? 'translateX(-350px)' : 'translateX(0)')};
+  opacity: ${({ hide }) => (hide ? '0' : '1')};
   transition: opacity 1.5s, transform 2s;
   // transition-timing-function: ease-in-out;
 `;
@@ -48,31 +56,30 @@ const HideBtn = styled.button`
   width: fit-content;
   padding: 6px;
   margin-left: auto;
- 
+
   background: ${CARD_COLOR};
   color: white;
   border: none;
   border-radius: 50%;
-  
+
   &:hover {
     background: ${LIGHTER_COLOR_TRANS};
   }
-  
+
   &:active {
     background: ${LIGHTER_COLOR};
   }
 `;
 
 const Sidebar = ({
-                   hide,
-                   devices,
-                   deviceToNumConnection,
-                   lastSeen,
-                   mostRecentHosts,
-                   onSwitch,
-                   onClickHide,
-                 }) => {
-
+  hide,
+  devices,
+  deviceToNumConnection,
+  lastSeen,
+  mostRecentHosts,
+  onSwitch,
+  onClickHide,
+}) => {
   const deviceList = (
     <div>
       <SectionTitle title="TODAY'S DEVICES" />
@@ -94,7 +101,9 @@ const Sidebar = ({
   return (
     <FixedSidebarWrapper hide={hide}>
       <FullHeightBCard noShadow={true} noPadding={false}>
-        <HideBtn type="button" onClick={_.over([onClickHide, ])}><BIcon name={'chevron_left'} size={26} weight={600}/></HideBtn>
+        <HideBtn type="button" onClick={_.over([onClickHide])}>
+          <BIcon name={'chevron_left'} size={26} weight={600} />
+        </HideBtn>
         <Flex>
           <TimedSwitcher
             options={[
@@ -124,18 +133,18 @@ Sidebar.propTypes = {
   hide: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   devices: selectDeviceList(state),
   deviceToNumConnection: selectNumberOfConnections(state),
   lastSeen: selectLastSeen(state),
   mostRecentHosts: selectMostRecentDomains(state, 15),
 });
 
-const withHideable = (ConnectedSidebar) => {
+const withHideable = ConnectedSidebar => {
   class HideableSidebar extends React.Component {
     state = {
       isHidden: false,
-      useDefault: true
+      useDefault: true,
     };
 
     onClickHide = () => {

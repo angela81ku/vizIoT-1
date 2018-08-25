@@ -3,11 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import keyMirror from 'keymirror';
-import {
-  Redirect,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
 import TabTitle from '../components/TabTitle';
 import AppTime from '../components/AppTime';
@@ -22,10 +18,10 @@ import NotFound from 'VizIoT/containers/NotFound';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 
 const tabKeys = keyMirror({
-  'OVERVIEW': null,
-  'DEVICES': null,
-  'TIME': null,
-  'GEOGRAPHY': null,
+  OVERVIEW: null,
+  DEVICES: null,
+  TIME: null,
+  GEOGRAPHY: null,
 });
 
 const Tabs = {
@@ -65,7 +61,9 @@ class VizIoT extends React.Component {
   };
 
   componentWillReceiveProps(props) {
-    const { location: { pathname } } = props;
+    const {
+      location: { pathname },
+    } = props;
     this.setState(({ redirectTo }) => ({
       // After we receive new or changed props, reset redirect when location === redirectTo.
       redirectTo: pathname === redirectTo ? null : redirectTo,
@@ -79,7 +77,7 @@ class VizIoT extends React.Component {
   getCurrentTabIdxFromLocation() {
     const { location } = this.props;
     const { key } = this.getTabByPath(location.pathname) || {};
-    return _.indexOf(tabOrder, key)
+    return _.indexOf(tabOrder, key);
   }
 
   getTabByPath(path) {
@@ -108,20 +106,14 @@ class VizIoT extends React.Component {
     const { key } = this.getTabByPath(this.props.location.pathname) || {};
     return (
       <TabRow>
-        {
-          Object.keys(tabKeys).map(k => {
-            const { title, path } = Tabs[k];
-            return (
-                <TabItem
-                  key={k}
-                  active={key === k}
-                  to={path}
-                >
-                  {title}
-                </TabItem>);
-            }
-          )
-        }
+        {Object.keys(tabKeys).map(k => {
+          const { title, path } = Tabs[k];
+          return (
+            <TabItem key={k} active={key === k} to={path}>
+              {title}
+            </TabItem>
+          );
+        })}
       </TabRow>
     );
   }
@@ -129,7 +121,8 @@ class VizIoT extends React.Component {
   handleLeftArrow = () => {
     let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
     if (currentTabIndex >= 0) {
-      const nextTabIndex = --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
+      const nextTabIndex =
+        --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
       this.setState(() => ({
         showTitle: true,
         scheduler: null,
@@ -159,11 +152,11 @@ class VizIoT extends React.Component {
     // If the current location is diff from the state's index
     if (redirectTo && redirectTo !== location.pathname) {
       // Redirect triggers when state is changed
-      return <Redirect to={redirectTo}/>
+      return <Redirect to={redirectTo} />;
     }
 
     const maybeTab = this.getTabByPath(location.pathname);
-    const { title, background} = maybeTab || {};
+    const { title, background } = maybeTab || {};
 
     return (
       <div id="root-container">
@@ -179,9 +172,20 @@ class VizIoT extends React.Component {
             onRight={this.handleRightArrow}
           >
             <Switch location={location}>
-              <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
-              <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
-              <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
+              <Route
+                path={`${Tabs[tabKeys.OVERVIEW].path}`}
+                component={OverviewTab}
+              />
+              <Route
+                exact
+                path={`${Tabs[tabKeys.DEVICES].path}`}
+                component={DeviceOverview}
+              />
+              <Route
+                exact
+                path={`${Tabs[tabKeys.GEOGRAPHY].path}`}
+                component={BubbleLocationTab}
+              />
               <Route render={() => <NotFound />} />
             </Switch>
           </CoverFlow>

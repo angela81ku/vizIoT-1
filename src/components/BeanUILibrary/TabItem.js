@@ -18,31 +18,32 @@ const Container = styled(H3)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  
+
   width: 100%;
-  
+
   min-width: 130px;
   height: 70px;
   line-height: 35px;
-  
+
   font-family: ${'DINCondensed-Bold'};
   font-weight: 500;
   letter-spacing: 2.2px;
   color: ${BODY_TEXT_COLOR};
-  ${props => props.active ? 'opacity: 1;': 'opacity: 0.50;'}
-  
-  transition: opacity, transform 0.2s;
+  ${props =>
+    props.active
+      ? 'opacity: 1;'
+      : 'opacity: 0.50;'} transition: opacity, transform 0.2s;
   transition-timing-function: ease-in-out;
-  
-  ${props => !props.active && 
+
+  ${props =>
+    !props.active &&
     `
     &:hover {
       opacity: 1;
       cursor: pointer;
       transform: translateY(-4px);
     }
-    ` 
-  }
+    `};
 `;
 
 const Underline = styled.div`
@@ -54,7 +55,6 @@ const Underline = styled.div`
   margin: -2.5px auto;
 `;
 
-
 export default class TabItem extends Component {
   render() {
     const { active, hover, to, children } = this.props;
@@ -63,7 +63,7 @@ export default class TabItem extends Component {
         <Container active={active} hover={hover}>
           {children}
         </Container>
-        { active && <Underline /> }
+        {active && <Underline />}
       </TabContainer>
     );
   }

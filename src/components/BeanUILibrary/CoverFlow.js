@@ -26,7 +26,11 @@ class CoverFlow extends React.Component {
           <i className="fas fa-angle-right" />
         </div>
         <TransitionGroup>
-          <CSSTransition key={key} classNames="carousel" timeout={{ enter: 2000, exit: 2000 }}>
+          <CSSTransition
+            key={key}
+            classNames="carousel"
+            timeout={{ enter: 2000, exit: 2000 }}
+          >
             {children}
           </CSSTransition>
         </TransitionGroup>

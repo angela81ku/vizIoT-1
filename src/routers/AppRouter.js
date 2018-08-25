@@ -9,7 +9,7 @@ import Playground from '../containers/Playground';
 const AppRouter = () => (
   <HashRouter>
     <Switch>
-      <Redirect exact from="/" to='/overview' />
+      <Redirect exact from="/" to="/overview" />
       <Route path="/playground" component={Playground} />
       <Route component={VizIoT} />
       <Route render={() => <NotFound />} />

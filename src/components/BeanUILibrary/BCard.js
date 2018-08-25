@@ -15,8 +15,9 @@ const StyledBCard = styled.div`
     return noPadding ? '0' : compact ? '1rem' : '2rem';
   }};
 
-  background: ${({ noBackground }) => noBackground ? 'transparent none' : CARD_COLOR};
-  box-shadow: ${({ noShadow }) => noShadow ? 'none' : CARD_SHADOW};
+  background: ${({ noBackground }) =>
+    noBackground ? 'transparent none' : CARD_COLOR};
+  box-shadow: ${({ noShadow }) => (noShadow ? 'none' : CARD_SHADOW)};
   // border-radius: 0.1875rem;
   border-radius: 10px;
 `;

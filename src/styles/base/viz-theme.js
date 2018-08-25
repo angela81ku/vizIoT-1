@@ -28,4 +28,5 @@ export const CARD_COLOR = 'rgba(255, 255, 255, 0.04)';
 export const CARD_SHADOW_COLOR = SHADOW_COLOR_NORM;
 export const CARD_SHADOW = `0 5px 10px 0 ${CARD_SHADOW_COLOR}`;
 
-export const DARK_BLUE_GRADIENT = 'linear-gradient(to bottom, #0c1a38 3%, #131829)';
+export const DARK_BLUE_GRADIENT =
+  'linear-gradient(to bottom, #0c1a38 3%, #131829)';
