@@ -106,7 +106,10 @@ class QuickFacts extends React.Component {
 
     return (
       <QuickFactsWrapper>
-        {this.renderQuickFactRow(factsToday, "Today's Stats")}
+        {
+          // eslint-disable-next-line quotes
+          this.renderQuickFactRow(factsToday, "Today's Stats")
+        }
         {this.renderQuickFactRow(factsLast10Min, '10 Minutes Ago')}
       </QuickFactsWrapper>
     );
