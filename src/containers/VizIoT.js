@@ -19,6 +19,7 @@ import TabRow from 'UIBean/TabRow';
 import TabItem from 'UIBean/TabItem';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
+import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 
 const tabKeys = keyMirror({
   'OVERVIEW': null,
@@ -171,19 +172,18 @@ class VizIoT extends React.Component {
         <AppTime />
         <div>
           {this.renderTabBar()}
+          <ActivitySidebar />
           <CoverFlow
             location={location.key}
             onLeft={this.handleLeftArrow}
             onRight={this.handleRightArrow}
           >
-            <div className="padded-container">
-              <Switch location={location}>
-                <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
-                <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
-                <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
-                <Route render={() => <NotFound />} />
-              </Switch>
-            </div>
+            <Switch location={location}>
+              <Route path={`${Tabs[tabKeys.OVERVIEW].path}`} component={OverviewTab} />
+              <Route exact path={`${Tabs[tabKeys.DEVICES].path}`} component={DeviceOverview} />
+              <Route exact path={`${Tabs[tabKeys.GEOGRAPHY].path}`} component={BubbleLocationTab} />
+              <Route render={() => <NotFound />} />
+            </Switch>
           </CoverFlow>
         </div>
       </div>

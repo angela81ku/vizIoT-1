@@ -40,27 +40,11 @@ import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';
 import { SPACING } from '../data/records/Spacing';
 import ScheduleCard from './ScheduleCard';
+import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
-const FixedSidebarWrapper = styled.section`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 350px;
-  height: 100vh;
-  overflow-y: scroll;
-
-  @media (max-width: 1200px) {
-    display: none;
-  }
-`;
-
-const FullHeightBCard = styled(BCard)`
-  height: 100%;
-  background: rgba(8, 22, 39, 0.4) !important;
-`;
 
 const RightContentWrapper = styled.section`
   @media (min-width: 1200px) {
@@ -220,59 +204,15 @@ class OverviewTab extends Component {
     );
   }
 
-  handleSidebarSwitch = newIndex => {
-    console.log(newIndex);
-  };
-
   render() {
-    const {
-      devices,
-      deviceToNumConnection,
-      lastSeen,
-      mostRecentHosts,
-    } = this.props;
-
-    const deviceList = (
-      <div>
-        <SectionTitle title="TODAY'S DEVICES" />
-        <DeviceList
-          devices={devices}
-          deviceToNumConnection={deviceToNumConnection}
-          lastSeen={lastSeen}
-        />
-      </div>
-    );
-
-    const hostList = (
-      <div>
-        <SectionTitle title="LATEST ACTIVITY" />
-        <ActivityFeed hosts={mostRecentHosts} />
-      </div>
-    );
-
     return (
       <div className="overview-tab">
         <div className="tint-background2">
           <div />
         </div>
-
-        <FixedSidebarWrapper>
-          <FullHeightBCard noShadow={true} noPadding={false}>
-            <Flex>
-              <TimedSwitcher
-                options={[
-                  { value: hostList, delay: 3500000 },
-                  { value: deviceList, delay: 7000 },
-                ]}
-                onSwitch={this.handleSidebarSwitch}
-              />
-            </Flex>
-          </FullHeightBCard>
-        </FixedSidebarWrapper>
-
         <RightContentWrapper>
-          <ScheduleCard />
           <QuickFacts />
+          <ScheduleCard />
           <Flex gutter={2}>
             <FlexSize size={{ lg: 7 }}>
               <BCard>
@@ -303,6 +243,7 @@ OverviewTab.propTypes = {
   combinedNetworkDevice: PropTypes.object.isRequired,
   mainChartConfig: PropTypes.object.isRequired,
   singleDeviceChartConfig: PropTypes.object.isRequired,
+  mostRecentHosts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => {

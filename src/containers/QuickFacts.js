@@ -26,11 +26,24 @@ const QuickFactsWrapper = styled.div`
   margin-bottom: 60px;
 `;
 
+const Proto = styled.div`
+    letter-spacing: 0;
+    text-align: left;
+    width: 100%;
+    padding: 6px 0px;
+    font-size: 25px;
+    font-weight: 800;
+    color: #a7b4ca8f;
+`;
+
 class QuickFacts extends React.Component {
   renderQuickFactRow(facts, title) {
     return (
       <div className="m-bot-5">
-        <SectionTitle title={title} cardPadding={false} />
+        <Proto>
+          {title}
+        </Proto>
+        {/*<SectionTitle title={title} cardPadding={false} />*/}
         <Flex gutter={3}>
           {facts.map(({ title, data, fontSize }) => {
             return (
@@ -95,8 +108,8 @@ class QuickFacts extends React.Component {
 
     return (
       <QuickFactsWrapper>
-        {this.renderQuickFactRow(factsToday, 'TODAY...')}
-        {this.renderQuickFactRow(factsLast10Min, 'LAST 10 MINUTES...')}
+        {this.renderQuickFactRow(factsToday, 'Today\'s Stats')}
+        {this.renderQuickFactRow(factsLast10Min, '10 Minutes Ago')}
       </QuickFactsWrapper>
     );
   }

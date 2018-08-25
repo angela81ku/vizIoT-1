@@ -24,6 +24,8 @@
 
 #root-container {
   position: relative;
+  min-height: 100vh;
+  max-width: 220rem;
 }
 
 .tint-background {
@@ -47,19 +49,6 @@
     width: 100%;
     height: 100%;
     background: $second-grad;
-  }
-}
-
-.padded-container {
-  padding: $main-app-padding;
-  max-width: 220rem;
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-@media only screen and (max-width: 1200px) {
-  .padded-container {
-    padding: $main-app-padding;
   }
 }
 
