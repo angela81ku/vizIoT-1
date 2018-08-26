@@ -10,9 +10,9 @@ class DataWellValue extends React.Component {
   render() {
     const { className, children } = this.props;
     return (
-      <span className={classnames('dataWell__value', className)}>
+      <div className={classnames('dataWell__value', className)}>
         {children}
-      </span>
+      </div>
     );
   }
 }

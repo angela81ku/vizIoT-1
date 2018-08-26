@@ -6,7 +6,7 @@ import {
   selectNumberOfDevices,
   selectPercentUnsecuredToday,
 } from '../selectors/deviceSelectors';
-import Flex from 'UIBean/Flex';
+import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 import DataWell from 'UIBean/DataWell';
 import DataWellValue from 'UIBean/DataWellValue';
@@ -17,6 +17,7 @@ import CountUp from 'react-countup';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import SectionTitle from '../components/SectionTitle';
+import BIcon from 'UIBean/BIcon';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -24,16 +25,20 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
 
 const QuickFactsWrapper = styled.div`
   margin-bottom: 60px;
+  padding-bottom: 50px;
 `;
 
 const Proto = styled.div`
   letter-spacing: 0;
-  text-align: left;
+  text-align: center;
   width: 100%;
-  padding: 6px 0px;
+  padding-bottom: 3.0rem;
   font-size: 25px;
   font-weight: 800;
   color: #a7b4ca8f;
+`;
+
+const StyledDataWell = styled(DataWell)`
 `;
 
 class QuickFacts extends React.Component {
@@ -42,22 +47,27 @@ class QuickFacts extends React.Component {
       <div className="m-bot-5">
         <Proto>{title}</Proto>
         {/*<SectionTitle title={title} cardPadding={false} />*/}
-        <Flex gutter={3}>
-          {facts.map(({ title, data, fontSize }) => {
+        <Flex gutter={3} justifyContent={JustifyContent.CENTER}>
+          {facts.map(({ title, data, fontSize, icon, iconType }) => {
             return (
               <FlexSize key={title} size={{ md: 6, lg: 4 }}>
-                <DataWell>
+                <StyledDataWell>
                   <div>
-                    <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                    {
+                      icon && <BIcon name={icon} type={iconType} size={28} />
+                    }
+                  </div>
+                  <DataWellTitle>{title}</DataWellTitle>
+                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                    <div>
                       {Number(data) ? (
                         <CountUp start={0} end={data} duration={3} />
                       ) : (
                         data
                       )}
-                    </DataWellValueWithFontSize>
-                    <DataWellTitle>{title}</DataWellTitle>
-                  </div>
-                </DataWell>
+                    </div>
+                  </DataWellValueWithFontSize>
+                </StyledDataWell>
               </FlexSize>
             );
           })}
@@ -74,41 +84,62 @@ class QuickFacts extends React.Component {
       mostContactedHost,
     } = this.props;
 
-    const factsToday = [
+    const hugeText = [
       {
-        title: 'DEVICES',
+        title: 'Active',
         data: numberOfDevices,
+        icon: 'directions_run',
+      }
+    ];
+
+    const factsToday = [
+        // {
+        //   title: 'Active',
+        //   data: numberOfDevices,
+        // },
+      {
+        title: 'Inactive',
+        data: 0,
+        icon: 'cloud_off',
       },
       {
-        title: 'CONNECTIONS',
+        title: 'Connections',
         data: '~',
+        icon: 'send',
       },
       {
-        title: 'UNSECURED',
+        title: 'Unsecured',
         data: '~',
+        icon: 'lock_open'
       },
     ];
 
     const factsLast10Min = [
       {
-        title: 'AVG CONN / SEC',
+        title: 'Avg. Connections / Second',
         data: 'N/A',
+        icon: 'av_timer'
       },
       {
-        title: 'BUSIEST DEVICE',
+        title: 'Busiest Device',
         data: busiestDevice.name,
+        icon: 'trending_up',
       },
       {
-        title: 'MOST POPULAR HOST',
+        title: 'Most Popular Host',
         data: mostContactedHost,
+        icon: 'domain',
       },
     ];
 
     return (
       <QuickFactsWrapper>
         {
+          this.renderQuickFactRow(hugeText, 'Today')
+        }
+        {
           // eslint-disable-next-line quotes
-          this.renderQuickFactRow(factsToday, "Today's Stats")
+          this.renderQuickFactRow(factsToday, "")
         }
         {this.renderQuickFactRow(factsLast10Min, '10 Minutes Ago')}
       </QuickFactsWrapper>

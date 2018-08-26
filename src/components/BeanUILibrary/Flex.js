@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 export const FlexDirection = keyMirror({
   ROW: null,
@@ -11,14 +12,27 @@ export const FlexDirection = keyMirror({
 });
 const FlexDirectionList = Object.keys(FlexDirection);
 
+export const JustifyContent = {
+  DEFAULT: 'default',
+  CENTER: 'center',
+};
+
+const JustifyContentList = Object.keys(JustifyContent).map(k => JustifyContent[k]);
+
+const FlexContainer = styled.div`
+  justify-content: ${({ justifyContent }) => justifyContent };
+`;
+
+
 /**
  * Can use as a simple container, or as a bootstrap style row or column grid system
  */
 class Flex extends React.Component {
   render() {
-    const { direction, noWrap, gutter, className, animate, fill } = this.props;
+    const { direction, noWrap, gutter, className, animate, fill, justifyContent } = this.props;
     return (
-      <div
+      <FlexContainer
+        justifyContent={justifyContent}
         className={classNames(className, {
           flex: true,
           [`gutter-${gutter}`]: gutter,
@@ -31,7 +45,7 @@ class Flex extends React.Component {
         })}
       >
         {this.props.children}
-      </div>
+      </FlexContainer>
     );
   }
 }
@@ -42,6 +56,7 @@ Flex.defaultProps = {
   gutter: 0,
   fill: false,
   noWrap: false,
+  justifyContent: 'default',
 };
 
 Flex.propTypes = {
@@ -50,6 +65,7 @@ Flex.propTypes = {
   gutter: PropTypes.number,
   fill: PropTypes.bool,
   noWrap: PropTypes.bool,
+  justifyContent: PropTypes.oneOf(JustifyContentList),
 };
 
 export default Flex;

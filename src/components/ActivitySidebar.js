@@ -40,7 +40,7 @@ const FixedSidebarWrapper = styled.section`
 
   transform: ${({ hide }) => (hide ? 'translateX(-350px)' : 'translateX(0)')};
   opacity: ${({ hide }) => (hide ? '0' : '1')};
-  transition: opacity 1.5s, transform 2s;
+  transition: opacity 1.5s, transform 1.6s;
   // transition-timing-function: ease-in-out;
 `;
 

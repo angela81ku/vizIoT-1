@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 export default function DataWellTitle({ className, children }) {
   return (
-    <span className={classnames('dataWell__title', className)}>{children}</span>
+    <div className={classnames('dataWell__title', className)}>{children}</div>
   );
 }
 

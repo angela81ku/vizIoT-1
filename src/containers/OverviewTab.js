@@ -48,8 +48,21 @@ const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
 
 const RightContentWrapper = styled.section`
   @media (min-width: 1200px) {
-    margin-left: 350px;
+    // margin-left: 350px;
   }
+`;
+
+const GridLayout = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2rem;
+`;
+
+const QuickFactsGridContainer = styled.div`
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
 `;
 
 class OverviewTab extends Component {
@@ -211,19 +224,23 @@ class OverviewTab extends Component {
           <div />
         </div>
         <RightContentWrapper>
-          <QuickFacts />
-          <ScheduleCard />
-          <Flex gutter={2}>
-            <FlexSize size={{ lg: 7 }}>
-              <BCard>
-                <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
-                {this.renderMainChart()}
-              </BCard>
-            </FlexSize>
-            <FlexSize size={{ lg: 5 }}>
-              {this.renderSingleDeviceCharts()}
-            </FlexSize>
-          </Flex>
+          <GridLayout>
+            <QuickFactsGridContainer>
+              <QuickFacts />
+            </QuickFactsGridContainer>
+            <ScheduleCard />
+            <Flex gutter={2}>
+              <FlexSize size={{ lg: 7 }}>
+                <BCard>
+                  <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
+                  {this.renderMainChart()}
+                </BCard>
+              </FlexSize>
+              <FlexSize size={{ lg: 5 }}>
+                {this.renderSingleDeviceCharts()}
+              </FlexSize>
+            </Flex>
+          </GridLayout>
         </RightContentWrapper>
         <div className="xl-spacer" />
       </div>

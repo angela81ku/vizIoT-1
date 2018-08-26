@@ -8,8 +8,10 @@
 }
 .dataWell__inner {
   flex: 1 1;
-  text-align: left;
+  text-align: center;
+  justify-content: center;
   display: flex;
+  flex-direction: column;
 }
 .dataWell__value {
   display: block;

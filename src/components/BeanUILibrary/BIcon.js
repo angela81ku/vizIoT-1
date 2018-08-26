@@ -15,6 +15,7 @@ const BIcon = ({ name, size, weight, type, className }) => {
     <IconContainer
       className={classNames(className, {
         [type]: true,
+        [name]: type === 'fas'
       })}
       size={size}
       weight={weight}
