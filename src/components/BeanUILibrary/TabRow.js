@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import AppTime from 'VizIoT/components/AppTime';
 
 const TabRowContainer = styled.div`
   display: flex;

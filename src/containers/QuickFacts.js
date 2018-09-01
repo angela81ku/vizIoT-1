@@ -18,6 +18,10 @@ import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import SectionTitle from '../components/SectionTitle';
 import BIcon from 'UIBean/BIcon';
+import TypographyComponent from 'UIBean/TypographyComponent';
+import GridItem from 'UIBean/GridItem';
+
+const { H1 } = TypographyComponent;
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -26,31 +30,45 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
 const QuickFactsWrapper = styled.div`
   margin-bottom: 60px;
   padding-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 2rem;
+  grid-template-rows: repeat(2, auto);
 `;
 
-const Proto = styled.div`
+// grid-column-start: ${({ columns: { start } }) => start};
+// grid-column-end: ${({ columns: { end } }) => end};
+// grid-row-start: ${({ rows: { start } }) => start};
+// grid-row-end: ${({ rows: { end } }) => end};
+
+const StyledGridItem = styled(GridItem)`
+  // background: #FFFFFFAA;
+`;
+
+const Proto = styled(H1)`
   letter-spacing: 0;
-  text-align: center;
+  text-align: left;
   width: 100%;
   padding-bottom: 3.0rem;
-  font-size: 25px;
   font-weight: 800;
-  color: #a7b4ca8f;
+  color: #fff;
 `;
 
 const StyledDataWell = styled(DataWell)`
 `;
 
 class QuickFacts extends React.Component {
-  renderQuickFactRow(facts, title) {
+
+  renderGroup(facts, title, column, row, wellSize) {
     return (
-      <div className="m-bot-5">
+      <StyledGridItem column={column} row={row} className="m-bot-7">
+        <Flex alignContent={JustifyContent.CENTER} fillAll>
         <Proto>{title}</Proto>
         {/*<SectionTitle title={title} cardPadding={false} />*/}
-        <Flex gutter={3} justifyContent={JustifyContent.CENTER}>
+        <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
           {facts.map(({ title, data, fontSize, icon, iconType }) => {
             return (
-              <FlexSize key={title} size={{ md: 6, lg: 4 }}>
+              <FlexSize key={title} size={wellSize}>
                 <StyledDataWell>
                   <div>
                     {
@@ -72,7 +90,8 @@ class QuickFacts extends React.Component {
             );
           })}
         </Flex>
-      </div>
+        </Flex>
+      </StyledGridItem>
     );
   }
 
@@ -85,23 +104,9 @@ class QuickFacts extends React.Component {
     } = this.props;
 
     const hugeText = [
-      {
-        title: 'Active',
-        data: numberOfDevices,
-        icon: 'directions_run',
-      }
     ];
 
     const factsToday = [
-        // {
-        //   title: 'Active',
-        //   data: numberOfDevices,
-        // },
-      {
-        title: 'Inactive',
-        data: 0,
-        icon: 'cloud_off',
-      },
       {
         title: 'Connections',
         data: '~',
@@ -111,6 +116,16 @@ class QuickFacts extends React.Component {
         title: 'Unsecured',
         data: '~',
         icon: 'lock_open'
+      },
+      {
+        title: 'Active',
+        data: numberOfDevices,
+        icon: 'directions_run',
+      },
+      {
+        title: 'Inactive',
+        data: 0,
+        icon: 'cloud_off',
       },
     ];
 
@@ -135,13 +150,11 @@ class QuickFacts extends React.Component {
     return (
       <QuickFactsWrapper>
         {
-          this.renderQuickFactRow(hugeText, 'Today')
+          this.renderGroup(factsToday, 'Today', 'col-start 7 / span 6', '1', { md: 6, lg: 5 })
         }
         {
-          // eslint-disable-next-line quotes
-          this.renderQuickFactRow(factsToday, "")
+          this.renderGroup(factsLast10Min, '10 Minutes Ago', 'col-start / span 5', '1 / span 2', { md: 12, lg: 4 })
         }
-        {this.renderQuickFactRow(factsLast10Min, '10 Minutes Ago')}
       </QuickFactsWrapper>
     );
   }

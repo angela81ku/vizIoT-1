@@ -41,6 +41,7 @@ import { analyzeApiKeys } from '../data/api/analyzeApi';
 import { SPACING } from '../data/records/Spacing';
 import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
+import GridItem from 'UIBean/GridItem';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -54,15 +55,9 @@ const RightContentWrapper = styled.section`
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-template-rows: 30rem;
   grid-gap: 2rem;
-`;
-
-const QuickFactsGridContainer = styled.div`
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 3;
 `;
 
 class OverviewTab extends Component {
@@ -225,10 +220,9 @@ class OverviewTab extends Component {
         </div>
         <RightContentWrapper>
           <GridLayout>
-            <QuickFactsGridContainer>
+            <GridItem column={'col-start / span 12'} row={'1 / 3'}>
               <QuickFacts />
-            </QuickFactsGridContainer>
-            <ScheduleCard />
+            </GridItem>
             <Flex gutter={2}>
               <FlexSize size={{ lg: 7 }}>
                 <BCard>

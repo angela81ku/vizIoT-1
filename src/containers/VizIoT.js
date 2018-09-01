@@ -16,6 +16,7 @@ import TabItem from 'UIBean/TabItem';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
+import TimeOverview from 'VizIoT/containers/TimeOverview';
 
 const tabKeys = keyMirror({
   OVERVIEW: null,
@@ -180,6 +181,11 @@ class VizIoT extends React.Component {
                 exact
                 path={`${Tabs[tabKeys.DEVICES].path}`}
                 component={DeviceOverview}
+              />
+              <Route
+                exact
+                path={`${Tabs[tabKeys.TIME].path}`}
+                component={TimeOverview}
               />
               <Route
                 exact

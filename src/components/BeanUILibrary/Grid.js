@@ -2,14 +2,14 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { getProp } from 'UIBean/UtilGet';
 
-const get = key => props => props[key];
 
 const GridDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(
-    ${get('numCols')},
-    minmax(${get('min')}, ${get('max')})
+    ${getProp('numCols')},
+    minmax(${getProp('min')}, ${getProp('max')})
   );
 `;
 
