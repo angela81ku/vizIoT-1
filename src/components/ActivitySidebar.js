@@ -18,11 +18,7 @@ import {
 } from 'VizIoT/selectors/deviceSelectors';
 import { selectMostRecentDomains } from 'VizIoT/selectors/analyticsSelector';
 import BIcon from 'UIBean/BIcon';
-import {
-  CARD_COLOR,
-  LIGHTER_COLOR,
-  LIGHTER_COLOR_TRANS,
-} from 'VizIoT/styles/base/viz-theme';
+import BButton, { ButtonShapes } from 'UIBean/BButton';
 
 const FixedSidebarWrapper = styled.section`
   position: fixed;
@@ -51,24 +47,18 @@ const FullHeightBCard = styled(BCard)`
   border: 2px solid #1f385685;
 `;
 
-const HideBtn = styled.button`
-  display: inline-block;
-  width: fit-content;
-  padding: 6px;
+const HideBtn = styled(BButton)`
   margin-left: auto;
+`;
 
-  background: ${CARD_COLOR};
-  color: white;
-  border: none;
-  border-radius: 50%;
+const ShowBtn = styled(BButton)`
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  transform: ${({ hide }) => (hide ? 'translateX(-10px)' : 'translateX(0)')};
+  opacity: ${({ hide }) => (hide ? '0' : '1')};
+  transition: opacity 1.5s, transform 1.6s;
 
-  &:hover {
-    background: ${LIGHTER_COLOR_TRANS};
-  }
-
-  &:active {
-    background: ${LIGHTER_COLOR};
-  }
 `;
 
 const Sidebar = ({
@@ -78,7 +68,7 @@ const Sidebar = ({
   lastSeen,
   mostRecentHosts,
   onSwitch,
-  onClickHide,
+  onToggleHide,
 }) => {
   const deviceList = (
     <div>
@@ -99,33 +89,40 @@ const Sidebar = ({
   );
 
   return (
-    <FixedSidebarWrapper hide={hide}>
-      <FullHeightBCard noShadow={true} noPadding={false}>
-        <HideBtn type="button" onClick={_.over([onClickHide])}>
-          <BIcon name={'chevron_left'} size={26} weight={600} />
-        </HideBtn>
-        <Flex>
-          <TimedSwitcher
-            options={[
-              { value: hostList, delay: 3500000 },
-              { value: deviceList, delay: 7000 },
-            ]}
-          />
-        </Flex>
-      </FullHeightBCard>
-    </FixedSidebarWrapper>
+    <div>
+      <ShowBtn onClick={onToggleHide} hide={!hide} shape={ButtonShapes.RECT}>
+        <BIcon name={'menu'} size={26} weight={600} />
+        <span>{'LIVE FEED'}</span>
+      </ShowBtn>
+      <FixedSidebarWrapper hide={hide}>
+        <FullHeightBCard noShadow={true} noPadding={false}>
+          <HideBtn type="button" onClick={onToggleHide}>
+            <BIcon name={'chevron_left'} size={26} weight={600} />
+          </HideBtn>
+          <Flex>
+            <TimedSwitcher
+              options={[
+                { value: hostList, delay: 3500000 },
+                { value: deviceList, delay: 7000 },
+              ]}
+            />
+          </Flex>
+        </FullHeightBCard>
+      </FixedSidebarWrapper>
+    </div>
   );
 };
 
 Sidebar.defaultProps = {
   onSwitch: () => {},
   onClickHide: () => {},
+  onClickShow: () => {},
   hide: false,
 };
 
 Sidebar.propTypes = {
   onSwitch: PropTypes.func,
-  onClickHide: PropTypes.func,
+  onToggleHide: PropTypes.func,
   devices: PropTypes.array.isRequired,
   deviceToNumConnection: PropTypes.object.isRequired,
   lastSeen: PropTypes.object.isRequired,
@@ -147,7 +144,7 @@ const withHideable = ConnectedSidebar => {
       useDefault: true,
     };
 
-    onClickHide = () => {
+    onToggleHide = () => {
       this.setState({
         isHidden: !this.state.isHidden,
       });
@@ -156,7 +153,7 @@ const withHideable = ConnectedSidebar => {
     render() {
       return (
         <ConnectedSidebar
-          onClickHide={this.onClickHide}
+          onToggleHide={this.onToggleHide}
           hide={this.state.isHidden}
           {...this.props}
         />

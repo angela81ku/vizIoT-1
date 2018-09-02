@@ -223,17 +223,19 @@ class OverviewTab extends Component {
             <GridItem column={'col-start / span 12'} row={'1 / 3'}>
               <QuickFacts />
             </GridItem>
-            <Flex gutter={2}>
-              <FlexSize size={{ lg: 7 }}>
-                <BCard>
-                  <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
-                  {this.renderMainChart()}
-                </BCard>
-              </FlexSize>
-              <FlexSize size={{ lg: 5 }}>
-                {this.renderSingleDeviceCharts()}
-              </FlexSize>
-            </Flex>
+            <GridItem column={'col-start / span 12'} row={'3 / 5'}>
+              <Flex gutter={2}>
+                <FlexSize size={{ lg: 7 }}>
+                  <BCard>
+                    <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
+                    {this.renderMainChart()}
+                  </BCard>
+                </FlexSize>
+                <FlexSize size={{ lg: 5 }}>
+                  {this.renderSingleDeviceCharts()}
+                </FlexSize>
+              </Flex>
+            </GridItem>
           </GridLayout>
         </RightContentWrapper>
         <div className="xl-spacer" />
