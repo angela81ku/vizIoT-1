@@ -4,7 +4,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { getProp } from 'UIBean/UtilGet';
 
-
 const GridDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(

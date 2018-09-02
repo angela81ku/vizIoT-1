@@ -16,24 +16,35 @@ const FlexDirectionList = Object.keys(FlexDirection);
 export const JustifyContent = {
   DEFAULT: 'default',
   CENTER: 'center',
-  FLEX_START: 'flex-start'
+  FLEX_START: 'flex-start',
 };
 
-const JustifyContentList = Object.keys(JustifyContent).map(k => JustifyContent[k]);
+const JustifyContentList = Object.keys(JustifyContent).map(
+  k => JustifyContent[k]
+);
 
 const FlexContainer = styled.div`
   justify-content: ${getProp('justifyContent')};
   align-content: ${getProp('alignContent')}
-  ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'}
+    ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'};
 `;
-
 
 /**
  * Can use as a simple container, or as a bootstrap style row or column grid system
  */
 class Flex extends React.Component {
   render() {
-    const { direction, noWrap, gutter, className, animate, fill, fillAll, justifyContent, alignContent } = this.props;
+    const {
+      direction,
+      noWrap,
+      gutter,
+      className,
+      animate,
+      fill,
+      fillAll,
+      justifyContent,
+      alignContent,
+    } = this.props;
     return (
       <FlexContainer
         justifyContent={justifyContent}

@@ -49,47 +49,43 @@ const Proto = styled(H1)`
   letter-spacing: 0;
   text-align: left;
   width: 100%;
-  padding-bottom: 3.0rem;
+  padding-bottom: 3rem;
   font-weight: 800;
   color: #fff;
 `;
 
-const StyledDataWell = styled(DataWell)`
-`;
+const StyledDataWell = styled(DataWell)``;
 
 class QuickFacts extends React.Component {
-
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
         <Flex alignContent={JustifyContent.CENTER} fillAll>
-        <Proto>{title}</Proto>
-        {/*<SectionTitle title={title} cardPadding={false} />*/}
-        <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
-          {facts.map(({ title, data, fontSize, icon, iconType }) => {
-            return (
-              <FlexSize key={title} size={wellSize}>
-                <StyledDataWell>
-                  <div>
-                    {
-                      icon && <BIcon name={icon} type={iconType} size={28} />
-                    }
-                  </div>
-                  <DataWellTitle>{title}</DataWellTitle>
-                  <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+          <Proto>{title}</Proto>
+          {/*<SectionTitle title={title} cardPadding={false} />*/}
+          <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
+            {facts.map(({ title, data, fontSize, icon, iconType }) => {
+              return (
+                <FlexSize key={title} size={wellSize}>
+                  <StyledDataWell>
                     <div>
-                      {Number(data) ? (
-                        <CountUp start={0} end={data} duration={3} />
-                      ) : (
-                        data
-                      )}
+                      {icon && <BIcon name={icon} type={iconType} size={28} />}
                     </div>
-                  </DataWellValueWithFontSize>
-                </StyledDataWell>
-              </FlexSize>
-            );
-          })}
-        </Flex>
+                    <DataWellTitle>{title}</DataWellTitle>
+                    <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
+                      <div>
+                        {Number(data) ? (
+                          <CountUp start={0} end={data} duration={3} />
+                        ) : (
+                          data
+                        )}
+                      </div>
+                    </DataWellValueWithFontSize>
+                  </StyledDataWell>
+                </FlexSize>
+              );
+            })}
+          </Flex>
         </Flex>
       </StyledGridItem>
     );
@@ -103,8 +99,7 @@ class QuickFacts extends React.Component {
       mostContactedHost,
     } = this.props;
 
-    const hugeText = [
-    ];
+    const hugeText = [];
 
     const factsToday = [
       {
@@ -115,7 +110,7 @@ class QuickFacts extends React.Component {
       {
         title: 'Unsecured',
         data: '~',
-        icon: 'lock_open'
+        icon: 'lock_open',
       },
       {
         title: 'Active',
@@ -133,7 +128,7 @@ class QuickFacts extends React.Component {
       {
         title: 'Avg. Connections / Second',
         data: 'N/A',
-        icon: 'av_timer'
+        icon: 'av_timer',
       },
       {
         title: 'Busiest Device',
@@ -149,12 +144,17 @@ class QuickFacts extends React.Component {
 
     return (
       <QuickFactsWrapper>
-        {
-          this.renderGroup(factsToday, 'Today', 'col-start 7 / span 6', '1', { md: 6, lg: 5 })
-        }
-        {
-          this.renderGroup(factsLast10Min, '10 Minutes Ago', 'col-start / span 5', '1 / span 2', { md: 12, lg: 4 })
-        }
+        {this.renderGroup(factsToday, 'Today', 'col-start 7 / span 6', '1', {
+          md: 6,
+          lg: 5,
+        })}
+        {this.renderGroup(
+          factsLast10Min,
+          '10 Minutes Ago',
+          'col-start / span 5',
+          '1 / span 2',
+          { md: 12, lg: 4 }
+        )}
       </QuickFactsWrapper>
     );
   }

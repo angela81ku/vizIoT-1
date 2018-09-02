@@ -98,7 +98,12 @@ const Sidebar = ({
 
   return (
     <div>
-      <ShowBtn onClick={onToggleHide} hide={!hide} shape={ButtonShape.RECT} orientation={ButtonOrientation.STACKED}>
+      <ShowBtn
+        onClick={onToggleHide}
+        hide={!hide}
+        shape={ButtonShape.RECT}
+        orientation={ButtonOrientation.STACKED}
+      >
         <BIcon name={'menu'} size={26} weight={600} />
         <InlineH5>{'Feed'}</InlineH5>
       </ShowBtn>

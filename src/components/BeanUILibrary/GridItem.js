@@ -11,13 +11,9 @@ const GridItemWrapper = styled.div`
   grid-row: ${getProp('row')};
 `;
 
-const GridItem = (props) => {
+const GridItem = props => {
   const { children, ...rest } = props;
-  return (
-    <GridItemWrapper {...rest}>
-      {children}
-    </GridItemWrapper>
-  );
+  return <GridItemWrapper {...rest}>{children}</GridItemWrapper>;
 };
 
 GridItem.defaultProps = {

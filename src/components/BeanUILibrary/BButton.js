@@ -3,7 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CARD_COLOR, LIGHTER_COLOR, LIGHTER_COLOR_TRANS } from 'VizIoT/styles/base/viz-theme';
+import {
+  CARD_COLOR,
+  LIGHTER_COLOR,
+  LIGHTER_COLOR_TRANS,
+} from 'VizIoT/styles/base/viz-theme';
 import { withClickable } from 'UIBean/CommonHOC';
 
 export const ButtonShape = {
@@ -19,7 +23,7 @@ export const ButtonOrientation = {
 const ButtonShapesList = Object.keys(ButtonShape);
 const ButtonOrientationList = Object.keys(ButtonOrientation);
 
-const shapeToRadius = (shape) => {
+const shapeToRadius = shape => {
   if (shape === ButtonShape.ICON) {
     return '50%';
   } else {
@@ -27,7 +31,7 @@ const shapeToRadius = (shape) => {
   }
 };
 
-const orientationToFlexDirection = (orientation) => {
+const orientationToFlexDirection = orientation => {
   if (orientation === ButtonOrientation.HORIZONTAL) {
     return 'row';
   } else {
@@ -37,7 +41,8 @@ const orientationToFlexDirection = (orientation) => {
 
 const BButtonWrapper = styled.button`
   display: flex;
-  flex-direction: ${({ orientation }) => orientationToFlexDirection(orientation)};
+  flex-direction: ${({ orientation }) =>
+    orientationToFlexDirection(orientation)};
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -58,9 +63,7 @@ const BButtonWrapper = styled.button`
 `;
 
 const BButton = ({ shape, ...rest }) => {
-  return (
-    <BButtonWrapper type="button" shape={shape} {...rest} />
-  );
+  return <BButtonWrapper type="button" shape={shape} {...rest} />;
 };
 
 BButton.defaultProps = {
