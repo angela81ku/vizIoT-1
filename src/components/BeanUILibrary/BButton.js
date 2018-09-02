@@ -6,23 +6,40 @@ import styled from 'styled-components';
 import { CARD_COLOR, LIGHTER_COLOR, LIGHTER_COLOR_TRANS } from 'VizIoT/styles/base/viz-theme';
 import { withClickable } from 'UIBean/CommonHOC';
 
-export const ButtonShapes = {
+export const ButtonShape = {
   ICON: 'ICON',
   RECT: 'RECT',
 };
 
-const ButtonShapesList = Object.keys(ButtonShapes);
+export const ButtonOrientation = {
+  HORIZONTAL: 'HORIZONTAL',
+  STACKED: 'STACKED',
+};
+
+const ButtonShapesList = Object.keys(ButtonShape);
+const ButtonOrientationList = Object.keys(ButtonOrientation);
 
 const shapeToRadius = (shape) => {
-  if (shape === ButtonShapes.ICON) {
+  if (shape === ButtonShape.ICON) {
     return '50%';
   } else {
     return '1rem';
   }
 };
 
+const orientationToFlexDirection = (orientation) => {
+  if (orientation === ButtonOrientation.HORIZONTAL) {
+    return 'row';
+  } else {
+    return 'column';
+  }
+};
+
 const BButtonWrapper = styled.button`
-  display: inline-block;
+  display: flex;
+  flex-direction: ${({ orientation }) => orientationToFlexDirection(orientation)};
+  justify-content: center;
+  align-items: center;
   width: fit-content;
   padding: 6px;
 
@@ -47,11 +64,13 @@ const BButton = ({ shape, ...rest }) => {
 };
 
 BButton.defaultProps = {
-  shape: ButtonShapes.ICON,
+  shape: ButtonShape.ICON,
+  orientation: ButtonOrientation.HORIZONTAL,
 };
 
 BButton.propTypes = {
   shape: PropTypes.oneOf(ButtonShapesList),
+  orientation: PropTypes.oneOf(ButtonOrientationList),
 };
 
 export default withClickable(BButton);

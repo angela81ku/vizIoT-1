@@ -18,7 +18,10 @@ import {
 } from 'VizIoT/selectors/deviceSelectors';
 import { selectMostRecentDomains } from 'VizIoT/selectors/analyticsSelector';
 import BIcon from 'UIBean/BIcon';
-import BButton, { ButtonShapes } from 'UIBean/BButton';
+import BButton, { ButtonOrientation, ButtonShape } from 'UIBean/BButton';
+import TypographyComponents from 'UIBean/TypographyComponent';
+
+const { H5 } = TypographyComponents;
 
 const FixedSidebarWrapper = styled.section`
   position: fixed;
@@ -58,7 +61,12 @@ const ShowBtn = styled(BButton)`
   transform: ${({ hide }) => (hide ? 'translateX(-10px)' : 'translateX(0)')};
   opacity: ${({ hide }) => (hide ? '0' : '1')};
   transition: opacity 1.5s, transform 1.6s;
+  height: 7rem;
+  width: 7rem;
+`;
 
+const InlineH5 = styled(H5)`
+  margin: 0;
 `;
 
 const Sidebar = ({
@@ -90,9 +98,9 @@ const Sidebar = ({
 
   return (
     <div>
-      <ShowBtn onClick={onToggleHide} hide={!hide} shape={ButtonShapes.RECT}>
+      <ShowBtn onClick={onToggleHide} hide={!hide} shape={ButtonShape.RECT} orientation={ButtonOrientation.STACKED}>
         <BIcon name={'menu'} size={26} weight={600} />
-        <span>{'LIVE FEED'}</span>
+        <InlineH5>{'Feed'}</InlineH5>
       </ShowBtn>
       <FixedSidebarWrapper hide={hide}>
         <FullHeightBCard noShadow={true} noPadding={false}>
