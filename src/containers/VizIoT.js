@@ -6,7 +6,7 @@ import keyMirror from 'keymirror';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
 import TabTitle from '../components/TabTitle';
-import AppTime from '../components/AppTime';
+import AppMenuBar from '../components/AppMenuBar';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from 'UIBean/CoverFlow';
@@ -17,42 +17,8 @@ import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
-
-const tabKeys = keyMirror({
-  OVERVIEW: null,
-  DEVICES: null,
-  TIME: null,
-  GEOGRAPHY: null,
-});
-
-const Tabs = {
-  [tabKeys.OVERVIEW]: {
-    key: tabKeys.OVERVIEW,
-    title: 'OVERVIEW',
-    path: '/overview',
-    background: '',
-  },
-  [tabKeys.DEVICES]: {
-    key: tabKeys.DEVICES,
-    title: 'DEVICES',
-    path: '/devices',
-    background: '',
-  },
-  [tabKeys.TIME]: {
-    key: tabKeys.TIME,
-    title: 'TIME',
-    path: '/time',
-    background: '',
-  },
-  [tabKeys.GEOGRAPHY]: {
-    key: tabKeys.GEOGRAPHY,
-    title: 'GEOGRAPHY',
-    path: '/geography',
-    background: 'location-bubble-tab-background',
-  },
-};
-
-const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];
+import AppNavBar from 'VizIoT/components/AppNavBar';
+import { tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
 
 class VizIoT extends React.Component {
   state = {
@@ -75,16 +41,16 @@ class VizIoT extends React.Component {
     this.scheduleHideTitle();
   }
 
-  getCurrentTabIdxFromLocation() {
-    const { location } = this.props;
-    const { key } = this.getTabByPath(location.pathname) || {};
-    return _.indexOf(tabOrder, key);
-  }
-
   getTabByPath(path) {
     const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
     return Tabs[key];
   }
+
+  // getCurrentTabIdxFromLocation() {
+  //   const { location } = this.props;
+  //   const { key } = this.getTabByPath(location.pathname) || {};
+  //   return _.indexOf(tabOrder, key);
+  // }
 
   scheduleHideTitle = () => {
     const { scheduler } = this.state;
@@ -103,47 +69,31 @@ class VizIoT extends React.Component {
     return <TabTitle subtitle={title} show={this.state.showTitle} />;
   }
 
-  renderTabBar() {
-    const { key } = this.getTabByPath(this.props.location.pathname) || {};
-    return (
-      <TabRow>
-        {Object.keys(tabKeys).map(k => {
-          const { title, path } = Tabs[k];
-          return (
-            <TabItem key={k} active={key === k} to={path}>
-              {title}
-            </TabItem>
-          );
-        })}
-      </TabRow>
-    );
-  }
-
   handleLeftArrow = () => {
-    let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
-    if (currentTabIndex >= 0) {
-      const nextTabIndex =
-        --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
-      this.setState(() => ({
-        showTitle: true,
-        scheduler: null,
-        redirectTo: Tabs[tabOrder[nextTabIndex]].path,
-      }));
-      this.scheduleHideTitle();
-    }
+    // let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
+    // if (currentTabIndex >= 0) {
+    //   const nextTabIndex =
+    //     --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
+    //   this.setState(() => ({
+    //     showTitle: true,
+    //     scheduler: null,
+    //     redirectTo: Tabs[tabOrder[nextTabIndex]].path,
+    //   }));
+    //   this.scheduleHideTitle();
+    // }
   };
 
   handleRightArrow = () => {
-    let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
-    if (currentTabIndex >= 0) {
-      const nextTabIndex = ++currentTabIndex % tabOrder.length;
-      this.setState(() => ({
-        showTitle: true,
-        scheduler: null,
-        redirectTo: Tabs[tabOrder[nextTabIndex]].path,
-      }));
-      this.scheduleHideTitle();
-    }
+    // let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
+    // if (currentTabIndex >= 0) {
+    //   const nextTabIndex = ++currentTabIndex % tabOrder.length;
+    //   this.setState(() => ({
+    //     showTitle: true,
+    //     scheduler: null,
+    //     redirectTo: Tabs[tabOrder[nextTabIndex]].path,
+    //   }));
+    //   this.scheduleHideTitle();
+    // }
   };
 
   render() {
@@ -163,9 +113,8 @@ class VizIoT extends React.Component {
       <div id="root-container">
         <div className={`tint-background ${background && background}`} />
         {title && this.renderTitle(title)}
-        <AppTime />
         <div>
-          {this.renderTabBar()}
+          <AppNavBar location={location} />
           <ActivitySidebar />
           <CoverFlow
             location={location.key}

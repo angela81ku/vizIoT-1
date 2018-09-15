@@ -50,8 +50,9 @@ const BButtonWrapper = styled.button`
 
   background: ${CARD_COLOR};
   color: white;
-  border: none;
+  border: solid #ffffff21 1px;
   border-radius: ${({ shape }) => shapeToRadius(shape)};
+  transition: background 0.2s;
 
   &:hover {
     background: ${LIGHTER_COLOR_TRANS};

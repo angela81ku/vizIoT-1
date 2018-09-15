@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import AppTime from 'VizIoT/components/AppTime';
+import AppMenuBar from 'VizIoT/components/AppMenuBar';
 
 const TabRowContainer = styled.div`
   display: flex;
@@ -30,10 +30,10 @@ const Streak = styled.div`
 
 export default class TabRow extends Component {
   render() {
-    const { children } = this.props;
+    const { children, ...rest } = this.props;
     return (
       <div>
-        <TabRowContainer>{children}</TabRowContainer>
+        <TabRowContainer {...rest}>{children}</TabRowContainer>
         <Streak />
       </div>
     );

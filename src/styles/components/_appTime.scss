@@ -1,28 +1,25 @@
 .appTime__wrapper {
-    z-index: 10;
-    right: 15px;
+    width: 300px;
+    right: 50%;
     top: 15px;
+    margin-right: -150px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 
     .appTime__logo {
         display: inline-flex;
-        color: $extra-light-color;
+        color: white;
 
-        h4 {
+        .appTime__text {
+            font-size: 2rem;
+            font-weight: 900;
             margin: 0;
             display: inline-block;
         }
+
         .material-icons {
             font-size: 2.5rem;
-        }
-    }
-
-    .appTitle__time {
-        h4 {
-            color: $lighter-color;
-            display: inline-block;
-            margin: 0;
         }
     }
 }

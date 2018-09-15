@@ -56,7 +56,7 @@ const RightContentWrapper = styled.section`
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-template-rows: 30rem;
+  grid-auto-rows: 24rem;
   grid-gap: 2rem;
 `;
 
@@ -220,12 +220,12 @@ class OverviewTab extends Component {
         </div>
         <RightContentWrapper>
           <GridLayout>
-            <GridItem column={'col-start / span 12'} row={'1 / 3'}>
+            <GridItem column={'col-start / span 5'} row={'1 / 4'}>
               <QuickFacts />
             </GridItem>
-            <GridItem column={'col-start / span 12'} row={'3 / 5'}>
+            <GridItem column={'col-start 6 / span 7'} row={'1 / 4'}>
               <Flex gutter={2}>
-                <FlexSize size={{ lg: 7 }}>
+                <FlexSize size={{ lg: 12 }}>
                   <BCard>
                     <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
                     {this.renderMainChart()}

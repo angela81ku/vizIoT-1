@@ -20,6 +20,7 @@ import SectionTitle from '../components/SectionTitle';
 import BIcon from 'UIBean/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from 'UIBean/GridItem';
+import BCard from 'UIBean/BCard';
 
 const { H1 } = TypographyComponent;
 
@@ -27,13 +28,13 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
 `;
 
-const QuickFactsWrapper = styled.div`
+const QuickFactsWrapper = styled(BCard)`
   margin-bottom: 60px;
   padding-bottom: 50px;
-  display: grid;
-  grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-gap: 2rem;
-  grid-template-rows: repeat(2, auto);
+  // display: grid;
+  // grid-template-columns: repeat(12, [col-start] 1fr);
+  // grid-gap: 2rem;
+  // grid-template-rows: repeat(2, auto);
 `;
 
 // grid-column-start: ${({ columns: { start } }) => start};
@@ -50,17 +51,21 @@ const Proto = styled(H1)`
   text-align: left;
   width: 100%;
   padding-bottom: 3rem;
-  font-weight: 800;
+
+  font-weight: 200;
   color: #fff;
+  opacity: 0.9;
 `;
 
-const StyledDataWell = styled(DataWell)``;
+const StyledDataWell = styled(DataWell)`
+  padding-bottom: 7rem;
+`;
 
 class QuickFacts extends React.Component {
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
-        <Flex alignContent={JustifyContent.CENTER} fillAll>
+        <Flex alignContent={JustifyContent.FLEX_START} fillAll>
           <Proto>{title}</Proto>
           {/*<SectionTitle title={title} cardPadding={false} />*/}
           <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
@@ -117,11 +122,6 @@ class QuickFacts extends React.Component {
         data: numberOfDevices,
         icon: 'directions_run',
       },
-      {
-        title: 'Inactive',
-        data: 0,
-        icon: 'cloud_off',
-      },
     ];
 
     const factsLast10Min = [
@@ -143,15 +143,15 @@ class QuickFacts extends React.Component {
     ];
 
     return (
-      <QuickFactsWrapper>
-        {this.renderGroup(factsToday, 'Today', 'col-start 7 / span 6', '1', {
-          md: 6,
-          lg: 5,
+      <QuickFactsWrapper noBackground>
+        {this.renderGroup(factsToday, 'Today', 'col-start / span 12', '3 / 6', {
+          md: 12,
+          lg: 4,
         })}
         {this.renderGroup(
           factsLast10Min,
           '10 Minutes Ago',
-          'col-start / span 5',
+          'col-start / span 12',
           '1 / span 2',
           { md: 12, lg: 4 }
         )}

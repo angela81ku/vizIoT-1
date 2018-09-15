@@ -73,8 +73,8 @@ Flex.defaultProps = {
   gutter: 0,
   fill: false,
   noWrap: false,
-  justifyContent: 'default',
-  alignContent: 'default',
+  justifyContent: 'initial',
+  alignContent: 'initial',
 };
 
 Flex.propTypes = {

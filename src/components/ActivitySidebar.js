@@ -39,13 +39,13 @@ const FixedSidebarWrapper = styled.section`
 
   transform: ${({ hide }) => (hide ? 'translateX(-350px)' : 'translateX(0)')};
   opacity: ${({ hide }) => (hide ? '0' : '1')};
-  transition: opacity 1.5s, transform 1.6s;
+  transition: opacity 1s, transform 1.1s;
   // transition-timing-function: ease-in-out;
 `;
 
 const FullHeightBCard = styled(BCard)`
   height: 100%;
-  background: rgba(8, 22, 39, 0.4) !important;
+  background: #09192bb5 !important;
   border-radius: 2rem;
   border: 2px solid #1f385685;
 `;
@@ -60,7 +60,7 @@ const ShowBtn = styled(BButton)`
   left: 1.5rem;
   transform: ${({ hide }) => (hide ? 'translateX(-10px)' : 'translateX(0)')};
   opacity: ${({ hide }) => (hide ? '0' : '1')};
-  transition: opacity 1.5s, transform 1.6s;
+  transition: opacity 1s, transform 1.1s;
   height: 7rem;
   width: 7rem;
 `;
@@ -104,13 +104,13 @@ const Sidebar = ({
         shape={ButtonShape.RECT}
         orientation={ButtonOrientation.STACKED}
       >
-        <BIcon name={'menu'} size={26} weight={600} />
+        <BIcon name={'view_list'} size={26} weight={400} />
         <InlineH5>{'Feed'}</InlineH5>
       </ShowBtn>
       <FixedSidebarWrapper hide={hide}>
         <FullHeightBCard noShadow={true} noPadding={false}>
           <HideBtn type="button" onClick={onToggleHide}>
-            <BIcon name={'chevron_left'} size={26} weight={600} />
+            <BIcon name={'close'} size={26} weight={600} />
           </HideBtn>
           <Flex>
             <TimedSwitcher
@@ -153,7 +153,7 @@ const mapStateToProps = state => ({
 const withHideable = ConnectedSidebar => {
   class HideableSidebar extends React.Component {
     state = {
-      isHidden: false,
+      isHidden: true,
       useDefault: true,
     };
 
