@@ -48,7 +48,7 @@ class AppMenuBar extends React.Component {
           </div>
         </Sticky>
         <TimeContainer>
-          <span>{this.state.currentMoment.format('h:mm:ss a')}</span>
+          <span>{this.state.currentMoment.format('h:mm:ss a').toUpperCase()}</span>
         </TimeContainer>
       </div>
     );
