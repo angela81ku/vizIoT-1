@@ -69,6 +69,11 @@ const InlineH5 = styled(H5)`
   margin: 0;
 `;
 
+const Container = styled.div`
+  position: relative;
+  z-index: 3;
+`;
+
 const Sidebar = ({
   hide,
   devices,
@@ -97,7 +102,7 @@ const Sidebar = ({
   );
 
   return (
-    <div>
+    <Container>
       <ShowBtn
         onClick={onToggleHide}
         hide={!hide}
@@ -122,7 +127,7 @@ const Sidebar = ({
           </Flex>
         </FullHeightBCard>
       </FixedSidebarWrapper>
-    </div>
+    </Container>
   );
 };
 

@@ -11,18 +11,6 @@ const TimeContainer = styled(Sticky)`
   margin: 0;
 `;
 
-const Container = styled(Sticky)`
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  height: 120px;
-  background: linear-gradient(
-    to bottom,
-    rgba(6, 15, 23, 0.82) 19%,
-    rgba(52, 64, 96, 0) 83%
-  );
-`;
-
 class AppMenuBar extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +40,7 @@ class AppMenuBar extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Sticky className="appTime__wrapper">
           <div className="appTime__logo p-right-1">
             <i className="material-icons p-right-1">visibility</i>
@@ -62,7 +50,7 @@ class AppMenuBar extends React.Component {
         <TimeContainer>
           <span>{this.state.currentMoment.format('h:mm:ss a')}</span>
         </TimeContainer>
-      </Container>
+      </div>
     );
   }
 }
