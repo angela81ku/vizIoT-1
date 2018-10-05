@@ -3,6 +3,7 @@
 import keyMirror from 'keymirror';
 
 export const tabKeys = keyMirror({
+  LOGGER: null,
   OVERVIEW: null,
   DEVICES: null,
   TIME: null,
@@ -10,6 +11,12 @@ export const tabKeys = keyMirror({
 });
 
 export const Tabs = {
+  [tabKeys.LOGGER]: {
+    key: tabKeys.LOGGER,
+    title: 'LOGGER',
+    path: '/logger',
+    background: '',
+  },
   [tabKeys.OVERVIEW]: {
     key: tabKeys.OVERVIEW,
     title: 'OVERVIEW',

@@ -42,6 +42,7 @@ import { SPACING } from '../data/records/Spacing';
 import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
+import DataTable from 'UIBean/DataTable';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -213,6 +214,19 @@ class OverviewTab extends Component {
   }
 
   render() {
+    // TODO integrate with redux
+    const tempHeaders = [
+      {label: 'Time', key: 'time', width: 133},
+      {label: 'Device', key: 'device', width: 210},
+      {label: 'Destination', key: 'dest', width: 270},
+      {label: 'Bytes', key: 'size', width: 95}
+    ];
+
+    const tempList = [
+      { key: '1', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+      { key: '2', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'}
+    ];
+
     return (
       <div className="overview-tab">
         <div className="tint-background2">
@@ -233,6 +247,7 @@ class OverviewTab extends Component {
                 </FlexSize>
                 <FlexSize size={{ lg: 5 }}>
                   {this.renderSingleDeviceCharts()}
+                  {/*<DataTable headerData={tempHeaders}  rowData={tempList}/>*/}
                 </FlexSize>
               </Flex>
             </GridItem>

@@ -76,6 +76,7 @@
     "loglevel": "^1.6.0",
     "postcss-loader": "^3.0.0",
     "postcss-plugins": "^1.12.1",
+    "react-virtualized": "^9.20.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.22.1",
     "webpack": "^4.17.1",

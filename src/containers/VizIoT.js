@@ -19,6 +19,7 @@ import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
 import AppNavBar from 'VizIoT/components/AppNavBar';
 import { tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
+import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 
 class VizIoT extends React.Component {
   state = {
@@ -122,6 +123,10 @@ class VizIoT extends React.Component {
             onRight={this.handleRightArrow}
           >
             <Switch location={location}>
+              <Route
+                path={`${Tabs[tabKeys.LOGGER].path}`}
+                component={LoggerContainer}
+              />
               <Route
                 path={`${Tabs[tabKeys.OVERVIEW].path}`}
                 component={OverviewTab}
