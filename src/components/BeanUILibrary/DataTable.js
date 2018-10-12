@@ -52,10 +52,6 @@ const HeaderItem = styled.div`
 `;
 
 class DataTable extends React.Component {
-  shouldComponentUpdate() {
-    return false;
-  }
-
   render() {
     const { headerData, rowData } = this.props;
     // const rowRenderer = ({index,       // Index of row
@@ -77,27 +73,21 @@ class DataTable extends React.Component {
 
     console.log(rowData);
     return (
-      <ul>
-        {rowData.map(data => {
-            return <li key={data.key}>{data.time}</li>
+      <StyledTable
+        height={700}
+        width={760}
+        headerHeight={20}
+        rowHeight={50}
+        rowCount={rowData.length}
+        // rowRenderer={rowRenderer}
+        rowGetter={({ index }) => rowData[index]}
+      >
+        {
+          headerData.map(({ label, key, width }) => {
+            return <Column key={key} label={label} dataKey={key} width={width} />
           })
         }
-      </ul>
-      // <StyledTable
-      //   height={700}
-      //   width={760}
-      //   headerHeight={20}
-      //   rowHeight={50}
-      //   rowCount={rowData.length}
-      //   // rowRenderer={rowRenderer}
-      //   rowGetter={({ index }) => rowData[index]}
-      // >
-      //   {
-      //     headerData.map(({ label, key, width }) => {
-      //       return <Column key={key} label={label} dataKey={key} width={width} />
-      //     })
-      //   }
-      // </StyledTable>
+      </StyledTable>
     );
   }
 }

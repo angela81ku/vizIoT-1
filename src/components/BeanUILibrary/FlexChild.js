@@ -6,27 +6,20 @@ import styled from 'styled-components';
 
 // TODO, rename to 'Box'
 
+const StyledDiv = styled.div`
+  ${({ basis, grow, shrink, order, alignSelf }) => `
+      flexBasis: ${basis},
+      flexGrow: ${grow},
+      flexShrink: ${shrink},
+      order: ${order},
+      alignSelf: ${alignSelf},
+    `}
+`;
+
 /*
 By default, this wraps the content, and does not grow to fit the parent.
  */
-const FlexChild = ({
-  alignSelf,
-  basis,
-  grow,
-  order,
-  shrink,
-  children,
-  ...props
-}) => {
-  const StyledDiv = styled.div.attrs({
-    style: props => ({
-      flexBasis: basis,
-      flexGrow: grow,
-      flexShrink: shrink,
-      order,
-      alignSelf,
-    }),
-  })``;
+const FlexChild = ({ children, ...props }) => {
   return <StyledDiv {...props}>{children}</StyledDiv>;
 };
 

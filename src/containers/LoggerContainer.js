@@ -66,33 +66,23 @@ class LoggerContainer extends React.Component {
 
   componentWillReceiveProps({ recentPackets }) {
     // Put new packets into packetData array
-    // const newData = recentPackets.reduce((acc, packet) => {
-    //   const { src_ip, dst_ip, dst_mac, src_mac, dst_port, src_port, timestamp } = packet;
-    //   const newKey = `${timestamp}${src_ip}`;
-    //
-    //   if (acc.findIndex(({ key }) => key === newKey) >= 0) {
-    //     console.log(`skipping ${newKey}`);
-    //     return acc;
-    //   }
-    //
-    //   const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
-    //   const newAcc = acc;
-    //   newAcc.unshift(item);
-    //   return newAcc;
-    // }, this.state.packetData);
-    // console.log(newData);
-    // this.setState({
-    //   packetData: newData,
-    // });
+    const newData = recentPackets.reduce((acc, packet) => {
+      const { src_ip, dst_ip, dst_mac, src_mac, dst_port, src_port, timestamp } = packet;
+      const newKey = `${timestamp}${src_ip}`;
 
-    const packetData = [
-      ...this.state.packetData
-    ];
-    packetData[0]['time'] = (Math.random() * 10).toString();
+      if (acc.findIndex(({ key }) => key === newKey) >= 0) {
+        console.log(`skipping ${newKey}`);
+        return acc;
+      }
 
-    console.log(packetData);
+      const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
+      const newAcc = acc;
+      newAcc.unshift(item);
+      return newAcc;
+    }, this.state.packetData);
+    console.log(newData);
     this.setState({
-      packetData,
+      packetData: newData,
     });
   }
 
