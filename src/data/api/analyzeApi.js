@@ -9,15 +9,7 @@ import { DateConstants } from 'VizIoT/constants/DateConstants';
 import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
 import DeviceDimension from 'VizIoT/data/dimensions/DeviceDimension';
 import TimeDimension from 'VizIoT/data/dimensions/TimeDimension';
-
-const postCallWithRecord = (payloadRecord, url) => {
-  return axios({
-    method: 'post',
-    url,
-    headers,
-    data: payloadRecord.toJS(),
-  });
-};
+import { postCallWithRecord } from 'VizIoT/data/api/apiUtils';
 
 const analyzeAggregationCore = payloadRecord => {
   return postCallWithRecord(payloadRecord, `${baseUrl}/api/analyze/core`);

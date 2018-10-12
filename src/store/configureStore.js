@@ -19,6 +19,8 @@ import {
 } from '../actions/deviceActions';
 import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
+import packets from '../reducers/packets/packets';
+import { failureRecentPackets, startRecentPackets, successRecentPackets } from 'VizIoT/actions/packetActions';
 
 // Store creation
 export default () => {
@@ -28,6 +30,7 @@ export default () => {
       aggregateSample,
       chartConfig,
       analytics,
+      packets,
     }),
     // This is for Redux DevTools
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -48,6 +51,10 @@ export default () => {
   startFetchDevices.assignTo(store);
   successFetchDevices.assignTo(store);
   failureFetchDevices.assignTo(store);
+
+  startRecentPackets.assignTo(store);
+  successRecentPackets.assignTo(store);
+  failureRecentPackets.assignTo(store);
 
   return store;
 };

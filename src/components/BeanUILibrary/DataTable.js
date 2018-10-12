@@ -51,33 +51,56 @@ const HeaderItem = styled.div`
   width: ${getProp('width')};
 `;
 
-const DataTable = ({ headerData, rowData }) => {
-  return (
-    <StyledTable
-      height={700}
-      width={760}
-      headerHeight={20}
-      rowHeight={50}
-      rowCount={rowData.length}
-      rowGetter={({ index }) => rowData[index]}
-    >
-      {
-        headerData.map(({ label, key, width }) => {
-          return <Column key={key} label={label} dataKey={key} width={width} />
-        })
-      }
-    </StyledTable>
-  );
+class DataTable extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
 
-  // return (
-  //   <TableContainer>
-  //     <TableHeaderRow>{
-  //       headerData.map(({ title, width }) => <HeaderItem width={width}>{title}</HeaderItem>)
-  //     }</TableHeaderRow>
-  //     {children}
-  //   </TableContainer>
-  // );
-};
+  render() {
+    const { headerData, rowData } = this.props;
+    // const rowRenderer = ({index,       // Index of row
+    //                       columns,
+    //                        className,
+    //                      isScrolling, // The List is currently being scrolled
+    //                      isVisible,   // This row is visible within the List (eg it is not an overscanned row)
+    //                      key,         // Unique key within array of rendered rows
+    //                      parent,      // Reference to the parent List (instance)
+    //                      style} ) => {
+    //   const row = rowData[index];
+    //   // debugger
+    //   return (
+    //     <div className={className} key={row[key]} role="row" style={style}>
+    //       {columns}
+    //     </div>
+    //   );
+    // };
+
+    console.log(rowData);
+    return (
+      <ul>
+        {rowData.map(data => {
+            return <li key={data.key}>{data.time}</li>
+          })
+        }
+      </ul>
+      // <StyledTable
+      //   height={700}
+      //   width={760}
+      //   headerHeight={20}
+      //   rowHeight={50}
+      //   rowCount={rowData.length}
+      //   // rowRenderer={rowRenderer}
+      //   rowGetter={({ index }) => rowData[index]}
+      // >
+      //   {
+      //     headerData.map(({ label, key, width }) => {
+      //       return <Column key={key} label={label} dataKey={key} width={width} />
+      //     })
+      //   }
+      // </StyledTable>
+    );
+  }
+}
 
 DataTable.propTypes = {
   headerData: PropTypes.arrayOf(PropTypes.shape({

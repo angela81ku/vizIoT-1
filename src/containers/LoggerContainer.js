@@ -13,15 +13,87 @@ import { DateConstants } from 'VizIoT/constants/DateConstants';
 import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
 import DataTable from 'UIBean/DataTable';
 import FlexChild from 'UIBean/FlexChild';
+import { requestRecentPackets } from 'VizIoT/actions/packetActions';
+import { selectRecentPackets } from 'VizIoT/selectors/packetSelector';
 
-const DATA_REFRESH_DELAY_MS = 5 * 1000;
+const DATA_REFRESH_DELAY_MS = 2000;
+const tempList = [
+  { key: '1', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '2', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '3', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '4', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '5', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '6', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '7', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '8', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '9', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '10', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '11', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '12', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '13', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '14', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '15', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '16', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '17', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '18', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '19', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '20', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '21', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '22', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+  { key: '23', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
+  { key: '24', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
+];
 
-class BubbleLocationTab extends React.Component {
+class LoggerContainer extends React.Component {
+
   componentWillMount() {
+    const dataFetchLoop = setInterval(() => {
+      requestRecentPackets({ pastMS: 2000 });
+    }, DATA_REFRESH_DELAY_MS);
 
+    this.setState(() => ({
+      dataFetchLoop: dataFetchLoop,
+    }));
   }
 
   componentWillUnmount() {
+    clearInterval(this.state.dataFetchLoop);
+  }
+
+  state = {
+    packetData: tempList,
+  };
+
+  componentWillReceiveProps({ recentPackets }) {
+    // Put new packets into packetData array
+    // const newData = recentPackets.reduce((acc, packet) => {
+    //   const { src_ip, dst_ip, dst_mac, src_mac, dst_port, src_port, timestamp } = packet;
+    //   const newKey = `${timestamp}${src_ip}`;
+    //
+    //   if (acc.findIndex(({ key }) => key === newKey) >= 0) {
+    //     console.log(`skipping ${newKey}`);
+    //     return acc;
+    //   }
+    //
+    //   const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
+    //   const newAcc = acc;
+    //   newAcc.unshift(item);
+    //   return newAcc;
+    // }, this.state.packetData);
+    // console.log(newData);
+    // this.setState({
+    //   packetData: newData,
+    // });
+
+    const packetData = [
+      ...this.state.packetData
+    ];
+    packetData[0]['time'] = (Math.random() * 10).toString();
+
+    console.log(packetData);
+    this.setState({
+      packetData,
+    });
   }
 
   render() {
@@ -32,38 +104,11 @@ class BubbleLocationTab extends React.Component {
       {label: 'Bytes', key: 'size', width: 95}
     ];
 
-    const tempList = [
-      { key: '1', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '2', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '3', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '4', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '5', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '6', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '7', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '8', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '9', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '10', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '11', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '12', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '13', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '14', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '15', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '16', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '17', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '18', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '19', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '20', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '21', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '22', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-      { key: '23', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '24', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-    ];
-
     return (
       <div className="location-bubble-tab">
         <Flex gutter={3} justifyContent={JustifyContent.CENTER}>
           <FlexChild>
-            <DataTable headerData={tempHeaders} rowData={tempList}/>
+            <DataTable headerData={tempHeaders} rowData={this.state.packetData}/>
           </FlexChild>
         </Flex>
       </div>
@@ -71,11 +116,11 @@ class BubbleLocationTab extends React.Component {
   }
 }
 
-BubbleLocationTab.defaultProps = {};
+LoggerContainer.defaultProps = {};
 
 const mapStateToProps = state => {
   return {
-    domain: selectDomainsToday(state),
+    recentPackets: selectRecentPackets(state),
   };
 };
-export default connect(mapStateToProps)(BubbleLocationTab);
+export default connect(mapStateToProps)(LoggerContainer);
