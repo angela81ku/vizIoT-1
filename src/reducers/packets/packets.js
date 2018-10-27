@@ -11,7 +11,7 @@ const isMocking = true;
 const genMock = count => ({
       src_ip: 'src_ip',
       dst_ip: 'dest_ip',
-      dst_mac: 'dest_mac',
+      dst_mac: 'src_mac',
       src_mac: 'dest_mac',
       dst_port: 'dst_port',
       src_port: 'src_port',

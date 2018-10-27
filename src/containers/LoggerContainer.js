@@ -17,32 +17,6 @@ import { requestRecentPackets } from 'VizIoT/actions/packetActions';
 import { selectRecentPackets } from 'VizIoT/selectors/packetSelector';
 
 const DATA_REFRESH_DELAY_MS = 2000;
-const tempList = [
-  { key: '1', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '2', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '3', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '4', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '5', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '6', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '7', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '8', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '9', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '10', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '11', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '12', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '13', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '14', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '15', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '16', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '17', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '18', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '19', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '20', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '21', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '22', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-  { key: '23', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-  { key: '24', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'},
-];
 
 class LoggerContainer extends React.Component {
 
@@ -61,7 +35,7 @@ class LoggerContainer extends React.Component {
   }
 
   state = {
-    packetData: tempList,
+    packetData: [],
   };
 
   componentWillReceiveProps({ recentPackets }) {

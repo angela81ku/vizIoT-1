@@ -4,9 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  CARD_COLOR,
-  LIGHTER_COLOR,
-  LIGHTER_COLOR_TRANS,
+  ACTIVE_FILL_COLOR,
+  CARD_COLOR, HOVER_FILL_COLOR,
 } from 'VizIoT/styles/base/viz-theme';
 import { withClickable } from 'UIBean/CommonHOC';
 
@@ -55,11 +54,12 @@ const BButtonWrapper = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: ${LIGHTER_COLOR_TRANS};
+    background: ${HOVER_FILL_COLOR};
+    border-color: white;
   }
 
   &:active {
-    background: ${LIGHTER_COLOR};
+    background: ${ACTIVE_FILL_COLOR};
   }
 `;
 

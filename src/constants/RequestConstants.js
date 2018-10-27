@@ -6,7 +6,7 @@ const HOSTS = {
 
 };
 export const baseUrl = HOSTS.DEV_HEROKU;
-export const newPacketUrl = "https://viziot-server-2.herokuapp.com/api/v1/";
+export const newPacketUrl = 'https://viziot-server-2.herokuapp.com/api/v1/';
 
 export const defaultNetwork = '42';
 

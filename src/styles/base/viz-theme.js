@@ -23,6 +23,11 @@ export const HEADING_TEXT_COLOR = 'white';
 
 export const CARD_CONTENT_PADDING = '0 0 0 20px';
 
+// Interactives
+export const HOVER_FILL_COLOR = 'hsla(0, 0%, 100%, 0.14)';
+export const ACTIVE_FILL_COLOR = LIGHTER_COLOR;
+
+
 // BCard
 export const CARD_COLOR = 'rgba(255, 255, 255, 0.04)';
 export const CARD_SHADOW_COLOR = SHADOW_COLOR_NORM;
