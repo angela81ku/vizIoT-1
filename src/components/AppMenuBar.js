@@ -4,18 +4,20 @@ import React from 'react';
 import moment from 'moment';
 import Sticky from 'UIBean/Sticky';
 import styled from 'styled-components';
+import Flex, { JustifyContent } from 'UIBean/Flex';
+import FlexChild from 'UIBean/FlexChild';
+import BIcon from 'UIBean/BIcon';
 
-const TimeContainer = styled(Sticky)`
-  top: 15px;
-  right: 15px;
-  margin: 0;
+const Background = styled(Sticky)`
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 60px;
+  background: #3a446188;
+  border-bottom: 1px solid #7e89a6;
 `;
 
 class AppMenuBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     currentMoment: moment(),
   };
@@ -40,17 +42,21 @@ class AppMenuBar extends React.Component {
 
   render() {
     return (
-      <div>
-        <Sticky className="appTime__wrapper">
+      <Background>
+      <Flex alignItems={JustifyContent.CENTER}
+            justifyContent={JustifyContent.SPACE_BETWEEN}
+            fillAll>
+        <FlexChild className="appTime__wrapper m-left-12">
           <div className="appTime__logo p-right-1">
-            <i className="material-icons p-right-1">visibility</i>
+            <BIcon className="p-right-1" name="visibility" />
             <span className="appTime__text">VizIoT</span>
           </div>
-        </Sticky>
-        <TimeContainer>
-          <span>{this.state.currentMoment.format('h:mm:ss a').toUpperCase()}</span>
-        </TimeContainer>
-      </div>
+        </FlexChild>
+        <FlexChild className="m-right-12">
+          {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
+        </FlexChild>
+      </Flex>
+      </Background>
     );
   }
 }

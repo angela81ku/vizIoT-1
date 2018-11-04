@@ -14,9 +14,11 @@ export const FlexDirection = keyMirror({
 const FlexDirectionList = Object.keys(FlexDirection);
 
 export const JustifyContent = {
-  DEFAULT: 'default',
+  INITIAL: 'initial',
   CENTER: 'center',
   FLEX_START: 'flex-start',
+  SPACE_BETWEEN: 'space-between',
+  SPACE_AROUND: 'space-around',
 };
 
 const JustifyContentList = Object.keys(JustifyContent).map(
@@ -25,14 +27,16 @@ const JustifyContentList = Object.keys(JustifyContent).map(
 
 const FlexContainer = styled.div`
   justify-content: ${getProp('justifyContent')};
-  align-content: ${getProp('alignContent')}
-    ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'};
+  align-content: ${getProp('alignContent')};
+  align-items: ${getProp('alignItems')};
+  ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'};
 `;
 
 /**
  * Can use as a simple container, or as a bootstrap style row or column grid system
  */
 class Flex extends React.Component {
+  // TODO fix to use ...props
   render() {
     const {
       direction,
@@ -44,11 +48,13 @@ class Flex extends React.Component {
       fillAll,
       justifyContent,
       alignContent,
+      alignItems,
     } = this.props;
     return (
       <FlexContainer
         justifyContent={justifyContent}
         alignContent={alignContent}
+        alignItems={alignItems}
         fillAll={fillAll}
         className={classNames(className, {
           flex: true,
@@ -75,6 +81,7 @@ Flex.defaultProps = {
   noWrap: false,
   justifyContent: 'initial',
   alignContent: 'initial',
+  alignItems: 'initial',
 };
 
 Flex.propTypes = {
@@ -85,6 +92,7 @@ Flex.propTypes = {
   noWrap: PropTypes.bool,
   justifyContent: PropTypes.oneOf(JustifyContentList),
   alignContent: PropTypes.oneOf(JustifyContentList),
+  alignItems: PropTypes.oneOf(JustifyContentList),
 };
 
 export default Flex;

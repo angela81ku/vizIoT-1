@@ -8,11 +8,11 @@ import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   ${({ basis, grow, shrink, order, alignSelf }) => `
-      flexBasis: ${basis},
-      flexGrow: ${grow},
-      flexShrink: ${shrink},
-      order: ${order},
-      alignSelf: ${alignSelf},
+      flex-basis: ${basis};
+      flex-grow: ${grow};
+      flex-shrink: ${shrink};
+      order: ${order};
+      align-self: ${alignSelf};
     `}
 `;
 
