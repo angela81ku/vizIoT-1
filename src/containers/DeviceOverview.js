@@ -16,6 +16,10 @@ import TypographyComponents from 'UIBean/TypographyComponent';
 
 const { H3 } = TypographyComponents;
 
+const TitleContainer = styled.div`
+  text-align: center;
+`;
+
 const PageBackground = styled.div`
   // background-image: linear-gradient(rgb(24, 23, 60) 3%, rgb(7, 92, 142));
   min-height: 700px; // page min height
@@ -83,8 +87,10 @@ class DeviceOverview extends Component {
     return (
       <PageBackground>
         <PageContent>
-          <SectionTitle title="DEVICES HOME" size="lg" cardPadding={false} />
-          <SectionSubtitle text="SEE ALL OF YOUR DEVICES AT A GLANCE" />
+          <TitleContainer className="m-bot-10">
+            <SectionTitle title="DEVICES HOME" size="lg" cardPadding={false} />
+            <SectionSubtitle text="YOUR DEVICES AT A GLANCE" />
+          </TitleContainer>
           <Flex gutter={2} className="p-top-5">
             {DeviceOverview.renderDevicesAsCards(
               devices,

@@ -5,19 +5,17 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { shouldUpdate } from 'recompose';
 
-import Flex, { FlexDirection, JustifyContent } from 'UIBean/Flex';
+import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
-import FlexSize from 'UIBean/FlexSize';
 import BCard from 'UIBean/BCard';
 import BIcon from 'UIBean/BIcon';
 import {
-  LIGHT_BLACK,
   OFF_BLACK,
   ORANGE_PEEL,
-  LINK_BLUE, TRON, LIGHTER_COLOR,
+  TRON, EXTRA_LIGHT_COLOR,
 } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
-const { H2, H6, H5, Paragraph } = TypographyComponent;
+const { H5 } = TypographyComponent;
 
 const borderRadius = '10px';
 
@@ -73,7 +71,7 @@ const DName = styled(H5)`
 const DCategory = styled.div`
   font-weight: 400;
   margin-bottom: 4px;
-  color: ${LIGHTER_COLOR};
+  color: ${EXTRA_LIGHT_COLOR};
   text-transform: uppercase;
   font-size: 1.1rem;
   letter-spacing: 2px;
@@ -91,11 +89,11 @@ const ConnectionsValue = styled.span`
 const ConnectionDestination = styled.span`
   margin-top: 6px;
   font-size: 1.2rem;
-  color: ${LIGHTER_COLOR};
+  color: ${EXTRA_LIGHT_COLOR};
 `;
 
 const ConnectionDestinationHost = styled.span`
-  color: ${LIGHTER_COLOR};
+  color: ${EXTRA_LIGHT_COLOR};
   font-weight: 700;
 `;
 

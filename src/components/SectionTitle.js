@@ -13,13 +13,9 @@ import BIcon from 'UIBean/BIcon';
 const { H5, H4, H3 } = TypographyComponent;
 
 const SectionTitleWrapper = styled.div`
-  padding: ${props => props.cardPadding && CARD_CONTENT_PADDING};
-  padding-bottom: 20px;
-  padding-top: 30px;
+  margin: ${props => props.cardPadding && CARD_CONTENT_PADDING};
+  margin-bottom: 0.5rem;
   color: ${HEADING_TEXT_COLOR};
-  display: flex;
-  align-items: center;
-  height: 5rem;
 `;
 
 const Sizes = {
@@ -41,8 +37,10 @@ const renderSize = (size, title) => {
 
 const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);
 
-const SectionTitle = ({ icon, size, title, cardPadding }) => (
-  <SectionTitleWrapper className="wide-letter" cardPadding={cardPadding}>
+const SectionTitle = ({ icon, size, title, cardPadding, ...props }) => (
+  <SectionTitleWrapper className="wide-letter"
+                       cardPadding={cardPadding}
+                       {...props}>
     {icon ? <BIcon name={icon} size={16} className="m-right-2" /> : null}
     {renderSize(size, title)}
   </SectionTitleWrapper>

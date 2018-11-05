@@ -27,9 +27,6 @@ export default ({ location }) => {
 
   return (
     <Container>
-      <AppMenuBar>
-        {'Controls and shit'}
-      </AppMenuBar>
       <NavItemsContainer>
         {Object.keys(tabKeys).map(k => {
           const { title, path } = Tabs[k];
@@ -40,6 +37,7 @@ export default ({ location }) => {
           );
         })}
       </NavItemsContainer>
+      <AppMenuBar />
     </Container>
   );
 };

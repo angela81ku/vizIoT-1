@@ -1,5 +1,3 @@
-export const JADE = '#7ef468';
-export const WRIGLEYS = '#6EAF65';
 export const TRON = '#14b3ab';
 export const ORANGE_PEEL = '#f7931e';
 export const RED = '#ff4159';
@@ -17,7 +15,7 @@ export const EXTRA_LIGHT_COLOR = 'hsl(220, 10%, 90%)';
 export const SUPER_LIGHT_COLOR = 'hsl(220, 5%, 95%)';
 
 export const BODY_TEXT_COLOR = 'hsl(0, 0%, 98%)';
-export const BODY_TEXT_COLOR_LIGHTER = LIGHTER_COLOR;
+export const BODY_TEXT_COLOR_LIGHTER = 'hsl(0, 0%, 66%)';
 export const BODY_TEXT_COLOR_INVERTED = 'hsl(0, 0%, 40%)';
 export const BODY_TEXT_COLOR_ALT = '#81b7fb';
 export const HEADING_TEXT_COLOR = 'white';

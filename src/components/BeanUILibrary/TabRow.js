@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import AppMenuBar from 'VizIoT/components/AppMenuBar';
 
 const TabRowContainer = styled.div`
   display: flex;
