@@ -8,13 +8,13 @@ import styled from 'styled-components';
 import { BODY_TEXT_COLOR } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
 
-const { H3 } = TypographyComponent;
+const { H4 } = TypographyComponent;
 
 const TabContainer = styled(NavLink)`
   margin: 0 30px;
 `;
 
-const Container = styled(H3)`
+const Container = styled(H4)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25,9 +25,7 @@ const Container = styled(H3)`
   height: 70px;
   line-height: 35px;
 
-  font-family: ${'DINCondensed-Bold'};
   font-weight: 500;
-  letter-spacing: 2.2px;
   color: ${BODY_TEXT_COLOR};
   ${props =>
     props.active

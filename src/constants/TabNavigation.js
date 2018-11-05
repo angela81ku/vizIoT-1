@@ -7,38 +7,38 @@ export const tabKeys = keyMirror({
   OVERVIEW: null,
   DEVICES: null,
   TIME: null,
-  GEOGRAPHY: null,
+  DESTINATIONS: null,
 });
 
 export const Tabs = {
   [tabKeys.LOGGER]: {
     key: tabKeys.LOGGER,
-    title: 'LOGGER',
+    title: 'Logger',
     path: '/logger',
     background: '',
   },
   [tabKeys.OVERVIEW]: {
     key: tabKeys.OVERVIEW,
-    title: 'OVERVIEW',
+    title: 'Overview',
     path: '/overview',
     background: '',
   },
   [tabKeys.DEVICES]: {
     key: tabKeys.DEVICES,
-    title: 'DEVICES',
+    title: 'Devices',
     path: '/devices',
     background: '',
   },
   [tabKeys.TIME]: {
     key: tabKeys.TIME,
-    title: 'TIME',
+    title: 'Time',
     path: '/time',
     background: '',
   },
-  [tabKeys.GEOGRAPHY]: {
-    key: tabKeys.GEOGRAPHY,
-    title: 'GEOGRAPHY',
-    path: '/geography',
+  [tabKeys.DESTINATIONS]: {
+    key: tabKeys.DESTINATIONS,
+    title: 'Destinations',
+    path: '/destinations',
     background: 'location-bubble-tab-background',
   },
 };

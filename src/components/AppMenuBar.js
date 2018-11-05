@@ -2,20 +2,32 @@
 
 import React from 'react';
 import moment from 'moment';
-import Sticky from 'UIBean/Sticky';
 import styled from 'styled-components';
 import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
 import BIcon from 'UIBean/BIcon';
+import TypographyComponent from 'UIBean/TypographyComponent';
+const { H3 } = TypographyComponent;
 
-const Background = styled(Sticky)`
-  top: 0;
+const Background = styled.div`
   z-index: 0;
   width: 100%;
-  height: 60px;
-  background: #3a446188;
-  border-bottom: 1px solid #7e89a6;
+  height: 150px;
+  padding: 0 6%;
 `;
+const Ting = styled.div`
+  // background: rgba(15, 43, 64, 0.78);
+  // border-bottom: 1px solid #7e89a6;
+  text-shadow: #67e5ff 0px 0px 40px;
+  // border: 2px solid #0f3b5c;
+  width: 100%;
+  height: 100%;
+`;
+
+const ClockText = styled(H3)`
+  font-weight: lighter;
+`;
+
 
 class AppMenuBar extends React.Component {
   state = {
@@ -43,19 +55,24 @@ class AppMenuBar extends React.Component {
   render() {
     return (
       <Background>
-      <Flex alignItems={JustifyContent.CENTER}
-            justifyContent={JustifyContent.SPACE_BETWEEN}
-            fillAll>
-        <FlexChild className="appTime__wrapper m-left-12">
-          <div className="appTime__logo p-right-1">
-            <BIcon className="p-right-1" name="visibility" />
-            <span className="appTime__text">VizIoT</span>
-          </div>
-        </FlexChild>
-        <FlexChild className="m-right-12">
-          {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
-        </FlexChild>
-      </Flex>
+        <Ting>
+          <Flex alignItems={JustifyContent.CENTER}
+                justifyContent={JustifyContent.SPACE_BETWEEN}
+                fillAll>
+            <FlexChild className="appTime__wrapper m-left-5">
+              <div className="appTime__logo">
+                <BIcon className="p-right-3" name="visibility" />
+                <H3 className="appTime__text">VizIoT</H3>
+              </div>
+            </FlexChild>
+            {this.props.children}
+            <FlexChild className="m-right-12">
+              <ClockText>
+                {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
+                </ClockText>
+            </FlexChild>
+          </Flex>
+        </Ting>
       </Background>
     );
   }

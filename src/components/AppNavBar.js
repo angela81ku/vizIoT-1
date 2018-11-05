@@ -6,7 +6,6 @@ import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import TabItem from 'UIBean/TabItem';
 import TabRow from 'UIBean/TabRow';
 import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
-import Sticky from 'UIBean/Sticky';
 
 const Container = styled.div`
   position: relative;
@@ -15,7 +14,7 @@ const Container = styled.div`
 `;
 
 const NavItemsContainer = styled(TabRow)`
-  height: 140px;
+  // height: 140px;
 `;
 
 const getTabByPath = path => {
@@ -28,7 +27,9 @@ export default ({ location }) => {
 
   return (
     <Container>
-      <AppMenuBar />
+      <AppMenuBar>
+        {'Controls and shit'}
+      </AppMenuBar>
       <NavItemsContainer>
         {Object.keys(tabKeys).map(k => {
           const { title, path } = Tabs[k];

@@ -30,10 +30,11 @@ $shadow-color-norm: rgba(0, 0, 0, 0.12);
 
 //$blue-grad: radial-gradient(circle, #1c254a 0%, #281d37 80%);
 $blue-grad: linear-gradient(to bottom, #0c1a38 3%, #131829);
+$base: #111221;
 $second-grad: radial-gradient(ellipse 70% 40%, rgba(18, 116, 130, 0.2) 45%, transparent);
 
 // App Background
-$background-color: $blue-grad;
+$background-color: $base;
 
 // Text Colors
 $body-text-color: hsl(0, 0, 98);
@@ -52,7 +53,7 @@ $graphColor: $lighter-color;
 $wide-screen-width: 1500px;
 $medium-screen-width: 1000px;
 
-$main-app-padding: 0 50px 0 50px;
+$main-app-padding: 0 6%;
 $card-content-padding: 0 0 0 20px;
 
 $xl-space: 100rem;

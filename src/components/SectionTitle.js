@@ -7,6 +7,10 @@ import {
   HEADING_TEXT_COLOR,
   CARD_CONTENT_PADDING,
 } from '../styles/base/viz-theme';
+import TypographyComponent from 'UIBean/TypographyComponent';
+import BIcon from 'UIBean/BIcon';
+
+const { H5, H4, H3 } = TypographyComponent;
 
 const SectionTitleWrapper = styled.div`
   padding: ${props => props.cardPadding && CARD_CONTENT_PADDING};
@@ -16,17 +20,31 @@ const SectionTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 5rem;
-  font-size: 1.8rem;
 `;
 
-const Icon = styled.div`
-  font-size: 1.6rem;
-`;
+const Sizes = {
+  SMALL: 'sm',
+  MEDIUM: 'md',
+  LARGE: 'lg',
+};
 
-const SectionTitle = ({ icon, title, cardPadding }) => (
+const renderSize = (size, title) => {
+  switch (size) {
+    case Sizes.SMALL:
+      return <H5>{title}</H5>;
+    case Sizes.MEDIUM:
+      return <H4>{title}</H4>;
+    case Sizes.LARGE:
+      return <H3>{title}</H3>;
+  }
+};
+
+const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);
+
+const SectionTitle = ({ icon, size, title, cardPadding }) => (
   <SectionTitleWrapper className="wide-letter" cardPadding={cardPadding}>
-    {icon ? <Icon className="material-icons m-right-2">{icon}</Icon> : null}
-    {title}
+    {icon ? <BIcon name={icon} size={16} className="m-right-2" /> : null}
+    {renderSize(size, title)}
   </SectionTitleWrapper>
 );
 
@@ -34,10 +52,12 @@ SectionTitle.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
   cardPadding: PropTypes.bool,
+  size: PropTypes.oneOf(ListOfSizes),
 };
 
 SectionTitle.defaultProps = {
   cardPadding: true,
+  size: Sizes.SMALL,
 };
 
 export default SectionTitle;

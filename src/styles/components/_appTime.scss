@@ -2,14 +2,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: white;
 
-    .appTime__logo {
+
+  .appTime__logo {
         display: inline-flex;
-        color: white;
 
         .appTime__text {
-            font-size: 2rem;
-            font-weight: 900;
+            font-weight: 400;
             margin: 0;
             display: inline-block;
         }

@@ -8,23 +8,23 @@ import { ScreenBreakPoints } from 'UIBean/Breakpoints';
 const fontStyles = {
   H0: {
     size: {
-      xs: 5.5,
+      xs: 6.4,
     },
     weight: 800,
   },
   H1: {
     size: {
-      xs: 3.2,
+      xs: 4.2,
     },
   },
   H2: {
     size: {
-      xs: 2.4,
+      xs: 3.2,
     },
   },
   H3: {
     size: {
-      xs: 2.2,
+      xs: 2.4,
     },
   },
   H4: {
@@ -35,7 +35,7 @@ const fontStyles = {
   },
   H5: {
     size: {
-      xs: 1.6,
+      xs: 1.8,
     },
     weight: 'normal',
     distance: 1.0,
@@ -51,7 +51,7 @@ const fontStyles = {
   },
   Paragraph: {
     size: {
-      xs: 1.2,
+      xs: 1.4,
     },
     weight: 'normal',
   },

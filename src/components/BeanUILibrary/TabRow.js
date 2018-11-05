@@ -9,7 +9,7 @@ const TabRowContainer = styled.div`
   justify-content: center;
   align-items: flex-end;
 
-  min-height: 100px;
+  min-height: 50px;
   flex-wrap: wrap;
 `;
 

@@ -12,9 +12,12 @@ import DeviceCard from '../components/device/DeviceCard';
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
+import TypographyComponents from 'UIBean/TypographyComponent';
+
+const { H3 } = TypographyComponents;
 
 const PageBackground = styled.div`
-  background-image: linear-gradient(rgb(24, 23, 60) 3%, rgb(7, 92, 142));
+  // background-image: linear-gradient(rgb(24, 23, 60) 3%, rgb(7, 92, 142));
   min-height: 700px; // page min height
   height: 100vh;
   overflow-y: scroll;
@@ -44,7 +47,7 @@ class DeviceOverview extends Component {
       return (
         <DeviceCardWrapper
           key={id}
-          size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 3 }}
+          size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2 }}
           space="m-bot-4"
         >
           <DeviceCard
@@ -80,7 +83,7 @@ class DeviceOverview extends Component {
     return (
       <PageBackground>
         <PageContent>
-          <SectionTitle title="DEVICE OVERVIEW" cardPadding={false} />
+          <SectionTitle title="DEVICES HOME" size="lg" cardPadding={false} />
           <SectionSubtitle text="SEE ALL OF YOUR DEVICES AT A GLANCE" />
           <Flex gutter={2} className="p-top-5">
             {DeviceOverview.renderDevicesAsCards(

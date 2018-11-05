@@ -143,7 +143,7 @@ class VizIoT extends React.Component {
               />
               <Route
                 exact
-                path={`${Tabs[tabKeys.GEOGRAPHY].path}`}
+                path={`${Tabs[tabKeys.DESTINATIONS].path}`}
                 component={BubbleLocationTab}
               />
               <Route render={() => <NotFound />} />
