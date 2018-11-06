@@ -51,7 +51,26 @@ const HeaderItem = styled.div`
   width: ${getProp('width')};
 `;
 
+
 class DataTable extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.testTableRef = React.createRef();
+  }
+
+  state = {
+    scrollRow: 0
+  };
+
+  componentDidUpdate() {
+    if (this.state.scrollRow !== this.props.rowData.length - 1) {
+      console.log(this.state.scrollRow);
+      console.log(this.props.rowData.length);
+      this.setState({ scrollRow: this.props.rowData.length - 1 });
+    }
+  }
+
   render() {
     const { headerData, rowData } = this.props;
     // const rowRenderer = ({index,       // Index of row
@@ -74,11 +93,14 @@ class DataTable extends React.Component {
     console.log(rowData);
     return (
       <StyledTable
+        ref={this.testTableRef}
+        className="logger-table"
         height={700}
         width={760}
         headerHeight={20}
         rowHeight={50}
         rowCount={rowData.length}
+        scrollToRow={this.state.scrollRow}
         // rowRenderer={rowRenderer}
         rowGetter={({ index }) => rowData[index]}
       >

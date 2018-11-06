@@ -7,27 +7,33 @@ import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
 import BIcon from 'UIBean/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
+import TabItem from 'UIBean/TabItem';
+import TabRow from 'UIBean/TabRow';
 const { H3 } = TypographyComponent;
+import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
 
-const Background = styled.div`
-  z-index: 0;
+const Background = styled(Flex)`
   width: 100%;
   height: 150px;
   padding: 0 6%;
-`;
-const Ting = styled.div`
-  // background: rgba(15, 43, 64, 0.78);
-  // border-bottom: 1px solid #7e89a6;
   text-shadow: #67e5ff 0px 0px 40px;
-  // border: 2px solid #0f3b5c;
-  width: 100%;
-  height: 100%;
+`;
+
+const LogoText = styled(H3)`
+  font-weight: 400;
+  text-align: left;
+  display: inline-flex;
 `;
 
 const ClockText = styled(H3)`
   font-weight: lighter;
+  text-align: right;
 `;
 
+const getTabByPath = path => {
+  const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
+  return Tabs[key];
+};
 
 class AppMenuBar extends React.Component {
   state = {
@@ -53,26 +59,35 @@ class AppMenuBar extends React.Component {
   }
 
   render() {
+
+    const { key } = getTabByPath(this.props.location.pathname) || {};
+
     return (
-      <Background>
-        <Ting>
-          <Flex alignItems={JustifyContent.CENTER}
-                justifyContent={JustifyContent.SPACE_BETWEEN}
-                fillAll>
-            <FlexChild className="appTime__wrapper m-left-5">
-              <div className="appTime__logo">
-                <BIcon className="p-right-3" name="visibility" />
-                <H3 className="appTime__text">VizIoT</H3>
-              </div>
-            </FlexChild>
-            {this.props.children}
-            <FlexChild className="m-right-12">
-              <ClockText>
-                {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
-                </ClockText>
-            </FlexChild>
-          </Flex>
-        </Ting>
+      <Background className="m-lr-5"
+                  alignItems={JustifyContent.CENTER}
+                  justifyContent={JustifyContent.SPACE_BETWEEN}
+                  fillAll>
+          <FlexChild grow={2}>
+            <LogoText className="appTime__logo">
+              <BIcon className="p-right-3" size={25} name="visibility" />
+              <span>VizIoT</span>
+            </LogoText>
+          </FlexChild>
+          <TabRow>
+            {Object.keys(tabKeys).map(k => {
+              const { title, path } = Tabs[k];
+              return (
+                <TabItem key={k} active={key === k} to={path}>
+                  {title}
+                </TabItem>
+              );
+            })}
+          </TabRow>
+          <FlexChild grow={2}>
+            <ClockText>
+              {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
+              </ClockText>
+          </FlexChild>
       </Background>
     );
   }

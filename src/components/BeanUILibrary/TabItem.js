@@ -30,7 +30,7 @@ const Container = styled(H4)`
   ${props =>
     props.active
       ? 'opacity: 1;'
-      : 'opacity: 0.50;'} transition: opacity, transform 0.2s;
+      : 'opacity: 0.35;'} transition: opacity, transform 0.2s;
   transition-timing-function: ease-in-out;
 
   ${props =>
@@ -46,9 +46,9 @@ const Container = styled(H4)`
 
 const Underline = styled.div`
   width: 100px;
-  border-top: 2px solid white;
+  border-top: 1px solid white;
   border-radius: 10px;
-  border-bottom: 2px solid white;
+  border-bottom: 1px solid white;
   align-self: center;
   margin: -2.5px auto;
 `;

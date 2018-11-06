@@ -1,12 +1,8 @@
 import React from 'react';
 import Flex, { JustifyContent } from 'UIBean/Flex';
-import FlexSize from 'UIBean/FlexSize';
 import { connect } from 'react-redux';
-import BubbleChart from 'VizIoT/components/d3/BubbleChart';
-import { SPACING } from 'VizIoT/data/records/Spacing';
 import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
 import BucketUnitConstants from 'VizIoT/constants/BucketUnit';
-// import FlexWrapper from 'UIBean/FlexWrapper';
 import { analyzeAggregationByDomain } from 'VizIoT/actions/analyzeActions';
 import { selectDomainsToday } from 'VizIoT/selectors/analyticsSelector';
 import { DateConstants } from 'VizIoT/constants/DateConstants';
@@ -51,7 +47,7 @@ class LoggerContainer extends React.Component {
 
       const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
       const newAcc = acc;
-      newAcc.unshift(item);
+      newAcc.push(item);
       return newAcc;
     }, this.state.packetData);
     console.log(newData);

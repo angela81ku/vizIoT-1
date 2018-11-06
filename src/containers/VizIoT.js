@@ -6,7 +6,6 @@ import keyMirror from 'keymirror';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
 import TabTitle from '../components/TabTitle';
-import AppMenuBar from '../components/AppMenuBar';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from 'UIBean/CoverFlow';
@@ -17,9 +16,9 @@ import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
-import AppNavBar from 'VizIoT/components/AppNavBar';
 import { tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
 import LoggerContainer from 'VizIoT/containers/LoggerContainer';
+import AppMenuBar from 'VizIoT/components/AppMenuBar';
 
 class VizIoT extends React.Component {
   state = {
@@ -115,7 +114,7 @@ class VizIoT extends React.Component {
         <div className={`tint-background ${background && background}`} />
         {title && this.renderTitle(title)}
         <div>
-          <AppNavBar location={location} />
+          <AppMenuBar location={location} />
           <ActivitySidebar />
           <CoverFlow
             location={location.key}
