@@ -1,22 +1,32 @@
 'use es6';
 
+import keyMirror from 'keymirror';
+
+export const ScreenSizes = keyMirror({
+  xs: null,
+  sm: null,
+  md: null,
+  lg: null,
+  xl: null,
+});
+
 /**
  * The following are SCREEN breakpoints, NOT container breakpoints.
  */
 export const ScreenBreakPoints = {
-  xs: 0,
-  sm: 600,
-  md: 1024,
-  lg: 1440,
-  xl: 1920,
+  [ScreenSizes.xs]: 0,
+  [ScreenSizes.sm]: 600,
+  [ScreenSizes.md]: 1024,
+  [ScreenSizes.lg]: 1440,
+  [ScreenSizes.xl]: 1920,
   // tv: '1920 & 1',
 };
 
 export const ContainerBreakPoints = {
-  sm: '544px',
-  md: '768px',
-  lg: '992px',
-  xl: '1216px',
+  [ScreenSizes.xs]: '544px',
+  [ScreenSizes.sm]: '768px',
+  [ScreenSizes.md]: '992px',
+  [ScreenSizes.lg]: '1216px',
   xxl: '1440px',
   xxxl: '1664px',
 };

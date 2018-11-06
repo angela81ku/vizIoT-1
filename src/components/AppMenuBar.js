@@ -11,6 +11,8 @@ import TabItem from 'UIBean/TabItem';
 import TabRow from 'UIBean/TabRow';
 const { H3 } = TypographyComponent;
 import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
+import { _hideWhen } from 'VizIoT/styles/base/styled-component-mixins/layout';
+import { ScreenSizes } from 'UIBean/Breakpoints';
 
 const Background = styled(Flex)`
   width: 100%;
@@ -28,6 +30,10 @@ const LogoText = styled(H3)`
 const ClockText = styled(H3)`
   font-weight: lighter;
   text-align: right;
+`;
+
+const TabRowStyled = styled(TabRow)`
+  ${_hideWhen(ScreenSizes.sm)}
 `;
 
 const getTabByPath = path => {
@@ -63,8 +69,7 @@ class AppMenuBar extends React.Component {
     const { key } = getTabByPath(this.props.location.pathname) || {};
 
     return (
-      <Background className="m-lr-5"
-                  alignItems={JustifyContent.CENTER}
+      <Background alignItems={JustifyContent.CENTER}
                   justifyContent={JustifyContent.SPACE_BETWEEN}
                   fillAll>
           <FlexChild grow={2}>
@@ -73,7 +78,7 @@ class AppMenuBar extends React.Component {
               <span>VizIoT</span>
             </LogoText>
           </FlexChild>
-          <TabRow>
+          <TabRowStyled>
             {Object.keys(tabKeys).map(k => {
               const { title, path } = Tabs[k];
               return (
@@ -82,7 +87,7 @@ class AppMenuBar extends React.Component {
                 </TabItem>
               );
             })}
-          </TabRow>
+          </TabRowStyled>
           <FlexChild grow={2}>
             <ClockText>
               {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}

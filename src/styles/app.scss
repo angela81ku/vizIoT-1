@@ -13,7 +13,6 @@
 @import "/components/bubbleChart";
 @import "/components/dataWell";
 @import "/components/coverFlow";
-@import "/components/sticky";
 @import "/components/temporalHeatTable";
 
 @import "/containers/locationTab";
@@ -50,6 +49,7 @@
   }
 }
 
+// deprecated
 .flex-center-parent {
   display: flex;
   justify-content: center;
@@ -57,10 +57,12 @@
   align-items: center;
 }
 
+// deprecated
 .flex-fill-parent {
   flex: 1 auto;
 }
 
+// deprecated
 /* Put this on parent of a display:flex child to center it. */
 .flex-center {
   margin-left: auto;

@@ -1,10 +1,11 @@
+'use es6';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import BarChart from 'VizIoT/components/d3/BarChart';
 import MomentUnit from 'VizIoT/constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from 'VizIoT/data/records/Spacing';
-// import FlexWrapper from 'UIBean/FlexWrapper';
 import Flex from 'UIBean/Flex';
 
 class BarGraphCard extends React.Component {
