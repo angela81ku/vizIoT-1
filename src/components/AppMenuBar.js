@@ -11,7 +11,7 @@ import TabItem from 'UIBean/TabItem';
 import TabRow from 'UIBean/TabRow';
 const { H3 } = TypographyComponent;
 import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
-import { _hideWhen } from 'VizIoT/styles/base/styled-component-mixins/layout';
+import { _hideWhen } from 'UIBean/functional-css/layout';
 import { ScreenSizes } from 'UIBean/Breakpoints';
 
 const Background = styled(Flex)`

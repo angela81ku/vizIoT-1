@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { getProp } from 'UIBean/UtilGet';
 import { Column, Table, defaultTableRowRenderer } from 'react-virtualized'
 import 'react-virtualized/styles.css';
-import TypographicStyles from 'UIBean/TypographyStyles';
+import { H5 } from 'UIBean/functional-css/TypographyStyles';
 
 const StyledTable = styled(Table)`
   & > .ReactVirtualized__Table__headerRow {
     text-transform: initial;
     font-weight: 400;
-    font-size: ${TypographicStyles['H5']};
+    ${H5}
   }
   
   & .ReactVirtualized__Table__row {

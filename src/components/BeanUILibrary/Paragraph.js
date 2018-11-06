@@ -2,8 +2,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import TypographyStyles from './TypographyStyles';
+import { Paragraph } from 'UIBean/functional-css/TypographyStyles';
 
 export default styled.div`
-  ${TypographyStyles.p};
+  ${Paragraph}
 `;

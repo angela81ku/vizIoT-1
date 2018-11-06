@@ -1,6 +1,6 @@
 'use es6';
 
-import TypographyStyles from './TypographyStyles';
+import { TypographyStyles } from './functional-css/TypographyStyles';
 import React from 'react';
 import styled from 'styled-components';
 
