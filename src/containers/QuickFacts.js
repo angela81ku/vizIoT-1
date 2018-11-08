@@ -21,6 +21,7 @@ import BIcon from 'UIBean/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
+import { closeSocket, createSocket, subscribeToTopic } from 'VizIoT/socket/subscribe';
 
 const { H1 } = TypographyComponent;
 
@@ -62,6 +63,27 @@ const StyledDataWell = styled(DataWell)`
 `;
 
 class QuickFacts extends React.Component {
+
+  state = {
+    message: '~',
+  };
+
+  constructor(props) {
+    super(props);
+
+    createSocket();
+    subscribeToTopic('/total/count', (err, message) => {
+      console.log(message);
+      this.setState({
+        message: message.count,
+      })
+    });
+  }
+
+  componentWillUnmount() {
+    closeSocket();
+  }
+
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
@@ -79,9 +101,12 @@ class QuickFacts extends React.Component {
                     <DataWellTitle>{title}</DataWellTitle>
                     <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
                       <div>
-                        {Number(data) ? (
-                          <CountUp start={0} end={data} duration={3} />
-                        ) : (
+                        {Number(data) ?
+                          // (
+                          //   <CountUp start={0} end={data} duration={3} />
+                          // )
+                          data
+                          : (
                           data
                         )}
                       </div>
@@ -104,12 +129,16 @@ class QuickFacts extends React.Component {
       mostContactedHost,
     } = this.props;
 
+    const {
+      message
+    } = this.state;
+
     const hugeText = [];
 
     const factsToday = [
       {
-        title: 'Connections',
-        data: '~',
+        title: 'Packets',
+        data: message,
         icon: 'send',
       },
       {
