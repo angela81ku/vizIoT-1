@@ -4,7 +4,7 @@
 <h1 align=center>VizIoT</h2>
 <div align=center>
   <p align=center>A React + d3 data visualization.</p>
-  <p align=center>Visually illustrates Internet of Things (IoT) network traffic behavior and patterns.</p>
+  <p align=center>Internet of Things (IoT) network traffic behavior and patterns.</p>
 </div>
 <br />
 
