@@ -139,7 +139,8 @@ class QuickFacts extends React.Component {
       {
         title: 'Packets',
         data: message,
-        icon: 'send',
+        iconType: 'eva',
+        icon: 'cube',
       },
       {
         title: 'Unsecured',

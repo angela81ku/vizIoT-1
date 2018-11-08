@@ -6,13 +6,12 @@ import styled from 'styled-components';
 import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
 import BIcon from 'UIBean/BIcon';
-import TypographyComponent from 'UIBean/TypographyComponent';
 import TabItem from 'UIBean/TabItem';
 import TabRow from 'UIBean/TabRow';
-const { H3 } = TypographyComponent;
 import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
 import { _hideWhen } from 'UIBean/functional-css/layout';
 import { ScreenSizes } from 'UIBean/Breakpoints';
+import { H3 } from 'UIBean/functional-css/TypographyStyles';
 
 const Background = styled(Flex)`
   width: 100%;
@@ -21,13 +20,15 @@ const Background = styled(Flex)`
   text-shadow: #67e5ff 0px 0px 40px;
 `;
 
-const LogoText = styled(H3)`
+const LogoText = styled.div`
+  ${H3}
   font-weight: 400;
   text-align: left;
   display: inline-flex;
 `;
 
-const ClockText = styled(H3)`
+const ClockText = styled.div`
+  ${H3}
   font-weight: lighter;
   text-align: right;
 `;
@@ -74,7 +75,7 @@ class AppMenuBar extends React.Component {
                   fillAll>
           <FlexChild grow={2}>
             <LogoText className="appTime__logo">
-              <BIcon className="p-right-3" size={25} name="visibility" />
+              <BIcon className="m-right-3" size={25} name="visibility" />
               <span>VizIoT</span>
             </LogoText>
           </FlexChild>

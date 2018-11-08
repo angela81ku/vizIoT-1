@@ -148,7 +148,7 @@ const DeviceCard = ({
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
               <FlexChild size={{ xs: 4 }}>
-                <BIcon name="compare_arrows" /> 230
+                <BIcon type={'eva'} name="cube" /> 230
               </FlexChild>
               <DeviceSecurityMetrics size={{ xs: 4 }}>
                 <BIcon name="lock" /> 33.2%
