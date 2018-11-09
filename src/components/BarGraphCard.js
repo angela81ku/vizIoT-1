@@ -6,20 +6,33 @@ import BarChart from 'VizIoT/components/d3/BarChart';
 import MomentUnit from 'VizIoT/constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from 'VizIoT/data/records/Spacing';
-import Flex from 'UIBean/Flex';
+import Flex, { FlexDirection } from 'UIBean/Flex';
+import styled from 'styled-components';
+import { H4 } from 'UIBean/functional-css/TypographyStyles';
+import { EXTRA_LIGHT_COLOR } from 'VizIoT/styles/base/viz-theme';
+
+const Title = styled.div`
+  ${H4}
+  font-weight: 700;
+`;
+
+const Subtitle = styled.div`
+  font-weight: 400;
+  margin-bottom: 4px;
+  color: ${EXTRA_LIGHT_COLOR};
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+`;
 
 class BarGraphCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { title, subtitle, data, dataWindowSize } = this.props;
 
     return (
-      <Flex className="barGraphCard">
-        <h4 className="barGraphCard__title">{title}</h4>
-        <h6 className="barGraphCard__subtitle">{subtitle}</h6>
+      <Flex direction={FlexDirection.COLUMN}>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
         <AutoFitComponent className={this.props.className}>
           <BarChart
             data={data}

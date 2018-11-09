@@ -24,8 +24,8 @@ const defaultRefreshConfig = {
 };
 
 const defaultNetwork = {
-  id: 123,
-  alias: 'Entire Network',
+  id: 'all',
+  alias: 'Network',
 };
 
 export default combineReducers({

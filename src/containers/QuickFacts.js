@@ -29,7 +29,7 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
 `;
 
-const QuickFactsWrapper = styled(BCard)`
+const QuickFactsWrapper = styled(Flex)`
   margin-bottom: 60px;
   padding-bottom: 50px;
   // display: grid;
@@ -48,14 +48,10 @@ const StyledGridItem = styled(GridItem)`
 `;
 
 const Proto = styled(H1)`
-  letter-spacing: 0;
-  text-align: left;
-  width: 100%;
   padding-bottom: 3rem;
 
   font-weight: 200;
   color: #fff;
-  opacity: 0.9;
 `;
 
 const StyledDataWell = styled(DataWell)`

@@ -43,6 +43,8 @@ import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import DataTable from 'UIBean/DataTable';
+import { closeSocket, createSocket, subscribeToTopic } from 'VizIoT/socket/subscribe';
+import { H1, H2 } from 'UIBean/functional-css/TypographyStyles';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -61,7 +63,33 @@ const GridLayout = styled.div`
   grid-gap: 2rem;
 `;
 
+const Title = styled.div`
+  ${H1}
+  padding-bottom: 3rem;
+  font-weight: 200;
+`;
+
 class OverviewTab extends Component {
+
+  state = {
+    trafficVelocityData: [{count : 20, startMS: 100}],
+  };
+
+  constructor(props) {
+    super(props);
+
+    createSocket();
+    subscribeToTopic('/total/count/500ms', (err, message) => {
+      console.log(message);
+      this.setState({
+        trafficVelocityData: [
+          ...this.state.trafficVelocityData,
+          message,
+        ].slice(-140),
+      })
+    });
+  }
+
   fetchCombinedTrafficData() {
     const { mainChartConfig, networkId } = this.props;
     const { bucketConfig, dataWindowSize, selectionMode } = mainChartConfig;
@@ -119,6 +147,8 @@ class OverviewTab extends Component {
 
   componentWillMount() {
     const { networkId } = this.props;
+
+    closeSocket();
 
     // this.fetchCombinedTrafficData();
     //
@@ -200,6 +230,7 @@ class OverviewTab extends Component {
     return (
       <DeviceActivityChart
         className="main-chart"
+        data={this.state.trafficVelocityData}
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
         dataKey={getDataKey({
@@ -208,7 +239,7 @@ class OverviewTab extends Component {
           macAddresses: [],
         })}
         chartConfig={mainChartConfig}
-        placeholderSubtitle={'Combined activity graph for this network'}
+        placeholderSubtitle={'PACKETS/SEC'}
       />
     );
   }
@@ -229,9 +260,9 @@ class OverviewTab extends Component {
 
     return (
       <div className="overview-tab">
-        <div className="tint-background2">
-          <div />
-        </div>
+        {/*<div className="tint-background2">*/}
+          {/*<div />*/}
+        {/*</div>*/}
         <RightContentWrapper>
           <GridLayout>
             <GridItem column={'col-start / span 5'} row={'1 / 4'}>
@@ -240,8 +271,8 @@ class OverviewTab extends Component {
             <GridItem column={'col-start 6 / span 7'} row={'1 / 4'}>
               <Flex gutter={2}>
                 <FlexSize size={{ lg: 12 }}>
-                  <BCard>
-                    <SectionTitle title="LIVE TRAFFIC (CONNS/SEC)" />
+                  <Title>Real-time Traffic</Title>
+                  <BCard compact={false}>
                     {this.renderMainChart()}
                   </BCard>
                 </FlexSize>

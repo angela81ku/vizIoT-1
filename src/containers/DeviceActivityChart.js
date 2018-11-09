@@ -6,10 +6,6 @@ import moment from 'moment';
 import BarGraphCard from '../components/BarGraphCard';
 
 class DeviceActivityChart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       device,
@@ -39,15 +35,25 @@ class DeviceActivityChart extends React.Component {
       const catchUpSeconds = 10;
       console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
-      graphData = data.map(({ timestamp, [bucketProps[0]]: yData }) => {
+      graphData = data.map(({ startMS, count: yData }) => {
         return {
           xData: moment
-            .unix(timestamp)
+            .unix(startMS / 1000.0)
             .add(catchUpSeconds, 'seconds')
             .toDate(),
           yData,
         };
       });
+
+      // graphData = data.map(({ timestamp, [bucketProps[0]]: yData }) => {
+      //   return {
+      //     xData: moment
+      //       .unix(timestamp)
+      //       .add(catchUpSeconds, 'seconds')
+      //       .toDate(),
+      //     yData,
+      //   };
+      // });
     }
 
     let subtitle = <span>{placeholderSubtitle}</span>;
@@ -83,8 +89,10 @@ class DeviceActivityChart extends React.Component {
 }
 
 export default connect((state, props) => {
-  const { deviceKey, dataKey } = props;
-  return {
-    data: selectSingleAggregation(state, deviceKey, dataKey),
-  };
+  // TODO commented in favor of socket.io
+  // const { deviceKey, dataKey } = props;
+  // return {
+  //   data: selectSingleAggregation(state, deviceKey, dataKey),
+  // };
+  return {};
 })(DeviceActivityChart);

@@ -32,6 +32,7 @@ class BarChart extends Component {
 
     const graphWidth = width - l - r;
     const graphHeight = height - t - b;
+
     return { graphWidth, graphHeight };
   }
 
@@ -47,8 +48,8 @@ class BarChart extends Component {
   };
 
   getTransitionAmount = (xStart, xEnd, graphWidth) => {
-    const startUnix = Math.round(xStart.getTime() / 1000);
-    const endUnix = Math.round(xEnd.getTime() / 1000);
+    const startUnix = xStart.getTime() / 1000.0;
+    const endUnix = xEnd.getTime() / 1000.0;// return 1;
     return Math.round(graphWidth / (endUnix - startUnix));
   };
 
@@ -161,6 +162,8 @@ class BarChart extends Component {
   }
 
   createLinePathData(x, y, data) {
+    console.log(data);
+
     const lineFunction = line()
       // .curve(curveBasis())
       .x(d => {
@@ -178,7 +181,7 @@ class BarChart extends Component {
       .transition()
       .duration(transitionDuration)
       .ease(easeLinear)
-      .attr('transform', `translate(${-transitionAmount}, 0)`); // TODO make this dynamic to width
+      .attr('transform', `translate(${-transitionAmount}, 0)`);
   }
 
   redrawXAxis(xAxis) {

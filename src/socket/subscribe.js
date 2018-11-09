@@ -7,7 +7,12 @@ const url = `${host}chat`;
 
 let socket;
 
+const enableFlag = false;
+
 export const createSocket = () => {
+  if (!enableFlag) {
+    return;
+  }
   socket = openSocket.connect(url);
   socket.on('connect', () => {
     console.log('connected!');
@@ -25,9 +30,15 @@ export const createSocket = () => {
 };
 
 export const closeSocket = () => {
+  if (!enableFlag) {
+    return;
+  }
   socket.disconnect();
 };
 
 export const subscribeToTopic = (topic, callback) => {
+  if (!enableFlag) {
+    return;
+  }
   socket.on(topic, timestamp => callback(null, timestamp));
 };

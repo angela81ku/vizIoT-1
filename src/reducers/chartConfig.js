@@ -12,7 +12,7 @@ const defaultState = {
       bucketUnit: BucketUnit.SECOND,
     }),
     selectionMode: SelectionMode.COMBINED,
-    dataWindowSize: 3 * 60,
+    dataWindowSize: 2 * 60,
   },
 
   // analyzeAggregationByDevice
@@ -29,7 +29,7 @@ const defaultState = {
 
   entireNetwork: {
     id: 123,
-    alias: 'Entire Network',
+    alias: 'Network',
     lastSeen: '1517177323000',
   },
 };

@@ -19,6 +19,10 @@ const StyledBCard = styled.div`
     noBackground ? 'transparent none' : CARD_COLOR};
   box-shadow: ${({ noShadow }) => (noShadow ? 'none' : CARD_SHADOW)};
   // border-radius: 0.1875rem;
+  
+  background-color: #67a8d812;
+  color: #ffffff; 
+  border: #0f3b5c 1px solid;
   border-radius: 10px;
 `;
 
