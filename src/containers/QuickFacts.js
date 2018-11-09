@@ -44,12 +44,11 @@ const QuickFactsWrapper = styled(Flex)`
 // grid-row-end: ${({ rows: { end } }) => end};
 
 const StyledGridItem = styled(GridItem)`
-  // background: #FFFFFFAA;
+  width: 100%;
 `;
 
 const Proto = styled(H1)`
   padding-bottom: 3rem;
-
   font-weight: 200;
   color: #fff;
 `;

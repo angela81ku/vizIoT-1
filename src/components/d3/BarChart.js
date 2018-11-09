@@ -162,8 +162,6 @@ class BarChart extends Component {
   }
 
   createLinePathData(x, y, data) {
-    console.log(data);
-
     const lineFunction = line()
       // .curve(curveBasis())
       .x(d => {
@@ -188,6 +186,7 @@ class BarChart extends Component {
     return g => {
       g.call(xAxis);
       g.select('.domain').remove();
+      g.selectAll('.tick text').attr('font-size', '13px');
     };
   }
 
@@ -198,9 +197,11 @@ class BarChart extends Component {
 
       g.selectAll('.tick:not(:first-of-type) line')
         .attr('stroke', '#777')
-        .attr('stroke-dasharray', '2,2');
+        .attr('stroke-dasharray', '1,6');
       g.selectAll('.tick:first-of-type text').remove();
-      g.selectAll('.tick text').attr('x', -leftAxisMargin - 10);
+      g.selectAll('.tick text')
+        .attr('x', -leftAxisMargin - 10)
+        .attr('font-size', '13px');
     };
   }
 
@@ -258,11 +259,20 @@ class BarChart extends Component {
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
+    g.select('defs')
+      .append('clipPath')
+      .attr('id', 'xAxisClip')
+      .append('rect')
+      .attr('width', graphWidth - leftAxisMargin)
+      .attr('height', graphHeight)
+      .attr('transform', `translate(${leftAxisMargin}, 0)`);
+
     g.append('g')
       .attr('transform', `translate(${leftAxisMargin}, ${graphHeight})`)
       .attr('class', 'xAxisContainer')
       .append('g')
-      .attr('class', 'xAxis');
+      .attr('class', 'xAxis')
+      .attr('clip-path', 'url(#xAxisClip)');
 
     g.append('g')
       .attr('class', 'yAxis')

@@ -26,10 +26,20 @@ const JustifyContentList = Object.keys(JustifyContent).map(
 );
 
 const FlexContainer = styled.div`
+  display: flex;
   justify-content: ${getProp('justifyContent')};
   align-content: ${getProp('alignContent')};
   align-items: ${getProp('alignItems')};
   ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'};
+  ${({ fillHeight }) => fillHeight && 'height: 100%;'};
+  ${({ fillWidth }) => fillWidth && 'width: 100%;'};
+  ${({ direction }) => {
+    if (direction === FlexDirection.ROW) {
+      return 'flex-direction: row';
+    } else if (direction === FlexDirection.COLUMN) {
+      return 'flex-direction: column';
+    }
+  }}
 `;
 
 /**
@@ -56,14 +66,13 @@ class Flex extends React.Component {
         alignContent={alignContent}
         alignItems={alignItems}
         fillAll={fillAll}
+        fillWidth={fill && direction === FlexDirection.ROW}
+        fillHeight={fill && direction === FlexDirection.COLUMN}
+        direction={direction}
         className={classNames(className, {
           flex: true,
           [`gutter-${gutter}`]: gutter,
           fade: animate,
-          'flex-row': direction === FlexDirection.ROW,
-          'flex-column': direction === FlexDirection.COLUMN,
-          fillWidth: fill && direction === FlexDirection.ROW,
-          fillHeight: fill && direction === FlexDirection.COLUMN,
           noWrap: noWrap,
         })}
       >
@@ -78,6 +87,7 @@ Flex.defaultProps = {
   direction: FlexDirection.ROW,
   gutter: 0,
   fill: false,
+  fillAll: false,
   noWrap: false,
   justifyContent: 'initial',
   alignContent: 'initial',
@@ -89,6 +99,7 @@ Flex.propTypes = {
   direction: PropTypes.oneOf(FlexDirectionList),
   gutter: PropTypes.number,
   fill: PropTypes.bool,
+  fillAll: PropTypes.bool,
   noWrap: PropTypes.bool,
   justifyContent: PropTypes.oneOf(JustifyContentList),
   alignContent: PropTypes.oneOf(JustifyContentList),

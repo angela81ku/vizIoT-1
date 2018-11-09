@@ -272,9 +272,9 @@ class OverviewTab extends Component {
               <Flex gutter={2}>
                 <FlexSize size={{ lg: 12 }}>
                   <Title>Real-time Traffic</Title>
-                  <BCard compact={false}>
+                  {/*<BCard compact={false}>*/}
                     {this.renderMainChart()}
-                  </BCard>
+                  {/*</BCard>*/}
                 </FlexSize>
                 <FlexSize size={{ lg: 5 }}>
                   {this.renderSingleDeviceCharts()}
