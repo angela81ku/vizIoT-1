@@ -72,21 +72,22 @@ const Title = styled.div`
 class OverviewTab extends Component {
 
   state = {
-    trafficVelocityData: [{count : 20, startMS: 100}],
+    trafficVelocityData: [{ count: 1, startMS: 20}],
   };
 
   constructor(props) {
     super(props);
 
+    // debugger
     createSocket();
     subscribeToTopic('/total/count/500ms', (err, message) => {
-      console.log(message);
+      // console.log(message);
       this.setState({
         trafficVelocityData: [
           ...this.state.trafficVelocityData,
           message,
-        ].slice(-140),
-      })
+        ].slice(-280),
+      });
     });
   }
 
@@ -148,7 +149,7 @@ class OverviewTab extends Component {
   componentWillMount() {
     const { networkId } = this.props;
 
-    closeSocket();
+
 
     // this.fetchCombinedTrafficData();
     //
@@ -182,6 +183,8 @@ class OverviewTab extends Component {
   }
 
   componentWillUnmount() {
+    closeSocket();
+
     // const {
     //   logLoop,
     //   liveConnectionsPerSecondLoop,

@@ -18,7 +18,10 @@ class BarChart extends Component {
     super(props);
     this.state = {
       leftAxisMargin: 15,
-      transitionDuration: 1000,
+      transitionDuration: 1000, // 1 second
+      redraw: true,
+      loopIdx: 0,
+      looper: null,
       ...this.mapPropsToState(props),
     };
   }
@@ -47,9 +50,10 @@ class BarChart extends Component {
     return { xStart, xEnd };
   };
 
+  // Live temporal graphs transition 1 second worth of pixels every 1 second
   getTransitionAmount = (xStart, xEnd, graphWidth) => {
     const startUnix = xStart.getTime() / 1000.0;
-    const endUnix = xEnd.getTime() / 1000.0;// return 1;
+    const endUnix = xEnd.getTime() / 1000.0;
     return Math.round(graphWidth / (endUnix - startUnix));
   };
 
@@ -72,12 +76,23 @@ class BarChart extends Component {
     };
   };
 
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
+  shouldComponentUpdate() {
+    // console.log(this.state.redraw);
+    return this.state.redraw;
+  }
+
   componentDidMount() {
     this.launchChart();
   }
 
   componentDidUpdate() {
-    // this.redrawChart();
+    // After render, turn flag false to prevent further renders
+    this.setState({ redraw: false });
   }
 
   componentWillReceiveProps(newProps) {
@@ -224,21 +239,46 @@ class BarChart extends Component {
       leftAxisMargin
     );
     this.redrawChart();
-    this.loop('start');
+    this.startRenderLoop();
   };
 
-  loop(whenToActivate) {
-    select(this.node)
-      .transition()
-      .duration(500)
-      .ease(easeLinear)
-      .on(whenToActivate, this.onEachLoop);
-  }
+  startRenderLoop = () => {
+    const looper = setInterval(
+      () => {
+        this.onEachLoop();
+        }, 50);
+    this.setState({ looper });
+  };
+
+  // On each loop, update time, and thus trigger render function
+  // loop(whenToActivate, transitionDuration) {
+  //     .duration(transitionDuration)
+  //     .ease(easeLinear)
+  //     .on(whenToActivate, this.onEachLoop);
+  // }
+  // loop(whenToActivate, transitionDuration) {
+  //   select(this.node)
+  //     .transition()
+  //     .duration(transitionDuration)
+  //     .ease(easeLinear)
+  //     .on(whenToActivate, this.onEachLoop);
+  // }
 
   onEachLoop = () => {
-    this.setState(() => ({ ...this.getLiveDomainForX() }));
-    this.loop('end');
+    // console.log('loop!');
+    this.setState(() => ({
+      ...this.getLiveDomainForX(),
+      redraw: true
+    }));
   };
+
+  // onEachLoop = () => {
+  //   this.setState(() => ({
+  //     ...this.getLiveDomainForX(),
+  //     redraw: true
+  //   }));
+  //   this.loop('end', 1000);
+  // };
 
   // clearChartSkeleton() {
   //   const svg = select(this.node);
@@ -283,8 +323,8 @@ class BarChart extends Component {
       .attr('class', 'graphSvg__wrapper')
       .append('g')
       .attr('class', 'lineGraph__wrapper')
-      .attr('transform', `translate(${leftAxisMargin}, 0)`)
-      .attr('clip-path', 'url(#clip)');
+      .attr('transform', `translate(${leftAxisMargin}, 0)`);
+      // .attr('clip-path', 'url(#clip)'); // TODO debug this clip thing.
 
     lineGraphWrapper.append('path').attr('class', 'line');
   }
@@ -293,7 +333,11 @@ class BarChart extends Component {
     const {
       dimension: { width, height },
     } = this.props;
-    this.redrawChart();
+
+    if (this.state.redraw) {
+      this.redrawChart();
+    }
+
     return (
       <div className="barChart-scrollable-wrapper">
         <svg

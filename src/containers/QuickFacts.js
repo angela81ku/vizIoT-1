@@ -68,7 +68,6 @@ class QuickFacts extends React.Component {
 
     createSocket();
     subscribeToTopic('/total/count', (err, message) => {
-      console.log(message);
       this.setState({
         message: message.count,
       })
@@ -152,7 +151,7 @@ class QuickFacts extends React.Component {
     const factsLast10Min = [
       {
         title: 'Avg. Connections / Second',
-        data: 'N/A',
+        data: '~',
         icon: 'av_timer',
       },
       {

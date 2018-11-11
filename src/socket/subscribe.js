@@ -5,14 +5,18 @@ import openSocket from 'socket.io-client';
 const host = 'https://viziot-server-2.herokuapp.com/';
 const url = `${host}chat`;
 
-let socket;
+let socket = null;
 
-const enableFlag = false;
+const enableFlag = true;
 
 export const createSocket = () => {
-  if (!enableFlag) {
-    return;
-  }
+  // if (socket !== null) {
+  //   return;
+  // }
+  // if (!enableFlag) {
+  //   return;
+  // }
+  // debugger
   socket = openSocket.connect(url);
   socket.on('connect', () => {
     console.log('connected!');
@@ -37,8 +41,8 @@ export const closeSocket = () => {
 };
 
 export const subscribeToTopic = (topic, callback) => {
-  if (!enableFlag) {
-    return;
-  }
+  // if (!enableFlag) {
+  //   return;
+  // }
   socket.on(topic, timestamp => callback(null, timestamp));
 };
