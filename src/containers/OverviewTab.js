@@ -72,16 +72,14 @@ const Title = styled.div`
 class OverviewTab extends Component {
 
   state = {
-    trafficVelocityData: [{ count: 1, startMS: 20}],
+    trafficVelocityData: [],
   };
 
   constructor(props) {
     super(props);
 
-    // debugger
     createSocket();
     subscribeToTopic('/total/count/500ms', (err, message) => {
-      // console.log(message);
       this.setState({
         trafficVelocityData: [
           ...this.state.trafficVelocityData,

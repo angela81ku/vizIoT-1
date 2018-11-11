@@ -20,7 +20,6 @@ class BarChart extends Component {
       leftAxisMargin: 15,
       transitionDuration: 1000, // 1 second
       redraw: true,
-      loopIdx: 0,
       looper: null,
       ...this.mapPropsToState(props),
     };
@@ -78,7 +77,7 @@ class BarChart extends Component {
 
 
   componentWillUnmount() {
-    clearInterval(this.state.interval);
+    clearInterval(this.state.looper);
   }
 
   shouldComponentUpdate() {
@@ -250,40 +249,12 @@ class BarChart extends Component {
     this.setState({ looper });
   };
 
-  // On each loop, update time, and thus trigger render function
-  // loop(whenToActivate, transitionDuration) {
-  //     .duration(transitionDuration)
-  //     .ease(easeLinear)
-  //     .on(whenToActivate, this.onEachLoop);
-  // }
-  // loop(whenToActivate, transitionDuration) {
-  //   select(this.node)
-  //     .transition()
-  //     .duration(transitionDuration)
-  //     .ease(easeLinear)
-  //     .on(whenToActivate, this.onEachLoop);
-  // }
-
   onEachLoop = () => {
-    // console.log('loop!');
     this.setState(() => ({
       ...this.getLiveDomainForX(),
       redraw: true
     }));
   };
-
-  // onEachLoop = () => {
-  //   this.setState(() => ({
-  //     ...this.getLiveDomainForX(),
-  //     redraw: true
-  //   }));
-  //   this.loop('end', 1000);
-  // };
-
-  // clearChartSkeleton() {
-  //   const svg = select(this.node);
-  //   svg.selectAll('chartWrapper').remove();
-  // }
 
   static appendChartSkeleton(node, graphWidth, graphHeight, l, leftAxisMargin) {
     const svg = select(node);
@@ -358,39 +329,3 @@ BarChart.propTypes = {
 };
 
 export default BarChart;
-
-// const bars = select(node)
-//   .selectAll('rect')
-//   .data(data)
-
-// bars
-//   .exit()
-//   .remove()
-
-// bars
-//   .enter()
-//   .append('rect')
-
-// select(node)
-//   .selectAll('rect')
-//   .data(data)
-//   .style('fill', '#fe9922')
-//   .attr('x', (d, i) => i * barSize)
-//   .attr('y', d => graphHeight - yScale(d))
-//   .attr('height', d => yScale(d))
-//   .attr('width', barWidth)
-//   .attr('transform', `translate(${margin + leftAxisMargin}, ${margin})`)
-
-// makeDummyGraphData() {
-//   const nowMoment = moment();
-//   const n = 40;
-//   return range(n).map(i => {
-//     return {
-//       xData: nowMoment
-//         .clone()
-//         .add(i, 'seconds')
-//         .toDate(),
-//       yData: Math.random() * 10,
-//     };
-//   });
-// }
