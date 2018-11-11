@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BarChart from 'VizIoT/components/d3/BarChart';
+import LiveLineGraph from 'VizIoT/components/d3/LiveLineGraph';
 import MomentUnit from 'VizIoT/constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
 import { SPACING } from 'VizIoT/data/records/Spacing';
@@ -34,7 +34,7 @@ class BarGraphCard extends React.Component {
         <Title>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
         <AutoFitComponent className={this.props.className}>
-          <BarChart
+          <LiveLineGraph
             data={data}
             dataWindowSize={dataWindowSize}
             dataWindowUnit={MomentUnit.SECONDS}

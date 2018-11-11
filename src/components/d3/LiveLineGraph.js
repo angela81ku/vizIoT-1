@@ -13,7 +13,7 @@ import { transition } from 'd3-transition';
 import moment from 'moment';
 import { SPACING } from '../../data/records/Spacing';
 
-class BarChart extends Component {
+class LiveLineGraph extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +59,7 @@ class BarChart extends Component {
   mapPropsToState = props => {
     const { data } = props;
 
-    const graphDimensions = BarChart.getGraphDimensions(props);
+    const graphDimensions = LiveLineGraph.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
     const transitionAmount = this.getTransitionAmount(
       domain.xStart,
@@ -166,7 +166,7 @@ class BarChart extends Component {
 
     // Path Update
     if (graphData && graphData.length > 1) {
-      BarChart.redrawLine(
+      LiveLineGraph.redrawLine(
         g.select('.line'),
         this.createLinePathData(x, y, graphData),
         transitionDuration,
@@ -230,7 +230,7 @@ class BarChart extends Component {
       return { graphData };
     });
 
-    BarChart.appendChartSkeleton(
+    LiveLineGraph.appendChartSkeleton(
       this.node,
       graphWidth,
       graphHeight,
@@ -320,7 +320,7 @@ class BarChart extends Component {
   }
 }
 
-BarChart.propTypes = {
+LiveLineGraph.propTypes = {
   dimension: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   dataWindowSize: PropTypes.number.isRequired,
@@ -328,4 +328,4 @@ BarChart.propTypes = {
   padding: PropTypes.instanceOf(SPACING).isRequired,
 };
 
-export default BarChart;
+export default LiveLineGraph;
