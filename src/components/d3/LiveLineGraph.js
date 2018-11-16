@@ -13,6 +13,7 @@ import { transition } from 'd3-transition';
 import moment from 'moment';
 import { SPACING } from '../../data/records/Spacing';
 
+// TODO try separating the 'Live' / 'high-frequency' aspect into a HoC factory
 class LiveLineGraph extends Component {
   constructor(props) {
     super(props);

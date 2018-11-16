@@ -11,6 +11,7 @@ import TemporalHeatTable from 'UIBean/TemporalHeatTable';
 import SectionTitle from '../components/SectionTitle';
 import SectionSubtitle from '../components/SectionSubtitle';
 import { SPACING } from '../data/records/Spacing';
+import { H5 } from 'UIBean/functional-css/TypographyStyles';
 
 const dayFormat = 'M DD, YYYY';
 const colLabelFormat = 'dd';
@@ -19,6 +20,12 @@ const timeFormat = 'HHA';
 const AutofitWithHeight = styled(AutoFitComponent)`
   height: 538px;
   padding: 20px;
+`;
+
+const Title = styled.div`
+  ${H5}
+  font-weight: 800;
+  margin: 0;
 `;
 
 const logMoment = (m, prefix) => {
@@ -68,12 +75,12 @@ const createPlaceholderData = () => {
 
 const ScheduleCard = ({ className }) => {
   return (
+    <React.Fragment>
+    <SectionTitle title="SCHEDULE VIEW" />
     <BCard>
-      <SectionTitle title="SCHEDULE VIEW" />
-      <SectionSubtitle
-        text="THROUGHPUT BY HOUR OVER LAST WEEK"
-        padding={new SPACING({ l: 20 })}
-      />
+      <Title className="m-left-5 m-top-5">
+        Hourly Throughput (Packets)
+      </Title>
       <AutofitWithHeight>
         <TemporalHeatTable
           padding={new SPACING({ l: 5 })}
@@ -116,6 +123,7 @@ const ScheduleCard = ({ className }) => {
         />
       </AutofitWithHeight>
     </BCard>
+    </React.Fragment>
   );
 };
 

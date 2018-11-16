@@ -7,24 +7,27 @@ import styled from 'styled-components';
 import { BODY_TEXT_COLOR_LIGHTER } from '../styles/base/viz-theme';
 import TypographyComponents from 'UIBean/TypographyComponent';
 
-const { H6 } = TypographyComponents;
+const { H5 } = TypographyComponents;
 
-const StyledH6 = styled(H6)`
+const StyledH6 = styled(H5)`
   color: ${BODY_TEXT_COLOR_LIGHTER};
+  ${({ margins }) => margins && 'margin-top: 1.0rem;'}
 `;
 
-const SectionSubtitle = ({ text }) => {
+const SectionSubtitle = ({ text, ...rest }) => {
   return (
-    <StyledH6>{text}</StyledH6>
+    <StyledH6 {...rest}>{text}</StyledH6>
   );
 };
 
 SectionSubtitle.defaultProps = {
   text: '',
+  margins: false,
 };
 
 SectionSubtitle.propTypes = {
   text: PropTypes.any,
+  margins: PropTypes.bool,
 };
 
 export default SectionSubtitle;

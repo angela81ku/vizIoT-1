@@ -17,7 +17,7 @@ import TypographyComponents from 'UIBean/TypographyComponent';
 const { H3 } = TypographyComponents;
 
 const TitleContainer = styled.div`
-  text-align: center;
+  
 `;
 
 const PageBackground = styled.div`
@@ -87,9 +87,9 @@ class DeviceOverview extends Component {
     return (
       <PageBackground>
         <PageContent>
-          <TitleContainer className="m-bot-10">
+          <TitleContainer className="m-tb-10">
             <SectionTitle title="DEVICES HOME" size="lg" cardPadding={false} />
-            <SectionSubtitle text="YOUR DEVICES AT A GLANCE" />
+            <SectionSubtitle text="Explore and analyze your device activities" margins={true} />
           </TitleContainer>
           <Flex gutter={2} className="p-top-5">
             {DeviceOverview.renderDevicesAsCards(

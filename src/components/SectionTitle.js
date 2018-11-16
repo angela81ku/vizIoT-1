@@ -10,7 +10,7 @@ import {
 import TypographyComponent from 'UIBean/TypographyComponent';
 import BIcon from 'UIBean/BIcon';
 
-const { H5, H4, H3 } = TypographyComponent;
+const { H5, H3, H2 } = TypographyComponent;
 
 const SectionTitleWrapper = styled.div`
   margin: ${props => props.cardPadding && CARD_CONTENT_PADDING};
@@ -29,9 +29,9 @@ const renderSize = (size, title) => {
     case Sizes.SMALL:
       return <H5>{title}</H5>;
     case Sizes.MEDIUM:
-      return <H4>{title}</H4>;
-    case Sizes.LARGE:
       return <H3>{title}</H3>;
+    case Sizes.LARGE:
+      return <H2>{title}</H2>;
   }
 };
 

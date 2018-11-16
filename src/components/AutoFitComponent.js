@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 /**
  * Used for auto fitting components. Accepts a single child, and injects dynamic dimension props to it.
+ * TODO try using HoC instead
  */
 class AutoFitComponent extends React.Component {
   constructor(props) {
