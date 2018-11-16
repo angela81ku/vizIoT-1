@@ -7,16 +7,8 @@ import {
   HEADING_TEXT_COLOR,
   CARD_CONTENT_PADDING,
 } from '../styles/base/viz-theme';
-import TypographyComponent from 'UIBean/TypographyComponent';
 import BIcon from 'UIBean/BIcon';
-
-const { H5, H3, H2 } = TypographyComponent;
-
-const SectionTitleWrapper = styled.div`
-  margin: ${props => props.cardPadding && CARD_CONTENT_PADDING};
-  margin-bottom: 0.5rem;
-  color: ${HEADING_TEXT_COLOR};
-`;
+import { H0, H1, H3, H5 } from 'UIBean/functional-css/TypographyStyles';
 
 const Sizes = {
   SMALL: 'sm',
@@ -24,25 +16,46 @@ const Sizes = {
   LARGE: 'lg',
 };
 
-const renderSize = (size, title) => {
+const getLetterSpacing = ({ size }) => {
+  console.log(size);
+  if (size !== Sizes.LARGE) {
+    return 'letter-spacing: 4px;';
+  }
+  return '';
+};
+
+const SectionTitleWrapper = styled.div`
+  margin: ${props => props.cardPadding && CARD_CONTENT_PADDING};
+  margin-bottom: 0.5rem;
+  color: ${HEADING_TEXT_COLOR};
+`;
+
+const getFont = ({ size }) => {
   switch (size) {
     case Sizes.SMALL:
-      return <H5>{title}</H5>;
+      return H5;
     case Sizes.MEDIUM:
-      return <H3>{title}</H3>;
+      return H3;
     case Sizes.LARGE:
-      return <H2>{title}</H2>;
+      return H0;
+    default:
+      return '';
   }
 };
+
+const Title = styled.div`
+  ${getFont}
+  ${getLetterSpacing}
+  font-weight: 300;
+`;
 
 const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);
 
 const SectionTitle = ({ icon, size, title, cardPadding, ...props }) => (
-  <SectionTitleWrapper className="wide-letter"
-                       cardPadding={cardPadding}
+  <SectionTitleWrapper cardPadding={cardPadding}
                        {...props}>
     {icon ? <BIcon name={icon} size={16} className="m-right-2" /> : null}
-    {renderSize(size, title)}
+    <Title size={size}>{title}</Title>
   </SectionTitleWrapper>
 );
 

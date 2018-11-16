@@ -88,7 +88,7 @@ class DeviceOverview extends Component {
       <PageBackground>
         <PageContent>
           <TitleContainer className="m-tb-10">
-            <SectionTitle title="DEVICES HOME" size="lg" cardPadding={false} />
+            <SectionTitle title="Devices" size="lg" cardPadding={false} />
             <SectionSubtitle text="Explore and analyze your device activities" margins={true} />
           </TitleContainer>
           <Flex gutter={2} className="p-top-5">

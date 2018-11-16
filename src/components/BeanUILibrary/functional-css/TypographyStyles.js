@@ -31,6 +31,7 @@ const generateDefaultStyles = settings => {
   );
 };
 
+export const JUMBO = convertToStyleString(Typography['JUMBO']);
 export const H0 = convertToStyleString(Typography['H0']);
 export const H1 = convertToStyleString(Typography['H1']);
 export const H2 = convertToStyleString(Typography['H2']);

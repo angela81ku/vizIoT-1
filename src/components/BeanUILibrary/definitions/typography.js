@@ -4,6 +4,11 @@
  * All size unites in rem.
  */
 export const Typography = {
+  JUMBO: {
+    size: {
+      xs: 7.2,
+    },
+  },
   H0: {
     size: {
       xs: 6.4,

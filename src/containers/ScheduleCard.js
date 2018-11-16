@@ -8,8 +8,6 @@ import styled from 'styled-components';
 import BCard from 'UIBean/BCard';
 import AutoFitComponent from '../components/AutoFitComponent';
 import TemporalHeatTable from 'UIBean/TemporalHeatTable';
-import SectionTitle from '../components/SectionTitle';
-import SectionSubtitle from '../components/SectionSubtitle';
 import { SPACING } from '../data/records/Spacing';
 import { H5 } from 'UIBean/functional-css/TypographyStyles';
 
@@ -75,8 +73,6 @@ const createPlaceholderData = () => {
 
 const ScheduleCard = ({ className }) => {
   return (
-    <React.Fragment>
-    <SectionTitle title="SCHEDULE VIEW" />
     <BCard>
       <Title className="m-left-5 m-top-5">
         Hourly Throughput (Packets)
@@ -123,7 +119,6 @@ const ScheduleCard = ({ className }) => {
         />
       </AutofitWithHeight>
     </BCard>
-    </React.Fragment>
   );
 };
 
