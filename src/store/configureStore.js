@@ -20,7 +20,7 @@ import {
 import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
 import packets from '../reducers/packets/packets';
-import { failureRecentPackets, startRecentPackets, successRecentPackets } from 'VizIoT/actions/packetActions';
+import { failureRecentPackets, startRecentPackets, successRecentPackets, pushPacketCountToday } from 'VizIoT/actions/packetActions';
 
 // Store creation
 export default () => {
@@ -55,6 +55,7 @@ export default () => {
   startRecentPackets.assignTo(store);
   successRecentPackets.assignTo(store);
   failureRecentPackets.assignTo(store);
+  pushPacketCountToday.assignTo(store);
 
   return store;
 };

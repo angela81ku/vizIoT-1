@@ -17,7 +17,6 @@ const Sizes = {
 };
 
 const getLetterSpacing = ({ size }) => {
-  console.log(size);
   if (size !== Sizes.LARGE) {
     return 'letter-spacing: 4px;';
   }

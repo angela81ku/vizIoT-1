@@ -5,21 +5,22 @@ import openSocket from 'socket.io-client';
 const host = 'https://viziot-server-2.herokuapp.com/';
 const url = `${host}chat`;
 
-let socket = null;
+// Socket instance
 
+// Debugging flags
 const enableFlag = true;
 
-export const createSocket = () => {
-  // if (socket !== null) {
-  //   return;
-  // }
-  // if (!enableFlag) {
-  //   return;
-  // }
+
+export const createSocket = customUrl => {
+
+  const connectUrl = customUrl || url;
+  if (!enableFlag) {
+    return;
+  }
   // debugger
-  socket = openSocket.connect(url);
+  const socket = openSocket.connect(connectUrl);
   socket.on('connect', () => {
-    console.log('connected!');
+    console.log(`connected: ${connectUrl}`);
   });
 
   socket.on('connect_error', error => {
@@ -31,18 +32,13 @@ export const createSocket = () => {
     console.log('connect_timeout');
     console.log(timeout);
   });
+
+  socket.on('disconnect', function () {
+    console.log(`disconnected: ${connectUrl}`);
+  });
+
+  return socket;
 };
 
-export const closeSocket = () => {
-  if (!enableFlag) {
-    return;
-  }
-  socket.disconnect();
-};
-
-export const subscribeToTopic = (topic, callback) => {
-  // if (!enableFlag) {
-  //   return;
-  // }
-  socket.on(topic, timestamp => callback(null, timestamp));
-};
+export const CountRoom = '/total/count/500ms';
+export const TodayCountRoom = '/total/count';

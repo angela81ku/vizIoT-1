@@ -1,14 +1,10 @@
-import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
-import DeviceDimension from '../data/dimensions/DeviceDimension';
-import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import { DateConstants } from '../constants/DateConstants';
 import { packetApi, packetApiKeys } from 'VizIoT/data/api/packetApi';
 
 export const startRecentPackets = createAction();
 export const successRecentPackets = createAction();
 export const failureRecentPackets = createAction();
+export const pushPacketCountToday = createAction();
 
 export const requestRecentPackets = options => {
   startRecentPackets();

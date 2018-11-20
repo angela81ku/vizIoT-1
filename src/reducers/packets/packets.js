@@ -1,9 +1,15 @@
 import { createReducer } from 'redux-act';
-import { failureRecentPackets, startRecentPackets, successRecentPackets } from 'VizIoT/actions/packetActions';
+import {
+  failureRecentPackets,
+  startRecentPackets,
+  successRecentPackets,
+  pushPacketCountToday
+} from 'VizIoT/actions/packetActions';
 import NetworkState from 'VizIoT/constants/NetworkState';
 
 const defaultState = {
   packetListing: [],
+  countToday: null,
   networkState: NetworkState.READY,
 };
 
@@ -64,11 +70,19 @@ const onFailure = state => {
   };
 };
 
+const onTodayCount = (state, newCount) => {
+  return {
+    ...state,
+    countToday: newCount,
+  }
+};
+
 export default createReducer(
   {
     [startRecentPackets]: onStart,
     [successRecentPackets]: onSuccess,
     [failureRecentPackets]: onFailure,
+    [pushPacketCountToday]: onTodayCount,
   },
   defaultState
 );

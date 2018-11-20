@@ -7,3 +7,7 @@ export const selectRecentPackets = ({
                                  }) => {
   return packetListing;
 };
+
+export const selectTodayPacketCount = ({ packets: { countToday }}) => {
+  return countToday;
+};

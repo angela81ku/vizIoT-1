@@ -36,11 +36,6 @@ const DCard = styled(BCard)`
   // border-color: ${ORANGE_PEEL};
   border-radius: ${borderRadius};
 
-  // border-left-width: ${borderRadius};
-  // border-left-style: solid;
-  // border-left-color: red;
-  // border-left-style: groove;
-
   transition: 0.3s;
   transition-timing-function: ease;
   z-index: 0;

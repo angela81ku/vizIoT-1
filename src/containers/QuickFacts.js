@@ -4,8 +4,12 @@ import { connect } from 'react-redux';
 import {
   selectBusiestDevice,
   selectNumberOfDevices,
-  selectPercentUnsecuredToday,
+  selectPercentUnsecuredToday
 } from '../selectors/deviceSelectors';
+import {
+  selectTodayPacketCount,
+} from '../selectors/packetSelector';
+
 import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 import DataWell from 'UIBean/DataWell';
@@ -21,7 +25,7 @@ import BIcon from 'UIBean/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
-import { closeSocket, createSocket, subscribeToTopic } from 'VizIoT/socket/subscribe';
+import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
 
 const { H1 } = TypographyComponent;
 
@@ -58,26 +62,6 @@ const StyledDataWell = styled(DataWell)`
 `;
 
 class QuickFacts extends React.Component {
-
-  state = {
-    message: '~',
-  };
-
-  constructor(props) {
-    super(props);
-
-    createSocket();
-    subscribeToTopic('/total/count', (err, message) => {
-      this.setState({
-        message: message.count,
-      })
-    });
-  }
-
-  componentWillUnmount() {
-    closeSocket();
-  }
-
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
@@ -121,18 +105,15 @@ class QuickFacts extends React.Component {
       percentOfHttpConnections,
       busiestDevice,
       mostContactedHost,
+      packetCount,
     } = this.props;
-
-    const {
-      message
-    } = this.state;
 
     const hugeText = [];
 
     const factsToday = [
       {
         title: 'Packets',
-        data: message,
+        data: packetCount === null ? '~' : packetCount,
         iconType: 'eva',
         icon: 'cube',
       },
@@ -193,6 +174,9 @@ QuickFacts.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    packetCount: selectTodayPacketCount(state),
+
+
     numberOfDevices: selectNumberOfDevices(state),
     percentOfHttpConnections: `${selectPercentUnsecuredToday(state)}%`,
     busiestDevice: selectBusiestDevice(state),

@@ -18,9 +18,9 @@ class DeviceActivityChart extends React.Component {
     } = this.props;
 
     const { socketAddr = '', macAddr = '', port = '', ip = '', alias } = device;
-    console.log(`Making chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`);
-    console.log('using data:');
-    console.log(data);
+    // console.log(`Rendering chart for ${socketAddr} AKA ${macAddr} AKA ${alias}`);
+    // console.log('using data:');
+    // console.log(data);
 
     macAddr && macAddr.toUpperCase();
 
@@ -33,7 +33,7 @@ class DeviceActivityChart extends React.Component {
       // console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
       const catchUpSeconds = 10;
-      console.log(`catchUpSeconds = ${catchUpSeconds}`);
+      // console.log(`catchUpSeconds = ${catchUpSeconds}`);
 
       graphData = data.map(({ startMS, count: yData }) => {
         return {
@@ -44,16 +44,6 @@ class DeviceActivityChart extends React.Component {
           yData,
         };
       });
-
-      // graphData = data.map(({ timestamp, [bucketProps[0]]: yData }) => {
-      //   return {
-      //     xData: moment
-      //       .unix(timestamp)
-      //       .add(catchUpSeconds, 'seconds')
-      //       .toDate(),
-      //     yData,
-      //   };
-      // });
     }
 
     let subtitle = <span>{placeholderSubtitle}</span>;

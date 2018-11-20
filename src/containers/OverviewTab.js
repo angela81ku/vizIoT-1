@@ -7,6 +7,7 @@ import FlexSize from 'UIBean/FlexSize';
 import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actions/deviceActions';
+import { pushPacketCountToday } from '../actions/packetActions';
 import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
@@ -43,7 +44,7 @@ import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import DataTable from 'UIBean/DataTable';
-import { closeSocket, createSocket, subscribeToTopic } from 'VizIoT/socket/subscribe';
+import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
 import { H1, H2 } from 'UIBean/functional-css/TypographyStyles';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
@@ -78,14 +79,23 @@ class OverviewTab extends Component {
   constructor(props) {
     super(props);
 
-    createSocket();
-    subscribeToTopic('/total/count/500ms', (err, message) => {
+    const socket = createSocket();
+    this.state = {
+      ...this.state,
+      socket,
+    };
+
+    socket.on(CountRoom, message => {
       this.setState({
         trafficVelocityData: [
           ...this.state.trafficVelocityData,
           message,
         ].slice(-280),
       });
+    });
+
+    socket.on(TodayCountRoom, message => {
+      pushPacketCountToday(message.count);
     });
   }
 
@@ -147,8 +157,6 @@ class OverviewTab extends Component {
   componentWillMount() {
     const { networkId } = this.props;
 
-
-
     // this.fetchCombinedTrafficData();
     //
     // // Fetch all the things.
@@ -181,7 +189,7 @@ class OverviewTab extends Component {
   }
 
   componentWillUnmount() {
-    closeSocket();
+    this.state.socket.disconnect();
 
     // const {
     //   logLoop,
@@ -246,24 +254,8 @@ class OverviewTab extends Component {
   }
 
   render() {
-    // TODO integrate with redux
-    const tempHeaders = [
-      {label: 'Time', key: 'time', width: 133},
-      {label: 'Device', key: 'device', width: 210},
-      {label: 'Destination', key: 'dest', width: 270},
-      {label: 'Bytes', key: 'size', width: 95}
-    ];
-
-    const tempList = [
-      { key: '1', time: '1:56:02 am', device: 'google-home-mini', dest: 'google.com', size: '10'},
-      { key: '2', time: '1:55:30 am', device: 'google-home-mini', dest: 'some-interesting-url.com', size: '10'}
-    ];
-
     return (
       <div className="overview-tab">
-        {/*<div className="tint-background2">*/}
-          {/*<div />*/}
-        {/*</div>*/}
         <RightContentWrapper>
           <GridLayout>
             <GridItem column={'col-start / span 5'} row={'1 / 4'}>
@@ -273,13 +265,10 @@ class OverviewTab extends Component {
               <Flex gutter={2}>
                 <FlexSize size={{ lg: 12 }}>
                   <Title>Real-time Traffic</Title>
-                  {/*<BCard compact={false}>*/}
-                    {this.renderMainChart()}
-                  {/*</BCard>*/}
+                  {this.renderMainChart()}
                 </FlexSize>
                 <FlexSize size={{ lg: 5 }}>
                   {this.renderSingleDeviceCharts()}
-                  {/*<DataTable headerData={tempHeaders}  rowData={tempList}/>*/}
                 </FlexSize>
               </Flex>
             </GridItem>

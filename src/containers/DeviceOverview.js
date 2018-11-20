@@ -25,18 +25,32 @@ const PageBackground = styled.div`
   min-height: 700px; // page min height
   height: 100vh;
   overflow-y: scroll;
+  
+  // @keyframes example {
+  //   0% {transform: translateY(-10px);}
+  //   100% {transform: translateY(+10px);}
+  // }
 `;
 
 const PageContent = styled.div`
   padding-top: 10px;
-  padding-left: 80px;
-  padding-right: 80px;
+  padding-left: 6%;
+  padding-right: 6%;
 `;
 
 const DeviceCardWrapper = styled(FlexSize)`
   display: inline-flex;
   justify-content: center;
   width: 100%;
+  
+  /* The element to apply the animation to */
+  // & > div {
+  //   animation-name: example;
+  //   animation-duration: 2s;
+  //   animation-iteration-count: infinite;
+  //   animation-direction: alternate;
+  // }
+  
 `;
 
 class DeviceOverview extends Component {
