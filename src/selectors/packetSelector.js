@@ -1,13 +1,11 @@
 'use es6';
 
-export const selectRecentPackets = ({
-                                   packets: {
-                                     packetListing,
-                                   },
-                                 }) => {
-  return packetListing;
+import { getIn } from 'immutable';
+
+export const selectRecentPackets = state => {
+  return getIn(state, ['packets', 'packets', 'packetListing']);
 };
 
-export const selectTodayPacketCount = ({ packets: { countToday }}) => {
-  return countToday;
+export const selectTodayPacketCount = state => {
+  return getIn(state, ['packets', 'pushPacketCount', 'countToday']);
 };

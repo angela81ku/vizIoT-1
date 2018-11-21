@@ -1,17 +1,12 @@
+'use es6';
+
 import { createReducer } from 'redux-act';
 import {
-  failureRecentPackets,
-  startRecentPackets,
-  successRecentPackets,
+  recentsActionBundle,
   pushPacketCountToday
 } from 'VizIoT/actions/packetActions';
-import NetworkState from 'VizIoT/constants/NetworkState';
-
-const defaultState = {
-  packetListing: [],
-  countToday: null,
-  networkState: NetworkState.READY,
-};
+import { combineReducers } from 'redux';
+import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
 
 const isMocking = true;
 const genMock = count => ({
@@ -24,65 +19,39 @@ const genMock = count => ({
       timestamp: `${count} timestamp`,
     });
 
-const onStart = state => {
-  return {
-    ...state,
-    networkState: NetworkState.LOADING,
-  };
-};
-
-const onSuccess = (state, { payload, requestBody }) => {
-  if (isMocking) {
-    const packetListing = state.packetListing;
-    return {
-      ...state,
-      packetListing: [
-        genMock(packetListing.length),
-        ...packetListing,
-      ],
-      networkState: NetworkState.READY,
-    };
-  }
-
-  return {
-    ...state,
-    networkState: NetworkState.READY,
-    packetListing: payload,
-  }
-};
-
-const onFailure = state => {
-  if (isMocking) {
-    const packetListing = state.packetListing;
-    return {
-      ...state,
-      packetListing: [
-        genMock(packetListing.length),
-        ...packetListing,
-      ],
-      networkState: NetworkState.READY,
-    };
-  }
-
-  return {
-    ...state,
-    networkState: NetworkState.READY,
-  };
-};
-
-const onTodayCount = (state, newCount) => {
-  return {
-    ...state,
-    countToday: newCount,
-  }
-};
-
-export default createReducer(
-  {
-    [startRecentPackets]: onStart,
-    [successRecentPackets]: onSuccess,
-    [failureRecentPackets]: onFailure,
-    [pushPacketCountToday]: onTodayCount,
+const pushPacketCount = createReducer({
+    [pushPacketCountToday]: (state, newCount) => {
+      return {
+        ...state,
+        countToday: newCount,
+      }
+    },
   },
-  defaultState
+  { countToday: null }
 );
+
+const middleware = (state, rawRequestData) => {
+  const { payload, requestBody } = rawRequestData;
+  const { packetListing: prevPacketListing } = state;
+
+  const packetListing = prevPacketListing || [];
+  if (isMocking) {
+    return {
+      packetListing: [
+        genMock(packetListing.length),
+        ...packetListing,
+      ]
+    };
+  }
+
+  return {
+    packetListing: payload,
+  };
+};
+
+const packets = createRequestReducer('packets', recentsActionBundle, middleware);
+
+export default combineReducers({
+  pushPacketCount,
+  packets,
+});

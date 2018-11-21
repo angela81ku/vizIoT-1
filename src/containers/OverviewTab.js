@@ -28,7 +28,6 @@ import {
   selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
-// import FlexWrapper from 'UIBean/FlexWrapper';
 import { hasDataForKey } from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
@@ -43,9 +42,8 @@ import { SPACING } from '../data/records/Spacing';
 import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
-import DataTable from 'UIBean/DataTable';
 import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
-import { H1, H2 } from 'UIBean/functional-css/TypographyStyles';
+import { H1 } from 'UIBean/functional-css/TypographyStyles';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -94,9 +92,7 @@ class OverviewTab extends Component {
       });
     });
 
-    socket.on(TodayCountRoom, message => {
-      pushPacketCountToday(message.count);
-    });
+    socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
   }
 
   fetchCombinedTrafficData() {

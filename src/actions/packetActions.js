@@ -1,26 +1,17 @@
-import { createAction } from 'redux-act';
-import { packetApi, packetApiKeys } from 'VizIoT/data/api/packetApi';
+'use es6';
 
-export const startRecentPackets = createAction();
-export const successRecentPackets = createAction();
-export const failureRecentPackets = createAction();
+import { createAction } from 'redux-act';
+import { buildRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
+
+// Request actions
+export const recentsActionBundle = buildRequestActions();
+
+// Other actions
 export const pushPacketCountToday = createAction();
 
-export const requestRecentPackets = options => {
-  startRecentPackets();
-  const { call, REQUEST_RECORD } = packetApi[packetApiKeys.PACKET];
-  const requestBody = new REQUEST_RECORD(options);
-
-  return new Promise(resolve => {
-    call(requestBody)
-      .then(resolve)
-      .catch(error => {
-        failureRecentPackets();
-      });
-  }).then(res => {
-    successRecentPackets({
-      payload: res.data,
-      requestBody,
-    });
+export default Object.assign(
+  {},
+  recentsActionBundle,
+  {
+    pushPacketCountToday,
   });
-};

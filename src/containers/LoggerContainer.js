@@ -1,15 +1,9 @@
 import React from 'react';
 import Flex, { JustifyContent } from 'UIBean/Flex';
 import { connect } from 'react-redux';
-import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
-import BucketUnitConstants from 'VizIoT/constants/BucketUnit';
-import { analyzeAggregationByDomain } from 'VizIoT/actions/analyzeActions';
-import { selectDomainsToday } from 'VizIoT/selectors/analyticsSelector';
-import { DateConstants } from 'VizIoT/constants/DateConstants';
-import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
 import DataTable from 'UIBean/DataTable';
 import FlexChild from 'UIBean/FlexChild';
-import { requestRecentPackets } from 'VizIoT/actions/packetActions';
+import { requestRecentPackets } from 'VizIoT/actionsRequest/packetRequest';
 import { selectRecentPackets } from 'VizIoT/selectors/packetSelector';
 
 const DATA_REFRESH_DELAY_MS = 2000;
@@ -21,42 +15,15 @@ class LoggerContainer extends React.Component {
       requestRecentPackets({ pastMS: 2000 });
     }, DATA_REFRESH_DELAY_MS);
 
-    this.setState(() => ({
-      dataFetchLoop: dataFetchLoop,
-    }));
+    this.setState(() => ({ dataFetchLoop }));
   }
 
   componentWillUnmount() {
     clearInterval(this.state.dataFetchLoop);
   }
 
-  state = {
-    packetData: [],
-  };
-
-  componentWillReceiveProps({ recentPackets }) {
-    // Put new packets into packetData array
-    const newData = recentPackets.reduce((acc, packet) => {
-      const { src_ip, dst_ip, dst_mac, src_mac, dst_port, src_port, timestamp } = packet;
-      const newKey = `${timestamp}${src_ip}`;
-
-      if (acc.findIndex(({ key }) => key === newKey) >= 0) {
-        console.log(`skipping ${newKey}`);
-        return acc;
-      }
-
-      const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
-      const newAcc = acc;
-      newAcc.push(item);
-      return newAcc;
-    }, this.state.packetData);
-    console.log(newData);
-    this.setState({
-      packetData: newData,
-    });
-  }
-
   render() {
+    const { packetData } = this.props;
     const tempHeaders = [
       {label: 'Time', key: 'time', width: 133},
       {label: 'Device', key: 'device', width: 210},
@@ -68,7 +35,7 @@ class LoggerContainer extends React.Component {
       <div className="location-bubble-tab">
         <Flex gutter={3} justifyContent={JustifyContent.CENTER}>
           <FlexChild>
-            <DataTable headerData={tempHeaders} rowData={this.state.packetData}/>
+            <DataTable headerData={tempHeaders} rowData={packetData}/>
           </FlexChild>
         </Flex>
       </div>
@@ -76,11 +43,34 @@ class LoggerContainer extends React.Component {
   }
 }
 
-LoggerContainer.defaultProps = {};
+LoggerContainer.defaultProps = {
+  packetData: [],
+};
 
 const mapStateToProps = state => {
+
+  const recentPackets = selectRecentPackets(state) || [];
+
+  // Put new packets into packetData array
+  const packetData = recentPackets.reduce((acc, packet) => {
+    const { src_ip, dst_ip, dst_mac, src_mac, dst_port, src_port, timestamp } = packet;
+    const newKey = `${timestamp}${src_ip}`;
+
+    if (acc.findIndex(({ key }) => key === newKey) >= 0) {
+      console.log(`skipping ${newKey}`);
+      return acc;
+    }
+
+    const item = { key: newKey, time: timestamp.toString(), device: src_mac, dest: dst_mac, size: 'N/A'};
+    const newAcc = acc;
+    newAcc.push(item);
+    return newAcc;
+  }, []);
+
+  console.log(packetData);
+
   return {
-    recentPackets: selectRecentPackets(state),
+    packetData,
   };
 };
 export default connect(mapStateToProps)(LoggerContainer);

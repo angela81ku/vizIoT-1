@@ -20,7 +20,8 @@ import {
 import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
 import packets from '../reducers/packets/packets';
-import { failureRecentPackets, startRecentPackets, successRecentPackets, pushPacketCountToday } from 'VizIoT/actions/packetActions';
+import packetActions from 'VizIoT/actions/packetActions';
+import { assignAll } from 'redux-act';
 
 // Store creation
 export default () => {
@@ -52,11 +53,7 @@ export default () => {
   successFetchDevices.assignTo(store);
   failureFetchDevices.assignTo(store);
 
-  startRecentPackets.assignTo(store);
-  successRecentPackets.assignTo(store);
-  failureRecentPackets.assignTo(store);
-  pushPacketCountToday.assignTo(store);
-
+  assignAll(packetActions, store);
   return store;
 };
 
