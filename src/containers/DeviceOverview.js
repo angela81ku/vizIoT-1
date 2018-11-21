@@ -133,7 +133,10 @@ const dummyDevices = [
   { id: 6, alias: 'Name 6' },
 ];
 
-export default connect(state => ({
-  devices:
-    (selectDeviceList(state).length && selectDeviceList(state)) || dummyDevices,
-}))(DeviceOverview);
+export default connect(state => {
+  let devices = selectDeviceList(state) || [];
+  devices = devices.length ? devices : dummyDevices;
+  return ({
+    devices,
+  });
+})(DeviceOverview);

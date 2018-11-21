@@ -149,7 +149,7 @@ Sidebar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  devices: selectDeviceList(state),
+  devices: selectDeviceList(state) || [],
   deviceToNumConnection: selectNumberOfConnections(state),
   lastSeen: selectLastSeen(state),
   mostRecentHosts: selectMostRecentDomains(state, 15),

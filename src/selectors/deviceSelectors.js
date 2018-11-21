@@ -5,17 +5,14 @@ import DataReducerTypes from '../constants/DataReducerTypes';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
+import { getIn } from 'immutable';
 
-export const selectDeviceList = ({
-  devices: {
-    deviceList: { value },
-  },
-}) => {
-  return value;
+export const selectDeviceList = state => {
+  return getIn(state, ['devices', 'deviceList', 'value']);
 };
 
 export const selectNumberOfDevices = state => {
-  let deviceList = selectDeviceList(state);
+  let deviceList = selectDeviceList(state) || [];
   return deviceList ? deviceList.length : 0;
 };
 
@@ -57,7 +54,7 @@ export const selectPercentUnsecuredToday = state => {
 };
 
 export const selectMacAddressToAlias = state => {
-  const deviceList = selectDeviceList(state);
+  const deviceList = selectDeviceList(state) || [];
   return deviceList.reduce((acc, { macAddress, alias }) => {
     return {
       ...acc,

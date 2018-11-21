@@ -10,6 +10,7 @@ import { DateConstants } from '../constants/DateConstants';
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
 import { getIn } from 'immutable';
 import TimeMetric from '../data/metrics/TimeMetric';
+import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 
 export const selectDataWithHash = ({ analytics }, hash) => {
   return analytics.values[hash];
@@ -39,7 +40,7 @@ export const selectMostContactedHostLastPeriod = (state, startTime) => {
 };
 
 export const selectMacAddressToAlias = state => {
-  const deviceList = selectDeviceList(state);
+  const deviceList = selectDeviceList(state) || [];
   return deviceList.reduce((acc, { macAddress, alias }) => {
     return {
       ...acc,

@@ -41,7 +41,7 @@ export const analyzeApi = {
   // Within a time range: for each device, for each time unit, give me a tally for [bucketProps]
   [analyzeApiKeys.BY_TIME]: {
     call: analyzeAggregationByTime,
-    REQUEST_RECORD: new Record({
+    ParamRecord: new Record({
       selectionMode: DataReducerTypes.COMBINED,
       macAddresses: [],
       bucketSize: 1,
@@ -54,7 +54,7 @@ export const analyzeApi = {
   // Within a time range: for each device, for each location, give me a tally for [bucketProps]
   [analyzeApiKeys.BY_LOCATION]: {
     call: analyzeAggregationByLocation,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [GeoDimension.DOMAIN],
       metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
@@ -65,7 +65,7 @@ export const analyzeApi = {
 
   [analyzeApiKeys.CORE]: {
     call: analyzeAggregationCore,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [],
       metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
@@ -76,7 +76,7 @@ export const analyzeApi = {
 
   [analyzeApiKeys.MAC_TO_HITS]: {
     call: analyzeAggregationCore,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [DeviceDimension.MAC],
       metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
@@ -87,7 +87,7 @@ export const analyzeApi = {
 
   [analyzeApiKeys.DOMAIN_TO_HITS]: {
     call: analyzeAggregationCore,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [GeoDimension.DOMAIN],
       metrics: [ConnectionMetric.HITS],
       reducer: DataReducerTypes.INDIVIDUAL,
@@ -98,7 +98,7 @@ export const analyzeApi = {
 
   [analyzeApiKeys.TIME_TO_DOMAIN]: {
     call: analyzeAggregationCore,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [TimeDimension.TIMESTAMP],
       metrics: [GeoDimension.DESTINATION],
       reducer: DataReducerTypes.INDIVIDUAL,
@@ -109,7 +109,7 @@ export const analyzeApi = {
 
   [analyzeApiKeys.TIME_TO_LOG]: {
     call: analyzeAggregationCore,
-    REQUEST_RECORD: new AnalyticsRequest({
+    ParamRecord: new AnalyticsRequest({
       dimensions: [TimeDimension.TIMESTAMP],
       metrics: [GeoDimension.DESTINATION, GeoDimension.ORIGIN],
       reducer: DataReducerTypes.INDIVIDUAL,

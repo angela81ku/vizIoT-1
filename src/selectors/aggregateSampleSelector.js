@@ -15,7 +15,7 @@ export const hasAggregationData = ({ aggregateSample }, deviceKey, dataKey) => {
 };
 
 export const hasDataForKey = (state, dataKey) => {
-  const devices = selectDeviceList(state);
+  const devices = selectDeviceList(state) || [];
   return devices.reduce((acc, d) => {
     return {
       ...acc,

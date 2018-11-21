@@ -1,24 +1,11 @@
-import { createAction } from 'redux-act';
-import * as deviceApi from '../data/api/devicesApi';
+'use es6';
 
-export const startFetchDevices = createAction();
-export const successFetchDevices = createAction();
-export const failureFetchDevices = createAction();
+import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
 
-export const fetchDevices = networkId => {
-  startFetchDevices();
-  return new Promise(resolve => {
-    deviceApi
-      .fetchDevices(networkId)
-      .then(resolve)
-      .catch(error => {
-        console.log(
-          `failed to fetchDevices from network ${networkId}: ${error}`
-        );
-        failureFetchDevices();
-      });
-  }).then(res => {
-    successFetchDevices({ payload: res.data });
-    return res;
-  });
-};
+// Action bundles
+export const deviceActionBundle = createRequestActions('device');
+
+export default Object.assign(
+  {},
+  deviceActionBundle,
+);

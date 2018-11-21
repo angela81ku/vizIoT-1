@@ -1,7 +1,6 @@
 'use es6';
 
 import { createReducer } from 'redux-act';
-import { recentsActionBundle } from 'VizIoT/actions/packetActions';
 import NetworkState from 'VizIoT/constants/NetworkState';
 
 const defaultMiddleware = (state, rawRequestData) => {
@@ -13,18 +12,17 @@ const defaultMiddleware = (state, rawRequestData) => {
 /**
  * Shared reducer factory for building simple reducers for requested resources.
  * This uses redux-act action mappings in order to simply actions.
- * @param name - root name of the reducer
+ * @param defaultState
  * @param requestActionBundle - an object of redux-act request actions
  * @param middleware - a function applied on success, with state and payload.
  *                     The return value is spread onto the reducer
  * @returns {Reducer<{}>}
  */
-export const createRequestReducer = (name, requestActionBundle, middleware = defaultMiddleware) => {
+export const createRequestReducer = (defaultState, requestActionBundle, middleware = defaultMiddleware) => {
 
-  const defaultState = {
-    [name]: {
-      networkState: NetworkState.READY,
-    }
+  const defaultStateWithStatus = {
+    ...defaultState,
+    networkState: NetworkState.READY,
   };
 
   return createReducer({
@@ -34,7 +32,7 @@ export const createRequestReducer = (name, requestActionBundle, middleware = def
         networkState: NetworkState.LOADING,
       };
     },
-    [recentsActionBundle[NetworkState.READY]]: (state, rawRequestData) => {
+    [requestActionBundle[NetworkState.READY]]: (state, rawRequestData) => {
       const formattedResource = middleware(state, rawRequestData);
       return {
         ...state,
@@ -42,11 +40,11 @@ export const createRequestReducer = (name, requestActionBundle, middleware = def
         ...formattedResource,
       };
     },
-    [recentsActionBundle[NetworkState.FAILED]]: state => {
+    [requestActionBundle[NetworkState.FAILED]]: state => {
       return {
         ...state,
         networkState: NetworkState.READY,
       };
     },
-  }, defaultState);
+  }, defaultStateWithStatus);
 };

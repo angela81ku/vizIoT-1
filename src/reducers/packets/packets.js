@@ -49,7 +49,11 @@ const middleware = (state, rawRequestData) => {
   };
 };
 
-const packets = createRequestReducer('packets', recentsActionBundle, middleware);
+const packets = createRequestReducer(
+  { packetListing: null },
+  recentsActionBundle,
+  middleware
+);
 
 export default combineReducers({
   pushPacketCount,

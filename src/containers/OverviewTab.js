@@ -6,7 +6,7 @@ import Flex from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
-import { fetchDevices } from '../actions/deviceActions';
+import { fetchDevices } from '../actionsRequest/deviceRequest';
 import { pushPacketCountToday } from '../actions/packetActions';
 import {
   analyzeAggregationByDevice,
@@ -156,7 +156,7 @@ class OverviewTab extends Component {
     // this.fetchCombinedTrafficData();
     //
     // // Fetch all the things.
-    // fetchDevices(networkId);
+    // fetchDevices({ networkId });
     // this.fetchAllDeviceGraphs();
     // analyzeAggregationByDevice();
     // analyzeAggregationByDomain();
@@ -297,7 +297,7 @@ const mapStateToProps = state => {
   const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
   return {
-    devices: selectDeviceList(state),
+    devices: selectDeviceList(state) || [],
     mostRecentHosts: selectMostRecentDomains(state, 15),
     devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),

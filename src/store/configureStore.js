@@ -12,16 +12,12 @@ import {
   successMacToHits,
   failureMacToHits,
 } from '../actions/analyzeActions';
-import {
-  startFetchDevices,
-  successFetchDevices,
-  failureFetchDevices,
-} from '../actions/deviceActions';
 import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
 import packets from '../reducers/packets/packets';
 import packetActions from 'VizIoT/actions/packetActions';
 import { assignAll } from 'redux-act';
+import deviceActions from 'VizIoT/actions/deviceActions';
 
 // Store creation
 export default () => {
@@ -49,10 +45,7 @@ export default () => {
   successMacToHits.assignTo(store);
   failureMacToHits.assignTo(store);
 
-  startFetchDevices.assignTo(store);
-  successFetchDevices.assignTo(store);
-  failureFetchDevices.assignTo(store);
-
+  assignAll(deviceActions, store);
   assignAll(packetActions, store);
   return store;
 };
