@@ -30,11 +30,11 @@ export const requestAggregationByTime = (
   endMS
 ) => {
   startAnalyze();
-  const { call, ParamRecord } = analyzeApi[analyzeApiKeys.BY_TIME];
+  const { call, paramParser } = analyzeApi[analyzeApiKeys.BY_TIME];
 
   let bucketConfigJS = bucketConfig.toJS();
 
-  const requestBody = new ParamRecord({
+  const requestBody = new paramParser({
     selectionMode,
     macAddresses,
     ...bucketConfigJS,
@@ -69,9 +69,9 @@ export const requestAggregationByTime = (
 export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
   startCoreAnalyze();
 
-  const { call, ParamRecord } = analyzeApi[analyzeApiKeys.BY_LOCATION];
+  const { call, paramParser } = analyzeApi[analyzeApiKeys.BY_LOCATION];
 
-  const requestBody = new ParamRecord({
+  const requestBody = new paramParser({
     dimensions: [DeviceDimension.DOMAIN],
     metrics: [ConnectionMetric.HITS],
     reducer,
@@ -103,8 +103,8 @@ export const analyzeAggregationByDomain = (
 ) => {
   startCoreAnalyze();
 
-  const { call, ParamRecord } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
-  const customRecord = ParamRecord.set('startTime', startTime).set(
+  const { call, paramParser } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
+  const customRecord = paramParser.set('startTime', startTime).set(
     'endTime',
     endTime
   );
@@ -126,8 +126,8 @@ export const analyzeAggregationByDomain = (
 export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
   startCoreAnalyze();
 
-  const { call, ParamRecord } = analyzeApi[apiKey];
-  const customRecord = ParamRecord.set('startTime', startTime).set(
+  const { call, paramParser } = analyzeApi[apiKey];
+  const customRecord = paramParser.set('startTime', startTime).set(
     'endTime',
     endTime
   );
@@ -153,9 +153,9 @@ export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
 export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
   startMacToHits();
 
-  const { call, ParamRecord } = analyzeApi[analyzeApiKeys.MAC_TO_HITS];
+  const { call, paramParser } = analyzeApi[analyzeApiKeys.MAC_TO_HITS];
   return new Promise(resolve => {
-    call(ParamRecord)
+    call(paramParser)
       .then(resolve)
       .catch(error => {
         failureMacToHits();
@@ -163,7 +163,7 @@ export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
   }).then(res => {
     successMacToHits({
       payload: res.data,
-      requestBody: ParamRecord,
+      requestBody: paramParser,
     });
   });
 };

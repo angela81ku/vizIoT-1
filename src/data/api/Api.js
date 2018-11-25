@@ -2,8 +2,10 @@
 
 import { Record } from 'immutable';
 
+/* Api Entity */
+
 export default new Record({
   call: null,
-  ParamRecord: null,
-  ResponseRecord: null,
+  paramParser: null,
+  resParser: null,
 });

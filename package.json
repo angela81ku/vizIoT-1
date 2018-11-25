@@ -35,6 +35,8 @@
     "object-hash": "^1.2.0",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.0",
+    "ramda": "^0.26.0",
+    "ramda-lens": "^0.1.2",
     "react": "^16.4.2",
     "react-countup": "^4.0.0-alpha.6",
     "react-dom": "^16.4.2",

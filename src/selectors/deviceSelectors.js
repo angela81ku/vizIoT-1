@@ -6,6 +6,10 @@ import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
 import { getIn } from 'immutable';
+import * as R from 'ramda';
+import * as device from 'VizIoT/data/device/DeviceLenses';
+
+export const names = R.view(device.nameList);
 
 export const selectDeviceList = state => {
   return getIn(state, ['devices', 'deviceList', 'value']);

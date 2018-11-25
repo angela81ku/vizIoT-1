@@ -13,6 +13,7 @@ import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import TypographyComponents from 'UIBean/TypographyComponent';
+import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 
 const { H3 } = TypographyComponents;
 
@@ -77,6 +78,10 @@ class DeviceOverview extends Component {
         </DeviceCardWrapper>
       );
     });
+  }
+
+  componentWillMount() {
+    fetchDevices();
   }
 
   onCardHover = id => e => {

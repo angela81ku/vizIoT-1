@@ -8,14 +8,14 @@ export const packetApiKeys = {
   PACKET: 'packet',
 };
 
-const postRecent = paramRecord => {
-  return postCallWithRecord(paramRecord, `${newPacketUrl}/tcpData/recentData`);
+const postRecent = paramParser => {
+  return postCallWithRecord(paramParser, `${newPacketUrl}/tcpData/recentData`);
 };
 
 export const packetApi = {
   [packetApiKeys.PACKET]: {
     call: postRecent,
-    ParamRecord: new Record({
+    paramParser: new Record({
       pastMS: 0,
     }),
   },
