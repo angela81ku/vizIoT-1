@@ -128,20 +128,8 @@ DeviceOverview.propTypes = {
   devices: PropTypes.array.isRequired,
 };
 
-const dummyDevices = [
-  { id: 0, alias: 'Google Home Mini' },
-  { id: 1, alias: 'Xiaomi' },
-  { id: 2, alias: 'Echo-1' },
-  { id: 3, alias: 'Philips' },
-  { id: 4, alias: 'Name 4' },
-  { id: 5, alias: 'Name 5' },
-  { id: 6, alias: 'Name 6' },
-];
-
 export default connect(state => {
-  let devices = selectDeviceList(state) || [];
-  devices = devices.length ? devices : dummyDevices;
   return ({
-    devices,
+    devices: selectDeviceList(state) || [],
   });
 })(DeviceOverview);

@@ -1,4 +1,5 @@
-// Returns a list of device objects
+'use es6';
+
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
 import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
 import DataReducerTypes from '../constants/DataReducerTypes';
@@ -9,10 +10,9 @@ import { getIn } from 'immutable';
 import * as R from 'ramda';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 
-export const names = R.view(device.nameList);
-
 export const selectDeviceList = state => {
-  return getIn(state, ['devices', 'deviceList', 'value']);
+  const data = R.view(device.deviceListValue, state);
+  return data && data.toJS();
 };
 
 export const selectNumberOfDevices = state => {

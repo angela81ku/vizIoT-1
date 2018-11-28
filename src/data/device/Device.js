@@ -7,6 +7,7 @@ import { List, Record } from 'immutable';
 export const Device = new Record({
   id: null,
   name: null,
+  shortName: null,
   category: null,
 });
 

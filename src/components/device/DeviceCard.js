@@ -96,9 +96,9 @@ const DeviceSecurityMetrics = styled(FlexChild)`
   text-align: right;
 `;
 
-const DContent = shouldUpdate((props, nextProps) => false)(styled(Flex)`
+const DContent = styled(Flex)`
   height: 100%;
-`);
+`;
 
 const DRight = styled(FlexChild)`
   display: flex;
@@ -110,10 +110,9 @@ const DeviceCard = ({
   onHover,
   onLeaveHover,
   active,
-  device: { id, alias },
+  device: { id, name, category },
 }) => {
   const lastSeen = 'Several seconds ago';
-
   return (
     <DCard
       onMouseEnter={onHover}
@@ -125,8 +124,8 @@ const DeviceCard = ({
       <DContent>
         <DRight className="p-4" grow={10}>
           <FlexChild>
-            <DCategory className="p-bot-1">{'Voice Assistant'}</DCategory>
-            <DName>{alias}</DName>
+            <DCategory className="p-bot-1">{category}</DCategory>
+            <DName>{name}</DName>
           </FlexChild>
           <FlexChild>
             <ConnectionsLabel className="m-tb-2">
@@ -170,5 +169,6 @@ DeviceCard.propTypes = {
 };
 
 export default shouldUpdate((props, nextProps) => {
-  return props.active !== nextProps.active;
+  return props.active !== nextProps.active ||
+    props.device !== nextProps.device;
 })(DeviceCard);
