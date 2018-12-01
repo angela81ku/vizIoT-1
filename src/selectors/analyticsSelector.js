@@ -10,7 +10,9 @@ import { DateConstants } from '../constants/DateConstants';
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
 import { getIn } from 'immutable';
 import TimeMetric from '../data/metrics/TimeMetric';
-import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import { selectDeviceIdList, selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import * as deviceData from 'VizIoT/data/device/DeviceDataLenses';
+import * as R from 'ramda';
 
 export const selectDataWithHash = ({ analytics }, hash) => {
   return analytics.values[hash];
@@ -111,4 +113,8 @@ export const selectBusiestDevice = state => {
     { name: '~', value: 0 }
   );
   return mostPopularEntry;
+};
+
+export const selectDataForAllDevices = state => {
+  return R.view(deviceData.allData)(state);
 };

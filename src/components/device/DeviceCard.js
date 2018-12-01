@@ -92,7 +92,7 @@ const ConnectionDestinationHost = styled.span`
   font-weight: 700;
 `;
 
-const DeviceSecurityMetrics = styled(FlexChild)`
+const DeviceDownloadMetrics = styled(FlexChild)`
   text-align: right;
 `;
 
@@ -111,6 +111,10 @@ const DeviceCard = ({
   onLeaveHover,
   active,
   device: { id, name, category },
+  velocity,
+  total,
+  upload,
+  download,
 }) => {
   const lastSeen = 'Several seconds ago';
   return (
@@ -129,24 +133,27 @@ const DeviceCard = ({
           </FlexChild>
           <FlexChild>
             <ConnectionsLabel className="m-tb-2">
-              <ConnectionsValue>{id}</ConnectionsValue>
+              <ConnectionsValue>{velocity || '~'}</ConnectionsValue>
               {' packets / s'}
             </ConnectionsLabel>
             <ConnectionDestination>
                 {'90.5% to '}
                 <ConnectionDestinationHost>
-                  google.com
+                  {'google.com'}
                 </ConnectionDestinationHost>
               </ConnectionDestination>
           </FlexChild>
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
               <FlexChild size={{ xs: 4 }}>
-                <BIcon type={'eva'} name="cube" /> 230
+                <BIcon type={'fas'} name="box" /> {total || '~'}
               </FlexChild>
-              <DeviceSecurityMetrics size={{ xs: 4 }}>
-                <BIcon name="lock" /> 33.2%
-              </DeviceSecurityMetrics>
+              <DeviceDownloadMetrics size={{ xs: 4 }}>
+                <BIcon type={'fas'} name="arrow-alt-circle-up" /> {upload || '~'}
+              </DeviceDownloadMetrics>
+              <DeviceDownloadMetrics size={{ xs: 4 }}>
+                <BIcon type={'fas'} name="arrow-alt-circle-down" /> {download || '~'}
+              </DeviceDownloadMetrics>
             </Flex>
           </FlexChild>
         </DRight>
@@ -159,6 +166,10 @@ DeviceCard.defaultProps = {
   onHover: () => {},
   onLeaveHover: () => {},
   active: false,
+  velocity: null,
+  total: null,
+  upload: null,
+  download: null,
 };
 
 DeviceCard.propTypes = {
@@ -166,6 +177,10 @@ DeviceCard.propTypes = {
   onHover: PropTypes.func,
   onLeaveHover: PropTypes.func,
   active: PropTypes.bool,
+  velocity: PropTypes.number,
+  total: PropTypes.number,
+  upload: PropTypes.number,
+  download: PropTypes.number,
 };
 
 export default shouldUpdate((props, nextProps) => {

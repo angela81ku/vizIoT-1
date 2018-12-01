@@ -16,8 +16,12 @@ export const selectDeviceList = state => {
 };
 
 export const selectNumberOfDevices = state => {
-  let deviceList = selectDeviceList(state) || [];
-  return deviceList ? deviceList.length : 0;
+  return R.view(device.count)(state);
+};
+
+export const selectDeviceIdList = state => {
+  const data = R.view(device.idList, state);
+  return data && data.toJS();
 };
 
 export const selectEntireNetwork = ({ devices: { entireNetwork } }) => {

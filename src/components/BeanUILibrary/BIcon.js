@@ -38,7 +38,10 @@ class BIcon extends Component {
 
 
   componentDidMount() {
-    eva.replace();
+    const { type } = this.props;
+    if (type === 'eva') {
+      eva.replace();
+    }
   }
 }
 

@@ -14,6 +14,8 @@ import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import TypographyComponents from 'UIBean/TypographyComponent';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
+import { selectDataForAllDevices } from 'VizIoT/selectors/analyticsSelector';
+import { getIn } from 'immutable';
 
 const { H3 } = TypographyComponents;
 
@@ -57,12 +59,17 @@ const DeviceCardWrapper = styled(FlexSize)`
 class DeviceOverview extends Component {
   static renderDevicesAsCards(
     devices,
+    deviceToData,
     hoveredDevice,
     onCardHover,
-    onCardLeaveHover
+    onCardLeaveHover,
   ) {
     return devices.map(device => {
       const { id } = device;
+      const deviceData = deviceToData[id];
+      const velocity = getIn(deviceData, ['velocity']);
+      const total = getIn(deviceData, ['total']);
+
       return (
         <DeviceCardWrapper
           key={id}
@@ -74,6 +81,8 @@ class DeviceOverview extends Component {
             onLeaveHover={onCardLeaveHover}
             active={hoveredDevice !== null && hoveredDevice !== id}
             device={device}
+            velocity={velocity}
+            total={total}
           />
         </DeviceCardWrapper>
       );
@@ -101,7 +110,7 @@ class DeviceOverview extends Component {
   };
 
   render() {
-    const { devices } = this.props;
+    const { devices, deviceToData } = this.props;
     const { hoveredDevice } = this.state;
     return (
       <PageBackground>
@@ -113,9 +122,10 @@ class DeviceOverview extends Component {
           <Flex gutter={2} className="p-top-5">
             {DeviceOverview.renderDevicesAsCards(
               devices,
+              deviceToData,
               hoveredDevice,
               this.onCardHover,
-              this.onCardLeaveHover
+              this.onCardLeaveHover,
             )}
           </Flex>
         </PageContent>
@@ -126,10 +136,15 @@ class DeviceOverview extends Component {
 
 DeviceOverview.propTypes = {
   devices: PropTypes.array.isRequired,
+  deviceToData: PropTypes.objectOf({
+    velocity: PropTypes.number,
+    total: PropTypes.number,
+  }),
 };
 
 export default connect(state => {
   return ({
     devices: selectDeviceList(state) || [],
+    deviceToData: {} || selectDataForAllDevices(state) || {},
   });
 })(DeviceOverview);
