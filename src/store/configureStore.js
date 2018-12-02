@@ -10,7 +10,7 @@ import {
   failureCoreAnalyze,
   startMacToHits,
   successMacToHits,
-  failureMacToHits,
+  failureMacToHits, analyticActionBundle,
 } from '../actions/analyzeActions';
 import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
@@ -18,6 +18,7 @@ import packets from '../reducers/packets/packets';
 import packetActions from 'VizIoT/actions/packetActions';
 import { assignAll } from 'redux-act';
 import deviceActions from 'VizIoT/actions/deviceActions';
+import analyticImm from 'VizIoT/reducers/analytics/analyticImm';
 
 // Store creation
 export default () => {
@@ -28,6 +29,7 @@ export default () => {
       chartConfig,
       analytics,
       packets,
+      analyticImm,
     }),
     // This is for Redux DevTools
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -47,6 +49,7 @@ export default () => {
 
   assignAll(deviceActions, store);
   assignAll(packetActions, store);
+  assignAll(analyticActionBundle, store);
   return store;
 };
 

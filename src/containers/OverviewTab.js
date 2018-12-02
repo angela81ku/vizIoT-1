@@ -44,6 +44,7 @@ import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
 import { H1 } from 'UIBean/functional-css/TypographyStyles';
+import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -152,6 +153,8 @@ class OverviewTab extends Component {
 
   componentWillMount() {
     const { networkId } = this.props;
+
+    fetchAnalytic();
 
     // this.fetchCombinedTrafficData();
     //

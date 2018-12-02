@@ -4,6 +4,7 @@ import DeviceDimension from '../data/dimensions/DeviceDimension';
 import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
+import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
 
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
@@ -167,3 +168,5 @@ export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
     });
   });
 };
+
+export const analyticActionBundle = createRequestActions('analytic');

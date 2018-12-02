@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { headers, baseUrl } from 'VizIoT/constants/RequestConstants';
-import { Record } from 'immutable';
+import { fromJS, Record } from 'immutable';
 import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
 import AnalyticsRequest from 'VizIoT/data/records/AnalyticsRequest';
 import GeoDimension from 'VizIoT/data/dimensions/GeoDimension';
@@ -10,6 +10,8 @@ import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
 import DeviceDimension from 'VizIoT/data/dimensions/DeviceDimension';
 import TimeDimension from 'VizIoT/data/dimensions/TimeDimension';
 import { postCallWithRecord } from 'VizIoT/data/api/apiUtils';
+import { createMockCall } from 'VizIoT/utility/ApiUtility';
+import ApiRecord from 'VizIoT/data/api/Api';
 
 const analyzeAggregationCore = payloadRecord => {
   return postCallWithRecord(payloadRecord, `${baseUrl}/api/analyze/core`);
@@ -35,6 +37,7 @@ export const analyzeApiKeys = {
   DOMAIN_TO_HITS: 'domainToHits',
   TIME_TO_DOMAIN: 'timeToDomain',
   TIME_TO_LOG: 'timeToLog',
+  TESTING: 'testing',
 };
 
 export const analyzeApi = {
@@ -117,4 +120,16 @@ export const analyzeApi = {
       endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
   },
+
+  [analyzeApiKeys.TESTING]: new ApiRecord({
+    call: () => { return createMockCall({ data: ['some analysis data'] }) },
+    paramParser: p => new AnalyticsRequest({
+      dimensions: [TimeDimension.TIMESTAMP],
+      metrics: [GeoDimension.DESTINATION, GeoDimension.ORIGIN],
+      reducer: DataReducerTypes.INDIVIDUAL,
+      startTime: convertDateTypeToString[DateConstants.TODAY](),
+      endTime: convertDateTypeToString[DateConstants.NOW](),
+    }),
+    resParser: fromJS,
+  })
 };
