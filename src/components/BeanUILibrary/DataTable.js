@@ -8,42 +8,6 @@ import { Column, Table, defaultTableRowRenderer } from 'react-virtualized'
 import 'react-virtualized/styles.css';
 import { H5 } from 'UIBean/functional-css/TypographyStyles';
 
-const StyledTable = styled(Table)`
-  & > .ReactVirtualized__Table__headerRow {
-    text-transform: initial;
-    font-weight: 400;
-    ${H5}
-  }
-  
-  & .ReactVirtualized__Table__row {
-    background: white;
-    color: #48515d;
-    .ReactVirtualized__Table__rowColumn {
-      line-height: initial;    
-    }
-  }
-  
-  .ReactVirtualized__Table__rowColumn:first-child {
-    color: #939dab;
-  }
-  
-  .ReactVirtualized__Table__rowColumn:nth-child(2) {
-    font-weight: 700;
-  }
-  
-  .ReactVirtualized__Table__row:after {
-    content: '';
-    margin: auto;
-    position: absolute;
-    width: 90%;
-    height: 1px;
-    top: 98%;
-    left: 5%;
-    right: 5%;
-    background: #b9b7b666;
-  }
-`;
-
 const TableHeaderRow = styled.div`
 `;
 
@@ -72,7 +36,7 @@ class DataTable extends React.Component {
   }
 
   render() {
-    const { headerData, rowData } = this.props;
+    const { headerData, rowData, ...rest } = this.props;
     // const rowRenderer = ({index,       // Index of row
     //                       columns,
     //                        className,
@@ -92,27 +56,29 @@ class DataTable extends React.Component {
 
     console.log(rowData);
     return (
-      <StyledTable
+      <Table
         ref={this.testTableRef}
-        className="logger-table"
-        height={700}
-        width={760}
-        headerHeight={20}
-        rowHeight={50}
         rowCount={rowData.length}
         scrollToRow={this.state.scrollRow}
         // rowRenderer={rowRenderer}
         rowGetter={({ index }) => rowData[index]}
+        {...rest}
       >
         {
           headerData.map(({ label, key, width }) => {
             return <Column key={key} label={label} dataKey={key} width={width} />
           })
         }
-      </StyledTable>
+      </Table>
     );
   }
 }
+
+DataTable.defaultProps = {
+  rowHeight: 50,
+  headerHeight: 20,
+  rowRenderer: defaultTableRowRenderer,
+};
 
 DataTable.propTypes = {
   headerData: PropTypes.arrayOf(PropTypes.shape({
@@ -122,6 +88,11 @@ DataTable.propTypes = {
   })).isRequired,
   rowData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
   children: PropTypes.any,
+  rowHeight: PropTypes.number,
+  headerHeight: PropTypes.number,
+  height: PropTypes.number,
+  width: PropTypes.number,
+  rowRenderer: PropTypes.func,
 };
 
 export default DataTable;

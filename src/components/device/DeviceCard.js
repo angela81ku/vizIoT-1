@@ -12,7 +12,7 @@ import BIcon from 'UIBean/BIcon';
 import {
   OFF_BLACK,
   ORANGE_PEEL,
-  TRON, EXTRA_LIGHT_COLOR,
+  TRON, EXTRA_LIGHT_COLOR, OFF_WHITE,
 } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
 const { H5 } = TypographyComponent;
@@ -29,7 +29,6 @@ const DCard = styled(BCard)`
   
   // Tron version
   background-color: #67a8d812;
-  color: #ffffff; 
   border: #0f3b5c 1px solid;
 
   // border-style: solid;
@@ -66,7 +65,7 @@ const DName = styled(H5)`
 const DCategory = styled.div`
   font-weight: 400;
   margin-bottom: 4px;
-  color: ${EXTRA_LIGHT_COLOR};
+  color: ${OFF_WHITE};
   text-transform: uppercase;
   font-size: 1.1rem;
   letter-spacing: 2px;
@@ -84,16 +83,16 @@ const ConnectionsValue = styled.span`
 const ConnectionDestination = styled.span`
   margin-top: 6px;
   font-size: 1.2rem;
-  color: ${EXTRA_LIGHT_COLOR};
 `;
 
 const ConnectionDestinationHost = styled.span`
-  color: ${EXTRA_LIGHT_COLOR};
   font-weight: 700;
 `;
 
 const DeviceDownloadMetrics = styled(FlexChild)`
   text-align: right;
+  color: ${TRON};
+  opacity: 0.70;
 `;
 
 const DContent = styled(Flex)`
@@ -113,8 +112,9 @@ const DeviceCard = ({
   device: { id, name, category },
   velocity,
   total,
-  upload,
-  download,
+  dataIn,
+  dataOut,
+
 }) => {
   const lastSeen = 'Several seconds ago';
   return (
@@ -132,7 +132,7 @@ const DeviceCard = ({
             <DName>{name}</DName>
           </FlexChild>
           <FlexChild>
-            <ConnectionsLabel className="m-tb-2">
+            <ConnectionsLabel className="m-top-2 m-bot-4">
               <ConnectionsValue>{velocity || '~'}</ConnectionsValue>
               {' packets / s'}
             </ConnectionsLabel>
@@ -145,14 +145,14 @@ const DeviceCard = ({
           </FlexChild>
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
-              <FlexChild size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="box" /> {total || '~'}
-              </FlexChild>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-up" /> {upload || '~'}
+                <BIcon type={'fas'} name="box" className="m-right-1" /> {total || '~'}
               </DeviceDownloadMetrics>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-down" /> {download || '~'}
+                <BIcon type={'fas'} name="arrow-alt-circle-up" className="m-right-1" /> {dataIn || '~'}
+              </DeviceDownloadMetrics>
+              <DeviceDownloadMetrics size={{ xs: 4 }}>
+                <BIcon type={'fas'} name="arrow-alt-circle-down" className="m-right-1" /> {dataOut || '~'}
               </DeviceDownloadMetrics>
             </Flex>
           </FlexChild>
@@ -168,8 +168,8 @@ DeviceCard.defaultProps = {
   active: false,
   velocity: null,
   total: null,
-  upload: null,
-  download: null,
+  dataIn: null,
+  dataOut: null,
 };
 
 DeviceCard.propTypes = {
@@ -179,8 +179,8 @@ DeviceCard.propTypes = {
   active: PropTypes.bool,
   velocity: PropTypes.number,
   total: PropTypes.number,
-  upload: PropTypes.number,
-  download: PropTypes.number,
+  dataIn: PropTypes.number,
+  dataOut: PropTypes.number,
 };
 
 export default shouldUpdate((props, nextProps) => {

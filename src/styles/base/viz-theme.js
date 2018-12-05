@@ -1,9 +1,11 @@
-export const TRON = '#14b3ab';
+export const TRON = '#13d4b7';
 export const ORANGE_PEEL = '#f7931e';
 export const RED = '#ff4159';
 export const LINK_BLUE = '#4083d4';
 
+export const TEXT = '#fff';
 export const LIGHT_BLACK = '#727272';
+export const OFF_WHITE = 'rgb(201, 201, 201)';
 export const OFF_BLACK = '#505050';
 
 export const SHADOW_COLOR_NORM = 'rgba(0, 0, 0, 0.12)';

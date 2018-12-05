@@ -5,19 +5,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Flex from 'UIBean/Flex';
-import FlexSize from 'UIBean/FlexSize';
-import DeviceCard from '../components/device/DeviceCard';
-
 import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
-import TypographyComponents from 'UIBean/TypographyComponent';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 import { selectDataForAllDevices } from 'VizIoT/selectors/analyticsSelector';
-import { getIn } from 'immutable';
-
-const { H3 } = TypographyComponents;
+import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 
 const TitleContainer = styled.div`
   
@@ -41,77 +34,14 @@ const PageContent = styled.div`
   padding-right: 6%;
 `;
 
-const DeviceCardWrapper = styled(FlexSize)`
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-  
-  /* The element to apply the animation to */
-  // & > div {
-  //   animation-name: example;
-  //   animation-duration: 2s;
-  //   animation-iteration-count: infinite;
-  //   animation-direction: alternate;
-  // }
-  
-`;
 
 class DeviceOverview extends Component {
-  static renderDevicesAsCards(
-    devices,
-    deviceToData,
-    hoveredDevice,
-    onCardHover,
-    onCardLeaveHover,
-  ) {
-    return devices.map(device => {
-      const { id } = device;
-      const deviceData = deviceToData[id];
-      const velocity = getIn(deviceData, ['velocity']);
-      const total = getIn(deviceData, ['total']);
-
-      return (
-        <DeviceCardWrapper
-          key={id}
-          size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2 }}
-          space="m-bot-4"
-        >
-          <DeviceCard
-            onHover={onCardHover(id)}
-            onLeaveHover={onCardLeaveHover}
-            active={hoveredDevice !== null && hoveredDevice !== id}
-            device={device}
-            velocity={velocity}
-            total={total}
-          />
-        </DeviceCardWrapper>
-      );
-    });
-  }
-
   componentWillMount() {
     fetchDevices();
   }
 
-  onCardHover = id => e => {
-    this.setState({
-      hoveredDevice: id,
-    });
-  };
-
-  onCardLeaveHover = e => {
-    this.setState({
-      hoveredDevice: null,
-    });
-  };
-
-  state = {
-    hoveredDevice: null,
-  };
-
   render() {
     const { devices, deviceToData } = this.props;
-    const { hoveredDevice } = this.state;
     return (
       <PageBackground>
         <PageContent>
@@ -119,15 +49,7 @@ class DeviceOverview extends Component {
             <SectionTitle title="Devices" size="lg" cardPadding={false} />
             <SectionSubtitle text="Explore and analyze your device activities" margins={true} />
           </TitleContainer>
-          <Flex gutter={2} className="p-top-5">
-            {DeviceOverview.renderDevicesAsCards(
-              devices,
-              deviceToData,
-              hoveredDevice,
-              this.onCardHover,
-              this.onCardLeaveHover,
-            )}
-          </Flex>
+          <DeviceCollection mode={'LIST'} devices={devices} deviceToData={deviceToData} />
         </PageContent>
       </PageBackground>
     );
@@ -145,6 +67,6 @@ DeviceOverview.propTypes = {
 export default connect(state => {
   return ({
     devices: selectDeviceList(state) || [],
-    deviceToData: {} || selectDataForAllDevices(state) || {},
+    deviceToData: selectDataForAllDevices(state),
   });
 })(DeviceOverview);

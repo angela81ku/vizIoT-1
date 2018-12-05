@@ -36,7 +36,7 @@ const getFont = ({ size }) => {
     case Sizes.MEDIUM:
       return H3;
     case Sizes.LARGE:
-      return H0;
+      return `${H0} font-family: "DIN 2014";`;
     default:
       return '';
   }
@@ -46,6 +46,7 @@ const Title = styled.div`
   ${getFont}
   ${getLetterSpacing}
   font-weight: 300;
+  text-transform: uppercase;
 `;
 
 const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);

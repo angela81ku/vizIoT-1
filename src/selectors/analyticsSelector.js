@@ -116,5 +116,29 @@ export const selectBusiestDevice = state => {
 };
 
 export const selectDataForAllDevices = state => {
-  return R.view(deviceData.allData)(state);
+  // TODO remove mock
+  return {
+    0: {
+      total: 530,
+      dataIn: 230,
+      dataOut: 300,
+      velocity: 30,
+      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+    },
+    1: {
+      total: 530,
+      dataIn: 230,
+      dataOut: 300,
+      velocity: 30,
+      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+    },
+    2: {
+      total: 530,
+      dataIn: 230,
+      dataOut: 300,
+      velocity: 30,
+      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+    },
+  }
+  // return R.view(deviceData.allData)(state);
 };
