@@ -2,29 +2,37 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import keyMirror from 'keymirror';
 import { Redirect, Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
 
 import TabTitle from '../components/TabTitle';
 import OverviewTab from './OverviewTab';
 import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from 'UIBean/CoverFlow';
-
-import TabRow from 'UIBean/TabRow';
-import TabItem from 'UIBean/TabItem';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
-import { tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
+import { getTabByPath, tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
 import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 import AppMenuBar from 'VizIoT/components/AppMenuBar';
+import Navigator from 'VizIoT/components/Navigator';
+import { BACKGROUND_COLOR } from 'VizIoT/styles/base/viz-theme';
+
+const Background = styled.div`
+  z-index: -2;
+  background: ${BACKGROUND_COLOR};
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
 
 class VizIoT extends React.Component {
   state = {
     redirectTo: null,
     showTitle: true,
     scheduler: null,
+    showNav: false,
   };
 
   componentWillReceiveProps(props) {
@@ -40,17 +48,6 @@ class VizIoT extends React.Component {
   componentDidMount() {
     this.scheduleHideTitle();
   }
-
-  getTabByPath(path) {
-    const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
-    return Tabs[key];
-  }
-
-  // getCurrentTabIdxFromLocation() {
-  //   const { location } = this.props;
-  //   const { key } = this.getTabByPath(location.pathname) || {};
-  //   return _.indexOf(tabOrder, key);
-  // }
 
   scheduleHideTitle = () => {
     const { scheduler } = this.state;
@@ -69,35 +66,37 @@ class VizIoT extends React.Component {
     return <TabTitle subtitle={title} show={this.state.showTitle} />;
   }
 
-  handleLeftArrow = () => {
-    // let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
-    // if (currentTabIndex >= 0) {
-    //   const nextTabIndex =
-    //     --currentTabIndex < 0 ? tabOrder.length - 1 : currentTabIndex;
-    //   this.setState(() => ({
-    //     showTitle: true,
-    //     scheduler: null,
-    //     redirectTo: Tabs[tabOrder[nextTabIndex]].path,
-    //   }));
-    //   this.scheduleHideTitle();
-    // }
+  // handleRightArrow = () => {
+  //   let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
+  //   if (currentTabIndex >= 0) {
+  //     const nextTabIndex = ++currentTabIndex % tabOrder.length;
+  //     this.setState(() => ({
+  //       showTitle: true,
+  //       scheduler: null,
+  //       redirectTo: Tabs[tabOrder[nextTabIndex]].path,
+  //     }));
+  //     this.scheduleHideTitle();
+  //   }
+  // };
+
+  onToggleNav = () => {
+    this.setState({
+      showNav: !this.state.showNav,
+    });
   };
 
-  handleRightArrow = () => {
-    // let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
-    // if (currentTabIndex >= 0) {
-    //   const nextTabIndex = ++currentTabIndex % tabOrder.length;
-    //   this.setState(() => ({
-    //     showTitle: true,
-    //     scheduler: null,
-    //     redirectTo: Tabs[tabOrder[nextTabIndex]].path,
-    //   }));
-    //   this.scheduleHideTitle();
-    // }
+  handleKeyDown = e => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      console.log('here');
+      this.onToggleNav();
+    }
   };
+
+
 
   render() {
-    const { redirectTo } = this.state;
+    const { redirectTo, showNav } = this.state;
     const { location } = this.props;
 
     // If the current location is diff from the state's index
@@ -106,15 +105,16 @@ class VizIoT extends React.Component {
       return <Redirect to={redirectTo} />;
     }
 
-    const maybeTab = this.getTabByPath(location.pathname);
+    const maybeTab = getTabByPath(location.pathname);
     const { title, background } = maybeTab || {};
 
     return (
-      <div id="root-container">
-        <div className={`tint-background ${background && background}`} />
+      <div id="root-container" onKeyDown={this.handleKeyDown}>
+        <Background />
         {title && this.renderTitle(title)}
         <div>
-          <AppMenuBar location={location} />
+          <AppMenuBar />
+          <Navigator location={location} isHidden={showNav} />
           <ActivitySidebar />
           <CoverFlow
             location={location.key}

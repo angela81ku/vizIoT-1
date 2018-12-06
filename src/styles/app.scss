@@ -24,14 +24,6 @@
   max-width: 220rem;
 }
 
-.tint-background {
-  z-index: -2;
-  background: $background-color;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
 .tint-background2 {
   z-index: -1;
   position: fixed;

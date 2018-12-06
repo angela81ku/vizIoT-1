@@ -5,42 +5,36 @@ import moment from 'moment';
 import styled from 'styled-components';
 import Flex, { JustifyContent } from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
-import BIcon from 'UIBean/BIcon';
-import TabItem from 'UIBean/TabItem';
-import TabRow from 'UIBean/TabRow';
-import { tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
-import { _hideWhen } from 'UIBean/functional-css/layout';
+
+import { _sticky } from 'UIBean/functional-css/layout';
 import { ScreenSizes } from 'UIBean/Breakpoints';
-import { H3 } from 'UIBean/functional-css/TypographyStyles';
+import { H3, H4 } from 'UIBean/functional-css/TypographyStyles';
 
 const Background = styled(Flex)`
-  width: 100%;
+  ${_sticky}
+  top: 0;
+  right: 0;
+  width: 28rem;
   height: 150px;
-  padding: 0 6%;
+  padding-right: 6%;
+  z-index: 10;
   text-shadow: #67e5ff 0px 0px 40px;
 `;
 
 const LogoText = styled.div`
-  ${H3}
-  font-weight: 400;
-  text-align: left;
-  display: inline-flex;
+  font-size: 2.7rem;
+  font-family: 'DIN 2014';
+  font-weight: 600;
+  display: flex;
+  text-align: right;
+  justify-content: flex-end;
 `;
 
 const ClockText = styled.div`
-  ${H3}
+  ${H4}
   font-weight: lighter;
   text-align: right;
 `;
-
-const TabRowStyled = styled(TabRow)`
-  ${_hideWhen(ScreenSizes.sm)}
-`;
-
-const getTabByPath = path => {
-  const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
-  return Tabs[key];
-};
 
 class AppMenuBar extends React.Component {
   state = {
@@ -66,33 +60,13 @@ class AppMenuBar extends React.Component {
   }
 
   render() {
-
-    const { key } = getTabByPath(this.props.location.pathname) || {};
-
     return (
-      <Background alignItems={JustifyContent.CENTER}
-                  justifyContent={JustifyContent.SPACE_BETWEEN}
-                  fillAll>
+      <Background alignItems={JustifyContent.FLEX_END}
+                  justifyContent={JustifyContent.SPACE_BETWEEN}>
+          <FlexChild grow={2} />
           <FlexChild grow={2}>
-            <LogoText className="appTime__logo">
-              <BIcon className="m-right-3" size={25} name="visibility" />
-              <span>VizIoT</span>
-            </LogoText>
-          </FlexChild>
-          <TabRowStyled>
-            {Object.keys(tabKeys).map(k => {
-              const { title, path } = Tabs[k];
-              return (
-                <TabItem key={k} active={key === k} to={path}>
-                  {title}
-                </TabItem>
-              );
-            })}
-          </TabRowStyled>
-          <FlexChild grow={2}>
-            <ClockText>
-              {this.state.currentMoment.format('h:mm:ss a').toUpperCase()}
-              </ClockText>
+            <LogoText className="appTime__logo">VizIoT</LogoText>
+            <ClockText>{this.state.currentMoment.format('h:mm:ss a').toUpperCase()}</ClockText>
           </FlexChild>
       </Background>
     );

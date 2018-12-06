@@ -25,7 +25,6 @@ const getLetterSpacing = ({ size }) => {
 
 const SectionTitleWrapper = styled.div`
   margin: ${props => props.cardPadding && CARD_CONTENT_PADDING};
-  margin-bottom: 0.5rem;
   color: ${HEADING_TEXT_COLOR};
 `;
 
@@ -36,7 +35,7 @@ const getFont = ({ size }) => {
     case Sizes.MEDIUM:
       return H3;
     case Sizes.LARGE:
-      return `${H0} font-family: "DIN 2014";`;
+      return `${H0} font-family: "DIN 2014"; text-shadow: #67e5ffc7 0px 0px 33px;`;
     default:
       return '';
   }
@@ -45,6 +44,7 @@ const getFont = ({ size }) => {
 const Title = styled.div`
   ${getFont}
   ${getLetterSpacing}
+  margin-bottom: ${({ verticalSpace }) => verticalSpace ? '1rem' : '0rem'};;
   font-weight: 300;
   text-transform: uppercase;
 `;
@@ -64,10 +64,12 @@ SectionTitle.propTypes = {
   title: PropTypes.string.isRequired,
   cardPadding: PropTypes.bool,
   size: PropTypes.oneOf(ListOfSizes),
+  verticalSpace: PropTypes.bool,
 };
 
 SectionTitle.defaultProps = {
   cardPadding: true,
+  verticalSpace: true,
   size: Sizes.SMALL,
 };
 

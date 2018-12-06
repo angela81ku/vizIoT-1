@@ -43,4 +43,9 @@ export const Tabs = {
   },
 };
 
+export const getTabByPath = path => {
+  const key = Object.keys(tabKeys).filter(k => Tabs[k].path === path);
+  return Tabs[key];
+};
+
 const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];

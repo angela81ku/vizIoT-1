@@ -29,9 +29,9 @@ const PageBackground = styled.div`
 `;
 
 const PageContent = styled.div`
-  padding-top: 10px;
-  padding-left: 6%;
-  padding-right: 6%;
+  padding-top: 45px;
+  padding-left: 7%;
+  padding-right: 7%;
 `;
 
 

@@ -4,6 +4,7 @@ export const RED = '#ff4159';
 export const LINK_BLUE = '#4083d4';
 
 export const TEXT = '#fff';
+export const BACKGROUND_COLOR = '#0e0f19';
 export const LIGHT_BLACK = '#727272';
 export const OFF_WHITE = 'rgb(201, 201, 201)';
 export const OFF_BLACK = '#505050';

@@ -3,13 +3,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const TabRowContainer = styled.div`
+const TabColumnContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
   
   min-height: 50px;
   flex-wrap: wrap;
+  width: 100%;
 `;
 
 const Streak = styled.div`
@@ -27,14 +29,14 @@ const Streak = styled.div`
   opacity: 0.3;
 `;
 
-export default class TabRow extends Component {
+export default class TabColumn extends Component {
   render() {
     const { children, ...rest } = this.props;
     return (
-      <div>
-        <TabRowContainer {...rest}>{children}</TabRowContainer>
-        <Streak />
-      </div>
+      <React.Fragment>
+        <TabColumnContainer {...rest}>{children}</TabColumnContainer>
+        {/*<Streak />*/}
+      </React.Fragment>
     );
   }
 }

@@ -17,6 +17,7 @@ export const JustifyContent = {
   INITIAL: 'initial',
   CENTER: 'center',
   FLEX_START: 'flex-start',
+  FLEX_END: 'flex-end',
   SPACE_BETWEEN: 'space-between',
   SPACE_AROUND: 'space-around',
 };

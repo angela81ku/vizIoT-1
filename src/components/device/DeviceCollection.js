@@ -38,26 +38,38 @@ const StyledTable = styled(DataTable)`
   }
   
   & .ReactVirtualized__Table__row {
-    // background: rgba(255, 255, 255, 0.05);
     ${H6}
     font-weight: 300;
     color: ${OFF_WHITE};
     // padding: 0 10px;
-    box-sizing: border-box;
-    // background: ${TRON}08;
-   
+    overflow: visible !important;
+    cursor: pointer;
+
     .ReactVirtualized__Table__rowColumn {
       line-height: initial;
     }
     
-    &:hover {
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    
       border: 2px solid ${TRON};
-      color: ${TEXT};
-      box-shadow: 0px 0px 43px ${TRON}59, 0px 0px 20px ${TRON}7a inset;
-      background: ${TRON}42;
+      box-shadow: 0px 0px 43px #13d4b759, 0px 0px 30px #13d4b726 inset;
+      background: ${TRON}33;
       margin: 0 -2px; /* this prevents shifting due to border */
-      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
+    
+    &:hover {
+      color: ${TEXT};
+      &::after {
+        opacity: 1;
+    }
+    
   }
   
   .ReactVirtualized__Table__rowColumn:first-child {

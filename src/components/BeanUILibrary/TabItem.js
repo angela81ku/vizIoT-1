@@ -6,15 +6,12 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { BODY_TEXT_COLOR } from 'VizIoT/styles/base/viz-theme';
-import TypographyComponent from 'UIBean/TypographyComponent';
-
-const { H4 } = TypographyComponent;
 
 const TabContainer = styled(NavLink)`
   margin: 0 30px;
 `;
 
-const Container = styled(H4)`
+const Container = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -53,15 +50,31 @@ const Underline = styled.div`
   margin: -2.5px auto;
 `;
 
+const Streak = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.98) 50%,
+    rgba(255, 255, 255, 1) 51%,
+    rgba(255, 255, 255, 0) 99%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.3;
+`;
+
 export default class TabItem extends Component {
   render() {
-    const { active, hover, to, children } = this.props;
+    const { active, hover, to, children, ...rest } = this.props;
     return (
-      <TabContainer to={to}>
+      <TabContainer to={to} {...rest}>
+        {active && <Streak />}
         <Container active={active} hover={hover}>
           {children}
         </Container>
-        {active && <Underline />}
+        {active && <Streak />}
       </TabContainer>
     );
   }
