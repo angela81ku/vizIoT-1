@@ -18,6 +18,7 @@ import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
 import { BACKGROUND_COLOR } from 'VizIoT/styles/base/viz-theme';
+import { getIn } from 'immutable';
 
 const Background = styled.div`
   z-index: -2;
@@ -62,10 +63,6 @@ class VizIoT extends React.Component {
     }));
   };
 
-  renderTitle(title) {
-    return <TabTitle subtitle={title} show={this.state.showTitle} />;
-  }
-
   // handleRightArrow = () => {
   //   let currentTabIndex = this.getCurrentTabIdxFromLocation(); // May be OOB
   //   if (currentTabIndex >= 0) {
@@ -88,15 +85,12 @@ class VizIoT extends React.Component {
   handleKeyDown = e => {
     if (e.key === 'Tab') {
       e.preventDefault();
-      console.log('here');
       this.onToggleNav();
     }
   };
 
-
-
   render() {
-    const { redirectTo, showNav } = this.state;
+    const { redirectTo, showNav, showTitle } = this.state;
     const { location } = this.props;
 
     // If the current location is diff from the state's index
@@ -105,19 +99,18 @@ class VizIoT extends React.Component {
       return <Redirect to={redirectTo} />;
     }
 
-    const maybeTab = getTabByPath(location.pathname);
-    const { title, background } = maybeTab || {};
+    const title = getIn(getTabByPath(location.pathname), ['title'], '');
 
     return (
       <div id="root-container" onKeyDown={this.handleKeyDown}>
         <Background />
-        {title && this.renderTitle(title)}
+        <TabTitle subtitle={title} show={showTitle} />
         <div>
           <AppMenuBar />
-          <Navigator location={location} isHidden={showNav} />
+          <Navigator location={location} isHidden={!showNav} />
           <ActivitySidebar />
           <CoverFlow
-            location={location.key}
+            keyName={location.pathname}
             onLeft={this.handleLeftArrow}
             onRight={this.handleRightArrow}
           >

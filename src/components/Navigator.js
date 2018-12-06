@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import TabColumn from 'UIBean/TabColumn';
 import TabItem from 'UIBean/TabItem';
 import { TRON } from 'VizIoT/styles/base/viz-theme';
-import { H4 } from 'UIBean/functional-css/TypographyStyles';
+import { H3 } from 'UIBean/functional-css/TypographyStyles';
 import Flex from 'UIBean/Flex';
 import { _sticky } from 'UIBean/functional-css/layout';
 
@@ -29,7 +29,7 @@ const TabItemStyled = styled(TabItem)`
 `;
 
 const MenuText = styled.div`
-  ${H4}
+  ${H3}
   letter-spacing: 4px;
   text-transform: uppercase;
   font-weight: 600;
@@ -44,7 +44,7 @@ const Navigator = styled(Flex)`
   top: 0;
   left: 0;
   height: 100vh;
-  width: 30rem;
+  width: 40rem;
   z-index: 10;
   background: linear-gradient( to bottom,#040b17ed 0%,#040b17F0 48%,#040b17ed 100%);
 `;

@@ -4,13 +4,8 @@ import classnames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 class CoverFlow extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { classNames, key, children, onLeft, onRight } = this.props;
-
+    const { classNames, keyName, children, onLeft, onRight } = this.props;
     return (
       <div className={classnames('coverFlow', classNames)}>
         <div
@@ -27,9 +22,10 @@ class CoverFlow extends React.Component {
         </div>
         <TransitionGroup>
           <CSSTransition
-            key={key}
+            key={keyName}
             classNames="carousel"
-            timeout={{ enter: 2000, exit: 2000 }}
+            // timeout={{ enter: 2000, exit: 2000 }}
+            timeout={5000}
           >
             {children}
           </CSSTransition>
@@ -42,6 +38,7 @@ class CoverFlow extends React.Component {
 CoverFlow.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  keyName: PropTypes.string.isRequired,
 };
 
 export default CoverFlow;
