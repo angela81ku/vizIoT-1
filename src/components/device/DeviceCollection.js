@@ -150,23 +150,23 @@ export default class DeviceCollection extends Component {
       <Flex gutter={2} className="p-top-5">
         {
           devices.map(device => {
-            const { id } = device;
-            const deviceData = deviceToData[id];
-            const velocity = getIn(deviceData, ['velocity']);
-            const total = getIn(deviceData, ['total']);
-            const dataIn = getIn(deviceData, ['dataIn']);
-            const dataOut = getIn(deviceData, ['dataOut']);
+            const { _id } = device;
+            const deviceData = deviceToData[_id];
+            const velocity = getIn(deviceData, ['velocity'], 32);
+            const total = getIn(deviceData, ['total'], 66);
+            const dataIn = getIn(deviceData, ['dataIn'], 23);
+            const dataOut = getIn(deviceData, ['dataOut'], 43);
 
             return (
               <DeviceCardWrapper
-                key={id}
+                key={_id}
                 size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2 }}
                 space="m-bot-4"
               >
                 <DeviceCard
-                  onHover={onCardHover(id)}
+                  onHover={onCardHover(_id)}
                   onLeaveHover={onCardLeaveHover}
-                  active={hoveredDevice !== null && hoveredDevice !== id}
+                  active={hoveredDevice !== null && hoveredDevice !== _id}
                   device={device}
                   velocity={velocity}
                   total={total}
@@ -195,11 +195,17 @@ export default class DeviceCollection extends Component {
     const width = R.compose(R.sum, R.map(({ width }) => width))(headerData);
 
     const rowData = devices.reduce((acc, device) => {
-      const { id, name } = device;
-      const { total, dataIn, dataOut, velocity } = deviceToData[id];
+      const { _id, name } = device;
+      const deviceData = deviceToData[_id];
+      const velocity = getIn(deviceData, ['velocity'], 32);
+      const total = getIn(deviceData, ['total'], 66);
+      const dataIn = getIn(deviceData, ['dataIn'], 23);
+      const dataOut = getIn(deviceData, ['dataOut'], 43);
+
+      debugger
 
       const item = {
-        key: id,
+        key: _id,
         name,
         total,
         dataIn,
@@ -227,10 +233,10 @@ export default class DeviceCollection extends Component {
       <Flex className="p-top-5" direction={FlexDirection.COLUMN}>
         <SectionTitle size={'sm'} title={'VOICE ASSISTANT'} cardPadding={false} />
         {list}
-        <SectionTitle size={'sm'} title={'APPLIANCES'} cardPadding={false} />
-        {list}
-        <SectionTitle size={'sm'} title={'ACTUATORS'} cardPadding={false} />
-        {list}
+        {/*<SectionTitle size={'sm'} title={'APPLIANCES'} cardPadding={false} />*/}
+        {/*{list}*/}
+        {/*<SectionTitle size={'sm'} title={'ACTUATORS'} cardPadding={false} />*/}
+        {/*{list}*/}
       </Flex>
     )
   }

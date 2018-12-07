@@ -8,32 +8,30 @@ import { createMockCall } from 'VizIoT/utility/ApiUtility';
 
 export const fetchDevices = new ApiRecord({
   call: ({ networkId }) => {
-    return createMockCall({data: {
-      devices: [
-        {
-          id: 0,
-          name: 'Google Home Mini',
-          shortName: 'MINI',
-          category: 'Voice Assistant',
-        },
-        {
-          id: 1,
-          name: 'Xiaomi Rice Cooker',
-          shortName: 'RICE',
-          category: 'Appliance',
-        },
-        {
-          id: 2,
-          name: 'Philips Hue',
-          shortName: 'HUE',
-          category: 'Lighting',
-        }
-      ],
-    }});
+    // return createMockCall({data: [
+    //     {
+    //       _id: 0,
+    //       name: 'Google Home Mini',
+    //       shortName: 'MINI',
+    //       category: 'Voice Assistant',
+    //     },
+    //     {
+    //       _id: 1,
+    //       name: 'Xiaomi Rice Cooker',
+    //       shortName: 'RICE',
+    //       category: 'Appliance',
+    //     },
+    //     {
+    //       _id: 2,
+    //       name: 'Philips Hue',
+    //       shortName: 'HUE',
+    //       category: 'Lighting',
+    //     }
+    //   ]
+    // });
 
-    // TODO enable bellow
-    // const url = `${baseUrl}/api/networks/${networkId}/devices`;
-    // return axios.get(url, { headers });
+    const url = `${baseUrl}/device/all`;
+    return axios.get(url, { headers });
   },
   paramParser: p => new Record({ networkId: null })(p),
   resParser: fromJS,

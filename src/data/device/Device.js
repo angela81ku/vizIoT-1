@@ -5,7 +5,7 @@ import { List, Record } from 'immutable';
 /* Device entity */
 
 export const Device = new Record({
-  id: null,
+  _id: null,
   name: null,
   shortName: null,
   category: null,
@@ -18,7 +18,7 @@ export const Device = new Record({
  */
 export const createDeviceList = immutableRes => {
   return List(
-    immutableRes.get('devices').map(deviceData => {
+    immutableRes.map(deviceData => {
       return new Device(deviceData);
     }));
 };

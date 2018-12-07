@@ -6,7 +6,7 @@ const HOSTS = {
   MOCK: 'https://c4bfb248-a02b-4dce-a75a-8529b5e9d2f4.mock.pstmn.io',
 
 };
-export const baseUrl = HOSTS.DEV_HEROKU;
+export const baseUrl = HOSTS.PACKET_TESTING;
 export const newPacketUrl = HOSTS.DEV_HEROKU;
 
 export const defaultNetwork = '42';
