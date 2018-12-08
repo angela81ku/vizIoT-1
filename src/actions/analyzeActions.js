@@ -43,7 +43,6 @@ export const requestAggregationByTime = (
     endMS,
   });
 
-  // debugger
   return new Promise(resolve => {
     call(requestBody, networkId)
       .then(resolve)

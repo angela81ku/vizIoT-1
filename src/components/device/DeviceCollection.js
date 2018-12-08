@@ -264,7 +264,7 @@ DeviceCollection.propTypes = {
     velocity: PropTypes.number,
     total: PropTypes.number,
   }),
-  mode: PropTypes.oneOf('CARD', 'LIST'),
+  mode: PropTypes.oneOf(['CARD', 'LIST']),
 };
 
 DeviceCollection.defaultProps = {

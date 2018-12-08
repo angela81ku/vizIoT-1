@@ -19,6 +19,7 @@ import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
 import { BACKGROUND_COLOR } from 'VizIoT/styles/base/viz-theme';
 import { getIn } from 'immutable';
+import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 
 const Background = styled.div`
   z-index: -2;

@@ -8,10 +8,12 @@ export const recentsActionBundle = createRequestActions('recent packets');
 
 // Other actions
 export const pushPacketCountToday = createAction();
+export const pushRealtimeVelocitySample = createAction();
 
 export default Object.assign(
   {},
   recentsActionBundle,
   {
     pushPacketCountToday,
+    pushRealtimeVelocitySample,
   });

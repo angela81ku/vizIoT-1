@@ -3,7 +3,8 @@
 import { createReducer } from 'redux-act';
 import {
   recentsActionBundle,
-  pushPacketCountToday
+  pushPacketCountToday,
+  pushRealtimeVelocitySample,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
@@ -23,12 +24,21 @@ const pushPacketCount = createReducer({
     [pushPacketCountToday]: (state, newCount) => {
       return {
         ...state,
-        countToday: newCount,
+        data: newCount,
       }
     },
   },
-  { countToday: null }
+  { data: null }
 );
+
+const realtimeVelocitySamples = createReducer({
+  [pushRealtimeVelocitySample]: (state, newEntry) => {
+    return {
+      ...state,
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-280),
+    }
+  },
+}, { data: null });
 
 const middleware = (state, rawRequestData) => {
   const { payload, requestBody } = rawRequestData;
@@ -57,5 +67,6 @@ const packets = createRequestReducer(
 
 export default combineReducers({
   pushPacketCount,
+  realtimeVelocitySamples,
   packets,
 });

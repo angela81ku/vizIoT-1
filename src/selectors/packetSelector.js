@@ -7,5 +7,9 @@ export const selectRecentPackets = state => {
 };
 
 export const selectTodayPacketCount = state => {
-  return getIn(state, ['packets', 'pushPacketCount', 'countToday']);
+  return getIn(state, ['packets', 'pushPacketCount', 'data']);
+};
+
+export const selectRealtimeVelocitySamples = state => {
+  return getIn(state, ['packets', 'realtimeVelocitySamples', 'data'])
 };

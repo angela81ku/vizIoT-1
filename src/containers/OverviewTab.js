@@ -38,23 +38,18 @@ import TimedSwitcher from 'UIBean/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';
-import { SPACING } from '../data/records/Spacing';
 import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
 import { H1 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
+import { pushRealtimeVelocitySample } from 'VizIoT/actions/packetActions';
+import { selectRealtimeVelocitySamples, selectTodayPacketCount } from 'VizIoT/selectors/packetSelector';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
 const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
-
-const RightContentWrapper = styled.section`
-  @media (min-width: 1200px) {
-    // margin-left: 350px;
-  }
-`;
 
 const GridLayout = styled.div`
   display: grid;
@@ -70,11 +65,6 @@ const Title = styled.div`
 `;
 
 class OverviewTab extends Component {
-
-  state = {
-    trafficVelocityData: [],
-  };
-
   constructor(props) {
     super(props);
 
@@ -84,35 +74,8 @@ class OverviewTab extends Component {
       socket,
     };
 
-    socket.on(CountRoom, message => {
-      this.setState({
-        trafficVelocityData: [
-          ...this.state.trafficVelocityData,
-          message,
-        ].slice(-280),
-      });
-    });
-
+    socket.on(CountRoom, pushRealtimeVelocitySample);
     socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
-  }
-
-  fetchCombinedTrafficData() {
-    const { mainChartConfig, networkId } = this.props;
-    const { bucketConfig, dataWindowSize, selectionMode } = mainChartConfig;
-    const startMS = (
-      moment()
-        .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
-        .valueOf() / 1000
-    ).toString();
-    const endMS = (moment().valueOf() / 1000).toString();
-    requestAggregationByTime(
-      networkId,
-      selectionMode,
-      [],
-      bucketConfig,
-      startMS,
-      endMS
-    );
   }
 
   fetchAllDeviceGraphs() {
@@ -155,11 +118,23 @@ class OverviewTab extends Component {
     const { networkId } = this.props;
 
     fetchAnalytic();
+    fetchDevices();
 
-    // this.fetchCombinedTrafficData();
-    //
+    const deviceHitsLoop = setInterval(() => {
+      fetchAnalytic();
+      fetchDevices();
+    //   analyzeAggregationByDevice();
+    //   analyzeAggregationByDomain();
+    }, DEVICE_HITS_REFRESH_DAY_MS);
+
+    this.setState(() => ({
+      // logLoop,
+      deviceHitsLoop,
+    }));
+
+
+
     // // Fetch all the things.
-    // fetchDevices({ networkId });
     // this.fetchAllDeviceGraphs();
     // analyzeAggregationByDevice();
     // analyzeAggregationByDomain();
@@ -169,35 +144,18 @@ class OverviewTab extends Component {
     // const logLoop = setInterval(() => {
     //   this.fetchTimestampToDomain();
     // }, LOG_REFRESH_DELAY_MS);
-    //
-    // const liveConnectionsPerSecondLoop = setInterval(() => {
-    //   this.fetchCombinedTrafficData();
-    //   this.fetchAllDeviceGraphs();
-    // }, DATA_REFRESH_DELAY_MS);
-    //
-    // const deviceHitsLoop = setInterval(() => {
-    //   analyzeAggregationByDevice();
-    //   analyzeAggregationByDomain();
-    // }, DEVICE_HITS_REFRESH_DAY_MS);
-    //
-    // this.setState(() => ({
-    //   logLoop,
-    //   liveConnectionsPerSecondLoop,
-    //   deviceHitsLoop,
-    // }));
+
   }
 
   componentWillUnmount() {
     this.state.socket.disconnect();
 
-    // const {
-    //   logLoop,
-    //   liveConnectionsPerSecondLoop,
-    //   deviceHitsLoop,
-    // } = this.state;
+    const {
+      // logLoop,
+      deviceHitsLoop,
+    } = this.state;
     // clearInterval(logLoop);
-    // clearInterval(liveConnectionsPerSecondLoop);
-    // clearInterval(deviceHitsLoop);
+    clearInterval(deviceHitsLoop);
   }
 
   renderSingleDeviceCharts() {
@@ -238,7 +196,7 @@ class OverviewTab extends Component {
     return (
       <DeviceActivityChart
         className="main-chart"
-        data={this.state.trafficVelocityData}
+        data={this.props.realtimeVelocityData}
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
         dataKey={getDataKey({
@@ -255,24 +213,22 @@ class OverviewTab extends Component {
   render() {
     return (
       <div className="overview-tab">
-        <RightContentWrapper>
-          <GridLayout>
-            <GridItem column={'col-start / span 5'} row={'1 / 4'}>
-              <QuickFacts />
-            </GridItem>
-            <GridItem column={'col-start 6 / span 7'} row={'1 / 4'}>
-              <Flex gutter={2}>
-                <FlexSize size={{ lg: 12 }}>
-                  <Title>Real-time Traffic</Title>
-                  {this.renderMainChart()}
-                </FlexSize>
-                <FlexSize size={{ lg: 5 }}>
-                  {this.renderSingleDeviceCharts()}
-                </FlexSize>
-              </Flex>
-            </GridItem>
-          </GridLayout>
-        </RightContentWrapper>
+        <GridLayout>
+          <GridItem column={'col-start / span 5'} row={'1 / 4'}>
+            <QuickFacts />
+          </GridItem>
+          <GridItem column={'col-start 6 / span 7'} row={'1 / 4'}>
+            <Flex gutter={2}>
+              <FlexSize size={{ lg: 12 }}>
+                <Title>Real-time Traffic</Title>
+                {this.renderMainChart()}
+              </FlexSize>
+              <FlexSize size={{ lg: 5 }}>
+                {this.renderSingleDeviceCharts()}
+              </FlexSize>
+            </Flex>
+          </GridItem>
+        </GridLayout>
         <div className="xl-spacer" />
       </div>
     );
@@ -292,6 +248,7 @@ OverviewTab.propTypes = {
   mainChartConfig: PropTypes.object.isRequired,
   singleDeviceChartConfig: PropTypes.object.isRequired,
   mostRecentHosts: PropTypes.array.isRequired,
+  realtimeVelocityData: PropTypes.array,
 };
 
 const mapStateToProps = state => {
@@ -308,6 +265,7 @@ const mapStateToProps = state => {
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
     singleDeviceChartConfig: singleDeviceChartConfig,
+    realtimeVelocityData: selectRealtimeVelocitySamples(state),
   };
 };
 export default connect(mapStateToProps)(OverviewTab);

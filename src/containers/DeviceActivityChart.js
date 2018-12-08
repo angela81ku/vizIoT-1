@@ -1,5 +1,9 @@
+'use es6';
+
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { getBucketKeyWithConfig } from '../utility/BucketUtility';
 import { selectSingleAggregation } from '../selectors/aggregateSampleSelector';
 import moment from 'moment';
@@ -26,15 +30,7 @@ class DeviceActivityChart extends React.Component {
 
     let graphData = [];
     if (data && data.length) {
-      // Temporary Code for replaying old data:
-      // const momentNow = moment();
-      // const momentFirst = moment.unix(data[0].timestamp);
-      // const catchUpSeconds = momentNow.diff(momentFirst, 'seconds');
-      // console.log(`catchUpSeconds = ${catchUpSeconds}`);
-
       const catchUpSeconds = 10;
-      // console.log(`catchUpSeconds = ${catchUpSeconds}`);
-
       graphData = data.map(({ startMS, count: yData }) => {
         return {
           xData: moment
@@ -78,11 +74,16 @@ class DeviceActivityChart extends React.Component {
   }
 }
 
+DeviceActivityChart.defaultProps = {
+  graphData: [],
+};
+
+DeviceActivityChart.propTypes = {
+  graphData: PropTypes.array,
+};
+
 export default connect((state, props) => {
-  // TODO commented in favor of socket.io
-  // const { deviceKey, dataKey } = props;
-  // return {
-  //   data: selectSingleAggregation(state, deviceKey, dataKey),
-  // };
-  return {};
+  return {
+
+  };
 })(DeviceActivityChart);
