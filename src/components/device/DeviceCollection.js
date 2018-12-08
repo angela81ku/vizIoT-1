@@ -202,8 +202,6 @@ export default class DeviceCollection extends Component {
       const dataIn = getIn(deviceData, ['dataIn'], 23);
       const dataOut = getIn(deviceData, ['dataOut'], 43);
 
-      debugger
-
       const item = {
         key: _id,
         name,

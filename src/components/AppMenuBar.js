@@ -23,7 +23,7 @@ const Background = styled(Flex)`
 
 const LogoText = styled.div`
   font-size: 2.7rem;
-  font-family: 'DIN 2014';
+  font-family: 'Rajdhani';
   font-weight: 600;
   display: flex;
   text-align: right;

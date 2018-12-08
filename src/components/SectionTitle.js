@@ -35,7 +35,7 @@ const getFont = ({ size }) => {
     case Sizes.MEDIUM:
       return H3;
     case Sizes.LARGE:
-      return `${H0} font-family: "DIN 2014"; text-shadow: #67e5ffc7 0px 0px 33px;`;
+      return `${H0} font-family: "Rajdhani"; text-shadow: #67e5ffc7 0px 0px 33px;`;
     default:
       return '';
   }

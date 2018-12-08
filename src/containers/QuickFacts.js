@@ -116,7 +116,7 @@ class QuickFacts extends React.Component {
         icon: 'cube',
       },
       {
-        title: 'Active',
+        title: 'Active Devices',
         data: numberOfDevices || '~',
         icon: 'directions_run',
       },
@@ -124,7 +124,7 @@ class QuickFacts extends React.Component {
 
     const factsLast10Min = [
       {
-        title: 'Avg. Connections / Second',
+        title: 'Average Packets / s',
         data: '~',
         icon: 'av_timer',
       },
@@ -141,7 +141,7 @@ class QuickFacts extends React.Component {
     ];
 
     return (
-      <QuickFactsWrapper noBackground>
+      <QuickFactsWrapper>
         {this.renderGroup(factsToday, 'Today', 'col-start / span 12', '3 / 6', {
           md: 12,
           lg: 4,
@@ -168,8 +168,6 @@ QuickFacts.propTypes = {
 const mapStateToProps = state => {
   return {
     packetCount: selectTodayPacketCount(state),
-
-
     numberOfDevices: selectNumberOfDevices(state),
     busiestDevice: selectBusiestDevice(state),
     mostContactedHost: selectMostContactedHostLastPeriod(
