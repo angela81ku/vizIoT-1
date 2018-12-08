@@ -9,7 +9,7 @@ import { selectSingleAggregation } from '../selectors/aggregateSampleSelector';
 import moment from 'moment';
 import LineChart from '../components/LineChart';
 
-class DeviceActivityChart extends React.Component {
+class ConnectedLineChart extends React.Component {
   render() {
     const {
       device,
@@ -30,7 +30,7 @@ class DeviceActivityChart extends React.Component {
 
     let graphData = [];
     if (data && data.length) {
-      const catchUpSeconds = 10;
+      const catchUpSeconds = 2;
       graphData = data.map(({ startMS, count: yData }) => {
         return {
           xData: moment
@@ -74,16 +74,17 @@ class DeviceActivityChart extends React.Component {
   }
 }
 
-DeviceActivityChart.defaultProps = {
-  graphData: [],
+ConnectedLineChart.defaultProps = {
+  data: [],
 };
 
-DeviceActivityChart.propTypes = {
-  graphData: PropTypes.array,
+ConnectedLineChart.propTypes = {
+  data: PropTypes.array,
+  dataSelector: PropTypes.func.isRequired,
 };
 
 export default connect((state, props) => {
   return {
-
+    data: props.dataSelector(state)
   };
-})(DeviceActivityChart);
+})(ConnectedLineChart);

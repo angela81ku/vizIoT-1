@@ -31,11 +31,18 @@ const pushPacketCount = createReducer({
   { data: null }
 );
 
+const toSec = val => {
+  return {
+    ...val,
+    count: 2 * val.count,
+  };
+};
+
 const realtimeVelocitySamples = createReducer({
   [pushRealtimeVelocitySample]: (state, newEntry) => {
     return {
       ...state,
-      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-280),
+      data: state.data === null ? [newEntry] : [...state.data, toSec(newEntry)].slice(-250),
     }
   },
 }, { data: null });

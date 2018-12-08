@@ -22,7 +22,7 @@ import {
   selectLastSeen,
   selectNumberOfConnections,
 } from '../selectors/deviceSelectors';
-import DeviceActivityChart from './DeviceActivityChart';
+import DeviceActivityChart from './ConnectedLineChart';
 import {
   selectMainChartConfig,
   selectSingleDeviceChartConfig,
@@ -46,6 +46,7 @@ import { H1 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import { pushRealtimeVelocitySample } from 'VizIoT/actions/packetActions';
 import { selectRealtimeVelocitySamples, selectTodayPacketCount } from 'VizIoT/selectors/packetSelector';
+import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -174,7 +175,7 @@ class OverviewTab extends Component {
           <FlexSize key={macAddr} size={{ xs: 12 }} space="m-bot-3">
             <BCard>
               <div className="extra-small-spacer" />
-              <DeviceActivityChart
+              <ConnectedLineChart
                 className="device-chart"
                 deviceKey={macAddr}
                 dataKey={dataKey}
@@ -194,9 +195,9 @@ class OverviewTab extends Component {
     const { bucketConfig, selectionMode } = mainChartConfig;
 
     return (
-      <DeviceActivityChart
+      <ConnectedLineChart
         className="main-chart"
-        data={this.props.realtimeVelocityData}
+        dataSelector={selectRealtimeVelocitySamples}
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
         dataKey={getDataKey({
@@ -248,7 +249,6 @@ OverviewTab.propTypes = {
   mainChartConfig: PropTypes.object.isRequired,
   singleDeviceChartConfig: PropTypes.object.isRequired,
   mostRecentHosts: PropTypes.array.isRequired,
-  realtimeVelocityData: PropTypes.array,
 };
 
 const mapStateToProps = state => {
@@ -265,7 +265,6 @@ const mapStateToProps = state => {
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
     singleDeviceChartConfig: singleDeviceChartConfig,
-    realtimeVelocityData: selectRealtimeVelocitySamples(state),
   };
 };
 export default connect(mapStateToProps)(OverviewTab);

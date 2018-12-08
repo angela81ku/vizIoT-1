@@ -146,10 +146,10 @@ class LiveLineGraph extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
-    // g.select('.xAxisContainer').attr(
-    //   'transform',
-    //   `translate(${leftAxisMargin}, ${graphHeight})`
-    // );
+    g.select('.xAxisContainer').attr(
+      'transform',
+      `translate(${leftAxisMargin}, ${graphHeight})`
+    );
 
     g.select('.xAxis')
       .call(this.redrawXAxis(xAxis))
@@ -201,7 +201,7 @@ class LiveLineGraph extends Component {
     return g => {
       g.call(xAxis);
       g.select('.domain').remove();
-      g.selectAll('.tick text').attr('font-size', '13px');
+      g.selectAll('.tick text').attr('font-size', '14px');
     };
   }
 
@@ -216,7 +216,7 @@ class LiveLineGraph extends Component {
       g.selectAll('.tick:first-of-type text').remove();
       g.selectAll('.tick text')
         .attr('x', -leftAxisMargin - 10)
-        .attr('font-size', '13px');
+        .attr('font-size', '14px');
     };
   }
 
