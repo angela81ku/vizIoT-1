@@ -61,7 +61,7 @@ export const selectDomainsToday = (state, numberOf) => {
   });
 
   const data = selectDataWithRequest(state, requestKey);
-  const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
+  const rows = getIn(data, ['data', 'report', 'data', 'rows'], []);
 
   return rows.map(({ dimensions, metrics }) => ({
     id: `device ${dimensions[0]}`,

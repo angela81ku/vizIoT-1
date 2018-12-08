@@ -47,7 +47,7 @@ export const selectNumberOfConnections = ({
   return value;
 };
 
-export const selectPercentUnsecuredToday = state => {
+// export const selectPercentUnsecuredToday = state => {
   // const { analytics } = state;
   // const key = new AnalyticsRequest({
   //   dimensions: [],
@@ -58,8 +58,7 @@ export const selectPercentUnsecuredToday = state => {
   // }).hashCode();
 
   // const percentSecured = analytics.values[key].report.data.rows.metrics[0];
-  return '~';
-};
+// };
 
 export const selectMacAddressToAlias = state => {
   const deviceList = selectDeviceList(state) || [];

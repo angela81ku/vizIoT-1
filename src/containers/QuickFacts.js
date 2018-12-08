@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   selectBusiestDevice,
   selectNumberOfDevices,
-  selectPercentUnsecuredToday
 } from '../selectors/deviceSelectors';
 import {
   selectTodayPacketCount,
@@ -102,7 +101,6 @@ class QuickFacts extends React.Component {
   render() {
     const {
       numberOfDevices,
-      percentOfHttpConnections,
       busiestDevice,
       mostContactedHost,
       packetCount,
@@ -113,18 +111,13 @@ class QuickFacts extends React.Component {
     const factsToday = [
       {
         title: 'Packets',
-        data: packetCount === null ? '~' : packetCount,
+        data: packetCount || '~',
         iconType: 'eva',
         icon: 'cube',
       },
       {
-        title: 'Unsecured',
-        data: '~',
-        icon: 'lock_open',
-      },
-      {
         title: 'Active',
-        data: numberOfDevices,
+        data: numberOfDevices || '~',
         icon: 'directions_run',
       },
     ];
@@ -166,8 +159,8 @@ class QuickFacts extends React.Component {
 }
 
 QuickFacts.propTypes = {
-  numberOfDevices: PropTypes.number.isRequired,
-  percentOfHttpConnections: PropTypes.string.isRequired,
+  packetCount: PropTypes.number,
+  numberOfDevices: PropTypes.number,
   busiestDevice: PropTypes.object.isRequired,
   mostContactedHost: PropTypes.string.isRequired,
 };
@@ -178,7 +171,6 @@ const mapStateToProps = state => {
 
 
     numberOfDevices: selectNumberOfDevices(state),
-    percentOfHttpConnections: `${selectPercentUnsecuredToday(state)}%`,
     busiestDevice: selectBusiestDevice(state),
     mostContactedHost: selectMostContactedHostLastPeriod(
       state,
