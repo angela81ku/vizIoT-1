@@ -146,10 +146,10 @@ class LiveLineGraph extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
-    g.select('.xAxisContainer').attr(
-      'transform',
-      `translate(0, ${graphHeight})`
-    );
+    // g.select('.xAxisContainer').attr(
+    //   'transform',
+    //   `translate(${leftAxisMargin}, ${graphHeight})`
+    // );
 
     g.select('.xAxis')
       .call(this.redrawXAxis(xAxis))
@@ -271,20 +271,20 @@ class LiveLineGraph extends Component {
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
+    // debugger
     g.select('defs')
       .append('clipPath')
       .attr('id', 'xAxisClip')
       .append('rect')
       .attr('width', graphWidth - leftAxisMargin)
-      .attr('height', graphHeight)
-      .attr('transform', `translate(${leftAxisMargin}, 0)`);
+      .attr('height', graphHeight);
 
     g.append('g')
       .attr('transform', `translate(${leftAxisMargin}, ${graphHeight})`)
       .attr('class', 'xAxisContainer')
+      .attr('clip-path', 'url(#xAxisClip)')
       .append('g')
-      .attr('class', 'xAxis')
-      .attr('clip-path', 'url(#xAxisClip)');
+      .attr('class', 'xAxis');
 
     g.append('g')
       .attr('class', 'yAxis')
@@ -295,8 +295,8 @@ class LiveLineGraph extends Component {
       .attr('class', 'graphSvg__wrapper')
       .append('g')
       .attr('class', 'lineGraph__wrapper')
-      .attr('transform', `translate(${leftAxisMargin}, 0)`);
-      // .attr('clip-path', 'url(#clip)'); // TODO debug this clip thing.
+      .attr('transform', `translate(${leftAxisMargin}, 0)`)
+      .attr('clip-path', 'url(#xAxisClip)'); // TODO debug this clip thing.
 
     lineGraphWrapper.append('path').attr('class', 'line');
   }

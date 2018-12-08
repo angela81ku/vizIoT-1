@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { getBucketKeyWithConfig } from '../utility/BucketUtility';
 import { selectSingleAggregation } from '../selectors/aggregateSampleSelector';
 import moment from 'moment';
-import BarGraphCard from '../components/BarGraphCard';
+import LineChart from '../components/LineChart';
 
 class DeviceActivityChart extends React.Component {
   render() {
@@ -60,7 +60,7 @@ class DeviceActivityChart extends React.Component {
 
     if (graphData.length >= 1) {
       return (
-        <BarGraphCard
+        <LineChart
           className={this.props.className}
           dataWindowSize={dataWindowSize}
           subtitle={subtitle}

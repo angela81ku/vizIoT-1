@@ -25,7 +25,7 @@ const Subtitle = styled.div`
   letter-spacing: 2px;
 `;
 
-class BarGraphCard extends React.Component {
+class LineChart extends React.Component {
   render() {
     const { title, subtitle, data, dataWindowSize } = this.props;
 
@@ -50,7 +50,7 @@ class BarGraphCard extends React.Component {
   }
 }
 
-BarGraphCard.propTypes = {
+LineChart.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
   subtitle: PropTypes.node,
@@ -59,4 +59,4 @@ BarGraphCard.propTypes = {
   margins: PropTypes.instanceOf(SPACING),
 };
 
-export default BarGraphCard;
+export default LineChart;
