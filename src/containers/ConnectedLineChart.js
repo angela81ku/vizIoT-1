@@ -31,7 +31,7 @@ class ConnectedLineChart extends React.Component {
     let graphData = [];
     if (data && data.length) {
       const catchUpSeconds = 2;
-      graphData = data.map(({ startMS, count: yData }) => {
+      graphData = data.map(({ startMS, size: yData }) => {
         return {
           xData: moment
             .unix(startMS / 1000.0)

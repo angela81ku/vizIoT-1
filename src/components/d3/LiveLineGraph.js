@@ -5,9 +5,9 @@ import { max, range } from 'd3-array';
 import { select } from 'd3-selection';
 import { timeSecond } from 'd3-time';
 import { axisRight, axisBottom } from 'd3-axis';
-import { formatPrefix } from 'd3-format';
+import { format, formatPrefix } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
-import { line } from 'd3-shape';
+import { curveBasis, curveMonotoneX, curveStep, line } from 'd3-shape';
 import { easeLinear } from 'd3-ease';
 import { transition } from 'd3-transition';
 import moment from 'moment';
@@ -140,7 +140,7 @@ class LiveLineGraph extends Component {
     const yAxis = axisRight(y)
       .tickSize(graphWidth)
       .tickValues([yMin, 0, Math.floor((dataMax - yMin) / 2), dataMax, yMax])
-      .tickFormat(formatPrefix('.1', 1e2));
+      .tickFormat(format('.2s'));
 
     const node = this.node;
     const svg = select(node);
@@ -178,7 +178,7 @@ class LiveLineGraph extends Component {
 
   createLinePathData(x, y, data) {
     const lineFunction = line()
-      // .curve(curveBasis())
+      .curve(curveMonotoneX)
       .x(d => {
         return x(d.xData);
       })

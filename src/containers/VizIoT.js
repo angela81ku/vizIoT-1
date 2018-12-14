@@ -1,6 +1,6 @@
 'use es6';
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -21,11 +21,29 @@ import { BACKGROUND_COLOR } from 'VizIoT/styles/base/viz-theme';
 import { getIn } from 'immutable';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 
+class VideoBackground extends PureComponent {
+  render() {
+    return (
+      <Background>
+        <BackgroundRelative>
+          <video autoPlay muted loop style={{ width: '100%', minWidth: '1980px'}}>
+            <source src="media/bg.mp4" type="video/mp4" />
+          </video>
+        </BackgroundRelative>
+      </Background>
+    )
+  }
+}
+
 const Background = styled.div`
   z-index: -2;
   position: fixed;
   width: 100%;
   height: 100%;
+`;
+
+const BackgroundRelative = styled.div`
+  position: relative;
 `;
 
 class VizIoT extends React.Component {
@@ -103,11 +121,7 @@ class VizIoT extends React.Component {
 
     return (
       <div id="root-container" onKeyDown={this.handleKeyDown}>
-        <Background>
-          <video autoPlay muted loop>
-            <source src="media/bg.mp4" type="video/mp4" />
-          </video>
-        </Background>
+        <VideoBackground />
         <TabTitle subtitle={title} show={showTitle} />
         <div>
           <AppMenuBar />

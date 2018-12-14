@@ -41,14 +41,23 @@ import { analyzeApiKeys } from '../data/api/analyzeApi';
 import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
-import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
+import { closeSocket, createSocket, CountRoom, TodayCountRoom, SizeRoom, TodaySizeRoom } from 'VizIoT/socket/subscribe';
 import { H0, H1, H2, H3, H4, H5 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
-import { pushRealtimeVelocitySample } from 'VizIoT/actions/packetActions';
-import { selectRealtimeVelocitySamples, selectTodayPacketCount } from 'VizIoT/selectors/packetSelector';
+import {
+  pushRealtimeVelocitySample,
+  pushRealtimeVelocitySizeSample,
+  pushSizeToday
+} from 'VizIoT/actions/packetActions';
+import {
+  selectRealtimeVelocitySample,
+  selectRealtimeVelocitySizeSample,
+  selectTodayPacketCount
+} from 'VizIoT/selectors/packetSelector';
 import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
+import { createSelector } from 'reselect';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -107,8 +116,10 @@ class OverviewTab extends Component {
       socket,
     };
 
-    socket.on(CountRoom, pushRealtimeVelocitySample);
-    socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
+    socket.on(SizeRoom, pushRealtimeVelocitySizeSample);
+    // socket.on(CountRoom, pushRealtimeVelocitySample);
+    socket.on(TodaySizeRoom, message => pushSizeToday(message.size));
+    // socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
   }
 
   fetchAllDeviceGraphs() {
@@ -156,16 +167,16 @@ class OverviewTab extends Component {
     const deviceHitsLoop = setInterval(() => {
       fetchAnalytic();
       fetchDevices();
-    //   analyzeAggregationByDevice();
-    //   analyzeAggregationByDomain();
+
     }, DEVICE_HITS_REFRESH_DAY_MS);
 
     this.setState(() => ({
-      // logLoop,
       deviceHitsLoop,
     }));
 
 
+    //   analyzeAggregationByDevice();
+    //   analyzeAggregationByDomain();
 
     // // Fetch all the things.
     // this.fetchAllDeviceGraphs();
@@ -177,17 +188,14 @@ class OverviewTab extends Component {
     // const logLoop = setInterval(() => {
     //   this.fetchTimestampToDomain();
     // }, LOG_REFRESH_DELAY_MS);
-
   }
 
   componentWillUnmount() {
     this.state.socket.disconnect();
 
     const {
-      // logLoop,
       deviceHitsLoop,
     } = this.state;
-    // clearInterval(logLoop);
     clearInterval(deviceHitsLoop);
   }
 
@@ -229,7 +237,7 @@ class OverviewTab extends Component {
     return (
       <ConnectedLineChart
         className="main-chart"
-        dataSelector={selectRealtimeVelocitySamples}
+        dataSelector={selectRealtimeVelocitySizeSample}
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
         dataKey={getDataKey({
@@ -238,7 +246,7 @@ class OverviewTab extends Component {
           macAddresses: [],
         })}
         chartConfig={mainChartConfig}
-        placeholderSubtitle={'PACKETS/SEC'}
+        placeholderSubtitle={'BYTES/SEC'}
       />
     );
   }
@@ -262,9 +270,6 @@ class OverviewTab extends Component {
                 <Title>Real-time Traffic</Title>
                 {this.renderMainChart()}
               </FlexSize>
-              <FlexSize size={{ lg: 5 }}>
-                {this.renderSingleDeviceCharts()}
-              </FlexSize>
             </Flex>
           </GridItem>
         </GridLayout>
@@ -275,7 +280,7 @@ class OverviewTab extends Component {
           </FlexSize>
           <FlexSize size={{ lg: 9 }}>
             <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-            <DeviceCollection devices={this.props.devices.splice(-3)}
+            <DeviceCollection devices={this.props.devices}
                               deviceToData={this.props.deviceToData}
                               mode={'CARD'} />
             </Flex>
@@ -303,13 +308,18 @@ OverviewTab.propTypes = {
   mostRecentHosts: PropTypes.array.isRequired,
 };
 
+const selectThreeDevices = createSelector(
+  selectDeviceList,
+  (devices) => { return devices ? devices.splice(-3) : [] }
+);
+
 const mapStateToProps = state => {
   const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
   const { bucketConfig, selectionMode } = singleDeviceChartConfig;
   const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
   return {
-    devices: selectDeviceList(state) || [],
+    devices: selectThreeDevices(state),
     mostRecentHosts: selectMostRecentDomains(state, 15),
     devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),

@@ -1,6 +1,6 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import styled from 'styled-components';
 import { getIn } from 'immutable';
 
@@ -121,7 +121,13 @@ const deviceRowRenderer = ({
   )
 };
 
-export default class DeviceCollection extends Component {
+export default class DeviceCollection extends PureComponent {
+
+  // shouldComponentUpdate(p1, s, c) {
+  //   console.log(p1);
+  //   console.log(this.props);
+  //   return super.shouldComponentUpdate(p1, s, c)
+  // }
 
   state = {
     hoveredDevice: null,
@@ -242,6 +248,8 @@ export default class DeviceCollection extends Component {
   render() {
     const { hoveredDevice } = this.state;
     const { mode, devices, deviceToData } = this.props;
+
+    console.log('DeviceCollection rendering!');
 
     if (mode === 'CARD') {
       return DeviceCollection.renderDevicesAsCards(

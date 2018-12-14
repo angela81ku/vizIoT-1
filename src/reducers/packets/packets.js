@@ -4,7 +4,7 @@ import { createReducer } from 'redux-act';
 import {
   recentsActionBundle,
   pushPacketCountToday,
-  pushRealtimeVelocitySample,
+  pushRealtimeVelocitySample, pushRealtimeVelocitySizeSample, pushSizeToday,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
@@ -31,18 +31,21 @@ const pushPacketCount = createReducer({
   { data: null }
 );
 
-const toSec = val => {
-  return {
-    ...val,
-    count: 2 * val.count,
-  };
-};
+const pushSize = createReducer({
+  [pushSizeToday]: (state, newVal) => {
+    return {
+      ...state,
+      data: newVal,
+    }
+  }
+},
+  { data : null});
 
-const realtimeVelocitySamples = createReducer({
+const realtimeVelocitySample = createReducer({
   [pushRealtimeVelocitySample]: (state, newEntry) => {
     return {
       ...state,
-      data: state.data === null ? [newEntry] : [...state.data, toSec(newEntry)].slice(-250),
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
 }, { data: null });
@@ -72,8 +75,19 @@ const packets = createRequestReducer(
   middleware
 );
 
+const realtimeVelocitySizeSample = createReducer({
+  [pushRealtimeVelocitySizeSample]: (state, newEntry) => {
+    return {
+      ...state,
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
+    }
+  },
+}, { data: null });
+
 export default combineReducers({
+  pushSize,
   pushPacketCount,
-  realtimeVelocitySamples,
+  realtimeVelocitySample,
+  realtimeVelocitySizeSample,
   packets,
 });

@@ -13,6 +13,7 @@ import TimeMetric from '../data/metrics/TimeMetric';
 import { selectDeviceIdList, selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import * as deviceData from 'VizIoT/data/device/DeviceDataLenses';
 import * as R from 'ramda';
+import { createSelector } from 'reselect';
 
 export const selectDataWithHash = ({ analytics }, hash) => {
   return analytics.values[hash];
@@ -115,30 +116,30 @@ export const selectBusiestDevice = state => {
   return mostPopularEntry;
 };
 
-export const selectDataForAllDevices = state => {
+export const selectDataForAllDevices = createSelector(state => {
   // TODO remove mock
-  return {
-    0: {
-      total: 530,
-      dataIn: 230,
-      dataOut: 300,
-      velocity: 30,
-      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
-    },
-    1: {
-      total: 530,
-      dataIn: 230,
-      dataOut: 300,
-      velocity: 30,
-      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
-    },
-    2: {
-      total: 530,
-      dataIn: 230,
-      dataOut: 300,
-      velocity: 30,
-      velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
-    },
-  }
   // return R.view(deviceData.allData)(state);
-};
+  return 1;
+}, data => {return {
+  0: {
+    total: 530,
+    dataIn: 230,
+    dataOut: 300,
+    velocity: 30,
+    velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+  },
+  1: {
+    total: 530,
+    dataIn: 230,
+    dataOut: 300,
+    velocity: 30,
+    velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+  },
+  2: {
+    total: 530,
+    dataIn: 230,
+    dataOut: 300,
+    velocity: 30,
+    velocityByTime: [1, 2, 3, 4, 5, 6, 7, 5, 2, 1, 3, 4, 2, 3, 5, 3, 2],
+  },
+}});

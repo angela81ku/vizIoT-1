@@ -40,5 +40,7 @@ export const createSocket = customUrl => {
   return socket;
 };
 
-export const CountRoom = '/total/count/500ms';
+export const CountRoom = '/total/count/1s';
+export const SizeRoom = '/total/size/1s';
 export const TodayCountRoom = '/total/count';
+export const TodaySizeRoom = '/total/size';

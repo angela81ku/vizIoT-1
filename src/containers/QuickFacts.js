@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -26,6 +26,7 @@ import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
 import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
 import { H2 } from 'UIBean/functional-css/TypographyStyles';
+import { selectTodaySize } from 'VizIoT/selectors/packetSelector';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -60,7 +61,7 @@ const StyledDataWell = styled(DataWell)`
   padding-bottom: 7rem;
 `;
 
-class QuickFacts extends React.Component {
+class QuickFacts extends PureComponent {
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
@@ -103,6 +104,7 @@ class QuickFacts extends React.Component {
       busiestDevice,
       mostContactedHost,
       packetCount,
+      sizeToday,
     } = this.props;
 
     const hugeText = [];
@@ -110,7 +112,7 @@ class QuickFacts extends React.Component {
     const factsToday = [
       {
         title: 'Packets',
-        data: packetCount || '~',
+        data: sizeToday || '~',
         iconType: 'eva',
         icon: 'cube',
       },
@@ -149,7 +151,7 @@ class QuickFacts extends React.Component {
       <QuickFactsWrapper>
         {this.renderGroup(factsToday, todayText, 'col-start / span 12', '3 / 6', {
           md: 12,
-          lg: 4,
+          lg: 6,
         })}
         {this.renderGroup(
           factsLast10Min,
@@ -164,16 +166,51 @@ class QuickFacts extends React.Component {
 }
 
 QuickFacts.propTypes = {
+  sizeToday: PropTypes.number,
   packetCount: PropTypes.number,
   numberOfDevices: PropTypes.number,
   busiestDevice: PropTypes.object.isRequired,
   mostContactedHost: PropTypes.string.isRequired,
 };
 
+const formatBytes = (val) => {
+
+  if (!val) {
+    return val;
+  }
+
+  const byteRanges = [
+    {
+      unit: 'GB',
+      limit: Math.pow(10, 9)
+    },
+    {
+      unit: 'MB',
+      limit: Math.pow(10, 6)
+    },
+    {
+      unit: 'KB',
+      limit: Math.pow(10, 3)
+    },
+    {
+      unit: 'B',
+      limit: 0
+    },
+  ];
+
+  const { limit, unit } = byteRanges.find(({ limit }) => val > limit);
+
+  return `${parseFloat(val / parseFloat(limit)).toFixed(2)} ${unit}`;
+};
+
 const mapStateToProps = state => {
+
+
   return {
+    sizeToday: formatBytes(selectTodaySize(state)),
     packetCount: selectTodayPacketCount(state),
     numberOfDevices: selectNumberOfDevices(state),
+    // size10Minute: formatBytes(select10MinVelocity(state)),
     busiestDevice: selectBusiestDevice(state),
     mostContactedHost: selectMostContactedHostLastPeriod(
       state,

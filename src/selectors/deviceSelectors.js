@@ -9,11 +9,12 @@ import GeoDimension from '../data/dimensions/GeoDimension';
 import { getIn } from 'immutable';
 import * as R from 'ramda';
 import * as device from 'VizIoT/data/device/DeviceLenses';
+import { createSelector } from 'reselect';
 
-export const selectDeviceList = state => {
+export const selectDeviceList = createSelector(state => {
   const data = R.view(device.deviceListValue, state);
-  return data && data.toJS();
-};
+  return data;
+}, (deviceList) => deviceList && deviceList.toJS());
 
 export const selectNumberOfDevices = state => {
   return R.view(device.count)(state);
