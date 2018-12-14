@@ -133,7 +133,7 @@ class LiveLineGraph extends Component {
 
     // Axis Settings
     const xAxis = axisBottom(x)
-      .ticks(timeSecond, 30)
+      .ticks(timeSecond, 10)
       .tickFormat(d => `${moment().diff(moment(d), 'seconds')}s ago`);
     const yMin = y.domain()[0];
     const yMax = axisMax;

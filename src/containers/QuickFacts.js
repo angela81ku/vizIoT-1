@@ -26,7 +26,7 @@ import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
 import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
 import { H2 } from 'UIBean/functional-css/TypographyStyles';
-import { selectTodaySize } from 'VizIoT/selectors/packetSelector';
+import { selectTodaySize, selectSize10Min, selectVelocity10Min } from 'VizIoT/selectors/packetSelector';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -100,6 +100,7 @@ class QuickFacts extends PureComponent {
 
   render() {
     const {
+      velocity10Min,
       numberOfDevices,
       busiestDevice,
       mostContactedHost,
@@ -111,13 +112,13 @@ class QuickFacts extends PureComponent {
 
     const factsToday = [
       {
-        title: 'Packets',
+        title: 'Total',
         data: sizeToday || '~',
         iconType: 'eva',
         icon: 'cube',
       },
       {
-        title: 'Active Devices',
+        title: 'Devices',
         data: numberOfDevices || '~',
         icon: 'directions_run',
       },
@@ -125,15 +126,15 @@ class QuickFacts extends PureComponent {
 
     const factsLast10Min = [
       {
-        title: 'Average Packets / s',
-        data: '~',
+        title: 'Average Velocity / s',
+        data: velocity10Min || '~',
         icon: 'av_timer',
       },
-      {
-        title: 'Busiest Device',
-        data: busiestDevice.name,
-        icon: 'trending_up',
-      },
+      // {
+      //   title: 'Busiest Device',
+      //   data: busiestDevice.name,
+      //   icon: 'trending_up',
+      // },
       // {
       //   title: 'Most Popular Host',
       //   data: mostContactedHost,
@@ -158,7 +159,7 @@ class QuickFacts extends PureComponent {
           '10 Minutes Ago',
           'col-start / span 12',
           '1 / span 2',
-          { md: 12, lg: 4 }
+          { md: 12, lg: 6 }
         )}
       </QuickFactsWrapper>
     );
@@ -166,10 +167,11 @@ class QuickFacts extends PureComponent {
 }
 
 QuickFacts.propTypes = {
-  sizeToday: PropTypes.number,
+  sizeToday: PropTypes.string,
   packetCount: PropTypes.number,
+  velocity10Min: PropTypes.string,
   numberOfDevices: PropTypes.number,
-  busiestDevice: PropTypes.object.isRequired,
+  busiestDevice: PropTypes.object,
   mostContactedHost: PropTypes.string.isRequired,
 };
 
@@ -208,9 +210,9 @@ const mapStateToProps = state => {
 
   return {
     sizeToday: formatBytes(selectTodaySize(state)),
+    velocity10Min: formatBytes(selectVelocity10Min(state)),
     packetCount: selectTodayPacketCount(state),
     numberOfDevices: selectNumberOfDevices(state),
-    // size10Minute: formatBytes(select10MinVelocity(state)),
     busiestDevice: selectBusiestDevice(state),
     mostContactedHost: selectMostContactedHostLastPeriod(
       state,
