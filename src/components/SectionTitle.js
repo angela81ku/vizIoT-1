@@ -42,6 +42,7 @@ const getFont = ({ size }) => {
 };
 
 const Title = styled.div`
+  display: inline-block;
   ${getFont}
   ${getLetterSpacing}
   margin-bottom: ${({ verticalSpace }) => verticalSpace ? '1rem' : '0rem'};;
@@ -51,17 +52,16 @@ const Title = styled.div`
 
 const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);
 
-const SectionTitle = ({ icon, size, title, cardPadding, ...props }) => (
+const SectionTitle = ({ icon, size, title, cardPadding, children, ...props }) => (
   <SectionTitleWrapper cardPadding={cardPadding}
                        {...props}>
     {icon ? <BIcon name={icon} size={16} className="m-right-2" /> : null}
-    <Title size={size}>{title}</Title>
+    <Title size={size}>{title || children}</Title>
   </SectionTitleWrapper>
 );
 
 SectionTitle.propTypes = {
   icon: PropTypes.string,
-  title: PropTypes.string.isRequired,
   cardPadding: PropTypes.bool,
   size: PropTypes.oneOf(ListOfSizes),
   verticalSpace: PropTypes.bool,

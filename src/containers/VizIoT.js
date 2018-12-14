@@ -23,8 +23,7 @@ import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 
 const Background = styled.div`
   z-index: -2;
-  background: ${BACKGROUND_COLOR};
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
 `;
@@ -104,12 +103,16 @@ class VizIoT extends React.Component {
 
     return (
       <div id="root-container" onKeyDown={this.handleKeyDown}>
-        <Background />
+        <Background>
+          <video autoPlay muted loop>
+            <source src="media/bg.mp4" type="video/mp4" />
+          </video>
+        </Background>
         <TabTitle subtitle={title} show={showTitle} />
         <div>
           <AppMenuBar />
           <Navigator location={location} isHidden={!showNav} />
-          <ActivitySidebar />
+          {/*<ActivitySidebar />*/}
           <CoverFlow
             keyName={location.pathname}
             onLeft={this.handleLeftArrow}

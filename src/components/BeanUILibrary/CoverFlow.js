@@ -8,18 +8,18 @@ class CoverFlow extends React.Component {
     const { classNames, keyName, children, onLeft, onRight } = this.props;
     return (
       <div className={classnames('coverFlow', classNames)}>
-        <div
-          className="coverFlow__leftButton coverFlow__button"
-          onClick={onLeft}
-        >
-          <i className="fas fa-angle-left" />
-        </div>
-        <div
-          className="coverFlow__rightButton coverFlow__button"
-          onClick={onRight}
-        >
-          <i className="fas fa-angle-right" />
-        </div>
+        {/*<div*/}
+          {/*className="coverFlow__leftButton coverFlow__button"*/}
+          {/*onClick={onLeft}*/}
+        {/*>*/}
+          {/*<i className="fas fa-angle-left" />*/}
+        {/*</div>*/}
+        {/*<div*/}
+          {/*className="coverFlow__rightButton coverFlow__button"*/}
+          {/*onClick={onRight}*/}
+        {/*>*/}
+          {/*<i className="fas fa-angle-right" />*/}
+        {/*</div>*/}
         <TransitionGroup>
           <CSSTransition
             key={keyName}

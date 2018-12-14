@@ -22,7 +22,7 @@ const StyledBCard = styled.div`
   
   background-color: #67a8d812;
   color: #ffffff; 
-  border: #0f3b5c 1px solid;
+  border: ${({ noBorder }) => (noBorder ? 'none' : '#0f3b5c 1px solid')};
   border-radius: 10px;
 `;
 
@@ -44,7 +44,7 @@ class BCard extends React.Component {
 
 BCard.defaultProps = {
   noShadow: false,
-  noBorder: true,
+  noBorder: false,
   noPadding: false,
   noBackground: false,
   compact: true,

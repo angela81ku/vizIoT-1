@@ -91,7 +91,7 @@ const ConnectionDestinationHost = styled.span`
 
 const DeviceDownloadMetrics = styled(FlexChild)`
   text-align: right;
-  color: ${TRON};
+  // color: ${TRON};
   opacity: 0.70;
 `;
 
@@ -136,12 +136,12 @@ const DeviceCard = ({
               <ConnectionsValue>{velocity || '~'}</ConnectionsValue>
               {' packets / s'}
             </ConnectionsLabel>
-            <ConnectionDestination>
-                {'90.5% to '}
-                <ConnectionDestinationHost>
-                  {'google.com'}
-                </ConnectionDestinationHost>
-              </ConnectionDestination>
+            {/*<ConnectionDestination>*/}
+                {/*{'90.5% to '}*/}
+                {/*<ConnectionDestinationHost>*/}
+                  {/*{'google.com'}*/}
+                {/*</ConnectionDestinationHost>*/}
+            {/*</ConnectionDestination>*/}
           </FlexChild>
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>

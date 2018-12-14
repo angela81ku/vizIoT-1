@@ -229,7 +229,7 @@ export default class DeviceCollection extends Component {
 
     return (
       <Flex className="p-top-5" direction={FlexDirection.COLUMN}>
-        <SectionTitle size={'sm'} title={'VOICE ASSISTANT'} cardPadding={false} />
+        {/*<SectionTitle size={'sm'} title={'VOICE ASSISTANT'} cardPadding={false} />*/}
         {list}
         {/*<SectionTitle size={'sm'} title={'APPLIANCES'} cardPadding={false} />*/}
         {/*{list}*/}

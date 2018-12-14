@@ -25,8 +25,7 @@ import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
 import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
-
-const { H1 } = TypographyComponent;
+import { H2 } from 'UIBean/functional-css/TypographyStyles';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -41,16 +40,17 @@ const QuickFactsWrapper = styled(Flex)`
   // grid-template-rows: repeat(2, auto);
 `;
 
-// grid-column-start: ${({ columns: { start } }) => start};
-// grid-column-end: ${({ columns: { end } }) => end};
-// grid-row-start: ${({ rows: { start } }) => start};
-// grid-row-end: ${({ rows: { end } }) => end};
+const WelcomeEmphasize = styled.span`
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+`;
 
 const StyledGridItem = styled(GridItem)`
   width: 100%;
 `;
 
-const Proto = styled(H1)`
+const Proto = styled.div`
+  ${H2}
   padding-bottom: 3rem;
   font-weight: 200;
   color: #fff;
@@ -66,7 +66,6 @@ class QuickFacts extends React.Component {
       <StyledGridItem column={column} row={row} className="m-bot-7">
         <Flex alignContent={JustifyContent.FLEX_START} fillAll>
           <Proto>{title}</Proto>
-          {/*<SectionTitle title={title} cardPadding={false} />*/}
           <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
             {facts.map(({ title, data, fontSize, icon, iconType }) => {
               return (
@@ -133,16 +132,22 @@ class QuickFacts extends React.Component {
         data: busiestDevice.name,
         icon: 'trending_up',
       },
-      {
-        title: 'Most Popular Host',
-        data: mostContactedHost,
-        icon: 'domain',
-      },
+      // {
+      //   title: 'Most Popular Host',
+      //   data: mostContactedHost,
+      //   icon: 'domain',
+      // },
     ];
+
+    const todayText = (
+      <div>
+        {'Today, '}<WelcomeEmphasize>{'December 13, 2018'}</WelcomeEmphasize>
+      </div>
+    );
 
     return (
       <QuickFactsWrapper>
-        {this.renderGroup(factsToday, 'Today', 'col-start / span 12', '3 / 6', {
+        {this.renderGroup(factsToday, todayText, 'col-start / span 12', '3 / 6', {
           md: 12,
           lg: 4,
         })}

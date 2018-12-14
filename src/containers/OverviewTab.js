@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Flex from 'UIBean/Flex';
+import Flex, { FlexDirection, JustifyContent } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 import BCard from 'UIBean/BCard';
 import DeviceList from '../components/DeviceList';
@@ -33,7 +33,7 @@ import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
 import ActivityFeed from '../components/ActivityFeed';
-import { selectMostRecentDomains } from '../selectors/analyticsSelector';
+import { selectDataForAllDevices, selectMostRecentDomains } from '../selectors/analyticsSelector';
 import TimedSwitcher from 'UIBean/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
@@ -42,11 +42,13 @@ import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import { closeSocket, createSocket, CountRoom, TodayCountRoom } from 'VizIoT/socket/subscribe';
-import { H1 } from 'UIBean/functional-css/TypographyStyles';
+import { H0, H1, H2, H3, H4, H5 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import { pushRealtimeVelocitySample } from 'VizIoT/actions/packetActions';
 import { selectRealtimeVelocitySamples, selectTodayPacketCount } from 'VizIoT/selectors/packetSelector';
 import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
+import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
+import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -57,13 +59,40 @@ const GridLayout = styled.div`
   grid-template-columns: repeat(12, [col-start] 1fr);
   grid-auto-rows: 24rem;
   grid-gap: 2rem;
+  grid-row-gap: 7rem;
+`;
+
+const WelcomeMessage = styled.div`
+  ${H4}
+  padding-bottom: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.65);
+`;
+
+const ContainerTitle = styled(SectionTitle)`
+  padding-bottom: 1rem; 
 `;
 
 const Title = styled.div`
-  ${H1}
+  ${H2}
   padding-bottom: 3rem;
   font-weight: 200;
 `;
+
+const OverviewContainer = styled.div`
+  padding: 0 11.8rem;
+  padding-top: 80px;
+  margin: 0 auto;
+`;
+
+const IgnoreContainerPadding = styled.div`
+  margin-left: -11.8rem;
+  margin-right: -11.8rem;
+  width: 100vw;
+  padding: 0 11.8rem;
+  background-color: #67a8d812;
+`;
+
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -213,12 +242,18 @@ class OverviewTab extends Component {
 
   render() {
     return (
-      <div className="overview-tab">
+      <OverviewContainer>
+        <ContainerTitle title={'Overview'} size={'lg'} cardPadding={false}/>
+        <WelcomeMessage>
+          {'Welcome to MON(IOT)R'}
+        </WelcomeMessage>
+        <div className="medium-spacer" />
+
         <GridLayout>
-          <GridItem column={'col-start / span 5'} row={'1 / 4'}>
+          <GridItem column={'col-start / span 5'} row={'1 / 3'}>
             <QuickFacts />
           </GridItem>
-          <GridItem column={'col-start 6 / span 7'} row={'1 / 4'}>
+          <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
             <Flex gutter={2}>
               <FlexSize size={{ lg: 12 }}>
                 <Title>Real-time Traffic</Title>
@@ -229,9 +264,27 @@ class OverviewTab extends Component {
               </FlexSize>
             </Flex>
           </GridItem>
+          {/*<GridItem column={'col-start / span 12'} row={'3 / 9'}>*/}
+           {/**/}
+          {/*</GridItem>*/}
         </GridLayout>
+        <IgnoreContainerPadding>
+        <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
+          <FlexSize size={{ lg: 6 }}>
+              {/*<CardTitle>Recent Devices</CardTitle>*/}
+              {/*<SectionTitle title={'Recent Devices'} size={'md'}/>*/}
+            <Title>Recent Devices</Title>
+
+          </FlexSize>
+          <FlexSize size={{ lg: 6 }}>
+            <DeviceCollection devices={this.props.devices.splice(-3)}
+                              deviceToData={this.props.deviceToData}
+                              mode={'CARD'} />
+          </FlexSize>
+        </Flex>
+        </IgnoreContainerPadding>
         <div className="xl-spacer" />
-      </div>
+      </OverviewContainer>
     );
   }
 }
@@ -265,6 +318,7 @@ const mapStateToProps = state => {
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
     singleDeviceChartConfig: singleDeviceChartConfig,
+    deviceToData: selectDataForAllDevices(state),
   };
 };
 export default connect(mapStateToProps)(OverviewTab);
