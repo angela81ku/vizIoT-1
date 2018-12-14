@@ -78,6 +78,9 @@ const Title = styled.div`
   padding-bottom: 3rem;
   font-weight: 200;
 `;
+const RecentDevicesTitle = styled(Title)`
+  padding-top: 5rem;
+`;
 
 const OverviewContainer = styled.div`
   padding: 0 11.8rem;
@@ -264,22 +267,18 @@ class OverviewTab extends Component {
               </FlexSize>
             </Flex>
           </GridItem>
-          {/*<GridItem column={'col-start / span 12'} row={'3 / 9'}>*/}
-           {/**/}
-          {/*</GridItem>*/}
         </GridLayout>
         <IgnoreContainerPadding>
         <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
-          <FlexSize size={{ lg: 6 }}>
-              {/*<CardTitle>Recent Devices</CardTitle>*/}
-              {/*<SectionTitle title={'Recent Devices'} size={'md'}/>*/}
-            <Title>Recent Devices</Title>
-
+          <FlexSize size={{ lg: 3 }}>
+            <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
           </FlexSize>
-          <FlexSize size={{ lg: 6 }}>
+          <FlexSize size={{ lg: 9 }}>
+            <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
             <DeviceCollection devices={this.props.devices.splice(-3)}
                               deviceToData={this.props.deviceToData}
                               mode={'CARD'} />
+            </Flex>
           </FlexSize>
         </Flex>
         </IgnoreContainerPadding>
