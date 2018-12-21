@@ -16,7 +16,6 @@ import DataWellValue from 'UIBean/DataWellValue';
 import DataWellTitle from 'UIBean/DataWellTitle';
 import styled from 'styled-components';
 import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
-import CountUp from 'react-countup';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import SectionTitle from '../components/SectionTitle';
@@ -30,6 +29,7 @@ import {
   selectTodaySize,
   selectVelocity1Min
 } from 'VizIoT/selectors/packetSelector';
+import moment from 'moment';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -65,6 +65,22 @@ const StyledDataWell = styled(DataWell)`
 `;
 
 class QuickFacts extends PureComponent {
+  state = {
+    currentMoment: moment(),
+  };
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.updateTime, 45000);
+  }
+
+  updateTime = () => {
+    this.setState(() => ({ currentMoment: moment() }));
+  };
+
   renderGroup(facts, title, column, row, wellSize) {
     return (
       <StyledGridItem column={column} row={row} className="m-bot-7">
@@ -111,6 +127,10 @@ class QuickFacts extends PureComponent {
       sizeToday,
     } = this.props;
 
+    const {
+      currentMoment,
+    } = this.state;
+
     const hugeText = [];
 
     const factsToday = [
@@ -147,7 +167,7 @@ class QuickFacts extends PureComponent {
 
     const todayText = (
       <div>
-        {'Today, '}<WelcomeEmphasize>{'December 13, 2018'}</WelcomeEmphasize>
+        {'Today, '}<WelcomeEmphasize>{currentMoment.format('MMMM DD YYYY')}</WelcomeEmphasize>
       </div>
     );
 
