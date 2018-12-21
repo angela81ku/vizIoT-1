@@ -10,13 +10,13 @@ export const selectTodaySize = state => {
   return getIn(state, ['packets', 'pushSize', 'data']);
 };
 
-export const selectSize10Min = state => {
-  return getIn(state, ['packets', 'pushSize10MinStore', 'data'])
+export const selectSize1Min = state => {
+  return getIn(state, ['packets', 'pushSize1MinStore', 'data'])
 };
 
-export const selectVelocity10Min = state => {
-  const size10Min = selectSize10Min(state);
-  return size10Min && (size10Min / (10 * 60));
+export const selectVelocity1Min = state => {
+  const size10Min = selectSize1Min(state);
+  return size10Min && (size10Min / 60.0);
 };
 
 export const selectTodayPacketCount = state => {

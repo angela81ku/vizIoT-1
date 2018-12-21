@@ -44,4 +44,4 @@ export const CountRoom = '/total/count/1s';
 export const SizeRoom = '/total/size/1s';
 export const TodayCountRoom = '/total/count';
 export const TodaySizeRoom = '/total/size';
-export const Size10MinRoom = '/total/size/10min';
+export const Size1MinRoom = '/total/size/1min';

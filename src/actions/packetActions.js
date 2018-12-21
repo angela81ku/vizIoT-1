@@ -7,7 +7,7 @@ import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory'
 export const recentsActionBundle = createRequestActions('recent packets');
 
 // Other actions
-export const pushSize10Min = createAction();
+export const pushSize1Min = createAction('total size in 1 min');
 export const pushSizeToday = createAction();
 export const pushPacketCountToday = createAction();
 export const pushRealtimeVelocitySample = createAction();
@@ -17,7 +17,7 @@ export default Object.assign(
   {},
   recentsActionBundle,
   {
-    pushSize10Min,
+    pushSize1Min,
     pushSizeToday,
     pushPacketCountToday,
     pushRealtimeVelocitySample,

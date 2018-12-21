@@ -45,13 +45,13 @@ import {
   createSocket,
   SizeRoom,
   TodaySizeRoom,
-  AverageVelocitySize10MinRoom, Size10MinRoom
+  AverageVelocitySize10MinRoom, Size1MinRoom
 } from 'VizIoT/socket/subscribe';
 import { H0, H1, H2, H3, H4, H5 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import {
   pushRealtimeVelocitySample,
-  pushRealtimeVelocitySizeSample, pushSize10Min,
+  pushRealtimeVelocitySizeSample, pushSize1Min,
   pushSizeToday
 } from 'VizIoT/actions/packetActions';
 import {
@@ -124,7 +124,7 @@ class OverviewTab extends Component {
     socket.on(SizeRoom, pushRealtimeVelocitySizeSample);
     // socket.on(CountRoom, pushRealtimeVelocitySample);
     socket.on(TodaySizeRoom, message => pushSizeToday(message.size));
-    socket.on(Size10MinRoom, message => pushSize10Min(message.size));
+    socket.on(Size1MinRoom, message => pushSize1Min(message.size));
     // socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
   }
 

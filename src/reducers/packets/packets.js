@@ -4,7 +4,7 @@ import { createReducer } from 'redux-act';
 import {
   recentsActionBundle,
   pushPacketCountToday,
-  pushRealtimeVelocitySample, pushRealtimeVelocitySizeSample, pushSizeToday, pushSize10Min,
+  pushRealtimeVelocitySample, pushRealtimeVelocitySizeSample, pushSizeToday, pushSize1Min,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
@@ -41,8 +41,8 @@ const pushSize = createReducer({
 },
   { data : null});
 
-const pushSize10MinStore = createReducer({
-    [pushSize10Min]: (state, newVal) => {
+const pushSize1MinStore = createReducer({
+    [pushSize1Min]: (state, newVal) => {
       return {
         ...state,
         data: newVal,
@@ -96,7 +96,7 @@ const realtimeVelocitySizeSample = createReducer({
 
 export default combineReducers({
   pushSize,
-  pushSize10MinStore,
+  pushSize1MinStore,
   pushPacketCount,
   realtimeVelocitySample,
   realtimeVelocitySizeSample,

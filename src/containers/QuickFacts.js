@@ -26,7 +26,10 @@ import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
 import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
 import { H2 } from 'UIBean/functional-css/TypographyStyles';
-import { selectTodaySize, selectSize10Min, selectVelocity10Min } from 'VizIoT/selectors/packetSelector';
+import {
+  selectTodaySize,
+  selectVelocity1Min
+} from 'VizIoT/selectors/packetSelector';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -100,7 +103,7 @@ class QuickFacts extends PureComponent {
 
   render() {
     const {
-      velocity10Min,
+      velocityShortDuration,
       numberOfDevices,
       busiestDevice,
       mostContactedHost,
@@ -124,10 +127,10 @@ class QuickFacts extends PureComponent {
       },
     ];
 
-    const factsLast10Min = [
+    const factsRecent = [
       {
         title: 'Average Velocity / s',
-        data: velocity10Min || '~',
+        data: velocityShortDuration || '~',
         icon: 'av_timer',
       },
       // {
@@ -155,8 +158,8 @@ class QuickFacts extends PureComponent {
           lg: 6,
         })}
         {this.renderGroup(
-          factsLast10Min,
-          '10 Minutes Ago',
+          factsRecent,
+          '1 Minute Ago',
           'col-start / span 12',
           '1 / span 2',
           { md: 12, lg: 6 }
@@ -169,7 +172,7 @@ class QuickFacts extends PureComponent {
 QuickFacts.propTypes = {
   sizeToday: PropTypes.string,
   packetCount: PropTypes.number,
-  velocity10Min: PropTypes.string,
+  velocityShortDuration: PropTypes.string,
   numberOfDevices: PropTypes.number,
   busiestDevice: PropTypes.object,
   mostContactedHost: PropTypes.string.isRequired,
@@ -202,7 +205,10 @@ const formatBytes = (val) => {
 
   const { limit, unit } = byteRanges.find(({ limit }) => val > limit);
 
-  return `${parseFloat(val / parseFloat(limit)).toFixed(2)} ${unit}`;
+  if (limit) {
+    return `${parseFloat(val / parseFloat(limit)).toFixed(2)} ${unit}`;
+  }
+  return `${parseFloat(val).toFixed(2)} ${unit}`;
 };
 
 const mapStateToProps = state => {
@@ -210,7 +216,7 @@ const mapStateToProps = state => {
 
   return {
     sizeToday: formatBytes(selectTodaySize(state)),
-    velocity10Min: formatBytes(selectVelocity10Min(state)),
+    velocityShortDuration: formatBytes(selectVelocity1Min(state)),
     packetCount: selectTodayPacketCount(state),
     numberOfDevices: selectNumberOfDevices(state),
     busiestDevice: selectBusiestDevice(state),
