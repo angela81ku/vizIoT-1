@@ -30,3 +30,7 @@ export const selectRealtimeVelocitySample = state => {
 export const selectRealtimeVelocitySizeSample = state => {
   return getIn(state, ['packets', 'realtimeVelocitySizeSample', 'data']);
 };
+
+export const deviceToLiveSamples = state => {
+  return getIn(state, ['packets', 'realtimeIndividualVelocitySizeSample', 'data']);
+};

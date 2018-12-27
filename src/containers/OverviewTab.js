@@ -21,6 +21,7 @@ import {
   selectEntireNetwork,
   selectLastSeen,
   selectNumberOfConnections,
+  selectThreeDevices,
 } from '../selectors/deviceSelectors';
 import DeviceActivityChart from './ConnectedLineChart';
 import {
@@ -45,16 +46,18 @@ import {
   createSocket,
   SizeRoom,
   TodaySizeRoom,
-  AverageVelocitySize10MinRoom, Size1MinRoom
+  AverageVelocitySize10MinRoom, Size1MinRoom, IndividualSizeRoom
 } from 'VizIoT/socket/subscribe';
 import { H0, H1, H2, H3, H4, H5 } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import {
+  pushRealtimeIndividualVelocitySizeSample,
   pushRealtimeVelocitySample,
   pushRealtimeVelocitySizeSample, pushSize1Min,
   pushSizeToday
 } from 'VizIoT/actions/packetActions';
 import {
+  deviceToLiveSamples,
   selectRealtimeVelocitySample,
   selectRealtimeVelocitySizeSample,
   selectTodayPacketCount
@@ -63,6 +66,7 @@ import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
 import { createSelector } from 'reselect';
+import { takeTop3Size } from 'VizIoT/data/device/DeviceDataLenses';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -94,6 +98,11 @@ const Title = styled.div`
 `;
 const RecentDevicesTitle = styled(Title)`
   padding-top: 5rem;
+  padding-bottom: 1rem;
+`;
+const RecentDevices = styled.div`
+  ${H4}
+  
 `;
 
 const OverviewContainer = styled.div`
@@ -122,9 +131,9 @@ class OverviewTab extends Component {
     };
 
     socket.on(SizeRoom, pushRealtimeVelocitySizeSample);
-    // socket.on(CountRoom, pushRealtimeVelocitySample);
     socket.on(TodaySizeRoom, message => pushSizeToday(message.size));
     socket.on(Size1MinRoom, message => pushSize1Min(message.size));
+    socket.on(IndividualSizeRoom, pushRealtimeIndividualVelocitySizeSample);
     // socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
   }
 
@@ -252,12 +261,13 @@ class OverviewTab extends Component {
           macAddresses: [],
         })}
         chartConfig={mainChartConfig}
-        placeholderSubtitle={'BYTES/SEC'}
+        placeholderSubtitle={'BYTES / SEC'}
       />
     );
   }
 
   render() {
+    const { singleDeviceChartConfig } = this.props;
     return (
       <OverviewContainer>
         <ContainerTitle title={'Overview'} size={'lg'} cardPadding={false}/>
@@ -283,12 +293,15 @@ class OverviewTab extends Component {
         <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
           <FlexSize size={{ lg: 3 }}>
             <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
+            <RecentDevices>Most activity within the last 30 seconds</RecentDevices>
           </FlexSize>
           <FlexSize size={{ lg: 9 }}>
             <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
             <DeviceCollection devices={this.props.devices}
                               deviceToData={this.props.deviceToData}
-                              mode={'CARD'} />
+                              mode={'CARD'}
+                              chartConfig={singleDeviceChartConfig}
+            />
             </Flex>
           </FlexSize>
         </Flex>
@@ -314,11 +327,6 @@ OverviewTab.propTypes = {
   mostRecentHosts: PropTypes.array.isRequired,
 };
 
-const selectThreeDevices = createSelector(
-  selectDeviceList,
-  (devices) => { return devices ? devices.splice(-3) : [] }
-);
-
 const mapStateToProps = state => {
   const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
   const { bucketConfig, selectionMode } = singleDeviceChartConfig;
@@ -326,6 +334,7 @@ const mapStateToProps = state => {
 
   return {
     devices: selectThreeDevices(state),
+    deviceToData: deviceToLiveSamples(state),
     mostRecentHosts: selectMostRecentDomains(state, 15),
     devicesToHasData: hasDataForKey(state, deviceGraphKey),
     deviceToNumConnection: selectNumberOfConnections(state),
@@ -333,7 +342,7 @@ const mapStateToProps = state => {
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
     singleDeviceChartConfig: singleDeviceChartConfig,
-    deviceToData: selectDataForAllDevices(state),
+    // deviceToData: selectDataForAllDevices(state),
   };
 };
 export default connect(mapStateToProps)(OverviewTab);

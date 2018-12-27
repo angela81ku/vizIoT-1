@@ -24,7 +24,7 @@ const defaultState = {
       bucketUnit: BucketUnit.SECOND,
     }),
     selectionMode: SelectionMode.INDIVIDUAL,
-    dataWindowSize: 60,
+    dataWindowSize: 30,
   },
 
   entireNetwork: {

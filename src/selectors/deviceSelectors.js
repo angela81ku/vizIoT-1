@@ -10,11 +10,17 @@ import { getIn } from 'immutable';
 import * as R from 'ramda';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 import { createSelector } from 'reselect';
+import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import { takeTop3Size, macAddress } from 'VizIoT/data/device/DeviceDataLenses';
 
 export const selectDeviceList = createSelector(state => {
   const data = R.view(device.deviceListValue, state);
   return data;
 }, (deviceList) => deviceList && deviceList.toJS());
+
+export const selectDevice = createSelector(state => {
+  const data = R.view(dev)
+}, )
 
 export const selectNumberOfDevices = state => {
   return R.view(device.count)(state);
@@ -100,3 +106,19 @@ export const selectBusiestDevice = state => {
   );
   return mostPopularEntry;
 };
+
+// top 3 devices with most connections in the last 30 seconds
+// visualize using a bar chart, which is better for
+export const selectThreeDevices = createSelector(
+  [selectDeviceList, deviceToLiveSamples, state => state],
+  (devices, deviceToLiveSamples, state) => {
+    const top3 = takeTop3Size(deviceToLiveSamples);
+    console.log(top3);
+    const macAddresses = R.map((a) => R.view(macAddress, a), top3);
+    const threeDevices = R.compose(
+      R.map(macAddress => device.makeFindDeviceByMac(macAddress)(state) || ({ macAddress })),
+      R.defaultTo([])
+    )(macAddresses);
+    return threeDevices;
+  }
+);

@@ -14,6 +14,15 @@ import { OFF_WHITE, TEXT, TRON } from 'VizIoT/styles/base/viz-theme';
 import PropTypes from 'prop-types';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import * as R from 'ramda';
+import { Keys } from 'VizIoT/data/device/DeviceData';
+import {
+  lastSize, lastSizeSamples,
+  makeMacAddressLens, recentSizeSum,
+  sizeInToday,
+  sizeOutToday,
+  sizeTotalToday
+} from 'VizIoT/data/device/DeviceDataLenses';
+import moment from 'moment';
 
 const StyledTable = styled(DataTable)`
   margin-bottom: 50px;
@@ -151,17 +160,41 @@ export default class DeviceCollection extends PureComponent {
     hoveredDevice,
     onCardHover,
     onCardLeaveHover,
+    chartConfig,
   ) {
     return (
       <Flex gutter={2} className="p-top-5">
         {
           devices.map(device => {
-            const { _id } = device;
-            const deviceData = deviceToData[_id];
-            const velocity = getIn(deviceData, ['velocity'], 32);
-            const total = getIn(deviceData, ['total'], 66);
-            const dataIn = getIn(deviceData, ['dataIn'], 23);
-            const dataOut = getIn(deviceData, ['dataOut'], 43);
+            const { _id, macAddress } = device;
+            const deviceData = R.view(makeMacAddressLens(macAddress.toUpperCase()), deviceToData);
+            if (!deviceData) {
+              return null;
+            }
+            const velocity = R.view(lastSize, deviceData);
+            const total = R.view(sizeTotalToday, deviceData);
+            const dataIn = R.view(sizeInToday, deviceData);
+            const dataOut = R.view(sizeOutToday, deviceData);
+            const dataByTime = R.view(lastSizeSamples, deviceData);
+
+            let graphData = [];
+            if (dataByTime && dataByTime.length) {
+              const catchUpSeconds = 0;
+              graphData = dataByTime.map(({ startMS, size: yData }) => {
+                return {
+                  xData: moment
+                    .unix(startMS / 1000.0)
+                    .add(catchUpSeconds, 'seconds')
+                    .toDate(),
+                  yData,
+                };
+              });
+
+              // while () {
+              //
+              // }
+
+            }
 
             return (
               <DeviceCardWrapper
@@ -178,6 +211,8 @@ export default class DeviceCollection extends PureComponent {
                   total={total}
                   dataIn={dataIn}
                   dataOut={dataOut}
+                  graphData={graphData}
+                  chartConfig={chartConfig}
                 />
               </DeviceCardWrapper>
             );
@@ -203,7 +238,7 @@ export default class DeviceCollection extends PureComponent {
     const rowData = devices.reduce((acc, device) => {
       const { _id, name } = device;
       const deviceData = deviceToData[_id];
-      const velocity = getIn(deviceData, ['velocity'], 32);
+      const velocity = getIn(deviceData, ['velocity'], );
       const total = getIn(deviceData, ['total'], 66);
       const dataIn = getIn(deviceData, ['dataIn'], 23);
       const dataOut = getIn(deviceData, ['dataOut'], 43);
@@ -247,7 +282,7 @@ export default class DeviceCollection extends PureComponent {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { mode, devices, deviceToData } = this.props;
+    const { mode, devices, deviceToData, chartConfig } = this.props;
 
     console.log('DeviceCollection rendering!');
 
@@ -258,6 +293,7 @@ export default class DeviceCollection extends PureComponent {
         hoveredDevice,
         this.onCardHover,
         this.onCardLeaveHover,
+        chartConfig,
       );
     } else if (mode === 'LIST') {
       return DeviceCollection.renderDevicesAsList(devices, deviceToData);
@@ -273,6 +309,7 @@ DeviceCollection.propTypes = {
     total: PropTypes.number,
   }),
   mode: PropTypes.oneOf(['CARD', 'LIST']),
+  chartConfig: PropTypes.object.isRequired,
 };
 
 DeviceCollection.defaultProps = {

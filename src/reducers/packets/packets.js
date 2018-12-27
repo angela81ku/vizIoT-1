@@ -4,10 +4,15 @@ import { createReducer } from 'redux-act';
 import {
   recentsActionBundle,
   pushPacketCountToday,
-  pushRealtimeVelocitySample, pushRealtimeVelocitySizeSample, pushSizeToday, pushSize1Min,
+  pushRealtimeVelocitySample,
+  pushRealtimeVelocitySizeSample,
+  pushSizeToday,
+  pushSize1Min,
+  pushRealtimeIndividualVelocitySizeSample,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
+import { createDeviceDataMap, mergeDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
 
 const isMocking = true;
 const genMock = count => ({
@@ -94,11 +99,22 @@ const realtimeVelocitySizeSample = createReducer({
   },
 }, { data: null });
 
+const realtimeIndividualVelocitySizeSample = createReducer({
+  [pushRealtimeIndividualVelocitySizeSample]: (state, message) => {
+    console.log('new message' + message.toString());
+    return {
+      ...state,
+      data: mergeDeviceDataMaps(state.data, createDeviceDataMap(message)),
+    }
+  }
+}, { data: null });
+
 export default combineReducers({
   pushSize,
   pushSize1MinStore,
   pushPacketCount,
   realtimeVelocitySample,
   realtimeVelocitySizeSample,
+  realtimeIndividualVelocitySizeSample,
   packets,
 });

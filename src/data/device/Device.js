@@ -9,6 +9,7 @@ export const Device = new Record({
   name: null,
   shortName: null,
   category: null,
+  macAddress: null,
 });
 
 /**

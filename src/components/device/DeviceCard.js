@@ -15,6 +15,9 @@ import {
   TRON, EXTRA_LIGHT_COLOR, OFF_WHITE,
 } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
+import { formatBytes } from 'VizIoT/utility/FormatUtility';
+import LineChart from 'VizIoT/components/LineChart';
+import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
 const { H5 } = TypographyComponent;
 
 const borderRadius = '10px';
@@ -105,18 +108,22 @@ const DRight = styled(FlexChild)`
   justify-content: flex-end;
 `;
 
+const DEFAULT_VAL = '~';
+
 const DeviceCard = ({
   onHover,
   onLeaveHover,
   active,
-  device: { id, name, category },
+  device: { id, name, category, macAddress },
   velocity,
   total,
   dataIn,
   dataOut,
-
+  graphData,
+  chartConfig: {
+    dataWindowSize,
+  },
 }) => {
-  const lastSeen = 'Several seconds ago';
   return (
     <DCard
       onMouseEnter={onHover}
@@ -127,14 +134,21 @@ const DeviceCard = ({
     >
       <DContent>
         <DRight className="p-4" grow={10}>
+          <AutoFitComponent>
+            <LineChart
+              className="device-small-chart"
+              dataWindowSize={dataWindowSize}
+              data={graphData}
+            />
+          </AutoFitComponent>
           <FlexChild>
             <DCategory className="p-bot-1">{category}</DCategory>
-            <DName>{name}</DName>
+            <DName>{name || macAddress}</DName>
           </FlexChild>
           <FlexChild>
             <ConnectionsLabel className="m-top-2 m-bot-4">
-              <ConnectionsValue>{velocity || '~'}</ConnectionsValue>
-              {' packets / s'}
+              <ConnectionsValue>{(velocity && formatBytes(velocity)) || DEFAULT_VAL}</ConnectionsValue>
+              {' / s'}
             </ConnectionsLabel>
             {/*<ConnectionDestination>*/}
                 {/*{'90.5% to '}*/}
@@ -146,13 +160,13 @@ const DeviceCard = ({
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="box" className="m-right-1" /> {total || '~'}
+                <BIcon type={'fas'} name="box" className="m-right-1" /> {total || DEFAULT_VAL}
               </DeviceDownloadMetrics>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-up" className="m-right-1" /> {dataIn || '~'}
+                <BIcon type={'fas'} name="arrow-alt-circle-up" className="m-right-1" /> {dataIn || DEFAULT_VAL}
               </DeviceDownloadMetrics>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-down" className="m-right-1" /> {dataOut || '~'}
+                <BIcon type={'fas'} name="arrow-alt-circle-down" className="m-right-1" /> {dataOut || DEFAULT_VAL}
               </DeviceDownloadMetrics>
             </Flex>
           </FlexChild>
@@ -181,6 +195,7 @@ DeviceCard.propTypes = {
   total: PropTypes.number,
   dataIn: PropTypes.number,
   dataOut: PropTypes.number,
+  chartConfig: PropTypes.object.isRequired,
 };
 
 export default shouldUpdate((props, nextProps) => {

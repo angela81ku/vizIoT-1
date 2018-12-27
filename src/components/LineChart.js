@@ -31,8 +31,8 @@ class LineChart extends React.Component {
 
     return (
       <Flex direction={FlexDirection.COLUMN}>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
+        {title && <Title>{title}</Title>}
+        {subtitle && <Subtitle>{subtitle}</Subtitle>}
         <AutoFitComponent className={this.props.className}>
           <LiveLineGraph
             data={data}

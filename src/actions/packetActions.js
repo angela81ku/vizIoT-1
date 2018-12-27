@@ -11,7 +11,8 @@ export const pushSize1Min = createAction('total size in 1 min');
 export const pushSizeToday = createAction();
 export const pushPacketCountToday = createAction();
 export const pushRealtimeVelocitySample = createAction();
-export const pushRealtimeVelocitySizeSample = createAction();
+export const pushRealtimeVelocitySizeSample = createAction('real time size sample');
+export const pushRealtimeIndividualVelocitySizeSample = createAction('real time individual size sample');
 
 export default Object.assign(
   {},
@@ -22,4 +23,5 @@ export default Object.assign(
     pushPacketCountToday,
     pushRealtimeVelocitySample,
     pushRealtimeVelocitySizeSample,
+    pushRealtimeIndividualVelocitySizeSample,
   });
