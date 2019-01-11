@@ -5,6 +5,30 @@ import PropTypes from 'prop-types';
  * Used for auto fitting components. Accepts a single child, and injects dynamic dimension props to it.
  * TODO try using HoC instead
  */
+export const withParentDimensions = OriginalComponent => {
+  const HoC = () => {
+
+    const readyToRender = !!this.containerElement;
+
+    return (
+      <div
+        ref={el => {
+          this.containerElement = el;
+        }}
+        className={this.props.className}
+      >
+        {readyToRender && children}
+      </div>
+    );
+  };
+
+  HoC.propTypes = {
+    children: PropTypes.element.isRequired
+  };
+
+  return HoC;
+};
+
 class AutoFitComponent extends React.Component {
   constructor(props) {
     super(props);
