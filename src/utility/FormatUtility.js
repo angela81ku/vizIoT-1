@@ -1,26 +1,28 @@
 'use es6';
 
-export const formatBytes = (val) => {
+export const formatBytes = (val, denomUnit) => {
 
   if (!val) {
     return val;
   }
 
+  const denom = denomUnit ? ' / ' + denomUnit : '' ;
+
   const byteRanges = [
     {
-      unit: 'GB',
+      unit: `GB${denom}`,
       limit: Math.pow(10, 9)
     },
     {
-      unit: 'MB',
+      unit: `MB${denom}`,
       limit: Math.pow(10, 6)
     },
     {
-      unit: 'KB',
+      unit: `KB${denom}`,
       limit: Math.pow(10, 3)
     },
     {
-      unit: 'B',
+      unit: `B${denom}`,
       limit: 0
     },
   ];

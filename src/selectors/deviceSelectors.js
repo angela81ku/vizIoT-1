@@ -116,7 +116,7 @@ export const selectThreeDevices = createSelector(
     console.log(top3);
     const macAddresses = R.map((a) => R.view(macAddress, a), top3);
     const threeDevices = R.compose(
-      R.map(macAddress => device.makeFindDeviceByMac(macAddress)(state) || ({ macAddress })),
+      R.map(macAddress => device.findDeviceByMac(macAddress)(state) || ({ macAddress })),
       R.defaultTo([])
     )(macAddresses);
     return threeDevices;

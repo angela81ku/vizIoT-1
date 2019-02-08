@@ -150,7 +150,7 @@ class QuickFacts extends PureComponent {
 
     const factsRecent = [
       {
-        title: 'Average Velocity / s',
+        title: 'Averaged traffic rate',
         data: velocityShortDuration || '~',
         icon: 'av_timer',
       },
@@ -180,7 +180,7 @@ class QuickFacts extends PureComponent {
         })}
         {this.renderGroup(
           factsRecent,
-          '1 Minute Ago',
+          'In the last minute',
           'col-start / span 12',
           '1 / span 2',
           { md: 12, lg: 6 }
@@ -202,7 +202,7 @@ QuickFacts.propTypes = {
 const mapStateToProps = state => {
   return {
     sizeToday: formatBytes(selectTodaySize(state)),
-    velocityShortDuration: formatBytes(selectVelocity1Min(state)),
+    velocityShortDuration: formatBytes(selectVelocity1Min(state), 's'),
     packetCount: selectTodayPacketCount(state),
     numberOfDevices: selectNumberOfDevices(state),
     busiestDevice: selectBusiestDevice(state),

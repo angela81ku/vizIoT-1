@@ -6,6 +6,7 @@ import immLens from 'VizIoT/data/immLens';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 import { DeviceData, Keys } from 'VizIoT/data/device/DeviceData';
 import moment from 'moment';
+import { compare, standardize } from 'mac-address-util';
 
 // DeviceData
 export const macAddress = immLens(Keys.MAC_ADDRESS);
@@ -39,8 +40,12 @@ export const takeTop3Size = R.compose(
 
 const tempBlacklist = ['A6:39:E1:79:59:B0'];
 
+
+
 export const createDeviceDataMap = arg => {
   const { startMS } = arg;
+
+  const macLens = R.lensProp('macAddress');
 
   return R.compose(
     R.indexBy(pass => R.view(macAddress, pass)),
@@ -51,7 +56,8 @@ export const createDeviceDataMap = arg => {
       [Keys.NAME]: name,
     })),
     R.filter(({ macAddress }) => !R.includes(macAddress, tempBlacklist)),
-    R.view(R.lensProp('size'))
+    R.map(R.over(macLens, standardize)),
+    R.view(R.lensProp('size')),
   )(arg);
 };
 

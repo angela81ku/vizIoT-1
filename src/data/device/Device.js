@@ -1,6 +1,9 @@
 'use es6';
 
 import { List, Record } from 'immutable';
+import { standardize } from 'mac-address-util';
+import * as R from 'ramda';
+import immLens from 'VizIoT/data/immLens';
 
 /* Device entity */
 
@@ -19,7 +22,9 @@ export const Device = new Record({
  */
 export const createDeviceList = immutableRes => {
   return List(
-    immutableRes.map(deviceData => {
-      return new Device(deviceData);
-    }));
+    immutableRes
+      .map(deviceData => {
+        const stdDeviceData = R.over(immLens('macAddress'), standardize)(deviceData);
+        return new Device(stdDeviceData);
+      }));
 };

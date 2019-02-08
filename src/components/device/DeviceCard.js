@@ -147,8 +147,7 @@ const DeviceCard = ({
           </FlexChild>
           <FlexChild>
             <ConnectionsLabel className="m-top-2 m-bot-4">
-              <ConnectionsValue>{(velocity && formatBytes(velocity)) || DEFAULT_VAL}</ConnectionsValue>
-              {' / s'}
+              <ConnectionsValue>{(velocity && formatBytes(velocity, 's')) || DEFAULT_VAL}</ConnectionsValue>
             </ConnectionsLabel>
             {/*<ConnectionDestination>*/}
                 {/*{'90.5% to '}*/}
