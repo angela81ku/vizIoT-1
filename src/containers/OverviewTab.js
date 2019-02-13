@@ -67,6 +67,7 @@ import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
 import { createSelector } from 'reselect';
 import { takeTop3Size } from 'VizIoT/data/device/DeviceDataLenses';
+import { streamPacketsTodayByDevice } from 'VizIoT/actionsRequest/packetRequest';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -130,6 +131,7 @@ class OverviewTab extends Component {
       socket,
     };
 
+    streamPacketsTodayByDevice(socket);
     socket.on(SizeRoom, pushRealtimeVelocitySizeSample);
     socket.on(TodaySizeRoom, message => pushSizeToday(message.size));
     socket.on(Size1MinRoom, message => pushSize1Min(message.size));

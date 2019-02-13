@@ -12,7 +12,9 @@ class LoggerContainer extends React.Component {
 
   componentWillMount() {
     const dataFetchLoop = setInterval(() => {
-      requestRecentPackets({ pastMS: 2000 });
+      requestRecentPackets({ pastMS: 2000 })
+        .catch(console.error)
+        .done();
     }, DATA_REFRESH_DELAY_MS);
 
     this.setState(() => ({ dataFetchLoop }));

@@ -23,9 +23,10 @@ import BIcon from 'UIBean/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from 'UIBean/GridItem';
 import BCard from 'UIBean/BCard';
-import { closeSocket, createSocket, subscribeToRoom } from 'VizIoT/socket/subscribe';
+import { createSocket } from 'VizIoT/socket/subscribe';
 import { H2 } from 'UIBean/functional-css/TypographyStyles';
 import {
+  numberOfActiveDevices,
   selectTodaySize,
   selectVelocity1Min
 } from 'VizIoT/selectors/packetSelector';
@@ -204,7 +205,7 @@ const mapStateToProps = state => {
     sizeToday: formatBytes(selectTodaySize(state)),
     velocityShortDuration: formatBytes(selectVelocity1Min(state), 's'),
     packetCount: selectTodayPacketCount(state),
-    numberOfDevices: selectNumberOfDevices(state),
+    numberOfDevices: numberOfActiveDevices(state),
     busiestDevice: selectBusiestDevice(state),
     mostContactedHost: selectMostContactedHostLastPeriod(
       state,

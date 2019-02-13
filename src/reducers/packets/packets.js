@@ -2,6 +2,7 @@
 
 import { createReducer } from 'redux-act';
 import {
+  pushIndividualSizeToday,
   recentsActionBundle,
   pushPacketCountToday,
   pushRealtimeVelocitySample,
@@ -84,6 +85,16 @@ const middleware = (state, rawRequestData) => {
   };
 };
 
+const packetPerDevice = createReducer({
+  [pushIndividualSizeToday]: (state, newEntry) => {
+    debugger
+    return {
+      ...state,
+      data: newEntry,
+    }
+  },
+}, { packetPerDevice: null });
+
 const packets = createRequestReducer(
   { packetListing: null },
   recentsActionBundle,
@@ -101,7 +112,7 @@ const realtimeVelocitySizeSample = createReducer({
 
 const realtimeIndividualVelocitySizeSample = createReducer({
   [pushRealtimeIndividualVelocitySizeSample]: (state, message) => {
-    console.log('new message' + message.toString());
+    // console.log('new message' + message.toString());
     return {
       ...state,
       data: mergeDeviceDataMaps(state.data, createDeviceDataMap(message)),
@@ -110,6 +121,7 @@ const realtimeIndividualVelocitySizeSample = createReducer({
 }, { data: null });
 
 export default combineReducers({
+  packetPerDevice,
   pushSize,
   pushSize1MinStore,
   pushPacketCount,

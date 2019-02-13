@@ -2,6 +2,8 @@
 
 import { getIn } from 'immutable';
 
+// Loose selectors for MVP, when reporting api is done, we will switch to generic selectors and hopefully these will be gone.
+
 export const selectRecentPackets = state => {
   return getIn(state, ['packets', 'packets', 'packetListing']);
 };
@@ -29,6 +31,11 @@ export const selectRealtimeVelocitySample = state => {
 
 export const selectRealtimeVelocitySizeSample = state => {
   return getIn(state, ['packets', 'realtimeVelocitySizeSample', 'data']);
+};
+
+export const numberOfActiveDevices = state => {
+  const deviceVolumes = getIn(state, ['packets', 'packetPerDevice', 'data', 'size']);
+  return deviceVolumes && deviceVolumes.length;
 };
 
 export const deviceToLiveSamples = state => {
