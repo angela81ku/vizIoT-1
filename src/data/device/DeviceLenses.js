@@ -5,6 +5,7 @@ import { mapped } from 'ramda-lens'
 import immLens from 'VizIoT/data/immLens';
 import { DeviceData, Keys } from 'VizIoT/data/device/DeviceData';
 import { standardize, compare as compareMac } from 'mac-address-util';
+import { tap } from 'VizIoT/utility/Debugging';
 
 // Lens
 export const macAddress = immLens('macAddress');
@@ -22,6 +23,7 @@ const doesDeviceHasMacAddress = macAddressValue =>
 
 export const findDeviceByMac = macAddressValue => R.compose(
   R.find(doesDeviceHasMacAddress(macAddressValue)),
+  R.defaultTo([]),
   R.view(deviceListValue)
 );
 

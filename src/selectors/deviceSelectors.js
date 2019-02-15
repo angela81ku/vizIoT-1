@@ -113,7 +113,6 @@ export const selectThreeDevices = createSelector(
   [selectDeviceList, deviceToLiveSamples, state => state],
   (devices, deviceToLiveSamples, state) => {
     const top3 = takeTop3Size(deviceToLiveSamples);
-    console.log(top3);
     const macAddresses = R.map((a) => R.view(macAddress, a), top3);
     const threeDevices = R.compose(
       R.map(macAddress => device.findDeviceByMac(macAddress)(state) || ({ macAddress })),

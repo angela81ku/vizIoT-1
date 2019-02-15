@@ -87,7 +87,6 @@ const middleware = (state, rawRequestData) => {
 
 const packetPerDevice = createReducer({
   [pushIndividualSizeToday]: (state, newEntry) => {
-    debugger
     return {
       ...state,
       data: newEntry,

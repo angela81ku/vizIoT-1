@@ -7,6 +7,7 @@ import * as device from 'VizIoT/data/device/DeviceLenses';
 import { DeviceData, Keys } from 'VizIoT/data/device/DeviceData';
 import moment from 'moment';
 import { compare, standardize } from 'mac-address-util';
+import { tap } from 'VizIoT/utility/Debugging';
 
 // DeviceData
 export const macAddress = immLens(Keys.MAC_ADDRESS);
@@ -24,6 +25,7 @@ export const takeTop3Size = R.compose(
   R.map(R.nth(1)), // TODO can be optimized
   R.take(3),
   R.sort(R.descend(R.pipe(R.nth(1), R.view(recentSizeSum)))),
+  // tap,
   R.toPairs,
   R.defaultTo({}),
 );
