@@ -11,6 +11,8 @@ import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 import { selectDataForAllDevices } from 'VizIoT/selectors/analyticsSelector';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
+import BTextInput from 'UIBean/BTextInput';
+import BCheckBox from 'VizIoT/components/BCheckBox';
 
 const TitleContainer = styled.div`
   
@@ -49,6 +51,12 @@ class DeviceOverview extends Component {
             <SectionTitle title="Devices" size="lg" cardPadding={false} />
             <SectionSubtitle text="Explore and analyze your device activities" margins={true} />
           </TitleContainer>
+          <BTextInput
+            placeholder="Search 'fridge' or 'sensor'"
+            onChange={e => { console.log(e.target.value) }}
+            inline
+          />
+          <BCheckBox title={'Map'} inline />
           <DeviceCollection mode={'LIST'} devices={devices} deviceToData={deviceToData} />
         </PageContent>
       </PageBackground>
