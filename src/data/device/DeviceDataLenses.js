@@ -25,7 +25,6 @@ export const takeTop3Size = R.compose(
   R.map(R.nth(1)), // TODO can be optimized
   R.take(3),
   R.sort(R.descend(R.pipe(R.nth(1), R.view(recentSizeSum)))),
-  // tap,
   R.toPairs,
   R.defaultTo({}),
 );
