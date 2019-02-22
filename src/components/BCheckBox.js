@@ -29,7 +29,7 @@ const CheckboxContainer = styled.label`
       ? `border: solid ${TRON} 1px;`
       : 'border: solid #ffffff21 1px;'
   };
-  border-radius: 1rem;
+  border-radius: 4rem;
   transition: background 0.2s;
 
   &:hover {
