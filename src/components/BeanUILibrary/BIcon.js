@@ -1,6 +1,6 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -13,7 +13,7 @@ const IconContainer = styled.i`
   fill: white;
 `;
 
-class BIcon extends Component {
+class BIcon extends PureComponent {
   render() {
     const { name, size, weight, type, className } = this.props;
     let newProp = { 'data-eva': name };

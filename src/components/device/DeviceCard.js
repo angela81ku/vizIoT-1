@@ -183,6 +183,7 @@ DeviceCard.defaultProps = {
   total: null,
   dataIn: null,
   dataOut: null,
+  graphData: null,
 };
 
 DeviceCard.propTypes = {
@@ -195,9 +196,15 @@ DeviceCard.propTypes = {
   dataIn: PropTypes.number,
   dataOut: PropTypes.number,
   chartConfig: PropTypes.object.isRequired,
+  graphData: PropTypes.arrayOf(PropTypes.shape({
+    xData: PropTypes.any.isRequired,
+    yData: PropTypes.any.isRequired,
+  }).isRequired),
 };
 
-export default shouldUpdate((props, nextProps) => {
-  return props.active !== nextProps.active ||
-    props.device !== nextProps.device;
-})(DeviceCard);
+export default DeviceCard;
+
+// export default shouldUpdate((props, nextProps) => {
+//   return props.active !== nextProps.active ||
+//     props.device !== nextProps.device;
+// })(DeviceCard);

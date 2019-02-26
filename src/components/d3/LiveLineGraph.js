@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { max, range } from 'd3-array';
@@ -9,9 +9,105 @@ import { format, formatPrefix } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { curveBasis, curveMonotoneX, curveStep, line } from 'd3-shape';
 import { easeLinear } from 'd3-ease';
-import { transition } from 'd3-transition';
+import { active, transition } from 'd3-transition';
+import { interval } from 'd3-timer';
 import moment from 'moment';
 import { SPACING } from '../../data/records/Spacing';
+
+// Live temporal graphs transition 1 second worth of pixels every 1 second
+const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
+  const startUnix = xStart.getTime() / 1000.0;
+  const endUnix = xEnd.getTime() / 1000.0;
+  return Math.round(graphWidth / (endUnix - startUnix)) * (duration / 1000);
+};
+
+const TRANSITION_INTERVAL = 4000;
+
+class RollingXAxis extends Component {
+  transitionRunning = false;
+
+  kickoffTransition = (transitionAmount) => {
+
+    if (this.transitionRunning) {
+      return;
+    }
+
+    console.log('kicoffTransition');
+
+
+    const { node } = this.props;
+    const item = node.select('.xAxis');
+
+    const repeat = () => {
+      const t = transition().duration(TRANSITION_INTERVAL).ease(easeLinear);
+
+      if (!item.empty()) {
+        this.transitionRunning = true;
+      }
+
+      item
+        .attr('transform', 'translate(0, 0)')
+        .transition(t)
+        .attr('transform', `translate(${-transitionAmount}, 0)`)
+        .on('end', repeat);
+    };
+    repeat();
+  };
+
+  shouldComponentUpdate() {
+    return this.props.node.empty();
+  }
+
+  getLiveDomainForX = () => {
+    const { dataWindowSize, dataWindowUnit } = this.props;
+    const nowMoment = moment().second(0);
+    const xStart = nowMoment
+      .clone()
+      .subtract(dataWindowSize, dataWindowUnit)
+      .toDate();
+    const xEnd = nowMoment.toDate();
+    return { xStart, xEnd };
+  };
+
+  // xStart, xEnd are times.
+  render() {
+    const { node, translateX, translateY, width } = this.props;
+
+    const { xStart, xEnd } = this.getLiveDomainForX();
+
+    console.log('rendering rolling x axis');
+
+    const redrawXAxis = (xAxis) => {
+      return g => {
+        g.call(xAxis);
+        g.select('.domain').remove();
+        g.selectAll('.tick text').attr('font-size', '14px');
+      };
+    };
+
+    const x = scaleTime()
+      .domain([xStart, xEnd])
+      .range([0, width]);
+
+    const xAxis = axisBottom(x)
+      .ticks(timeSecond, 10)
+      // .tickFormat(d => `${moment().diff(moment(d), 'seconds')}s ago`);
+      .tickFormat(d => `${d.getSeconds()}s ago`);
+
+    const xAxisNode = node.select('.xAxis').call(redrawXAxis(xAxis));
+
+    node.select('.xAxisContainer').attr(
+      'transform',
+      `translate(${translateX}, ${translateY})`
+    );
+
+    const transitionAmount = getTransitionAmount(xStart, xEnd, width, TRANSITION_INTERVAL);
+    // this.kickoffTransition(transitionAmount);
+
+    return null;
+  };
+}
+
 
 // TODO try separating the 'Live' / 'high-frequency' aspect into a HoC factory
 class LiveLineGraph extends Component {
@@ -19,9 +115,9 @@ class LiveLineGraph extends Component {
     super(props);
     this.state = {
       leftAxisMargin: 15,
-      transitionDuration: 1000, // 1 second
       redraw: true,
       looper: null,
+      transitionLoop: null,
       ...this.mapPropsToState(props),
     };
   }
@@ -50,22 +146,16 @@ class LiveLineGraph extends Component {
     return { xStart, xEnd };
   };
 
-  // Live temporal graphs transition 1 second worth of pixels every 1 second
-  getTransitionAmount = (xStart, xEnd, graphWidth) => {
-    const startUnix = xStart.getTime() / 1000.0;
-    const endUnix = xEnd.getTime() / 1000.0;
-    return Math.round(graphWidth / (endUnix - startUnix));
-  };
-
   mapPropsToState = props => {
-    const { data } = props;
+    const { data, transitionDuration } = props;
 
     const graphDimensions = LiveLineGraph.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
-    const transitionAmount = this.getTransitionAmount(
+    const transitionAmount = getTransitionAmount(
       domain.xStart,
       domain.xEnd,
-      graphDimensions.graphWidth
+      graphDimensions.graphWidth,
+      transitionDuration,
     );
 
     return {
@@ -76,9 +166,16 @@ class LiveLineGraph extends Component {
     };
   };
 
-
   componentWillUnmount() {
-    clearInterval(this.state.looper);
+    const { looper, transitionLoop } = this.state;
+
+    if (looper) {
+      clearInterval(looper);
+    }
+    if (transitionLoop) {
+      console.log('destroy transition loop');
+      clearInterval(transitionLoop);
+    }
   }
 
   shouldComponentUpdate() {
@@ -106,9 +203,12 @@ class LiveLineGraph extends Component {
       xStart,
       xEnd,
       graphDimensions: { graphWidth, graphHeight },
-      transitionAmount,
-      transitionDuration,
+      transitionAmount
     } = this.state;
+
+    const { transitionDuration } = this.props;
+
+    console.log('redrawchart');
 
     // =================================================================================================================
     // Start Data Update
@@ -146,19 +246,6 @@ class LiveLineGraph extends Component {
     const svg = select(node);
     const g = svg.select('g');
 
-    g.select('.xAxisContainer').attr(
-      'transform',
-      `translate(${leftAxisMargin}, ${graphHeight})`
-    );
-
-    g.select('.xAxis')
-      .call(this.redrawXAxis(xAxis))
-      .attr('transform', null)
-      .transition()
-      .duration(transitionDuration)
-      .ease(easeLinear)
-      .attr('transform', `translate(${-transitionAmount}, 0)`);
-
     g.select('.yAxis').call(this.redrawYAxis(yAxis, leftAxisMargin));
 
     g.select('#clip rect')
@@ -171,7 +258,9 @@ class LiveLineGraph extends Component {
         g.select('.line'),
         this.createLinePathData(x, y, graphData),
         transitionDuration,
-        transitionAmount
+        transitionAmount,
+        x,
+        node,
       );
     }
   }
@@ -188,21 +277,15 @@ class LiveLineGraph extends Component {
     return lineFunction(data);
   }
 
-  static redrawLine(g, linePathData, transitionDuration, transitionAmount) {
+  static redrawLine(g, linePathData, transitionDuration, transitionAmount, x, node) {
     g.attr('transform', null)
       .attr('d', linePathData)
+      .interrupt() // VERY IMPORTANT
       .transition()
-      .duration(transitionDuration)
+      .duration(1000)
       .ease(easeLinear)
       .attr('transform', `translate(${-transitionAmount}, 0)`);
-  }
 
-  redrawXAxis(xAxis) {
-    return g => {
-      g.call(xAxis);
-      g.select('.domain').remove();
-      g.selectAll('.tick text').attr('font-size', '14px');
-    };
   }
 
   redrawYAxis(yAxis, leftAxisMargin) {
@@ -238,15 +321,26 @@ class LiveLineGraph extends Component {
       l,
       leftAxisMargin
     );
-    this.redrawChart();
-    this.startRenderLoop();
+    // this.redrawChart();
+    // this.startRenderLoop();
+    this.startTransitionLoop();
+  };
+
+  startTransitionLoop = () => {
+    const looper = setInterval(() => {
+      // console.log('start next transition');
+      this.redrawChart();
+
+      // this.setState(() => ({ redraw: true }));
+    }, 1000); // 4s loop
+    this.setState({ transitionLoop: looper });
   };
 
   startRenderLoop = () => {
     const looper = setInterval(
       () => {
         this.onEachLoop();
-        }, 50);
+        }, 500);
     this.setState({ looper });
   };
 
@@ -271,7 +365,6 @@ class LiveLineGraph extends Component {
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
-    // debugger
     g.select('defs')
       .append('clipPath')
       .attr('id', 'xAxisClip')
@@ -302,16 +395,25 @@ class LiveLineGraph extends Component {
   }
 
   render() {
+
     const {
       dimension: { width, height },
+      dataWindowSize, dataWindowUnit,
     } = this.props;
 
-    if (this.state.redraw) {
-      this.redrawChart();
-    }
+    const { leftAxisMargin, xStart, xEnd, graphDimensions: { graphWidth, graphHeight },
+    } = this.state;
+
+    console.log('reach');
+
+    const svg = select(this.node);
+    const g = svg.select('g');
 
     return (
       <div className="barChart-scrollable-wrapper">
+        <RollingXAxis node={g}
+                      translateX={leftAxisMargin} translateY={graphHeight} width={graphWidth}
+                      dataWindowSize={dataWindowSize} dataWindowUnit={dataWindowUnit} />
         <svg
           ref={node => (this.node = node)}
           viewBox={`0 0 ${width} ${height}`}
@@ -327,6 +429,7 @@ LiveLineGraph.propTypes = {
   dataWindowSize: PropTypes.number.isRequired,
   dataWindowUnit: PropTypes.string.isRequired,
   padding: PropTypes.instanceOf(SPACING).isRequired,
+  transitionDuration: PropTypes.number.isRequired,
 };
 
 export default LiveLineGraph;

@@ -41,8 +41,6 @@ export const takeTop3Size = R.compose(
 
 const tempBlacklist = ['A6:39:E1:79:59:B0'];
 
-
-
 export const createDeviceDataMap = arg => {
   const { startMS } = arg;
 
@@ -62,22 +60,70 @@ export const createDeviceDataMap = arg => {
   )(arg);
 };
 
-// r is the new data
-export const mergeDeviceDataMaps = R.mergeWithKey((k, l, r) => {
-  const withNewSample = r.set(
-    Keys.LAST_SIZE_SAMPLES,
-    R.compose(
-      R.filter(data => moment().subtract(30, 'second').valueOf() < data.startMS),
-      R.concat(l.get(Keys.LAST_SIZE_SAMPLES)),
-      R.defaultTo([]),
-    )(r.get(Keys.LAST_SIZE_SAMPLES))
+const getSamplesSum = R.compose(
+  R.sum,
+  R.map(R.view(R.lensProp('size'))),
+  R.view(lastSizeSamples),
+);
+
+const filterSamples = R.filter(data => moment().subtract(30, 'second').valueOf() < data.startMS);
+
+
+const refreshDeviceData = deviceData => {
+  const refreshSamples = R.compose(
+    filterSamples,
+    R.defaultTo({}),
+    R.view(lastSizeSamples)
   );
 
-  return withNewSample.set(
-    Keys.RECENT_SIZE_SUM,
-    R.compose(
-      R.sum,
-      R.map(R.view(R.lensProp('size')))
-    )(withNewSample.get(Keys.LAST_SIZE_SAMPLES))
+  return R.compose(
+    updated => R.set(recentSizeSum, getSamplesSum(updated), updated),
+    updated => R.set(lastSizeSamples, refreshSamples(updated), updated),
+  )(deviceData);
+};
+
+// {}, {} -> {}
+// {}, {2} -> {2}
+// {2}, {} -> {2]
+// {1, 2}, {2, 3} -> {1, 2', 3}
+// 1 update original
+// 2 merge with incoming
+export const updateDeviceDataMaps = (original, incoming) => {
+  const updateOriginal = R.compose(
+    R.map(refreshDeviceData),
+    R.defaultTo({}),
   );
+
+  return R.compose(
+    R.flip(mergeDeviceDataMaps)(reassignObject(incoming)),
+    updateOriginal,
+  )(original);
+};
+
+const reassignObject = o => {
+  return { ...o };
+};
+
+
+const updateDeviceData = (l, r) => {
+  const combineSamples = R.compose(
+    filterSamples,
+    R.concat(l.get(Keys.LAST_SIZE_SAMPLES)),
+    R.defaultTo([]),
+    R.view(lastSizeSamples)
+  );
+
+  const final = R.compose(
+    updatedR => R.set(recentSizeSum, getSamplesSum(updatedR), updatedR),
+    updatedR => R.set(lastSizeSamples, combineSamples(updatedR), updatedR),
+  )(r);
+
+  return new DeviceData(final);
+};
+
+// r is the new data
+export const mergeDeviceDataMaps = R.mergeWithKey((k, l, r) => {
+  const updatedData = updateDeviceData(l, r);
+  // console.log(updatedData);
+  return updatedData;
 });

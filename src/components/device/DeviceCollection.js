@@ -23,6 +23,11 @@ import {
   sizeTotalToday
 } from 'VizIoT/data/device/DeviceDataLenses';
 import moment from 'moment';
+import { selectThreeDevices } from 'VizIoT/selectors/deviceSelectors';
+import { connect } from 'react-redux';
+import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
+import _ from 'lodash';
 
 const StyledTable = styled(DataTable)`
   margin-bottom: 50px;
@@ -130,12 +135,9 @@ const deviceRowRenderer = ({
   )
 };
 
-export default class DeviceCollection extends PureComponent {
+class DeviceCollection extends Component {
 
-  // shouldComponentUpdate(p1, s, c) {
-  //   console.log(p1);
-  //   console.log(this.props);
-  //   return super.shouldComponentUpdate(p1, s, c)
+  // shouldComponentUpdate(prevProps, s, c) {
   // }
 
   state = {
@@ -222,7 +224,7 @@ export default class DeviceCollection extends PureComponent {
     );
   };
 
-  static renderDevicesAsList(devices, deviceToData) {
+static renderDevicesAsList(devices, deviceToData) {
 
     const headerData = [
       {label: '', key: 'starred', width: 20},
@@ -233,7 +235,10 @@ export default class DeviceCollection extends PureComponent {
       {label: 'Velocity', key: 'velocity', width: 160}
     ];
 
-    const width = R.compose(R.sum, R.map(({ width }) => width))(headerData);
+    const width = R.compose(
+      R.sum,
+      R.map(({ width }) => width)
+    )(headerData);
 
     const rowData = devices.reduce((acc, device) => {
       const { _id, name } = device;
@@ -317,3 +322,13 @@ DeviceCollection.defaultProps = {
   deviceToData: {},
   mode: 'LIST',
 };
+
+export default connect(state => ({
+  devices: selectThreeDevices(state),
+  deviceToData: deviceToLiveSamples(state),
+  chartConfig: selectSingleDeviceChartConfig(state),
+}))(DeviceCollection);
+
+// when to update:
+// after fetching, if devices are same, do not update
+// when samples change, update

@@ -1,6 +1,6 @@
 'use es6';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import Flex, { JustifyContent } from 'UIBean/Flex';
@@ -30,32 +30,38 @@ const LogoText = styled.div`
   justify-content: flex-end;
 `;
 
-const ClockText = styled.div`
+const ClockTextContainer = styled.div`
   ${H4}
   font-weight: lighter;
   text-align: right;
 `;
 
+const ClockText = ({  }) => {
+  const [currentMoment, setMoment] = useState(moment());
+  useEffect(() => {
+    let timer = window.setInterval(() => {
+      setMoment(moment());
+    }, 1000);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  return <ClockTextContainer>{currentMoment.format('h:mm:ss a').toUpperCase()}</ClockTextContainer>;
+};
+
+
 class AppMenuBar extends React.Component {
-  state = {
-    currentMoment: moment(),
-  };
 
   componentWillUnmount() {
-    clearInterval(this.interval);
     window.removeEventListener('scroll', this.handleScroll);
   }
-
-  updateTime = () => {
-    this.setState(() => ({ currentMoment: moment() }));
-  };
 
   handleScroll = event => {
     let scrollTop = window.scrollY;
   };
 
   componentDidMount() {
-    this.interval = setInterval(this.updateTime, 1000);
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -66,7 +72,7 @@ class AppMenuBar extends React.Component {
           <FlexChild grow={2} />
           <FlexChild grow={2}>
             <LogoText className="appTime__logo">VizIoT</LogoText>
-            <ClockText>{this.state.currentMoment.format('h:mm:ss a').toUpperCase()}</ClockText>
+            <ClockText />
           </FlexChild>
       </Background>
     );

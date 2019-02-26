@@ -1,6 +1,6 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Flex, { FlexDirection, JustifyContent } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
@@ -19,7 +19,6 @@ import { connect } from 'react-redux';
 import {
   selectDeviceList,
   selectEntireNetwork,
-  selectLastSeen,
   selectNumberOfConnections,
   selectThreeDevices,
 } from '../selectors/deviceSelectors';
@@ -127,7 +126,7 @@ class OverviewTab extends Component {
 
     const socket = createSocket();
     this.state = {
-      ...this.state,
+      ...this.state, // todo can i del
       socket,
     };
 
@@ -139,33 +138,33 @@ class OverviewTab extends Component {
     // socket.on(TodayCountRoom, message => pushPacketCountToday(message.count));
   }
 
-  fetchAllDeviceGraphs() {
-    const { devices } = this.props;
-    const { singleDeviceChartConfig, networkId } = this.props;
-
-    const deviceIdList = devices.map(({ macAddr }) => macAddr);
-
-    const {
-      bucketConfig,
-      dataWindowSize,
-      selectionMode,
-    } = singleDeviceChartConfig;
-
-    const startMS = (
-      moment()
-        .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
-        .valueOf() / 1000
-    ).toString();
-    const endMS = (moment().valueOf() / 1000).toString();
-    requestAggregationByTime(
-      networkId,
-      selectionMode,
-      deviceIdList,
-      bucketConfig,
-      startMS,
-      endMS
-    );
-  }
+  // fetchAllDeviceGraphs() {
+  //   const { devices } = this.props;
+  //   const { singleDeviceChartConfig, networkId } = this.props;
+  //
+  //   const deviceIdList = devices.map(({ macAddr }) => macAddr);
+  //
+  //   const {
+  //     bucketConfig,
+  //     dataWindowSize,
+  //     selectionMode,
+  //   } = singleDeviceChartConfig;
+  //
+  //   const startMS = (
+  //     moment()
+  //       .subtract(Math.floor(dataWindowSize * 1.2), bucketConfig.bucketUnit)
+  //       .valueOf() / 1000
+  //   ).toString();
+  //   const endMS = (moment().valueOf() / 1000).toString();
+  //   requestAggregationByTime(
+  //     networkId,
+  //     selectionMode,
+  //     deviceIdList,
+  //     bucketConfig,
+  //     startMS,
+  //     endMS
+  //   );
+  // }
 
   fetchTimestampToDomain = () => {
     analyzeAggregationCore(
@@ -216,37 +215,6 @@ class OverviewTab extends Component {
     clearInterval(deviceHitsLoop);
   }
 
-  renderSingleDeviceCharts() {
-    const { singleDeviceChartConfig, devices, devicesToHasData } = this.props;
-    const { bucketConfig, selectionMode } = singleDeviceChartConfig;
-
-    const listOfGraphs = devices
-      .filter(d => {
-        return devicesToHasData[d.macAddr];
-      })
-      .map(d => {
-        const { macAddr } = d;
-        const dataKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
-
-        return (
-          <FlexSize key={macAddr} size={{ xs: 12 }} space="m-bot-3">
-            <BCard>
-              <div className="extra-small-spacer" />
-              <ConnectedLineChart
-                className="device-chart"
-                deviceKey={macAddr}
-                dataKey={dataKey}
-                device={d}
-                chartConfig={singleDeviceChartConfig}
-              />
-            </BCard>
-          </FlexSize>
-        );
-      });
-
-    return listOfGraphs.length ? <Flex gutter={1}>{listOfGraphs}</Flex> : null;
-  }
-
   renderMainChart() {
     const { combinedNetworkDevice, mainChartConfig } = this.props;
     const { bucketConfig, selectionMode } = mainChartConfig;
@@ -269,7 +237,6 @@ class OverviewTab extends Component {
   }
 
   render() {
-    const { singleDeviceChartConfig } = this.props;
     return (
       <OverviewContainer>
         <ContainerTitle title={'Overview'} size={'lg'} cardPadding={false}/>
@@ -299,11 +266,7 @@ class OverviewTab extends Component {
           </FlexSize>
           <FlexSize size={{ lg: 9 }}>
             <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-            <DeviceCollection devices={this.props.devices}
-                              deviceToData={this.props.deviceToData}
-                              mode={'CARD'}
-                              chartConfig={singleDeviceChartConfig}
-            />
+            <DeviceCollection mode={'CARD'} />
             </Flex>
           </FlexSize>
         </Flex>
@@ -319,14 +282,10 @@ OverviewTab.defaultProps = {
 };
 
 OverviewTab.propTypes = {
-  devices: PropTypes.array.isRequired,
-  devicesToHasData: PropTypes.object.isRequired,
-  deviceToNumConnection: PropTypes.object.isRequired,
-  lastSeen: PropTypes.object.isRequired,
+  // deviceToNumConnection: PropTypes.object.isRequired,
   combinedNetworkDevice: PropTypes.object.isRequired,
   mainChartConfig: PropTypes.object.isRequired,
-  singleDeviceChartConfig: PropTypes.object.isRequired,
-  mostRecentHosts: PropTypes.array.isRequired,
+  // mostRecentHosts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -335,16 +294,14 @@ const mapStateToProps = state => {
   const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
   return {
-    devices: selectThreeDevices(state),
-    deviceToData: deviceToLiveSamples(state),
-    mostRecentHosts: selectMostRecentDomains(state, 15),
-    devicesToHasData: hasDataForKey(state, deviceGraphKey),
-    deviceToNumConnection: selectNumberOfConnections(state),
-    lastSeen: selectLastSeen(state),
+    // mostRecentHosts: selectMostRecentDomains(state, 15),
+    // deviceToNumConnection: selectNumberOfConnections(state),
     combinedNetworkDevice: selectEntireNetwork(state),
     mainChartConfig: selectMainChartConfig(state),
-    singleDeviceChartConfig: singleDeviceChartConfig,
-    // deviceToData: selectDataForAllDevices(state),
   };
 };
+
 export default connect(mapStateToProps)(OverviewTab);
+
+// fetching: do in the containers
+// connection: as deep as i can.

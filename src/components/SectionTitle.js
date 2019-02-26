@@ -9,6 +9,7 @@ import {
 } from '../styles/base/viz-theme';
 import BIcon from 'UIBean/BIcon';
 import { H0, H1, H3, H5 } from 'UIBean/functional-css/TypographyStyles';
+import { pure } from 'recompose';
 
 const Sizes = {
   SMALL: 'sm',
@@ -73,4 +74,4 @@ SectionTitle.defaultProps = {
   size: Sizes.SMALL,
 };
 
-export default SectionTitle;
+export default pure(SectionTitle);

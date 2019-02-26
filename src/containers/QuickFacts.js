@@ -66,6 +66,12 @@ const StyledDataWell = styled(DataWell)`
   padding-bottom: 7rem;
 `;
 
+const ConnectedDataValue = connect((state, { dataSelector }) => {
+  return {
+    children: dataSelector(state) || '~',
+  };
+})(DataWellValueWithFontSize);
+
 class QuickFacts extends PureComponent {
   state = {
     currentMoment: moment(),
@@ -89,7 +95,7 @@ class QuickFacts extends PureComponent {
         <Flex alignContent={JustifyContent.FLEX_START} fillAll>
           <Proto>{title}</Proto>
           <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
-            {facts.map(({ title, data, fontSize, icon, iconType }) => {
+            {facts.map(({ title, dataSelector, fontSize, icon, iconType }) => {
               return (
                 <FlexSize key={title} size={wellSize}>
                   <StyledDataWell>
@@ -97,18 +103,7 @@ class QuickFacts extends PureComponent {
                       {icon && <BIcon name={icon} type={iconType} size={28} />}
                     </div>
                     <DataWellTitle>{title}</DataWellTitle>
-                    <DataWellValueWithFontSize fontSize={fontSize || '5.0rem'}>
-                      <div>
-                        {Number(data) ?
-                          // (
-                          //   <CountUp start={0} end={data} duration={3} />
-                          // )
-                          data
-                          : (
-                          data
-                        )}
-                      </div>
-                    </DataWellValueWithFontSize>
+                    <ConnectedDataValue fontSize={fontSize || '5.0rem'} dataSelector={dataSelector} />
                   </StyledDataWell>
                 </FlexSize>
               );
@@ -121,30 +116,19 @@ class QuickFacts extends PureComponent {
 
   render() {
     const {
-      velocityShortDuration,
-      numberOfDevices,
-      busiestDevice,
-      mostContactedHost,
-      packetCount,
-      sizeToday,
-    } = this.props;
-
-    const {
       currentMoment,
     } = this.state;
-
-    const hugeText = [];
 
     const factsToday = [
       {
         title: 'Total',
-        data: sizeToday || '~',
+        dataSelector: (state) => formatBytes(selectTodaySize(state)),
         iconType: 'eva',
         icon: 'cube',
       },
       {
         title: 'Devices',
-        data: numberOfDevices || '~',
+        dataSelector: numberOfActiveDevices,
         icon: 'directions_run',
       },
     ];
@@ -152,7 +136,7 @@ class QuickFacts extends PureComponent {
     const factsRecent = [
       {
         title: 'Averaged traffic rate',
-        data: velocityShortDuration || '~',
+        dataSelector: (state) => formatBytes(selectVelocity1Min(state), 's'),
         icon: 'av_timer',
       },
       // {
@@ -191,26 +175,4 @@ class QuickFacts extends PureComponent {
   }
 }
 
-QuickFacts.propTypes = {
-  sizeToday: PropTypes.string,
-  packetCount: PropTypes.number,
-  velocityShortDuration: PropTypes.string,
-  numberOfDevices: PropTypes.number,
-  busiestDevice: PropTypes.object,
-  mostContactedHost: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    sizeToday: formatBytes(selectTodaySize(state)),
-    velocityShortDuration: formatBytes(selectVelocity1Min(state), 's'),
-    packetCount: selectTodayPacketCount(state),
-    numberOfDevices: numberOfActiveDevices(state),
-    busiestDevice: selectBusiestDevice(state),
-    mostContactedHost: selectMostContactedHostLastPeriod(
-      state,
-      convertDateTypeToString[DateConstants.N_SECONDS_AGO](600)
-    ).domainName,
-  };
-};
-export default connect(mapStateToProps)(QuickFacts);
+export default QuickFacts;

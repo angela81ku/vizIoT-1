@@ -7,6 +7,11 @@ import AppRouter from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import 'normalize.css/normalize.css';
 import './styles/app.scss';
+import whyDidYouUpdate from 'why-did-you-update';
+
+if (process.env.NODE_ENV !== 'production') {
+  // whyDidYouUpdate(React);
+}
 
 const store = configureStore();
 // store.dispatch(actionStartStream({ dispatch: store.dispatch }));

@@ -43,6 +43,7 @@ class LineChart extends React.Component {
               height: 0,
             }}
             padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
+            transitionDuration={1000}
           />
         </AutoFitComponent>
       </Flex>

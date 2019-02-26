@@ -13,7 +13,7 @@ import {
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
-import { createDeviceDataMap, mergeDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
+import { createDeviceDataMap, mergeDeviceDataMaps, updateDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
 
 const isMocking = true;
 const genMock = count => ({
@@ -114,7 +114,7 @@ const realtimeIndividualVelocitySizeSample = createReducer({
     // console.log('new message' + message.toString());
     return {
       ...state,
-      data: mergeDeviceDataMaps(state.data, createDeviceDataMap(message)),
+      data: updateDeviceDataMaps(state.data, createDeviceDataMap(message)),
     }
   }
 }, { data: null });
