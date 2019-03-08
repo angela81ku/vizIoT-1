@@ -9,6 +9,8 @@ import FlexChild from 'UIBean/FlexChild';
 import { _sticky } from 'UIBean/functional-css/layout';
 import { ScreenSizes } from 'UIBean/Breakpoints';
 import { H3, H4 } from 'UIBean/functional-css/TypographyStyles';
+import { useInterval } from 'UIBean/hooks/useInterval';
+import { useScroll } from 'UIBean/hooks/useScroll';
 
 const Background = styled(Flex)`
   ${_sticky}
@@ -38,47 +40,30 @@ const ClockTextContainer = styled.div`
 
 const ClockText = ({  }) => {
   const [currentMoment, setMoment] = useState(moment());
-  useEffect(() => {
-    let timer = window.setInterval(() => {
-      setMoment(moment());
-    }, 1000);
-    return () => {
-      window.clearInterval(timer);
-    };
-  }, []);
+  useInterval(() => {
+    setMoment(moment())
+  }, 1000);
 
   return <ClockTextContainer>{currentMoment.format('h:mm:ss a').toUpperCase()}</ClockTextContainer>;
 };
 
+const AppMenuBar = () => {
 
-class AppMenuBar extends React.Component {
+  const [scrollTop, setScrollTop] = useState(0);
+  useScroll(({ scrollX, scrollY }) => {
+    setScrollTop(scrollY);
+  });
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = event => {
-    let scrollTop = window.scrollY;
-  };
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  render() {
-    return (
-      <Background alignItems={JustifyContent.FLEX_END}
-                  justifyContent={JustifyContent.SPACE_BETWEEN}>
-          <FlexChild grow={2} />
-          <FlexChild grow={2}>
-            <LogoText className="appTime__logo">VizIoT</LogoText>
-            <ClockText />
-          </FlexChild>
-      </Background>
-    );
-  }
-}
-
-AppMenuBar.propTypes = {};
+  return (
+    <Background alignItems={JustifyContent.FLEX_END}
+                justifyContent={JustifyContent.SPACE_BETWEEN}>
+        <FlexChild grow={2} />
+        <FlexChild grow={2}>
+          <LogoText className="appTime__logo">VizIoT</LogoText>
+          <ClockText />
+        </FlexChild>
+    </Background>
+  );
+};
 
 export default AppMenuBar;

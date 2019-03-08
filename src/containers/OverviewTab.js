@@ -121,6 +121,11 @@ const IgnoreContainerPadding = styled.div`
 
 
 class OverviewTab extends Component {
+  // useInterval(() => {
+  //   fetchAnalytic();
+  //   fetchDevices();
+  // }, DEVICE_HITS_REFRESH_DAY_MS);
+
   constructor(props) {
     super(props);
 
@@ -180,15 +185,7 @@ class OverviewTab extends Component {
     fetchAnalytic();
     fetchDevices();
 
-    const deviceHitsLoop = setInterval(() => {
-      fetchAnalytic();
-      fetchDevices();
 
-    }, DEVICE_HITS_REFRESH_DAY_MS);
-
-    this.setState(() => ({
-      deviceHitsLoop,
-    }));
 
 
     //   analyzeAggregationByDevice();

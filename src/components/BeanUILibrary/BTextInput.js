@@ -8,7 +8,7 @@ import {
   CARD_COLOR, HOVER_FILL_COLOR,
 } from 'VizIoT/styles/base/viz-theme';
 import { withClickable } from 'UIBean/CommonHOC';
-import { useInputValue } from 'UIBean/hooks/InputValue';
+import { useInputValue } from 'UIBean/hooks/useInputValue';
 
 const StyledInput = styled.input`
   display: ${({ inline }) => inline ? 'inline-flex' : 'flex'};

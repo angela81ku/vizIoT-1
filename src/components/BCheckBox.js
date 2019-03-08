@@ -8,7 +8,7 @@ import {
   CARD_COLOR, HOVER_FILL_COLOR, TRON,
 } from 'VizIoT/styles/base/viz-theme';
 import { withClickable } from 'UIBean/CommonHOC';
-import { useInputValue } from 'UIBean/hooks/InputValue';
+import { useInputValue } from 'UIBean/hooks/useInputValue';
 
 const CheckboxContainer = styled.label`
   display: ${({ inline }) => inline ? 'inline-flex' : 'flex'};
