@@ -39,7 +39,7 @@ export const takeTop3Size = R.compose(
 // const getDeviceData = (device, key) => allDataForDevice(key);
 // export const allData = R.compose(R.mapObjIndexed(getDeviceData), R.view(deviceListValue));
 
-const tempBlacklist = ['A6:39:E1:79:59:B0'];
+const tempBlacklist = ['22:ef:03:1a:97:b9', 'ff:ff:ff:ff:ff:ff'];
 
 export const createDeviceDataMap = arg => {
   const { startMS } = arg;
