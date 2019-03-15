@@ -17,7 +17,6 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {
-  selectDeviceList,
   selectEntireNetwork,
   selectNumberOfConnections,
   selectThreeDevices,

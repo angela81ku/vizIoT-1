@@ -6,7 +6,7 @@ import DataReducerTypes from '../constants/DataReducerTypes';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
-import { getIn } from 'immutable';
+import { getIn, List } from 'immutable';
 import * as R from 'ramda';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 import { createSelector } from 'reselect';
@@ -14,16 +14,11 @@ import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { takeTop3Size, macAddress } from 'VizIoT/data/device/DeviceDataLenses';
 import { findMultiDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
 
-export const selectDeviceList = createSelector(state => {
-  const data = R.view(device.deviceListValue, state);
-  return data;
-}, (deviceList) => {
-  return deviceList && deviceList.toJS(); // todo remove toJS and use immutable throughout app
-});
+export const selectDeviceList = R.view(device.deviceListValue);
 
 export const filterDeviceList = searchValue => createSelector(
-  [selectDeviceList, state => state],
-  (deviceList, state)  => findMultiDeviceByMac(searchValue)(state),
+  [selectDeviceList],
+  findMultiDeviceByMac(searchValue),
 );
 
 // export const selectDevice = createSelector(selectDeviceList, deviceList => deviceList)
@@ -74,7 +69,7 @@ export const selectNumberOfConnections = ({
 // };
 
 export const selectMacAddressToAlias = state => {
-  const deviceList = selectDeviceList(state) || [];
+  const deviceList = selectDeviceList(state) || List();
   return deviceList.reduce((acc, { macAddress, alias }) => {
     return {
       ...acc,
@@ -121,7 +116,7 @@ export const selectThreeDevices = createSelector(
     const top3 = takeTop3Size(deviceToLiveSamples);
     const macAddresses = R.map((a) => R.view(macAddress, a), top3);
     const threeDevices = R.compose(
-      R.map(macAddress => device.findDeviceByMac(macAddress)(state) || ({ macAddress })),
+      R.map(macAddress => device.findDeviceByMac(macAddress)(devices) || ({ macAddress })),
       R.defaultTo([])
     )(macAddresses);
     return threeDevices;

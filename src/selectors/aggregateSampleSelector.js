@@ -1,4 +1,4 @@
-import { getIn } from 'immutable';
+import { getIn, List } from 'immutable';
 import { selectDeviceList } from './deviceSelectors';
 
 export const selectSingleAggregation = (
@@ -15,7 +15,7 @@ export const hasAggregationData = ({ aggregateSample }, deviceKey, dataKey) => {
 };
 
 export const hasDataForKey = (state, dataKey) => {
-  const devices = selectDeviceList(state) || [];
+  const devices = selectDeviceList(state) || List();
   return devices.reduce((acc, d) => {
     return {
       ...acc,

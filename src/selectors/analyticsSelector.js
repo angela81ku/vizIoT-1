@@ -8,7 +8,7 @@ import DataReducerTypes from '../constants/DataReducerTypes';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
-import { getIn } from 'immutable';
+import { getIn, List } from 'immutable';
 import TimeMetric from '../data/metrics/TimeMetric';
 import { selectDeviceIdList, selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import * as deviceData from 'VizIoT/data/device/DeviceDataLenses';
@@ -43,7 +43,7 @@ export const selectMostContactedHostLastPeriod = (state, startTime) => {
 };
 
 export const selectMacAddressToAlias = state => {
-  const deviceList = selectDeviceList(state) || [];
+  const deviceList = selectDeviceList(state) || List();
   return deviceList.reduce((acc, { macAddress, alias }) => {
     return {
       ...acc,

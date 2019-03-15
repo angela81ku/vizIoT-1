@@ -5,25 +5,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { filterDeviceList, selectDeviceList, selectThreeDevices } from 'VizIoT/selectors/deviceSelectors';
+import { filterDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
-import { selectDataForAllDevices } from 'VizIoT/selectors/analyticsSelector';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import BTextInput from 'UIBean/BTextInput';
 import BCheckBox from 'VizIoT/components/BCheckBox';
 import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
-import { useInterval } from 'UIBean/hooks/useInterval';
 import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
 import { pushRealtimeIndividualVelocitySizeSample } from 'VizIoT/actions/packetActions';
 import { useSocket } from 'UIBean/hooks/useSocket';
 import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
-import { findMultiDeviceDataByMac } from 'VizIoT/data/device/DeviceDataLenses';
 
 const TitleContainer = styled.div`
-  
 `;
 
 const PageBackground = styled.div`
