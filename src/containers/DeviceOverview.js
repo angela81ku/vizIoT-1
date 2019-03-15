@@ -1,11 +1,11 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import { filterDeviceList, selectDeviceList, selectThreeDevices } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
@@ -13,6 +13,14 @@ import { selectDataForAllDevices } from 'VizIoT/selectors/analyticsSelector';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import BTextInput from 'UIBean/BTextInput';
 import BCheckBox from 'VizIoT/components/BCheckBox';
+import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
+import { useInterval } from 'UIBean/hooks/useInterval';
+import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
+import { pushRealtimeIndividualVelocitySizeSample } from 'VizIoT/actions/packetActions';
+import { useSocket } from 'UIBean/hooks/useSocket';
+import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
+import { findMultiDeviceDataByMac } from 'VizIoT/data/device/DeviceDataLenses';
 
 const TitleContainer = styled.div`
   
@@ -36,45 +44,43 @@ const PageContent = styled.div`
   padding-right: 7%;
 `;
 
+const ConnectedDeviceCollection = connect((state, { searchValue }) => ({
+  devices: filterDeviceList(searchValue)(state),
+  deviceToData: deviceToLiveSamples(state),
+  chartConfig: selectSingleDeviceChartConfig(state),
+}))(DeviceCollection);
 
-class DeviceOverview extends Component {
-  componentWillMount() {
-    fetchDevices();
-  }
+const DeviceOverview = () => {
 
-  render() {
-    const { devices, deviceToData } = this.props;
-    return (
-      <PageBackground>
-        <PageContent>
-          <TitleContainer className="m-tb-10">
-            <SectionTitle title="Devices" size="lg" cardPadding={false} />
-            <SectionSubtitle text="Explore and analyze your device activities" margins={true} />
-          </TitleContainer>
-          <BTextInput
-            placeholder="Search 'fridge' or 'sensor'"
-            onChange={e => { console.log(e.target.value) }}
-            inline
-          />
-          <BCheckBox title={'Map'} inline />
-          <DeviceCollection mode={'LIST'} devices={devices} deviceToData={deviceToData} />
-        </PageContent>
-      </PageBackground>
-    );
-  }
-}
+  useSocket(IndividualSizeRoom, pushRealtimeIndividualVelocitySizeSample);
+  useTimedFetcher(fetchDevices, 300000);
+
+  const [searchValue, setSearchValue] = useState(null);
+
+  return (
+    <PageBackground>
+      <PageContent>
+        <TitleContainer className="m-tb-10">
+          <SectionTitle title="Devices" size="lg" cardPadding={false}/>
+          <SectionSubtitle text="Explore and analyze your device activities" margins={true}/>
+        </TitleContainer>
+        <BTextInput
+          placeholder="Search 'fridge' or 'sensor'"
+          onChange={e => { setSearchValue(e.target.value) }}
+          inline
+        />
+        <BCheckBox title={'Map'} inline />
+        <ConnectedDeviceCollection searchValue={searchValue} mode={'LIST'} />
+      </PageContent>
+    </PageBackground>
+  );
+};
 
 DeviceOverview.propTypes = {
-  devices: PropTypes.array.isRequired,
   deviceToData: PropTypes.objectOf({
     velocity: PropTypes.number,
     total: PropTypes.number,
   }),
 };
 
-export default connect(state => {
-  return ({
-    devices: selectDeviceList(state) || [],
-    deviceToData: selectDataForAllDevices(state),
-  });
-})(DeviceOverview);
+export default DeviceOverview;

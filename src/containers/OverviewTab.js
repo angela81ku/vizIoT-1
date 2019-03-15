@@ -120,6 +120,12 @@ const IgnoreContainerPadding = styled.div`
 `;
 
 
+const ConnectedDeviceCollection = connect(state => ({
+  devices: selectThreeDevices(state),
+  deviceToData: deviceToLiveSamples(state),
+  chartConfig: selectSingleDeviceChartConfig(state),
+}))(DeviceCollection);
+
 class OverviewTab extends Component {
   // useInterval(() => {
   //   fetchAnalytic();
@@ -263,7 +269,7 @@ class OverviewTab extends Component {
           </FlexSize>
           <FlexSize size={{ lg: 9 }}>
             <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-            <DeviceCollection mode={'CARD'} />
+            <ConnectedDeviceCollection mode={'CARD'} />
             </Flex>
           </FlexSize>
         </Flex>

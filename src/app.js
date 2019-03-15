@@ -8,6 +8,7 @@ import configureStore from './store/configureStore';
 import 'normalize.css/normalize.css';
 import './styles/app.scss';
 import whyDidYouUpdate from 'why-did-you-update';
+import SocketProvider from 'UIBean/provider/SocketProvider';
 
 if (process.env.NODE_ENV !== 'production') {
   // whyDidYouUpdate(React);
@@ -18,7 +19,9 @@ const store = configureStore();
 
 const jsx = (
   <Provider store={store}>
-    <AppRouter />
+    <SocketProvider>
+      <AppRouter />
+    </SocketProvider>
   </Provider>
 );
 

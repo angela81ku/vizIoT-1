@@ -3,11 +3,12 @@
 import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
 import SocketContext from 'UIBean/context/SocketContext';
+import { url } from 'VizIoT/socket/subscribe';
 
 export default class SocketProvider extends Component {
   constructor(props) {
     super(props);
-    this.socket = openSocket(props.url);
+    this.socket = openSocket.connect(props.url || url);
     console.log('socket opened SocketProvider');
 
   }

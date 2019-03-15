@@ -12,15 +12,21 @@ import * as device from 'VizIoT/data/device/DeviceLenses';
 import { createSelector } from 'reselect';
 import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { takeTop3Size, macAddress } from 'VizIoT/data/device/DeviceDataLenses';
+import { findMultiDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
 
 export const selectDeviceList = createSelector(state => {
   const data = R.view(device.deviceListValue, state);
   return data;
-}, (deviceList) => deviceList && deviceList.toJS());
+}, (deviceList) => {
+  return deviceList && deviceList.toJS(); // todo remove toJS and use immutable throughout app
+});
 
-export const selectDevice = createSelector(state => {
-  const data = R.view(dev)
-}, )
+export const filterDeviceList = searchValue => createSelector(
+  [selectDeviceList, state => state],
+  (deviceList, state)  => findMultiDeviceByMac(searchValue)(state),
+);
+
+// export const selectDevice = createSelector(selectDeviceList, deviceList => deviceList)
 
 export const selectNumberOfDevices = state => {
   return R.view(device.count)(state);

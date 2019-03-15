@@ -28,6 +28,7 @@ import { connect } from 'react-redux';
 import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
 import _ from 'lodash';
+import { findDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
 
 const StyledTable = styled(DataTable)`
   margin-bottom: 50px;
@@ -224,7 +225,7 @@ class DeviceCollection extends Component {
     );
   };
 
-static renderDevicesAsList(devices, deviceToData) {
+  static renderDevicesAsList(devices, deviceToData) {
 
     const headerData = [
       {label: '', key: 'starred', width: 20},
@@ -240,13 +241,17 @@ static renderDevicesAsList(devices, deviceToData) {
       R.map(({ width }) => width)
     )(headerData);
 
-    const rowData = devices.reduce((acc, device) => {
-      const { _id, name } = device;
-      const deviceData = deviceToData[_id];
-      const velocity = getIn(deviceData, ['velocity'], );
-      const total = getIn(deviceData, ['total'], 66);
-      const dataIn = getIn(deviceData, ['dataIn'], 23);
-      const dataOut = getIn(deviceData, ['dataOut'], 43);
+    const devicesWithDefault = devices || [];
+    const rowData = devicesWithDefault.reduce((acc, device) => {
+      const { _id, macAddress, name } = device;
+      const deviceData = R.view(makeMacAddressLens(macAddress.toUpperCase()), deviceToData);
+      if (!deviceData) {
+        return acc;
+      }
+      const velocity = R.view(lastSize, deviceData);
+      const total = R.view(sizeTotalToday, deviceData);
+      const dataIn = R.view(sizeInToday, deviceData);
+      const dataOut = R.view(sizeOutToday, deviceData);
 
       const item = {
         key: _id,
@@ -323,11 +328,7 @@ DeviceCollection.defaultProps = {
   mode: 'LIST',
 };
 
-export default connect(state => ({
-  devices: selectThreeDevices(state),
-  deviceToData: deviceToLiveSamples(state),
-  chartConfig: selectSingleDeviceChartConfig(state),
-}))(DeviceCollection);
+export default DeviceCollection;
 
 // when to update:
 // after fetching, if devices are same, do not update

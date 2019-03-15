@@ -4,16 +4,26 @@ import { List, Record } from 'immutable';
 import { standardize } from 'mac-address-util';
 import * as R from 'ramda';
 import immLens from 'VizIoT/data/immLens';
+import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
 
 /* Device entity */
 
-export const Device = new Record({
-  _id: null,
-  name: null,
-  shortName: null,
-  category: null,
-  macAddress: null,
-});
+
+export default class Device extends Record(
+  {
+    _id: null,
+    name: null,
+    shortName: null,
+    category: null,
+    macAddress: null,
+  },
+  'Device'
+) {
+  toString() {
+    return `${this._id},${this.name},${this.shortName},${this.category},${this.macAddress}`;
+  }
+};
+
 
 /**
  * Create a List<Devices> given the device response data

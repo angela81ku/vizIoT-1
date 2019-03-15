@@ -3,13 +3,12 @@
 import openSocket from 'socket.io-client';
 
 const host = 'https://viziot-server-2.herokuapp.com/';
-const url = `${host}chat`;
+export const url = `${host}chat`;
 
 // Socket instance
 
 // Debugging flags
 const enableFlag = true;
-
 
 export const createSocket = customUrl => {
 

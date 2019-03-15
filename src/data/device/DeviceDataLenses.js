@@ -6,8 +6,10 @@ import immLens from 'VizIoT/data/immLens';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 import { DeviceData, Keys } from 'VizIoT/data/device/DeviceData';
 import moment from 'moment';
-import { compare, standardize } from 'mac-address-util';
+import { compare as compareMac, standardize } from 'mac-address-util';
 import { tap } from 'VizIoT/utility/Debugging';
+import { deviceListValue } from 'VizIoT/data/device/DeviceLenses';
+import { containsMac } from 'VizIoT/data/device/DeviceLenses';
 
 // DeviceData
 export const macAddress = immLens(Keys.MAC_ADDRESS);
@@ -41,6 +43,8 @@ export const takeTop3Size = R.compose(
 
 const tempBlacklist = ['22:ef:03:1a:97:b9', 'ff:ff:ff:ff:ff:ff'];
 
+const isBlacklisted = containsMac(tempBlacklist);
+
 export const createDeviceDataMap = arg => {
   const { startMS } = arg;
 
@@ -54,7 +58,7 @@ export const createDeviceDataMap = arg => {
       [Keys.LAST_SIZE_SAMPLES]: [{ size, startMS }],
       [Keys.NAME]: name,
     })),
-    R.filter(({ macAddress }) => !R.includes(macAddress, tempBlacklist)),
+    R.reject(({ macAddress }) => isBlacklisted(macAddress)),
     R.map(R.over(macLens, standardize)),
     R.view(R.lensProp('size')),
   )(arg);
@@ -67,7 +71,6 @@ const getSamplesSum = R.compose(
 );
 
 const filterSamples = R.filter(data => moment().subtract(30, 'second').valueOf() < data.startMS);
-
 
 const refreshDeviceData = deviceData => {
   const refreshSamples = R.compose(
@@ -104,7 +107,6 @@ const reassignObject = o => {
   return { ...o };
 };
 
-
 const updateDeviceData = (l, r) => {
   const combineSamples = R.compose(
     filterSamples,
@@ -127,3 +129,9 @@ export const mergeDeviceDataMaps = R.mergeWithKey((k, l, r) => {
   // console.log(updatedData);
   return updatedData;
 });
+
+
+
+export const deviceData = R.compose(R.lensProp('packets'), R.lensProp('realtimeIndividualVelocitySizeSample'), R.lensProp('data'));
+
+
