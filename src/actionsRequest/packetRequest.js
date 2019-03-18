@@ -8,10 +8,6 @@ import {
 } from 'VizIoT/actions/packetActions';
 import { ByDeviceSizeRoomToday } from 'VizIoT/socket/subscribe';
 
-export const streamPacketsTodayByDevice = socket => {
-  socket.on(ByDeviceSizeRoomToday, pushIndividualSizeToday);
-};
-
 export const requestRecentPackets = createGenericRequester(
   recentsActionBundle,
   packetApi[packetApiKeys.PACKET]
