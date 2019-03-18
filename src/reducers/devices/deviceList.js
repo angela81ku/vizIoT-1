@@ -11,15 +11,13 @@ import { payload } from 'VizIoT/data/api/NetworkResponseLenses';
 export default createRequestReducer(
   { value: null },
   deviceActionBundle,
-  (state, rawRequestData) => {
-    return {
-      value: R.compose(
-        createDeviceList,
-        R.view(resParser)(fetchDevices),
-        R.view(payload),
-      )(rawRequestData),
-    };
-  }
+  (state, rawRequestData) => ({
+    value: R.compose(
+      createDeviceList,
+      R.view(resParser)(fetchDevices),
+      R.view(payload),
+    )(rawRequestData),
+  })
 );
 
 /*

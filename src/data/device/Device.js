@@ -1,14 +1,12 @@
 'use es6';
 
-import { List, Record } from 'immutable';
-import { standardize } from 'mac-address-util';
+import { Record } from 'immutable';
+import { standardize as standardizeMac } from 'mac-address-util';
 import * as R from 'ramda';
-import immLens from 'VizIoT/data/immLens';
-import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
 
 /* Device entity */
 
-
+// Note: using records as a temporary way to define shape, before using typescript
 export default class Device extends Record(
   {
     _id: null,
@@ -26,15 +24,13 @@ export default class Device extends Record(
 
 
 /**
- * Create a List<Devices> given the device response data
- * @param immutableRes -- the response immutable object that contains the device list data.
- * @returns List<Devices>
+ * Create a [<Devices>] given the device response data
+ * @param res -- the response object with the device list data.
+ * @returns [<Devices>]
  */
-export const createDeviceList = immutableRes => {
-  return List(
-    immutableRes
-      .map(deviceData => {
-        const stdDeviceData = R.over(immLens('macAddress'), standardize)(deviceData);
-        return new Device(stdDeviceData);
-      }));
-};
+export const createDeviceList = R.map(
+  deviceFromRes => {
+    const stdDeviceData = R.over(R.lensProp('macAddress'), standardizeMac, deviceFromRes);
+    return new Device(stdDeviceData);
+  }
+);

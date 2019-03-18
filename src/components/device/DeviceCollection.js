@@ -1,8 +1,7 @@
 'use es6';
 
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import { getIn } from 'immutable';
 
 import Flex, { FlexDirection } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
@@ -12,23 +11,15 @@ import { H6 } from 'UIBean/functional-css/TypographyStyles';
 import DeviceCard from 'VizIoT/components/device/DeviceCard';
 import { OFF_WHITE, TEXT, TRON } from 'VizIoT/styles/base/viz-theme';
 import PropTypes from 'prop-types';
-import SectionTitle from 'VizIoT/components/SectionTitle';
 import * as R from 'ramda';
-import { Keys } from 'VizIoT/data/device/DeviceData';
 import {
   lastSize, lastSizeSamples,
-  makeMacAddressLens, recentSizeSum,
+  makeMacAddressLens,
   sizeInToday,
   sizeOutToday,
   sizeTotalToday
 } from 'VizIoT/data/device/DeviceDataLenses';
 import moment from 'moment';
-import { selectThreeDevices } from 'VizIoT/selectors/deviceSelectors';
-import { connect } from 'react-redux';
-import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
-import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
-import _ from 'lodash';
-import { findDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
 
 const StyledTable = styled(DataTable)`
   margin-bottom: 50px;

@@ -2,12 +2,10 @@
 
 import * as R from 'ramda';
 import { mapped } from 'ramda-lens'
-import immLens from 'VizIoT/data/immLens';
 import { compare as compareMac } from 'mac-address-util';
-import { List } from 'immutable';
 
 // Lens
-export const macAddress = immLens('macAddress');
+export const macAddress = R.lensProp('macAddress');
 
 export const devices = R.lensProp('devices');
 
@@ -36,17 +34,17 @@ const matchQuery = (query) => (device) => {
 export const findMultiDeviceByMac = (query) =>
   R.compose(
       R.filter(matchQuery(query)),
-      R.defaultTo(List()),
+      R.defaultTo([]),
   );
 
 export const findDeviceByMac = macAddressValue =>
   R.compose(
     R.find(doesDeviceHasMacAddress(macAddressValue)),
-    R.defaultTo(List()),
+    R.defaultTo([]),
   );
 
-export const idList = R.compose(deviceListValue, mapped, immLens('_id'));
-export const nameList = R.compose(deviceListValue, mapped, immLens('name'));
+export const idList = R.compose(deviceListValue, mapped, R.lensProp('_id'));
+export const nameList = R.compose(deviceListValue, mapped, R.lensProp('name'));
 export const count = R.compose(deviceListValue, R.lensProp('size'));
 
 

@@ -1,7 +1,7 @@
 'use es6';
 
 import { newPacketUrl } from 'VizIoT/constants/RequestConstants';
-import { Record } from 'immutable/dist/immutable';
+import { Record } from 'immutable';
 import { postCallWithRecord } from 'VizIoT/data/api/apiUtils';
 
 export const packetApiKeys = {

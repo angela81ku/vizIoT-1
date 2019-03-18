@@ -1,9 +1,10 @@
 'use es6';
 
-import { Record, Set, Map } from 'immutable';
+import { Record } from 'immutable';
 
+// Note: using records as a temporary way to define shape, before using typescript
 export default new Record({
-  idSet: Set(),
-  idToAnalytic: Map(),
-  idToNetworkState: Map(),
+  idSet: new Set([]),
+  idToAnalytic: {},
+  idToNetworkState: {},
 });

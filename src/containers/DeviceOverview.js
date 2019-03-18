@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { filterDeviceList } from 'VizIoT/selectors/deviceSelectors';
+import { searchForDevice } from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
@@ -41,7 +41,7 @@ const PageContent = styled.div`
 `;
 
 const ConnectedDeviceCollection = connect((state, { searchValue }) => ({
-  devices: filterDeviceList(searchValue)(state),
+  devices: searchForDevice(searchValue)(state),
   deviceToData: deviceToLiveSamples(state),
   chartConfig: selectSingleDeviceChartConfig(state),
 }))(DeviceCollection);

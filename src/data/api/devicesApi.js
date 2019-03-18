@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { headers, baseUrl } from '../../constants/RequestConstants';
-import { fromJS, Record } from 'immutable';
+import { Record } from 'immutable';
 import ApiRecord from 'VizIoT/data/api/Api';
 import { createMockCall } from 'VizIoT/utility/ApiUtility';
 
@@ -34,5 +34,4 @@ export const fetchDevices = new ApiRecord({
     return axios.get(url, { headers });
   },
   paramParser: p => new Record({ networkId: null })(p),
-  resParser: fromJS,
 });

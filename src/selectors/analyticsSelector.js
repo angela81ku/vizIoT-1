@@ -8,7 +8,7 @@ import DataReducerTypes from '../constants/DataReducerTypes';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
-import { getIn, List } from 'immutable';
+import { pathOr } from 'ramda';
 import TimeMetric from '../data/metrics/TimeMetric';
 import { selectDeviceIdList, selectDeviceList } from 'VizIoT/selectors/deviceSelectors';
 import * as deviceData from 'VizIoT/data/device/DeviceDataLenses';
@@ -33,7 +33,7 @@ export const selectMostContactedHostLastPeriod = (state, startTime) => {
   });
 
   const data = selectDataWithRequest(state, request);
-  const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
+  const rows = pathOr([], ['data', 'report', 'data', 'rows'], data);
   const { dimensions, metrics } = _.maxBy(
     rows,
     ({ metrics }) => metrics[0]
@@ -43,7 +43,7 @@ export const selectMostContactedHostLastPeriod = (state, startTime) => {
 };
 
 export const selectMacAddressToAlias = state => {
-  const deviceList = selectDeviceList(state) || List();
+  const deviceList = selectDeviceList(state) || [];
   return deviceList.reduce((acc, { macAddress, alias }) => {
     return {
       ...acc,
@@ -62,7 +62,7 @@ export const selectDomainsToday = (state, numberOf) => {
   });
 
   const data = selectDataWithRequest(state, requestKey);
-  const rows = getIn(data, ['data', 'report', 'data', 'rows'], []);
+  const rows = pathOr([], ['data', 'report', 'data', 'rows'], data);
 
   return rows.map(({ dimensions, metrics }) => ({
     id: `device ${dimensions[0]}`,
@@ -79,7 +79,7 @@ export const selectMostRecentDomains = (state, numberOf) => {
     endTime: convertDateTypeToString[DateConstants.NOW](),
   });
   const data = selectDataWithRequest(state, requestKey);
-  const rows = getIn(data, ['data', 'report', 'data', 'rows']) || [];
+  const rows = pathOr([], ['data', 'report', 'data', 'rows'], data);
   return (
     rows
       .sort((a, b) => {

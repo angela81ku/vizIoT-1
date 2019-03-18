@@ -11,15 +11,12 @@ import BubbleLocationTab from './BubbleLocationTab';
 import CoverFlow from 'UIBean/CoverFlow';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
-import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
-import { getTabByPath, tabKeys, tabOrder, Tabs } from 'VizIoT/constants/TabNavigation';
+import { getTabByPath, tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
 import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
-import { BACKGROUND_COLOR } from 'VizIoT/styles/base/viz-theme';
-import { getIn } from 'immutable';
-import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
+import { pathOr } from 'ramda';
 
 class VideoBackground extends PureComponent {
   render() {
@@ -117,7 +114,7 @@ class VizIoT extends React.Component {
       return <Redirect to={redirectTo} />;
     }
 
-    const title = getIn(getTabByPath(location.pathname), ['title'], '');
+    const title = pathOr('', ['title'], getTabByPath(location.pathname));
 
     return (
       <div id="root-container" onKeyDown={this.handleKeyDown}>

@@ -1,6 +1,7 @@
-import axios from 'axios';
-import { headers, baseUrl } from 'VizIoT/constants/RequestConstants';
-import { fromJS, Record } from 'immutable';
+'use es6';
+
+import { baseUrl } from 'VizIoT/constants/RequestConstants';
+import { Record } from 'immutable';
 import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
 import AnalyticsRequest from 'VizIoT/data/records/AnalyticsRequest';
 import GeoDimension from 'VizIoT/data/dimensions/GeoDimension';
@@ -130,6 +131,5 @@ export const analyzeApi = {
       startTime: convertDateTypeToString[DateConstants.TODAY](),
       endTime: convertDateTypeToString[DateConstants.NOW](),
     }),
-    resParser: fromJS,
   })
 };
