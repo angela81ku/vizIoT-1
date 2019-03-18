@@ -20,7 +20,7 @@ export const useScroll = callback => {
   useEffect(() => {
     window.addEventListener('scroll', callback);
     return clearListener;
-  }, [])
+  }, [callback])
 };
 
 

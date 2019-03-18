@@ -14,5 +14,5 @@ export const useSocket = (roomPath, callback) => {
   useEffect(() => {
     socket.on(roomPath, callbackRef.current);
     return () => { socket.removeListener(roomPath, callbackRef.current) }
-  }, [roomPath])
+  }, [roomPath, socket])
 };

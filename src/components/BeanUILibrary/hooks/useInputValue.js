@@ -9,7 +9,7 @@ export const useInputValue = (initialValue, externalCallback = () => {}) => {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     externalCallback(e);
     setValue(value);
-  }, []);
+  }, [externalCallback]);
 
   return {value, onChange};
 };
