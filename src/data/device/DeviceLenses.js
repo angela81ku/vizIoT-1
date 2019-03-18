@@ -6,6 +6,7 @@ import { compare as compareMac } from 'mac-address-util';
 
 // Lens
 export const macAddress = R.lensProp('macAddress');
+const getMacAddress = R.view(macAddress);
 
 export const devices = R.lensProp('devices');
 
@@ -22,19 +23,19 @@ const doesDeviceHasMacAddress = macAddressValue =>
     R.view(macAddress)
   );
 
-const matchQuery = (query) => (device) => {
-    const macAddressValue = R.view(macAddress)(device);
-    if (!query || query === '') {
-      return true;
-    }
-    return containsMac([query], macAddressValue)
-        || device.toString().includes(query);
-  };
 
-export const findMultiDeviceByMac = (query) =>
+const matchQuery = query => device => {
+  if (!query || query === '') {
+    return true;
+  }
+  return containsMac([query], getMacAddress(device))
+      || device.toString().includes(query);
+};
+
+export const findMultiDeviceByMac = query =>
   R.compose(
-      R.filter(matchQuery(query)),
-      R.defaultTo([]),
+    R.filter(matchQuery(query)),
+    R.defaultTo([]),
   );
 
 export const findDeviceByMac = macAddressValue =>

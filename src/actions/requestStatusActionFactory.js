@@ -2,7 +2,7 @@
 
 import { createAction } from 'redux-act';
 import NetworkState from 'VizIoT/constants/NetworkState';
-import { callLens, paramParser } from 'VizIoT/data/api/ApiLenses';
+import { callLens, getCall, getParamParser, paramParser } from 'VizIoT/data/api/ApiLenses';
 import * as R from 'ramda';
 import NetworkResponse from 'VizIoT/data/api/NetworkResponse';
 
@@ -28,11 +28,11 @@ export const createGenericRequester = (callbacks, api) => {
   return params => {
     callbacks[NetworkState.LOADING]();
 
-    const call = R.view(callLens)(api);
+    const requestCall = getCall(api);
 
     const withActions = validParams => {
       return new Promise(resolve => {
-        call(validParams)
+        requestCall(validParams)
           .then(resolve)
           .catch(error => {
             callbacks[NetworkState.FAILED](error);
@@ -47,7 +47,7 @@ export const createGenericRequester = (callbacks, api) => {
 
     return R.compose(
       withActions,
-      R.view(paramParser)(api)
+      getParamParser(api),
     )(params);
   };
 };

@@ -15,8 +15,8 @@ const generateResponsiveSizing = sizeListing => {
 const convertToStyleString = setting => {
   const { size, weight, distance } = setting;
   return `
-    ${weight ? `font-weight: ${weight}` : ''};
-    ${distance ? `margin-bottom: ${distance}` : ''}rem;
+    ${weight ? `font-weight: ${weight};` : ''}
+    ${distance ? `margin-bottom: ${distance}rem;` : ''}
     ${generateResponsiveSizing(size)}
   `;
 };
