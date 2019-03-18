@@ -1,27 +1,22 @@
 'use es6';
 
-import React, { Component, PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Flex, { FlexDirection, JustifyContent } from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
-import BCard from 'UIBean/BCard';
-import DeviceList from '../components/DeviceList';
 import { fetchDevices } from '../actionsRequest/deviceRequest';
-import { pushIndividualSizeToday, pushPacketCountToday } from '../actions/packetActions';
+import { pushIndividualSizeToday } from '../actions/packetActions';
 import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
   requestAggregationByTime,
   analyzeAggregationCore,
 } from '../actions/analyzeActions';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import {
   selectEntireNetwork,
-  selectNumberOfConnections,
   selectThreeDevices,
 } from '../selectors/deviceSelectors';
-import DeviceActivityChart from './ConnectedLineChart';
 import {
   selectMainChartConfig,
   selectSingleDeviceChartConfig,
@@ -32,39 +27,32 @@ import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
 import ActivityFeed from '../components/ActivityFeed';
-import { selectDataForAllDevices, selectMostRecentDomains } from '../selectors/analyticsSelector';
-import TimedSwitcher from 'UIBean/TimedSwitcher';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';
-import ScheduleCard from './ScheduleCard';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from 'UIBean/GridItem';
 import {
-  createSocket,
   SizeRoom,
   TodaySizeRoom,
-  AverageVelocitySize10MinRoom, Size1MinRoom, IndividualSizeRoom, ByDeviceSizeRoomToday
+  Size1MinRoom,
+  IndividualSizeRoom,
+  ByDeviceSizeRoomToday
 } from 'VizIoT/socket/subscribe';
-import { H0, H1, H2, H3, H4, H5 } from 'UIBean/functional-css/TypographyStyles';
+import { H2, H4, } from 'UIBean/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import {
   pushRealtimeIndividualVelocitySizeSample,
-  pushRealtimeVelocitySample,
   pushRealtimeVelocitySizeSample, pushSize1Min,
   pushSizeToday
 } from 'VizIoT/actions/packetActions';
 import {
   deviceToLiveSamples,
-  selectRealtimeVelocitySample,
   selectRealtimeVelocitySizeSample,
-  selectTodayPacketCount
 } from 'VizIoT/selectors/packetSelector';
 import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
-import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
-import { createSelector } from 'reselect';
-import { takeTop3Size } from 'VizIoT/data/device/DeviceDataLenses';
+
 import { useSocket } from 'UIBean/hooks/useSocket';
 import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
 
@@ -96,13 +84,14 @@ const Title = styled.div`
   padding-bottom: 3rem;
   font-weight: 200;
 `;
+
 const RecentDevicesTitle = styled(Title)`
   padding-top: 5rem;
   padding-bottom: 1rem;
 `;
+
 const RecentDevices = styled.div`
   ${H4}
-  
 `;
 
 const OverviewContainer = styled.div`
