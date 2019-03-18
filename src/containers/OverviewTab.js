@@ -183,6 +183,8 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
     return (
       <ConnectedLineChart
         className="main-chart"
+        title={'Network'}
+        subtitle={'BYTES / SEC'}
         dataSelector={selectRealtimeVelocitySizeSample}
         device={combinedNetworkDevice}
         deviceKey={'COMBINED'}
@@ -192,7 +194,6 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
           macAddresses: [],
         })}
         chartConfig={mainChartConfig}
-        placeholderSubtitle={'BYTES / SEC'}
       />
     );
   };

@@ -1,6 +1,7 @@
 'use es6';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const toSizeClasses = size => {
@@ -20,6 +21,11 @@ class FlexSize extends React.Component {
     return <div className={joinedClassNames}>{children}</div>;
   }
 }
+
+FlexSize.propTypes = {
+  size: PropTypes.object,
+  padding: PropTypes.bool,
+};
 
 FlexSize.defaultProps = {
   className: null,

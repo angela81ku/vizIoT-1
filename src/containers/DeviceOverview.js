@@ -12,12 +12,21 @@ import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import BTextInput from 'UIBean/BTextInput';
 import BCheckBox from 'VizIoT/components/BCheckBox';
-import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import { deviceToLiveSamples, selectRealtimeVelocitySizeSample } from 'VizIoT/selectors/packetSelector';
 import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
 import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
 import { pushRealtimeIndividualVelocitySizeSample } from 'VizIoT/actions/packetActions';
 import { useSocket } from 'UIBean/hooks/useSocket';
 import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
+import Flex, { FlexDirection } from 'UIBean/Flex';
+import FlexChild from 'UIBean/FlexChild';
+import FlexSize from 'UIBean/FlexSize';
+import { getDataKey } from 'VizIoT/utility/DataKey';
+import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
+import { BucketRecord } from 'VizIoT/data/records/BucketConfig';
+import BucketProperty from 'VizIoT/constants/BucketProperty';
+import BucketUnit from 'VizIoT/constants/BucketUnit';
+import SelectionMode from 'VizIoT/constants/DataReducerTypes';
 
 const TitleContainer = styled.div`
 `;
@@ -66,7 +75,34 @@ const DeviceOverview = () => {
           inline
         />
         <BCheckBox title={'Map'} inline />
-        <ConnectedDeviceCollection searchValue={searchValue} mode={'LIST'} />
+        <Flex direction={FlexDirection.ROW}>
+          <FlexSize size={{ xs: 6 }}>
+            <ConnectedDeviceCollection searchValue={searchValue} mode={'LIST'} />
+          </FlexSize>
+          <FlexSize size={{ xs: 6 }}>
+            <ConnectedLineChart
+              className="main-chart"
+              dataSelector={selectRealtimeVelocitySizeSample}
+              // device={combinedNetworkDevice}
+              deviceKey={'COMBINED'}
+              // dataKey={getDataKey({
+              //   ...bucketConfig.toJS(),
+              //   selectionMode,
+              //   macAddresses: [],
+              // })}
+              chartConfig={{
+                bucketConfig: new BucketRecord({
+                  bucketSize: 1,
+                  bucketProps: [BucketProperty.ACTIVITY_COUNT],
+                  bucketUnit: BucketUnit.SECOND,
+                }),
+                selectionMode: SelectionMode.COMBINED,
+                dataWindowSize: 60,
+              }}
+              placeholderSubtitle={'BYTES / SEC'}
+            />
+          </FlexSize>
+        </Flex>
       </PageContent>
     </PageBackground>
   );

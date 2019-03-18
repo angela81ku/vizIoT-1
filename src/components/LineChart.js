@@ -29,7 +29,7 @@ class LineChart extends React.Component {
   render() {
     const { title, subtitle, data, dataWindowSize } = this.props;
 
-    return (
+    return data.length >= 1 && (
       <Flex direction={FlexDirection.COLUMN}>
         {title && <Title>{title}</Title>}
         {subtitle && <Subtitle>{subtitle}</Subtitle>}

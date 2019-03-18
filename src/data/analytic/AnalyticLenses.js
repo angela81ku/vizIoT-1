@@ -14,12 +14,11 @@ export const getIds = R.view(ids);
 export const getIdToAnalytic = R.view(idToAnalytic);
 export const getIdToNetworkState = R.view(idToNetworkState);
 
-const immSet = (id, item) => collection => collection[id] = item;
 
 // id -> state
 export const addId = id => R.over(ids, R.append(id));
-export const mapIdToAnalytic = (id, analytic) => R.over(idToAnalytic, immSet(id, analytic));
-export const mapIdToSuccess = id => R.over(idToNetworkState, immSet(id, NetworkState.READY));
+export const mapIdToAnalytic = (id, analytic) => R.over(idToAnalytic, R.set(R.lensProp(id), analytic));
+export const mapIdToSuccess = id => R.over(idToNetworkState, R.set(R.lensProp(id), NetworkState.READY));
 
 export const updateWithResponse = (response) => state => {
   const id = networkResponse.getRequestBody(response).hashCode();
