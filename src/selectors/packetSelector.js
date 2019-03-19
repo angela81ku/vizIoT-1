@@ -26,4 +26,4 @@ export const numberOfActiveDevices = state => {
   return deviceVolumes.length;
 };
 
-export const deviceToLiveSamples = path(['packets', 'realtimeIndividualVelocitySizeSample', 'data']);
+export const selectDeviceToLiveSamples = path(['packets', 'realtimeIndividualVelocitySizeSample', 'data']);

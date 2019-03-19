@@ -1,18 +1,21 @@
 'use es6';
 
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { searchForDevice } from 'VizIoT/selectors/deviceSelectors';
+import {
+  searchForDevice,
+  selectDeviceDataSamplesByDeviceMac
+} from 'VizIoT/selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import BTextInput from 'UIBean/BTextInput';
 import BCheckBox from 'VizIoT/components/BCheckBox';
-import { deviceToLiveSamples, selectRealtimeVelocitySizeSample } from 'VizIoT/selectors/packetSelector';
+import { selectDeviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
 import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
 import { pushRealtimeIndividualVelocitySizeSample } from 'VizIoT/actions/packetActions';
@@ -49,9 +52,10 @@ const PageContent = styled.div`
   padding-right: 7%;
 `;
 
+
 const ConnectedDeviceCollection = connect((state, { searchValue }) => ({
   devices: searchForDevice(searchValue)(state),
-  deviceToData: deviceToLiveSamples(state),
+  deviceToData: selectDeviceToLiveSamples(state), // todo throttle this.
   chartConfig: selectSingleDeviceChartConfig(state),
 }))(DeviceCollection);
 
@@ -82,14 +86,7 @@ const DeviceOverview = () => {
           <FlexSize size={{ xs: 6 }}>
             <ConnectedLineChart
               className="main-chart"
-              dataSelector={selectRealtimeVelocitySizeSample}
-              // device={combinedNetworkDevice}
-              deviceKey={'COMBINED'}
-              // dataKey={getDataKey({
-              //   ...bucketConfig.toJS(),
-              //   selectionMode,
-              //   macAddresses: [],
-              // })}
+              dataSelector={selectDeviceDataSamplesByDeviceMac('A6:39:E1:79:59:B0')}
               chartConfig={{
                 bucketConfig: new BucketRecord({
                   bucketSize: 1,
@@ -99,7 +96,7 @@ const DeviceOverview = () => {
                 selectionMode: SelectionMode.COMBINED,
                 dataWindowSize: 60,
               }}
-              placeholderSubtitle={'BYTES / SEC'}
+              subtitle={'BYTES / SEC'}
             />
           </FlexSize>
         </Flex>

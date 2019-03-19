@@ -14,14 +14,21 @@ import { containsMac } from 'VizIoT/data/device/DeviceLenses';
 // DeviceData
 export const macAddress = immLens(Keys.MAC_ADDRESS);
 export const lastSize = immLens(Keys.LAST_SIZE);
+
 export const lastSizeSamples = immLens(Keys.LAST_SIZE_SAMPLES);
+export const getLastSizeSamples = R.view(lastSizeSamples);
+
 export const recentSizeSum = immLens(Keys.RECENT_SIZE_SUM);
 export const sizeTotalToday = immLens(Keys.SIZE_TOTAL_TODAY);
 export const sizeInToday = immLens(Keys.SIZE_IN_TODAY);
 export const sizeOutToday = immLens(Keys.SIZE_OUT_TODAY);
 
-// id -> DeviceData
-export const makeMacAddressLens = macAddress => R.lensProp(macAddress);
+// macAddress -> lens
+export const makeMacAddressLens = R.pipe(standardize, R.lensProp);
+
+// macAddress -> deviceDataState -> deviceData
+export const getDeviceDataByMac = macAddress =>
+  R.unless(R.isNil, R.view(makeMacAddressLens(macAddress)));
 
 export const takeTop3Size = R.compose(
   R.map(R.nth(1)), // TODO can be optimized
@@ -67,7 +74,7 @@ export const createDeviceDataMap = arg => {
 const getSamplesSum = R.compose(
   R.sum,
   R.map(R.view(R.lensProp('size'))),
-  R.view(lastSizeSamples),
+  getLastSizeSamples,
 );
 
 const filterSamples = R.filter(data => moment().subtract(30, 'second').valueOf() < data.startMS);
@@ -76,7 +83,7 @@ const refreshDeviceData = deviceData => {
   const refreshSamples = R.compose(
     filterSamples,
     R.defaultTo({}),
-    R.view(lastSizeSamples)
+    getLastSizeSamples
   );
 
   return R.compose(
@@ -112,7 +119,7 @@ const updateDeviceData = (l, r) => {
     filterSamples,
     R.concat(l.get(Keys.LAST_SIZE_SAMPLES)),
     R.defaultTo([]),
-    R.view(lastSizeSamples)
+    getLastSizeSamples
   );
 
   const final = R.compose(

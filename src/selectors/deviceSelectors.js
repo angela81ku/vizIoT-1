@@ -9,10 +9,15 @@ import GeoDimension from '../data/dimensions/GeoDimension';
 import * as R from 'ramda';
 import * as device from 'VizIoT/data/device/DeviceLenses';
 import { createSelector } from 'reselect';
-import { deviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
-import { takeTop3Size, macAddress } from 'VizIoT/data/device/DeviceDataLenses';
+import { selectDeviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import {
+  takeTop3Size,
+  macAddress,
+  makeMacAddressLens,
+  lastSizeSamples,
+  getLastSizeSamples, getDeviceDataByMac
+} from 'VizIoT/data/device/DeviceDataLenses';
 import { findMultiDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
-import { tap } from 'VizIoT/utility/Debugging';
 
 export const selectDeviceList = R.view(device.deviceListValue);
 
@@ -67,10 +72,21 @@ export const selectMacAddressToAlias = createSelector(
   }
 );
 
+export const selectDeviceDataByDeviceMac = macAddress => createSelector(
+  [selectDeviceToLiveSamples],
+  getDeviceDataByMac(macAddress),
+);
+
+export const selectDeviceDataSamplesByDeviceMac = macAddress => createSelector(
+  [selectDeviceDataByDeviceMac(macAddress)],
+  getLastSizeSamples
+);
+
+
 // top 3 devices with most connections in the last 30 seconds
 // visualize using a bar chart, which is better for
 export const selectThreeDevices = createSelector(
-  [selectDeviceList, deviceToLiveSamples],
+  [selectDeviceList, selectDeviceToLiveSamples],
   (devices, deviceToLiveSamples) => {
 
     const mapToMacAddresses = R.pipe(

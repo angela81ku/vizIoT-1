@@ -47,7 +47,7 @@ import {
   pushSizeToday
 } from 'VizIoT/actions/packetActions';
 import {
-  deviceToLiveSamples,
+  selectDeviceToLiveSamples,
   selectRealtimeVelocitySizeSample,
 } from 'VizIoT/selectors/packetSelector';
 import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
@@ -160,7 +160,7 @@ const IgnoreContainerPadding = styled.div`
 
 const ConnectedDeviceCollection = connect(state => ({
   devices: selectThreeDevices(state),
-  deviceToData: deviceToLiveSamples(state),
+  deviceToData: selectDeviceToLiveSamples(state),
   chartConfig: selectSingleDeviceChartConfig(state),
 }))(DeviceCollection);
 
