@@ -14,7 +14,7 @@ import SectionTitle from 'VizIoT/components/SectionTitle';
 import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
 import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
 import BTextInput from 'UIBean/BTextInput';
-import BCheckBox from 'VizIoT/components/BCheckBox';
+import BCheckBox from 'UIBean/BCheckBox';
 import { selectDeviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
 import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
 import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
@@ -96,6 +96,7 @@ const DeviceOverview = () => {
                 selectionMode: SelectionMode.COMBINED,
                 dataWindowSize: 60,
               }}
+              title={'A6:39:E1:79:59:B0'}
               subtitle={'BYTES / SEC'}
             />
           </FlexSize>

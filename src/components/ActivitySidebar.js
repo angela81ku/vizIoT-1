@@ -2,13 +2,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { identity } from 'ramda';
 
 import Flex from 'UIBean/Flex';
 import TimedSwitcher from 'UIBean/TimedSwitcher';
 import styled from 'styled-components';
 import BCard from 'UIBean/BCard';
 import SectionTitle from 'VizIoT/components/SectionTitle';
-import DeviceList from 'VizIoT/components/DeviceList';
+import DeviceList from 'VizIoT/components/device/DeviceList';
 import ActivityFeed from 'VizIoT/components/ActivityFeed';
 import connect from 'react-redux/es/connect/connect';
 import {
@@ -132,9 +133,9 @@ const Sidebar = ({
 };
 
 Sidebar.defaultProps = {
-  onSwitch: () => {},
-  onClickHide: () => {},
-  onClickShow: () => {},
+  onSwitch: identity,
+  onClickHide: identity,
+  onClickShow: identity,
   hide: false,
 };
 

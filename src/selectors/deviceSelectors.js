@@ -82,7 +82,6 @@ export const selectDeviceDataSamplesByDeviceMac = macAddress => createSelector(
   getLastSizeSamples
 );
 
-
 // top 3 devices with most connections in the last 30 seconds
 // visualize using a bar chart, which is better for
 export const selectThreeDevices = createSelector(
