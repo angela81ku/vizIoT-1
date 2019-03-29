@@ -79,7 +79,7 @@ export const selectDeviceDataByDeviceMac = macAddress => createSelector(
 
 export const selectDeviceDataSamplesByDeviceMac = macAddress => createSelector(
   [selectDeviceDataByDeviceMac(macAddress)],
-  getLastSizeSamples
+  (maybeDeviceData) => maybeDeviceData && getLastSizeSamples(maybeDeviceData)
 );
 
 // top 3 devices with most connections in the last 30 seconds

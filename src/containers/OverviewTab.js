@@ -174,7 +174,7 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
   useSocket(IndividualSizeRoom, pushRealtimeIndividualVelocitySizeSample);
   useSocket(ByDeviceSizeRoomToday, pushIndividualSizeToday);
 
-  useTimedFetcher(fetchAnalytic, DEVICE_HITS_REFRESH_DAY_MS);
+  // useTimedFetcher(fetchAnalytic, DEVICE_HITS_REFRESH_DAY_MS);
   useTimedFetcher(fetchDevices, DEVICE_HITS_REFRESH_DAY_MS);
 
   const renderMainChart = () => {

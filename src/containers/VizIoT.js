@@ -63,6 +63,11 @@ class VizIoT extends React.Component {
 
   componentDidMount() {
     this.scheduleHideTitle();
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
   scheduleHideTitle = () => {
@@ -98,7 +103,7 @@ class VizIoT extends React.Component {
   };
 
   handleKeyDown = e => {
-    if (e.key === 'Tab') {
+    if (e.key === 'i') {
       e.preventDefault();
       this.onToggleNav();
     }
@@ -117,7 +122,7 @@ class VizIoT extends React.Component {
     const title = pathOr('', ['title'], getTabByPath(location.pathname));
 
     return (
-      <div id="root-container" onKeyDown={this.handleKeyDown}>
+      <div id="root-container">
         <VideoBackground />
         <TabTitle subtitle={title} show={showTitle} />
         <div>

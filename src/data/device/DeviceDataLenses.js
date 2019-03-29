@@ -10,6 +10,7 @@ import { compare as compareMac, standardize } from 'mac-address-util';
 import { tap } from 'VizIoT/utility/Debugging';
 import { deviceListValue } from 'VizIoT/data/device/DeviceLenses';
 import { containsMac } from 'VizIoT/data/device/DeviceLenses';
+import blacklist from 'VizIoT/data/device/blacklist';
 
 // DeviceData
 export const macAddress = immLens(Keys.MAC_ADDRESS);
@@ -27,8 +28,10 @@ export const sizeOutToday = immLens(Keys.SIZE_OUT_TODAY);
 export const makeMacAddressLens = R.pipe(standardize, R.lensProp);
 
 // macAddress -> deviceDataState -> deviceData
-export const getDeviceDataByMac = macAddress =>
-  R.unless(R.isNil, R.view(makeMacAddressLens(macAddress)));
+export const getDeviceDataByMac = macAddress => (state) => {
+  debugger
+  return R.unless(R.isNil, R.view(makeMacAddressLens(macAddress)))(state);
+}
 
 export const takeTop3Size = R.compose(
   R.map(R.nth(1)), // TODO can be optimized
@@ -48,9 +51,7 @@ export const takeTop3Size = R.compose(
 // const getDeviceData = (device, key) => allDataForDevice(key);
 // export const allData = R.compose(R.mapObjIndexed(getDeviceData), R.view(deviceListValue));
 
-const tempBlacklist = ['22:ef:03:1a:97:b9', 'ff:ff:ff:ff:ff:ff'];
-
-const isBlacklisted = containsMac(tempBlacklist);
+const isBlacklisted = containsMac(blacklist);
 
 export const createDeviceDataMap = arg => {
   const { startMS } = arg;

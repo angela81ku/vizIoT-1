@@ -6,6 +6,10 @@ import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
 
+/**
+ * @Deprecated exists only for reference
+ */
+
 export const startAnalyze = createAction();
 export const successAnalyze = createAction();
 export const failureAnalyze = createAction();

@@ -1,3 +1,7 @@
+/**
+ * @deprecated use for reference-only
+ */
+
 import React from 'react';
 import Flex from 'UIBean/Flex';
 import BCard from 'UIBean/BCard';

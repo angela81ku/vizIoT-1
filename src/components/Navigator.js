@@ -51,16 +51,16 @@ const Navigator = styled(Flex)`
 
 const withHideable = (Component, hideStyle = '', visibleStyle = '', style = '') => {
 
-  const WithHiddenStyles = styled(Component)`
+  const EnhancedWithHiddenStyles = styled(Component)`
     ${style}
     ${({ isHidden }) => isHidden ? hideStyle : visibleStyle}
   `;
 
   const HoC = ({ children, ...props }) =>
     (
-      <WithHiddenStyles {...props}>
+      <EnhancedWithHiddenStyles {...props}>
         {children}
-      </WithHiddenStyles>
+      </EnhancedWithHiddenStyles>
     );
 
   HoC.defaultProps = {

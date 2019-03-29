@@ -1,5 +1,9 @@
 'use es6';
 
+/**
+ * @deprecated use for reference
+ */
+
 import React from 'react';
 import BeanList from 'UIBean/BeanList';
 import ListItem from 'UIBean/ListItem';

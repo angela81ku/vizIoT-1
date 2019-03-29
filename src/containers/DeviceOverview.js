@@ -86,7 +86,7 @@ const DeviceOverview = () => {
           <FlexSize size={{ xs: 6 }}>
             <ConnectedLineChart
               className="main-chart"
-              dataSelector={selectDeviceDataSamplesByDeviceMac('A6:39:E1:79:59:B0')}
+              dataSelector={selectDeviceDataSamplesByDeviceMac('B0:CE:18:27:9F:E4')}
               chartConfig={{
                 bucketConfig: new BucketRecord({
                   bucketSize: 1,

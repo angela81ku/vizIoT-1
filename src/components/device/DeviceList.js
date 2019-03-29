@@ -1,3 +1,7 @@
+/**
+ * @deprecated use for reference only
+ */
+
 import React from 'react';
 import DeviceListItem from './DeviceListItem';
 import moment from 'moment';
