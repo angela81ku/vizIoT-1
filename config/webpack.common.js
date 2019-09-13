@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -30,7 +30,10 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'react', 'stage-2',],
+            presets: [
+              '@babel/env',
+              '@babel/react',
+            ],
           },
         },
       },
@@ -79,7 +82,7 @@ module.exports = {
     extensions: ['.js', '.jsx',],
   },
   plugins: [
-    new CleanWebpackPlugin([distPath,], {
+    new CleanWebpackPlugin({
       root: rootPath,
       verbose: true,
       dry: false,
