@@ -1,7 +1,7 @@
 'use es6';
 
 import axios from 'axios';
-import { headers, baseUrl } from '../../constants/RequestConstants';
+import { headers, baseUrlApi } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
 import ApiRecord from 'VizIoT/data/api/Api';
 import { createMockCall } from 'VizIoT/utility/ApiUtility';
@@ -30,7 +30,7 @@ export const fetchDevices = new ApiRecord({
     //   ]
     // });
 
-    const url = `${baseUrl}/device/all`;
+    const url = `${baseUrlApi}/device/all`;
     return axios.get(url, { headers });
   },
   paramParser: p => new Record({ networkId: null })(p),

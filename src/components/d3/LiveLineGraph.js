@@ -32,9 +32,6 @@ class RollingXAxis extends Component {
       return;
     }
 
-    console.log('kicoffTransition');
-
-
     const { node } = this.props;
     const item = node.select('.xAxis');
 
@@ -74,8 +71,6 @@ class RollingXAxis extends Component {
     const { node, translateX, translateY, width } = this.props;
 
     const { xStart, xEnd } = this.getLiveDomainForX();
-
-    console.log('rendering rolling x axis');
 
     const redrawXAxis = (xAxis) => {
       return g => {
@@ -173,7 +168,6 @@ class LiveLineGraph extends Component {
       clearInterval(looper);
     }
     if (transitionLoop) {
-      console.log('destroy transition loop');
       clearInterval(transitionLoop);
     }
   }
@@ -207,8 +201,6 @@ class LiveLineGraph extends Component {
     } = this.state;
 
     const { transitionDuration } = this.props;
-
-    console.log('redrawchart');
 
     // =================================================================================================================
     // Start Data Update
@@ -403,8 +395,6 @@ class LiveLineGraph extends Component {
 
     const { leftAxisMargin, xStart, xEnd, graphDimensions: { graphWidth, graphHeight },
     } = this.state;
-
-    console.log('reach');
 
     const svg = select(this.node);
     const g = svg.select('g');

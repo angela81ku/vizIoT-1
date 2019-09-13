@@ -29,8 +29,6 @@ class DataTable extends React.Component {
 
   componentDidUpdate() {
     if (this.state.scrollRow !== this.props.rowData.length - 1) {
-      console.log(this.state.scrollRow);
-      console.log(this.props.rowData.length);
       this.setState({ scrollRow: this.props.rowData.length - 1 });
     }
   }
@@ -54,7 +52,6 @@ class DataTable extends React.Component {
     //   );
     // };
 
-    console.log(rowData);
     return (
       <Table
         ref={this.testTableRef}

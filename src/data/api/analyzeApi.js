@@ -1,6 +1,6 @@
 'use es6';
 
-import { baseUrl } from 'VizIoT/constants/RequestConstants';
+import { baseUrlApi } from 'VizIoT/constants/RequestConstants';
 import { Record } from 'immutable';
 import DataReducerTypes from 'VizIoT/constants/DataReducerTypes';
 import AnalyticsRequest from 'VizIoT/data/records/AnalyticsRequest';
@@ -15,13 +15,13 @@ import { createMockCall } from 'VizIoT/utility/ApiUtility';
 import ApiRecord from 'VizIoT/data/api/Api';
 
 const analyzeAggregationCore = payloadRecord => {
-  return postCallWithRecord(payloadRecord, `${baseUrl}/api/analyze/core`);
+  return postCallWithRecord(payloadRecord, `${baseUrlApi}/api/analyze/core`);
 };
 
 const analyzeAggregationByTime = (payloadRecord, networkId) => {
   return postCallWithRecord(
     payloadRecord,
-    `${baseUrl}/api/networks/${networkId}/analyze/aggregateDataByTime`
+    `${baseUrlApi}/api/networks/${networkId}/analyze/aggregateDataByTime`
   );
 };
 

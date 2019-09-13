@@ -27,9 +27,9 @@ const Title = styled.div`
 `;
 
 const logMoment = (m, prefix) => {
-  console.log(
-    `${prefix} ${m.month()} ${m.date()}, ${m.hour()}:${m.minutes()}:${m.seconds()}`
-  );
+  // console.log(
+  //   `${prefix} ${m.month()} ${m.date()}, ${m.hour()}:${m.minutes()}:${m.seconds()}`
+  // );
 };
 
 const createPlaceholderData = () => {
@@ -67,7 +67,6 @@ const createPlaceholderData = () => {
     iTime.subtract(1, 'hour');
   }
 
-  console.log(rows);
   return rows;
 };
 

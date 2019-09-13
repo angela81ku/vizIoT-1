@@ -59,7 +59,6 @@ const mapStateToProps = state => {
     const newKey = `${timestamp}${src_ip}`;
 
     if (acc.findIndex(({ key }) => key === newKey) >= 0) {
-      console.log(`skipping ${newKey}`);
       return acc;
     }
 
@@ -68,8 +67,6 @@ const mapStateToProps = state => {
     newAcc.push(item);
     return newAcc;
   }, []);
-
-  console.log(packetData);
 
   return {
     packetData,

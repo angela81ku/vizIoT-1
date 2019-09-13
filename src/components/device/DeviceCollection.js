@@ -285,8 +285,6 @@ class DeviceCollection extends Component {
     const { hoveredDevice } = this.state;
     const { mode, devices, deviceToData, chartConfig } = this.props;
 
-    console.log('DeviceCollection rendering!');
-
     if (mode === 'CARD') {
       return DeviceCollection.renderDevicesAsCards(
         devices,

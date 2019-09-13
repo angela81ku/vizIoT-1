@@ -1,9 +1,9 @@
 'use es6';
 
 import openSocket from 'socket.io-client';
+import { baseUrl } from 'VizIoT/constants/RequestConstants';
 
-const host = 'https://viziot-server-2.herokuapp.com/';
-export const url = `${host}chat`;
+export const url = `${baseUrl}/chat`;
 
 // Socket instance
 
