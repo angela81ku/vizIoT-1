@@ -1,9 +1,9 @@
 import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 import { createAction } from 'redux-act';
-import DeviceDimension from '../data/dimensions/DeviceDimension';
-import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import { DateConstants } from '../constants/DateConstants';
+import DeviceDimension from 'VizIoT/data/dimensions/DeviceDimension';
+import { ConnectionMetric } from 'VizIoT/data/metrics/ConnectionMetric';
+import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
+import { DateConstants } from 'VizIoT/constants/DateConstants';
 import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
 
 /**
