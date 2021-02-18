@@ -1,8 +1,8 @@
 'use es6';
 
-import { baseUrlApi, newPacketUrl } from 'VizIoT/constants/RequestConstants';
+import { baseUrlApi, newPacketUrl } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
-import { postCallWithRecord } from 'VizIoT/data/api/apiUtils';
+import { postCallWithRecord } from './apiUtils';
 
 export const packetApiKeys = {
   PACKET: 'packet',

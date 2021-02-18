@@ -18,6 +18,9 @@ import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
 import { pathOr } from 'ramda';
 
+// my imports
+import InOutTab from './InOutTab';
+
 class VideoBackground extends PureComponent {
   render() {
     return (
@@ -37,6 +40,7 @@ const Background = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
+  background-color: #0c1a38;
 `;
 
 const BackgroundRelative = styled.div`
@@ -157,6 +161,12 @@ class VizIoT extends React.Component {
                 exact
                 path={`${Tabs[tabKeys.DESTINATIONS].path}`}
                 component={BubbleLocationTab}
+              />
+              {/*this is my contribution*/}
+              <Route
+                exact
+                path={`${Tabs[tabKeys.INOUT].path}`}
+                component={InOutTab}
               />
               <Route render={() => <NotFound />} />
             </Switch>

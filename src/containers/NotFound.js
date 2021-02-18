@@ -4,8 +4,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import { DARK_BLUE_GRADIENT } from 'VizIoT/styles/base/viz-theme';
-import TypographyComponent from 'UIBean/TypographyComponent';
+import { DARK_BLUE_GRADIENT } from '../styles/base/viz-theme';
+import TypographyComponent from '../components/BeanUILibrary/TypographyComponent';
 
 const { H2 } = TypographyComponent;
 

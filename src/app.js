@@ -8,7 +8,7 @@ import configureStore from './store/configureStore';
 import 'normalize.css/normalize.css';
 import './styles/app.scss';
 import whyDidYouUpdate from 'why-did-you-update';
-import SocketProvider from 'UIBean/provider/SocketProvider';
+import SocketProvider from './components/BeanUILibrary/provider/SocketProvider';
 
 if (process.env.NODE_ENV !== 'production') {
   // whyDidYouUpdate(React);

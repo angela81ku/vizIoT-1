@@ -6,17 +6,31 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import LineChart from '../components/LineChart';
 
+
+
 const transformData = data => {
   if (data && data.length) {
     const catchUpSeconds = 2;
-    return data.map(({ startMS, size: yData }) => {
-      return {
-        xData: moment
-          .unix(startMS / 1000.0)
-          .add(catchUpSeconds, 'seconds')
-          .toDate(),
-        yData,
-      };
+    // console.log(data)
+    return data.map(({ startMS, size: sizeData }) => {
+      const packetData = [];
+      sizeData.forEach((yData) => {
+        packetData.push({
+          xData: moment
+              .unix(startMS / 1000.0)
+              .add(catchUpSeconds, 'seconds')
+              .toDate(),
+          yData,
+        })
+      })
+      return packetData;
+      // return {
+      //   xData: moment
+      //     .unix(startMS / 1000.0)
+      //     .add(catchUpSeconds, 'seconds')
+      //     .toDate(),
+      //   yData,
+      // };
     });
   }
   return [];

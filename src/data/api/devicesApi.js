@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { headers, baseUrlApi } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
-import ApiRecord from 'VizIoT/data/api/Api';
+import ApiRecord from './Api';
 import { createMockCall } from 'VizIoT/utility/ApiUtility';
 
 export const fetchDevices = new ApiRecord({

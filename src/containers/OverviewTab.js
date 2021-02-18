@@ -2,8 +2,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flex, { FlexDirection, JustifyContent } from 'UIBean/Flex';
-import FlexSize from 'UIBean/FlexSize';
+import Flex, { FlexDirection, JustifyContent } from '../components/BeanUILibrary/Flex';
+import FlexSize from '../components/BeanUILibrary/FlexSize';
 import { fetchDevices } from '../actionsRequest/deviceRequest';
 import { pushIndividualSizeToday } from '../actions/packetActions';
 import {
@@ -31,30 +31,30 @@ import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import { analyzeApiKeys } from '../data/api/analyzeApi';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
-import GridItem from 'UIBean/GridItem';
+import GridItem from '../components/BeanUILibrary/GridItem';
 import {
   SizeRoom,
   TodaySizeRoom,
   Size1MinRoom,
   IndividualSizeRoom,
   ByDeviceSizeRoomToday
-} from 'VizIoT/socket/subscribe';
-import { H2, H4, } from 'UIBean/functional-css/TypographyStyles';
+} from '../socket/subscribe';
+import { H2, H4, } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import {
   pushRealtimeIndividualVelocitySizeSample,
   pushRealtimeVelocitySizeSample, pushSize1Min,
   pushSizeToday
-} from 'VizIoT/actions/packetActions';
+} from '../actions/packetActions';
 import {
   selectDeviceToLiveSamples,
   selectRealtimeVelocitySizeSample,
-} from 'VizIoT/selectors/packetSelector';
-import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
-import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
+} from '../selectors/packetSelector';
+import ConnectedLineChart from '../containers/ConnectedLineChart';
+import DeviceCollection from '../components/device/DeviceCollection';
 
-import { useSocket } from 'UIBean/hooks/useSocket';
-import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
+import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
+import { useTimedFetcher } from '../components/BeanUILibrary/hooks/useTimedFetcher';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;

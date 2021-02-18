@@ -3,9 +3,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ScheduleCard from 'VizIoT/containers/ScheduleCard';
-import SectionTitle from 'VizIoT/components/SectionTitle';
-import SectionSubtitle from 'VizIoT/components/SectionSubtitle';
+import ScheduleCard from '../containers/ScheduleCard';
+import SectionTitle from '../components/SectionTitle';
+import SectionSubtitle from '../components/SectionSubtitle';
 
 const Padded = styled.div`
   padding: 0 6%; 

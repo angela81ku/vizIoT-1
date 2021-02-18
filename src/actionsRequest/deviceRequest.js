@@ -1,8 +1,8 @@
 'use es6';
 
-import * as deviceApi from 'VizIoT/data/api/devicesApi';
-import { deviceActionBundle } from 'VizIoT/actions/deviceActions';
-import { createGenericRequester } from 'VizIoT/actions/requestStatusActionFactory';
+import * as deviceApi from '../data/api/devicesApi';
+import { deviceActionBundle } from '../actions/deviceActions';
+import { createGenericRequester } from '../actions/requestStatusActionFactory';
 
 export const fetchDevices = createGenericRequester(
   deviceActionBundle,

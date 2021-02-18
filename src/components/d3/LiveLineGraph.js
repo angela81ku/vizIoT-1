@@ -14,6 +14,9 @@ import { interval } from 'd3-timer';
 import moment from 'moment';
 import { SPACING } from '../../data/records/Spacing';
 
+// my imports
+import * as d3Coll from 'd3-collection';
+
 // Live temporal graphs transition 1 second worth of pixels every 1 second
 const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
   const startUnix = xStart.getTime() / 1000.0;
@@ -22,6 +25,8 @@ const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
 };
 
 const TRANSITION_INTERVAL = 4000;
+
+const lineColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
 
 class RollingXAxis extends Component {
   transitionRunning = false;
@@ -113,6 +118,8 @@ class LiveLineGraph extends Component {
       redraw: true,
       looper: null,
       transitionLoop: null,
+      flowLines: 0,
+      graphWrapper: null,
       ...this.mapPropsToState(props),
     };
   }
@@ -208,7 +215,15 @@ class LiveLineGraph extends Component {
 
     const axisAtLeast = 3;
 
-    const dataMax = max(graphData.map(d => d.yData)) || 1;
+    // console.log(graphData);
+    let dataMax = 0;
+    graphData.forEach(second => {
+      const secondMax = max(second.map(d => d.yData));
+      dataMax = Math.max(secondMax, dataMax);
+    })
+    // const dataMax = max(maxVal, 1) //max(graphData.map(d => d.yData)) || 1;
+
+    // console.log(maxVal);
 
     const axisMax = Math.max(dataMax, axisAtLeast);
 
@@ -246,14 +261,39 @@ class LiveLineGraph extends Component {
 
     // Path Update
     if (graphData && graphData.length > 1) {
-      LiveLineGraph.redrawLine(
-        g.select('.line'),
-        this.createLinePathData(x, y, graphData),
-        transitionDuration,
-        transitionAmount,
-        x,
-        node,
-      );
+
+      // make sure there are attributes for each flow to be drawn to the screen
+      const flows = graphData[graphData.length - 1].length;
+      if (this.state.flowLines !== flows && this.state.graphWrapper !== null) {
+        LiveLineGraph.assignGraphLines(this.state.graphWrapper, flows)
+        this.setState({
+          flowLines: flows
+        })
+      }
+
+      // iterate through all the different plot points
+      // graphData[0] = line1 (flow 1)
+      // graphData[1] = line2 (flow 2)
+      // graphData[2] = ...
+      for (let i = 0; i < graphData[0].length; ++i) {
+        // store all data points for flow i
+        const _graphData = [];
+        for (let j = 0; j < graphData.length; ++j) {
+          _graphData.push(graphData[j][i]);
+        }
+
+        // draw line
+        const attr = '.line' + i;
+        LiveLineGraph.redrawLine(
+            g.select(attr),
+            this.createLinePathData(x, y, _graphData),
+            transitionDuration,
+            transitionAmount,
+            x,
+            node,
+            lineColors[i],
+        );
+      }
     }
   }
 
@@ -269,15 +309,18 @@ class LiveLineGraph extends Component {
     return lineFunction(data);
   }
 
-  static redrawLine(g, linePathData, transitionDuration, transitionAmount, x, node) {
+  static redrawLine(g, linePathData, transitionDuration, transitionAmount, x, node, color) {
+    // also assigns color now
     g.attr('transform', null)
       .attr('d', linePathData)
+      .attr('fill', 'none')
+      .attr('stroke', color)
+      .attr('stroke-width', '2')
       .interrupt() // VERY IMPORTANT
       .transition()
       .duration(1000)
       .ease(easeLinear)
-      .attr('transform', `translate(${-transitionAmount}, 0)`);
-
+      .attr('transform', `translate(${-transitionAmount}, 0)`)
   }
 
   redrawYAxis(yAxis, leftAxisMargin) {
@@ -302,17 +345,23 @@ class LiveLineGraph extends Component {
     const { graphWidth, graphHeight } = graphDimensions;
 
     const graphData = data; // makeDummyGraphData(nowMoment);
-    this.setState(() => {
-      return { graphData };
-    });
 
-    LiveLineGraph.appendChartSkeleton(
+    // get graph wrapper from chart skeleton
+    const graphWrapper = LiveLineGraph.appendChartSkeleton(
       this.node,
       graphWidth,
       graphHeight,
       l,
       leftAxisMargin
     );
+
+    // store graph wrapper in state
+    // graph wrapper allows dynamic appending of 'line' attributes when redrawing chart
+    // store data in state
+    this.setState({
+      graphData: graphData,
+      graphWrapper: graphWrapper
+    })
     // this.redrawChart();
     // this.startRenderLoop();
     this.startTransitionLoop();
@@ -383,7 +432,17 @@ class LiveLineGraph extends Component {
       .attr('transform', `translate(${leftAxisMargin}, 0)`)
       .attr('clip-path', 'url(#xAxisClip)'); // TODO debug this clip thing.
 
-    lineGraphWrapper.append('path').attr('class', 'line');
+    return lineGraphWrapper;
+    //
+    // lineGraphWrapper.append('path').attr('class', 'line');
+    // lineGraphWrapper.append('path').attr('class', 'line2');
+  }
+
+  static assignGraphLines(graphWrapper, numLines) {
+    for (let i = 0; i < numLines; ++i) {
+      const attr = 'line' + i;
+      graphWrapper.append('path').attr('class', attr);
+    }
   }
 
   render() {

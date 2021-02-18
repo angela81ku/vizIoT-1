@@ -1,16 +1,16 @@
 'use es6';
 
-import { JustifyContent } from 'UIBean/Flex';
-import { getTabByPath, tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
+import { JustifyContent } from './BeanUILibrary/Flex';
+import { getTabByPath, tabKeys, Tabs } from '../constants/TabNavigation';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import TabColumn from 'UIBean/TabColumn';
-import TabItem from 'UIBean/TabItem';
-import { TRON } from 'VizIoT/styles/base/viz-theme';
-import { H3 } from 'UIBean/functional-css/TypographyStyles';
-import Flex from 'UIBean/Flex';
-import { _sticky } from 'UIBean/functional-css/layout';
+import TabColumn from '../components/BeanUILibrary/TabColumn';
+import TabItem from '../components/BeanUILibrary/TabItem';
+import { TRON } from '../styles/base/viz-theme';
+import { H3 } from './BeanUILibrary/functional-css/TypographyStyles';
+import Flex from '../components/BeanUILibrary/Flex';
+import { _sticky } from './BeanUILibrary/functional-css/layout';
 
 const NavMenu = styled(TabColumn)`
   width: 100%;

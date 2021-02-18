@@ -8,29 +8,29 @@ import {
   selectTodayPacketCount,
 } from '../selectors/packetSelector';
 
-import Flex, { JustifyContent } from 'UIBean/Flex';
-import FlexSize from 'UIBean/FlexSize';
-import DataWell from 'UIBean/DataWell';
-import DataWellValue from 'UIBean/DataWellValue';
-import DataWellTitle from 'UIBean/DataWellTitle';
+import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
+import FlexSize from '../components/BeanUILibrary/FlexSize';
+import DataWell from '../components/BeanUILibrary/DataWell';
+import DataWellValue from '../components/BeanUILibrary/DataWellValue';
+import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
 import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
 import { DateConstants } from '../constants/DateConstants';
 import { convertDateTypeToString } from '../utility/TimeUtility';
 import SectionTitle from '../components/SectionTitle';
-import BIcon from 'UIBean/BIcon';
+import BIcon from '../components/BeanUILibrary/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
-import GridItem from 'UIBean/GridItem';
+import GridItem from '../components/BeanUILibrary/GridItem';
 import BCard from 'UIBean/BCard';
 import { createSocket } from 'VizIoT/socket/subscribe';
-import { H2 } from 'UIBean/functional-css/TypographyStyles';
+import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {
   numberOfActiveDevices,
   selectTodaySize,
   selectVelocity1Min
-} from 'VizIoT/selectors/packetSelector';
+} from '../selectors/packetSelector';
 import moment from 'moment';
-import { formatBytes } from 'VizIoT/utility/FormatUtility';
+import { formatBytes } from '../utility/FormatUtility';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};

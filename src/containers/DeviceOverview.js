@@ -8,28 +8,28 @@ import styled from 'styled-components';
 import {
   searchForDevice,
   selectDeviceDataSamplesByDeviceMac
-} from 'VizIoT/selectors/deviceSelectors';
+} from '../selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
-import SectionTitle from 'VizIoT/components/SectionTitle';
-import { fetchDevices } from 'VizIoT/actionsRequest/deviceRequest';
-import DeviceCollection from 'VizIoT/components/device/DeviceCollection';
-import BTextInput from 'UIBean/BTextInput';
-import BCheckBox from 'UIBean/BCheckBox';
-import { selectDeviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
-import { selectSingleDeviceChartConfig } from 'VizIoT/selectors/chartSelectors';
-import { IndividualSizeRoom } from 'VizIoT/socket/subscribe';
-import { pushRealtimeIndividualVelocitySizeSample } from 'VizIoT/actions/packetActions';
-import { useSocket } from 'UIBean/hooks/useSocket';
-import { useTimedFetcher } from 'UIBean/hooks/useTimedFetcher';
-import Flex, { FlexDirection } from 'UIBean/Flex';
+import SectionTitle from '../components/SectionTitle';
+import { fetchDevices } from '../actionsRequest/deviceRequest';
+import DeviceCollection from '../components/device/DeviceCollection';
+import BTextInput from '../components/BeanUILibrary/BTextInput';
+import BCheckBox from '../components/BeanUILibrary/BCheckBox';
+import { selectDeviceToLiveSamples } from '../selectors/packetSelector';
+import { selectSingleDeviceChartConfig } from '../selectors/chartSelectors';
+import { IndividualSizeRoom } from '../socket/subscribe';
+import { pushRealtimeIndividualVelocitySizeSample } from '../actions/packetActions';
+import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
+import { useTimedFetcher } from '../components/BeanUILibrary/hooks/useTimedFetcher';
+import Flex, { FlexDirection } from '../components/BeanUILibrary/Flex';
 import FlexChild from 'UIBean/FlexChild';
-import FlexSize from 'UIBean/FlexSize';
+import FlexSize from '../components/BeanUILibrary/FlexSize';
 import { getDataKey } from 'VizIoT/utility/DataKey';
-import ConnectedLineChart from 'VizIoT/containers/ConnectedLineChart';
-import { BucketRecord } from 'VizIoT/data/records/BucketConfig';
-import BucketProperty from 'VizIoT/constants/BucketProperty';
-import BucketUnit from 'VizIoT/constants/BucketUnit';
-import SelectionMode from 'VizIoT/constants/DataReducerTypes';
+import ConnectedLineChart from '../containers/ConnectedLineChart';
+import { BucketRecord } from '../data/records/BucketConfig';
+import BucketProperty from '../constants/BucketProperty';
+import BucketUnit from '../constants/BucketUnit';
+import SelectionMode from '../constants/DataReducerTypes';
 
 const TitleContainer = styled.div`
 `;

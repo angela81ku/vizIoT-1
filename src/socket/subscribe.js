@@ -1,7 +1,7 @@
 'use es6';
 
 import openSocket from 'socket.io-client';
-import { baseUrl } from 'VizIoT/constants/RequestConstants';
+import { baseUrl } from '../constants/RequestConstants';
 
 export const url = `${baseUrl}/chat`;
 
@@ -21,6 +21,11 @@ export const createSocket = customUrl => {
   socket.on('connect', () => {
     console.log(`connected: ${connectUrl}`);
   });
+
+  // added this to see whats coming in
+  socket.on('chat message', (msg) => {
+    console.log(msg);
+  })
 
   socket.on('connect_error', error => {
     console.log('connect_error');

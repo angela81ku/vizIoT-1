@@ -39,7 +39,7 @@ const Content = styled.div`
   font-size: 1.36rem;
   font-weight: 600;
   font-style: italic;
-  color: #23558edb;
+  color: rgba(35, 85, 142, 0.86);
   margin-top: -2px;
 `;
 

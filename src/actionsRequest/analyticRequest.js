@@ -1,8 +1,8 @@
 'use es6';
 
-import { analyticActionBundle } from 'VizIoT/actions/analyzeActions';
-import { createGenericRequester } from 'VizIoT/actions/requestStatusActionFactory';
-import { analyzeApi, analyzeApiKeys } from 'VizIoT/data/api/analyzeApi';
+import { analyticActionBundle } from '../actions/analyzeActions';
+import { createGenericRequester } from '../actions/requestStatusActionFactory';
+import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
 
 export const fetchAnalytic = createGenericRequester(
   analyticActionBundle,

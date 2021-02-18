@@ -17,6 +17,17 @@ const defaultState = {
 
   // analyzeAggregationByDevice
 
+  // will be two-device chart configuration
+  inoutChartConfig: {
+    bucketConfig: new BucketRecord({
+      bucketSize: 1,
+      bucketProps: [BucketProperty.ACTIVITY_COUNT],
+      bucketUnit: BucketUnit.SECOND,
+    }),
+    selectionMode: SelectionMode.COMBINED,
+    dataWindowSize: 60,
+  },
+
   singleDeviceChartConfig: {
     bucketConfig: new BucketRecord({
       bucketSize: 1,

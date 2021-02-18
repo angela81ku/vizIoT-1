@@ -1,11 +1,11 @@
 'use es6';
 
-import { createGenericRequester } from 'VizIoT/actions/requestStatusActionFactory';
-import { packetApi, packetApiKeys } from 'VizIoT/data/api/packetApi';
+import { createGenericRequester } from '../actions/requestStatusActionFactory';
+import { packetApi, packetApiKeys } from '../data/api/packetApi';
 import {
   pushIndividualSizeToday,
   recentsActionBundle,
-} from 'VizIoT/actions/packetActions';
+} from '../actions/packetActions';
 import { ByDeviceSizeRoomToday } from 'VizIoT/socket/subscribe';
 
 export const requestRecentPackets = createGenericRequester(

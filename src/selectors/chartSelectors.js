@@ -5,3 +5,8 @@ export const selectMainChartConfig = ({ chartConfig }) => {
 export const selectSingleDeviceChartConfig = ({ chartConfig }) => {
   return chartConfig.singleDeviceChartConfig;
 };
+
+export const selectInOutChartConfig =({ chartConfig }) => {
+  return chartConfig.inoutChartConfig;
+}
+

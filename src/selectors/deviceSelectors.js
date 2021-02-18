@@ -7,17 +7,17 @@ import { convertDateTypeToString } from '../utility/TimeUtility';
 import { DateConstants } from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
 import * as R from 'ramda';
-import * as device from 'VizIoT/data/device/DeviceLenses';
+import * as device from '../data/device/DeviceLenses';
 import { createSelector } from 'reselect';
-import { selectDeviceToLiveSamples } from 'VizIoT/selectors/packetSelector';
+import { selectDeviceToLiveSamples } from './packetSelector';
 import {
   takeTop3Size,
   macAddress,
   makeMacAddressLens,
   lastSizeSamples,
   getLastSizeSamples, getDeviceDataByMac
-} from 'VizIoT/data/device/DeviceDataLenses';
-import { findMultiDeviceByMac } from 'VizIoT/data/device/DeviceLenses';
+} from '../data/device/DeviceDataLenses';
+import { findMultiDeviceByMac } from '../data/device/DeviceLenses';
 
 export const selectDeviceList = R.view(device.deviceListValue);
 
