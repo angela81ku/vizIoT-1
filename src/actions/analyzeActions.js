@@ -151,7 +151,7 @@ export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
 };
 
 /**
- * dimensions: ['device']
+ * ddimensions: ['device']
  * metrics: ['hits']
  */
 export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
