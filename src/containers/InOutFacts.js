@@ -53,6 +53,7 @@ const WelcomeEmphasize = styled.span`
 
 const StyledGridItem = styled(GridItem)`
   width: 100%;
+  overflow: visible;
 `;
 
 const Proto = styled.div`
@@ -94,7 +95,7 @@ class InOutFacts extends PureComponent {
             <StyledGridItem column={column} row={row} className="m-bot-7">
                 <Flex alignContent={JustifyContent.FLEX_START} fillAll>
                     <Proto>{title}</Proto>
-                    <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
+                    <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} noWrap={true} fill>
                         {facts.map(({ title, dataSelector, fontSize, icon, iconType }) => {
                             return (
                                 <FlexSize key={title} size={wellSize}>
@@ -119,30 +120,19 @@ class InOutFacts extends PureComponent {
             currentMoment,
         } = this.state;
 
-        const val1 = Math.floor( 100 * Math.random());
-        const val2 = Math.floor( 100 * Math.random());
-
-        const factsToday = [
+        // Replaced dataSelector with function that retrieves this in/out traffic
+        // consider changing icon to some kind of up/down arrow (check icon lib)
+        // console.log((state) => selectTodaySize((state)))
+        // console.log(selectRealtimeVelocitySizeSample);
+        // console.log(selectRealtimeVelocitySizeSample());
+        // console.log(curr)
+        const factsInOut = [
             {
                 title: 'Total',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,2)),
                 iconType: 'eva',
                 icon: 'cube',
             },
-            {
-                title: 'Devices',
-                dataSelector: () => { return 1}, //numberOfActiveDevices,
-                icon: 'directions_run',
-            },
-        ];
-
-        // Replaced dataSelector with function that retrieves this in/out traffic
-        // consider changing icon to some kind of up/down arrow (check icon lib)
-        console.log((state) => selectTodaySize((state)))
-        console.log(selectRealtimeVelocitySizeSample);
-        console.log(selectRealtimeVelocitySizeSample());
-        // console.log(curr)
-        const factsInOut = [
             {
                 title: 'Received',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,1)),
@@ -165,10 +155,10 @@ class InOutFacts extends PureComponent {
 
         return (
             <QuickFactsWrapper>
-                {this.renderGroup(factsToday, todayText, 'col-start / span 12', '3 / 6', {
-                    md: 12,
-                    lg: 6,
-                })}
+                {/*{this.renderGroup(factsToday, todayText, 'col-start / span 12', '3 / 6', {*/}
+                {/*    md: 12,*/}
+                {/*    lg: 6,*/}
+                {/*})}*/}
                 {this.renderGroup(
                     factsInOut,
                     'In/Out',

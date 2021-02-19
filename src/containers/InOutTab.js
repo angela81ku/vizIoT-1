@@ -149,7 +149,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
             <div className="medium-spacer" />
 
             <GridLayout>
-                <GridItem column={'col-start / span 5'} row={'1 / 3'}>
+                <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
                     <InOutFacts />
                 </GridItem>
             </GridLayout>
