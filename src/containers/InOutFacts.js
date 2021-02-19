@@ -1,12 +1,7 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-    selectNumberOfDevices,
-} from '../selectors/deviceSelectors';
-import {
     selectRealtimeVelocitySizeSample,
-    selectTodayPacketCount,
 } from '../selectors/packetSelector';
 
 import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
@@ -15,23 +10,10 @@ import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
-import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
-import { DateConstants } from '../constants/DateConstants';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import SectionTitle from '../components/SectionTitle';
 import BIcon from '../components/BeanUILibrary/BIcon';
-import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from '../components/BeanUILibrary/GridItem';
-import BCard from 'UIBean/BCard';
-import { createSocket } from 'VizIoT/socket/subscribe';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
-import {
-    numberOfActiveDevices,
-    selectTodaySize,
-    selectVelocity1Min
-} from '../selectors/packetSelector';
 import moment from 'moment';
-import { formatBytes } from '../utility/FormatUtility';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};

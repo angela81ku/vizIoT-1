@@ -89,6 +89,8 @@ const IgnoreContainerPadding = styled.div`
   background-color: #67a8d812;
 `;
 
+// colors of lines in line graph
+// in, out
 const lineColors = [ '#03cbac', '#d9b409'];
 
 // fetching: do in the containers
@@ -130,7 +132,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
 
             <GridLayout>
                 <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
-                    <InOutFacts />
+                    <InOutFacts lineColors={lineColors}/>
                 </GridItem>
             </GridLayout>
             <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
