@@ -27,7 +27,7 @@ const Subtitle = styled.div`
 
 class LineChart extends React.Component {
   render() {
-    const { title, subtitle, data, dataWindowSize } = this.props;
+    const { title, subtitle, data, dataWindowSize, lineColors } = this.props;
 
     return data.length >= 1 && (
       <Flex direction={FlexDirection.COLUMN}>
@@ -44,6 +44,7 @@ class LineChart extends React.Component {
             }}
             padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
             transitionDuration={1000}
+            lineColors={lineColors}
           />
         </AutoFitComponent>
       </Flex>
@@ -58,6 +59,7 @@ LineChart.propTypes = {
   data: PropTypes.array.isRequired,
   dataWindowSize: PropTypes.number.isRequired,
   margins: PropTypes.instanceOf(SPACING),
+  lineColors: PropTypes.array
 };
 
 export default LineChart;

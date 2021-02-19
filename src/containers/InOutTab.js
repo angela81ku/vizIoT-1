@@ -6,12 +6,6 @@ import Flex, { FlexDirection, JustifyContent } from '../components/BeanUILibrary
 import FlexSize from '../components/BeanUILibrary/FlexSize';
 import { fetchDevices } from '../actionsRequest/deviceRequest';
 import { pushIndividualSizeToday } from '../actions/packetActions';
-import {
-    analyzeAggregationByDevice,
-    analyzeAggregationByDomain,
-    requestAggregationByTime,
-    analyzeAggregationCore,
-} from '../actions/analyzeActions';
 import { connect } from 'react-redux';
 import {
     selectEntireNetwork,
@@ -19,18 +13,12 @@ import {
 } from '../selectors/deviceSelectors';
 import {
     selectInOutChartConfig,
-    selectMainChartConfig,
     selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
 import { getDataKey } from '../utility/DataKey';
-import { hasDataForKey } from '../selectors/aggregateSampleSelector';
-import QuickFacts from './QuickFacts';
+
 import styled from 'styled-components';
-import ActivityFeed from '../components/ActivityFeed';
-import { DateConstants } from '../constants/DateConstants';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import { analyzeApiKeys } from '../data/api/analyzeApi';
-import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
+
 import GridItem from '../components/BeanUILibrary/GridItem';
 import {
     SizeRoom,
@@ -40,7 +28,6 @@ import {
     ByDeviceSizeRoomToday
 } from '../socket/subscribe';
 import { H2, H4, } from '../components/BeanUILibrary/functional-css/TypographyStyles';
-import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
 import {
     pushRealtimeIndividualVelocitySizeSample,
     pushRealtimeVelocitySizeSample, pushSize1Min,
@@ -102,21 +89,13 @@ const IgnoreContainerPadding = styled.div`
   background-color: #67a8d812;
 `;
 
-const ConnectedDeviceCollection = connect(state => ({
-    devices: selectThreeDevices(state),
-    deviceToData: selectDeviceToLiveSamples(state),
-    chartConfig: selectSingleDeviceChartConfig(state),
-}))(DeviceCollection);
+const lineColors = [ '#03cbac', '#d9b409'];
 
 // fetching: do in the containers
 // connection: as deep as i can.
 
 const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
     useSocket(SizeRoom, pushRealtimeVelocitySizeSample);
-    useSocket(TodaySizeRoom, message => pushSizeToday(message.size));
-    useSocket(Size1MinRoom, message => pushSize1Min(message.size));
-    useSocket(IndividualSizeRoom, pushRealtimeIndividualVelocitySizeSample);
-    useSocket(ByDeviceSizeRoomToday, pushIndividualSizeToday);
 
     // useTimedFetcher(fetchAnalytic, DEVICE_HITS_REFRESH_DAY_MS);
     useTimedFetcher(fetchDevices, DEVICE_HITS_REFRESH_DAY_MS);
@@ -138,6 +117,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
                     macAddresses: [],
                 })}
                 chartConfig={inoutChartConfig}
+                lineColors={lineColors}
             />
         );
     };
@@ -178,7 +158,6 @@ InOutTab.propTypes = {
 const mapStateToProps = state => {
     const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
     const { bucketConfig, selectionMode } = singleDeviceChartConfig;
-    const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
 
     return {
         combinedNetworkDevice: selectEntireNetwork(state),

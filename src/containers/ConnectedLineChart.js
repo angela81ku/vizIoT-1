@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import LineChart from '../components/LineChart';
 
-
-
 const transformData = data => {
   if (data && data.length) {
     const catchUpSeconds = 2;
@@ -24,13 +22,6 @@ const transformData = data => {
         })
       })
       return packetData;
-      // return {
-      //   xData: moment
-      //     .unix(startMS / 1000.0)
-      //     .add(catchUpSeconds, 'seconds')
-      //     .toDate(),
-      //   yData,
-      // };
     });
   }
   return [];
@@ -40,5 +31,6 @@ export default connect((state, props) => {
   return {
     dataWindowSize: props.chartConfig.dataWindowSize,
     data: transformData(props.dataSelector(state)),
+    lineColors: props.lineColors,
   };
 })(LineChart);

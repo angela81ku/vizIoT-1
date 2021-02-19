@@ -26,7 +26,7 @@ const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
 
 const TRANSITION_INTERVAL = 4000;
 
-const lineColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
+// const lineColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
 
 class RollingXAxis extends Component {
   transitionRunning = false;
@@ -149,7 +149,7 @@ class LiveLineGraph extends Component {
   };
 
   mapPropsToState = props => {
-    const { data, transitionDuration } = props;
+    const { data, transitionDuration, lineColors } = props;
 
     const graphDimensions = LiveLineGraph.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
@@ -165,6 +165,7 @@ class LiveLineGraph extends Component {
       ...domain,
       graphData: data,
       transitionAmount,
+      lineColors
     };
   };
 
@@ -263,6 +264,7 @@ class LiveLineGraph extends Component {
     if (graphData && graphData.length > 1) {
 
       // make sure there are attributes for each flow to be drawn to the screen
+      // this will re-write names for 'line$#' html attr
       const flows = graphData[graphData.length - 1].length;
       if (this.state.flowLines !== flows && this.state.graphWrapper !== null) {
         LiveLineGraph.assignGraphLines(this.state.graphWrapper, flows)
@@ -276,6 +278,10 @@ class LiveLineGraph extends Component {
       // graphData[1] = line2 (flow 2)
       // graphData[2] = ...
       for (let i = 0; i < graphData[0].length; ++i) {
+        // don't try to draw more lines than there are colors
+        if (i > this.state.lineColors.length) {
+          break;
+        }
         // store all data points for flow i
         const _graphData = [];
         for (let j = 0; j < graphData.length; ++j) {
@@ -291,7 +297,7 @@ class LiveLineGraph extends Component {
             transitionAmount,
             x,
             node,
-            lineColors[i],
+            this.state.lineColors[i],
         );
       }
     }
