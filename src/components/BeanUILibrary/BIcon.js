@@ -10,12 +10,12 @@ const IconContainer = styled.i`
   font-weight: ${({ weight }) => weight};
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
-  fill: white;
+  fill: ${({ color }) => color};
 `;
 
 class BIcon extends PureComponent {
   render() {
-    const { name, size, weight, type, className } = this.props;
+    const { name, size, weight, type, className, color } = this.props;
     let newProp = { 'data-eva': name };
     if (type !== 'eva') {
       newProp = {};
@@ -30,6 +30,7 @@ class BIcon extends PureComponent {
         })}
         size={size}
         weight={weight}
+        color={color ? color : 'white'}
       >
         {name}
       </IconContainer>
@@ -56,6 +57,7 @@ BIcon.propTypes = {
   size: PropTypes.number,
   type: PropTypes.string,
   weight: PropTypes.number,
+  color: PropTypes.string
 };
 
 export default BIcon;

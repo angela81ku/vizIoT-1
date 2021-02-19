@@ -79,12 +79,12 @@ class InOutFacts extends PureComponent {
                 <Flex alignContent={JustifyContent.FLEX_START} fillAll>
                     <Proto>{title}</Proto>
                     <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} noWrap={true} fill>
-                        {facts.map(({ title, dataSelector, fontSize, icon, iconType }) => {
+                        {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
                             return (
                                 <FlexSize key={title} size={wellSize}>
                                     <StyledDataWell>
                                         <div>
-                                            {icon && <BIcon name={icon} type={iconType} size={28} />}
+                                            {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}
                                         </div>
                                         <DataWellTitle>{title}</DataWellTitle>
                                         <ConnectedDataValue fontSize={fontSize || '5.0rem'} dataSelector={dataSelector} />
@@ -120,13 +120,17 @@ class InOutFacts extends PureComponent {
                 title: 'Received',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,1)),
                 iconType: 'eva',
-                icon: 'cube'
+                icon: 'cube',
+                // this is the colors icon, may be left out
+                color: this.props.lineColors[0],
             },
             {
                 title: 'Sent',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),1,1)),
                 iconType: 'eva',
-                icon: 'cube'
+                icon: 'cube',
+                // this colors the icon, may be left out
+                color: this.props.lineColors[1],
             }
         ];
 
@@ -138,10 +142,6 @@ class InOutFacts extends PureComponent {
 
         return (
             <QuickFactsWrapper>
-                {/*{this.renderGroup(factsToday, todayText, 'col-start / span 12', '3 / 6', {*/}
-                {/*    md: 12,*/}
-                {/*    lg: 6,*/}
-                {/*})}*/}
                 {this.renderGroup(
                     factsInOut,
                     'In/Out',
