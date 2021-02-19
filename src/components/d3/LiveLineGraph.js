@@ -26,7 +26,7 @@ const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
 
 const TRANSITION_INTERVAL = 4000;
 
-// const lineColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
+// const lColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
 
 class RollingXAxis extends Component {
   transitionRunning = false;
@@ -151,6 +151,8 @@ class LiveLineGraph extends Component {
   mapPropsToState = props => {
     const { data, transitionDuration, lineColors } = props;
 
+    const lColors = lineColors ? lineColors : ['white'];
+
     const graphDimensions = LiveLineGraph.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
     const transitionAmount = getTransitionAmount(
@@ -165,7 +167,7 @@ class LiveLineGraph extends Component {
       ...domain,
       graphData: data,
       transitionAmount,
-      lineColors
+      lColors
     };
   };
 
@@ -279,7 +281,7 @@ class LiveLineGraph extends Component {
       // graphData[2] = ...
       for (let i = 0; i < graphData[0].length; ++i) {
         // don't try to draw more lines than there are colors
-        if (i > this.state.lineColors.length) {
+        if (i > this.state.lColors.length) {
           break;
         }
         // store all data points for flow i
@@ -297,7 +299,7 @@ class LiveLineGraph extends Component {
             transitionAmount,
             x,
             node,
-            this.state.lineColors[i],
+            this.state.lColors[i],
         );
       }
     }
