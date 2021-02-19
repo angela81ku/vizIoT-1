@@ -125,7 +125,7 @@ class InOutFacts extends PureComponent {
         const factsToday = [
             {
                 title: 'Total',
-                dataSelector: (state) => formatBytesPerSecond(transformTotalData(selectRealtimeVelocitySizeSample(state))),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,2)),
                 iconType: 'eva',
                 icon: 'cube',
             },
@@ -145,13 +145,13 @@ class InOutFacts extends PureComponent {
         const factsInOut = [
             {
                 title: 'Received',
-                dataSelector: (state) => formatBytesPerSecond(transformInData(selectRealtimeVelocitySizeSample(state))),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,1)),
                 iconType: 'eva',
                 icon: 'cube'
             },
             {
                 title: 'Sent',
-                dataSelector: (state) => formatBytesPerSecond(transformOutData(selectRealtimeVelocitySizeSample(state))),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),1,1)),
                 iconType: 'eva',
                 icon: 'cube'
             }
@@ -185,36 +185,33 @@ class InOutFacts extends PureComponent {
 
 export default InOutFacts;
 
-const transformInData = data => {
-    // console.log('transforming data...')
+/**
+ *  Finds the size of the most recent data packets from the current stream.
+ *  Stream 0: In
+ *  Stream 1: Out
+ *
+ * @param data the data stream to pull info from
+ * @param start the index to start transforming data from
+ * @param len how many entries should be summed (1 or 2)
+ * @returns {number}
+ */
+function transformData(data, start, len) {
     if (data && data.length) {
-        // console.log(data);
-        // console.log(data[data.length-1].size[0])
-        return data[data.length-1].size[0];
+        let tot = 0;
+        for (let i = start; i < start + len; ++i) {
+            tot += data[data.length-1].size[i];
+        }
+        return tot;
     }
-    return [];
-};
+    return 0;
+}
 
-const transformOutData = data => {
-    // console.log('transforming data...')
-    if (data && data.length) {
-        // console.log(data);
-        // console.log(data[data.length-1].size[0])
-        return data[data.length-1].size[1];
-    }
-    return [];
-};
-
-const transformTotalData = data => {
-    // console.log('transforming data...')
-    if (data && data.length) {
-        // console.log(data);
-        // console.log(data[data.length-1].size[0])
-        return data[data.length-1].size[0] + data[data.length-1].size[1];
-    }
-    return [];
-};
-
+/**
+ * Formats Bytes per Second for each stream.
+ *
+ * @param data numeric data to be formatted.
+ * @returns {string}
+ */
 const formatBytesPerSecond = data => {
     return data + ' B/s'
 }
