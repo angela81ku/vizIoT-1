@@ -152,15 +152,15 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
                 <GridItem column={'col-start / span 5'} row={'1 / 3'}>
                     <InOutFacts />
                 </GridItem>
-                <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
-                    <Flex gutter={2}>
-                        <FlexSize size={{ lg: 12 }}>
-                            <Title>Network Traffic</Title>
-                            {renderMainChart()}
-                        </FlexSize>
-                    </Flex>
-                </GridItem>
             </GridLayout>
+            <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
+                <Flex gutter={2}>
+                    <FlexSize size={{ lg: 12 }}>
+                        <Title>Network Traffic</Title>
+                        {renderMainChart()}
+                    </FlexSize>
+                </Flex>
+            </GridItem>
             <div className="xl-spacer" />
         </OverviewContainer>
     );
