@@ -68,7 +68,7 @@ const DEVICE_HITS_REFRESH_DAY_MS = 15 * 1000;
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-auto-rows: 24rem;
+  grid-auto-rows: 8rem;
   grid-gap: 2rem;
   grid-row-gap: 7rem;
 `;

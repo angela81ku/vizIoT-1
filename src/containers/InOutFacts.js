@@ -54,6 +54,7 @@ const WelcomeEmphasize = styled.span`
 const StyledGridItem = styled(GridItem)`
   width: 100%;
   overflow: visible;
+  
 `;
 
 const Proto = styled.div`
