@@ -16,6 +16,9 @@ export const pushRealtimeVelocitySizeSample = createAction('real time size sampl
 export const pushRealtimeIndividualVelocitySizeSample = createAction('real time individual size sample');
 export const pushIndividualSizeToday = createAction('packets per device today');
 
+// My actions
+export const pushRealTimeIOTraffic = createAction('real time I/O traffic');
+
 export default Object.assign(
   {},
   recentsActionBundle,
@@ -27,4 +30,5 @@ export default Object.assign(
     pushRealtimeVelocitySizeSample,
     pushRealtimeIndividualVelocitySizeSample,
     pushIndividualSizeToday,
+    pushRealTimeIOTraffic,
   });

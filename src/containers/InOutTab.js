@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Flex, { FlexDirection, JustifyContent } from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
 import { fetchDevices } from '../actionsRequest/deviceRequest';
-import { pushIndividualSizeToday } from '../actions/packetActions';
+import {pushIndividualSizeToday, pushRealTimeIOTraffic} from '../actions/packetActions';
 import { connect } from 'react-redux';
 import {
     selectEntireNetwork,
@@ -21,11 +21,11 @@ import styled from 'styled-components';
 
 import GridItem from '../components/BeanUILibrary/GridItem';
 import {
-    SizeRoom,
-    TodaySizeRoom,
-    Size1MinRoom,
-    IndividualSizeRoom,
-    ByDeviceSizeRoomToday
+  SizeRoom,
+  TodaySizeRoom,
+  Size1MinRoom,
+  IndividualSizeRoom,
+  ByDeviceSizeRoomToday, IOCount
 } from '../socket/subscribe';
 import { H2, H4, } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {
@@ -34,8 +34,8 @@ import {
     pushSizeToday
 } from '../actions/packetActions';
 import {
-    selectDeviceToLiveSamples,
-    selectRealtimeVelocitySizeSample,
+  selectDeviceToLiveSamples, selectRealTimeIOTraffic,
+  selectRealtimeVelocitySizeSample,
 } from '../selectors/packetSelector';
 import ConnectedLineChart from '../containers/ConnectedLineChart';
 import DeviceCollection from '../components/device/DeviceCollection';
@@ -98,6 +98,7 @@ const lineColors = [ '#03cbac', '#d9b409'];
 
 const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
     useSocket(SizeRoom, pushRealtimeVelocitySizeSample);
+    useSocket(IOCount, pushRealTimeIOTraffic);
 
     // useTimedFetcher(fetchAnalytic, DEVICE_HITS_REFRESH_DAY_MS);
     useTimedFetcher(fetchDevices, DEVICE_HITS_REFRESH_DAY_MS);
@@ -110,7 +111,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
                 className="main-chart"
                 title={'Network'}
                 subtitle={'BYTES / SEC'}
-                dataSelector={selectRealtimeVelocitySizeSample}
+                dataSelector={selectRealTimeIOTraffic}
                 device={combinedNetworkDevice}
                 deviceKey={'COMBINED'}
                 dataKey={getDataKey({

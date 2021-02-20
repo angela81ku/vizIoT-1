@@ -10,10 +10,12 @@ import {
   pushSizeToday,
   pushSize1Min,
   pushRealtimeIndividualVelocitySizeSample,
+  pushRealTimeIOTraffic,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
 import { createDeviceDataMap, mergeDeviceDataMaps, updateDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
+// import {pushRealTimeIOTraffic} from '../../actions/packetActions';
 
 const isMocking = true;
 const genMock = count => ({
@@ -119,6 +121,16 @@ const realtimeIndividualVelocitySizeSample = createReducer({
   }
 }, { data: null });
 
+// my reducer
+const realTimeIOTraffic = createReducer({
+  [pushRealTimeIOTraffic]: (state, newEntry) => {
+    return {
+      ...state,
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
+    }
+  },
+}, { data: null });
+
 export default combineReducers({
   packetPerDevice,
   pushSize,
@@ -128,4 +140,5 @@ export default combineReducers({
   realtimeVelocitySizeSample,
   realtimeIndividualVelocitySizeSample,
   packets,
+  realTimeIOTraffic,
 });

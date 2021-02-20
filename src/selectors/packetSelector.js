@@ -27,3 +27,6 @@ export const numberOfActiveDevices = state => {
 };
 
 export const selectDeviceToLiveSamples = path(['packets', 'realtimeIndividualVelocitySizeSample', 'data']);
+
+// my selector
+export const selectRealTimeIOTraffic = path(['packets', 'realTimeIOTraffic', 'data']);

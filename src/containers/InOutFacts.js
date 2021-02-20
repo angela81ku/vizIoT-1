@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
-    selectRealtimeVelocitySizeSample,
+  selectRealTimeIOTraffic,
+  selectRealtimeVelocitySizeSample,
 } from '../selectors/packetSelector';
 
 import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
@@ -168,13 +169,13 @@ class InOutFacts extends PureComponent {
         const factsInOut = [
             {
                 title: 'Total',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,2)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0,2)),
                 iconType: 'eva',
                 icon: 'cube',
             },
             {
                 title: 'Received',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,1)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0,1)),
                 iconType: 'eva',
                 //icon: 'minus-outline',
                 // this is the colors icon, may be left out
@@ -182,7 +183,7 @@ class InOutFacts extends PureComponent {
             },
             {
                 title: 'Sent',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),1,1)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),1,1)),
                 iconType: 'eva',
                 //icon: 'minus-outline',
                 // this colors the icon, may be left out
