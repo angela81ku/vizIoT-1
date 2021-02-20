@@ -26,8 +26,6 @@ const getTransitionAmount = (xStart, xEnd, graphWidth, duration) => {
 
 const TRANSITION_INTERVAL = 4000;
 
-// const lColors = [ '#03cbac', '#d9b409', '#d78219', '#a709ee', '#4b8b05']
-
 class RollingXAxis extends Component {
   transitionRunning = false;
 

@@ -97,7 +97,7 @@ const lineColors = [ '#03cbac', '#d9b409'];
 // connection: as deep as i can.
 
 const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
-    useSocket(SizeRoom, pushRealtimeVelocitySizeSample);
+    // useSocket(SizeRoom, pushRealtimeVelocitySizeSample);
     useSocket(IOCount, pushRealTimeIOTraffic);
 
     // useTimedFetcher(fetchAnalytic, DEVICE_HITS_REFRESH_DAY_MS);
