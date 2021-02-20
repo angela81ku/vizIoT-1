@@ -15,8 +15,11 @@ import GridItem from '../components/BeanUILibrary/GridItem';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import moment from 'moment';
 
+// to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
+  color: ${props => props.color};
+  background-color: ${props => props.backgroundColor};
 `;
 
 const QuickFactsWrapper = styled(Flex)`
@@ -73,6 +76,43 @@ class InOutFacts extends PureComponent {
         this.setState(() => ({ currentMoment: moment() }));
     };
 
+  /**
+   * Return an icon if specified, other create colored line.
+   *
+   * @param icon icon to be displayed (optional)
+   * @param iconType icon-type per eva library
+   * @param color color of icon or line
+   * @returns {JSX.Element}
+   */
+    getDataWellHead(icon, iconType, color) {
+      if (icon) {
+        return (
+          <div>
+            {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}
+          </div>
+        )
+      } else {
+        return (
+          <div
+            style={{
+              marginBottom: '5px'
+            }}
+          >
+            <hr
+              style={{
+                color: color,
+                backgroundColor: color,
+                height: '5px',
+                width: '60%',
+                marginLeft: '2px'
+              }}
+            />
+          </div>
+        )
+      }
+    }
+
+
     renderGroup(facts, title, column, row, wellSize) {
         return (
             <StyledGridItem column={column} row={row} className="m-bot-7">
@@ -83,11 +123,27 @@ class InOutFacts extends PureComponent {
                             return (
                                 <FlexSize key={title} size={wellSize}>
                                     <StyledDataWell>
-                                        <div>
-                                            {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}
-                                        </div>
-                                        <DataWellTitle>{title}</DataWellTitle>
-                                        <ConnectedDataValue fontSize={fontSize || '5.0rem'} dataSelector={dataSelector} />
+                                      {/*HEY DUDE REINSTATE DIV FOR COLORED CUBE ICONS*/}
+                                      {/*<div>*/}
+                                      {/*    {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}*/}
+                                      {/*</div>*/}
+                                      {/*<hr*/}
+                                      {/*  style={{*/}
+                                      {/*    color: 'white',*/}
+                                      {/*    backgroundColor: 'white',*/}
+                                      {/*    width: '60%',*/}
+                                      {/*    margin: '2px'*/}
+                                      {/*  }}*/}
+                                      {/*/>*/}
+                                      {/*HEY DUDE REPLACE THE BOTTOM LINE FOR ICONS AND LINES*/}
+                                      {this.getDataWellHead(icon, iconType, color)}
+                                      <DataWellTitle>{title}</DataWellTitle>
+                                      {/* The line below will make the FONT COLORED*/}
+                                      <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
+                                      {/* The line below will make the font BACKGROUND COLORED*/}
+                                      {/*<ConnectedDataValue fontSize={fontSize || '5.0rem'} color={'white'} backgroundColor={color} dataSelector={dataSelector} />*/}
+                                      {/* The line below will return the FONT TO THE WAY IT WAS BEFORE -- UNCOMMENT UPPER DIV FOR ORIGINAL LAYOUT*/}
+                                      {/*<ConnectedDataValue fontSize={fontSize || '5.0rem'} color={'white'} backgroundColor={'#0c1a38'} dataSelector={dataSelector} />*/}
                                     </StyledDataWell>
                                 </FlexSize>
                             );
@@ -120,7 +176,7 @@ class InOutFacts extends PureComponent {
                 title: 'Received',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),0,1)),
                 iconType: 'eva',
-                icon: 'cube',
+                //icon: 'minus-outline',
                 // this is the colors icon, may be left out
                 color: this.props.lineColors[0],
             },
@@ -128,7 +184,7 @@ class InOutFacts extends PureComponent {
                 title: 'Sent',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealtimeVelocitySizeSample(state),1,1)),
                 iconType: 'eva',
-                icon: 'cube',
+                //icon: 'minus-outline',
                 // this colors the icon, may be left out
                 color: this.props.lineColors[1],
             }
