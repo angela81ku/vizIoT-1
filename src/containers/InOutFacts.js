@@ -138,7 +138,7 @@ class InOutFacts extends PureComponent {
                                       {/*/>*/}
                                       {/*HEY DUDE REPLACE THE BOTTOM LINE FOR ICONS AND LINES*/}
                                       {this.getDataWellHead(icon, iconType, color)}
-                                      <DataWellTitle>{title}</DataWellTitle>
+                                      <DataWellTitle fontSize={'2.5rem'}>{title}</DataWellTitle>
                                       {/* The line below will make the FONT COLORED*/}
                                       <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
                                       {/* The line below will make the font BACKGROUND COLORED*/}
