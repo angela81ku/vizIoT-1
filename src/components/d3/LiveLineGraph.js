@@ -474,13 +474,14 @@ class LiveLineGraph extends Component {
     const g = svg.select('g');
 
     return (
-      <div className="barChart-scrollable-wrapper">
+      <div style={{ overflow: 'visible'}} className="barChart-scrollable-wrapper">
         <RollingXAxis node={g}
                       translateX={leftAxisMargin} translateY={graphHeight} width={graphWidth}
                       dataWindowSize={dataWindowSize} dataWindowUnit={dataWindowUnit} />
         <svg
           ref={node => (this.node = node)}
           viewBox={`0 0 ${width} ${height}`}
+          style={{borderRightColor: '#777'}}
         />
       </div>
     );
