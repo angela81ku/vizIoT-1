@@ -83,14 +83,23 @@ class RollingXAxis extends Component {
       };
     };
 
+    // assigns ticks to x axis based on data window size (length in seconds)
+    const selectXAxisTicks = (d) => {
+      const seconds = d.getSeconds();
+      if (seconds === 0) {
+        return 0;
+      } else {
+        return this.props.dataWindowSize - d.getSeconds();
+      }
+    }
+
     const x = scaleTime()
       .domain([xStart, xEnd])
       .range([0, width]);
 
     const xAxis = axisBottom(x)
       .ticks(timeSecond, 10)
-      // .tickFormat(d => `${moment().diff(moment(d), 'seconds')}s ago`);
-      .tickFormat(d => `${d.getSeconds()}s ago`);
+      .tickFormat(d => `${selectXAxisTicks(d)}s ago`);
 
     const xAxisNode = node.select('.xAxis').call(redrawXAxis(xAxis));
 
