@@ -228,8 +228,9 @@ export default InOutFacts;
 function transformData(data, start, len) {
     if (data && data.length) {
         let tot = 0;
+        let lag = Math.min(3, parseInt(data.length))
         for (let i = start; i < start + len; ++i) {
-            tot += data[data.length-1].size[i];
+          tot += data[data.length - lag].size[i];
         }
         return tot;
     }

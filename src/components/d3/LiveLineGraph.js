@@ -270,7 +270,7 @@ class LiveLineGraph extends Component {
       .attr('height', graphHeight);
 
     // Path Update
-    if (graphData && graphData.length > 1) {
+    if (graphData && graphData.length > 0) {
 
       // make sure there are attributes for each flow to be drawn to the screen
       // this will re-write names for 'line$#' html attr
