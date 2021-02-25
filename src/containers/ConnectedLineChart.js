@@ -39,9 +39,17 @@ const transformData = data => {
 };
 
 export default connect((state, props) => {
-  return {
-    dataWindowSize: props.chartConfig.dataWindowSize,
-    data: transformData(props.dataSelector(state)),
-    lineColors: props.lineColors,
-  };
+  if (props.data) {
+    return {
+      dataWindowSize: props.chartConfig.dataWindowSize,
+      data: transformData(props.data),
+      lineColors: props.lineColors,
+    };
+  } else {
+    return {
+      dataWindowSize: props.chartConfig.dataWindowSize,
+      data: transformData(props.dataSelector(state)),
+      lineColors: props.lineColors,
+    };
+  }
 })(LineChart);

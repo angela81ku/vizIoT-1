@@ -50,11 +50,31 @@ const OverviewContainer = styled.div`
 // colors of lines in line graph
 // in, out
 const lineColors = [ '#03cbac', '#d9b409'];
+const displayStreams = [1, 2];
+
+const collectStreams = data => {
+
+    console.log(data);
+
+    if(data && data.length) {
+        let packetData = []
+        data.map(({startMS, size}) => {
+            let index = 0;
+            let sizeData = size.filter(stream => { return displayStreams.includes(index++) })
+            packetData.push({startMS: startMS, size: sizeData});
+        })
+        console.log(packetData)
+        return packetData;
+    } else {
+        return [];
+    }
+
+}
 
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
+const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data }) => {
     useSocket(IOCount, pushRealTimeIOTraffic);
 
     const renderMainChart = () => {
@@ -65,7 +85,8 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig }) => {
                 className="main-chart"
                 title={'Network'}
                 subtitle={'BYTES / SEC'}
-                dataSelector={selectRealTimeIOTraffic}
+                data={data}
+                displayStreams={[1, 2]}
                 device={combinedNetworkDevice}
                 deviceKey={'COMBINED'}
                 dataKey={getDataKey({
@@ -110,12 +131,14 @@ InOutTab.defaultProps = {
 InOutTab.propTypes = {
     combinedNetworkDevice: PropTypes.object.isRequired,
     inoutChartConfig: PropTypes.object.isRequired,
+    data: PropTypes.array,
 };
 
 const mapStateToProps = state => {
     return {
         combinedNetworkDevice: selectEntireNetwork(state),
         inoutChartConfig: selectInOutChartConfig(state),
+        data: collectStreams(selectRealTimeIOTraffic(state)),
     };
 };
 

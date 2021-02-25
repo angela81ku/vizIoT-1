@@ -128,22 +128,23 @@ class InOutFacts extends PureComponent {
 
     render() {
 
-        const factsInOut = [
+        const title = 'In/Out';
+        const facts = [
             {
                 title: 'Total',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0,2)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0)),
                 iconType: 'eva',
                 icon: 'cube',
             },
             {
                 title: 'Received',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0,1)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),1)),
                 iconType: 'eva',
                 color: this.props.lineColors[0],
             },
             {
                 title: 'Sent',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),1,1)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),2)),
                 iconType: 'eva',
                 color: this.props.lineColors[1],
             }
@@ -152,8 +153,8 @@ class InOutFacts extends PureComponent {
         return (
             <QuickFactsWrapper>
                 {this.renderGroup(
-                    factsInOut,
-                    'In/Out',
+                    facts,
+                    title,
                     'col-start / span 12',
                     '1 / span 12',
                     {
@@ -177,14 +178,10 @@ export default InOutFacts;
  * @param len how many entries should be summed (1 or 2)
  * @returns {number}
  */
-function transformData(data, start, len) {
+function transformData(data, index) {
     if (data && data.length) {
-        let tot = 0;
         let lag = Math.min(2, parseInt(data.length))
-        for (let i = start; i < start + len; ++i) {
-          tot += data[data.length - lag].size[i];
-        }
-        return tot;
+        return data[data.length - lag].size[index];
     }
     return 0;
 }
