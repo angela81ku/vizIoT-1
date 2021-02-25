@@ -26,10 +26,6 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
 const QuickFactsWrapper = styled(Flex)`
   margin-bottom: 60px;
   padding-bottom: 50px;
-  // display: grid;
-  // grid-template-columns: repeat(12, [col-start] 1fr);
-  // grid-gap: 2rem;
-  // grid-template-rows: repeat(2, auto);
 `;
 
 const WelcomeEmphasize = styled.span`
@@ -104,7 +100,7 @@ class InOutFacts extends PureComponent {
                 color: color,
                 backgroundColor: color,
                 height: '5px',
-                width: '60%',
+                width: '120px',
                 marginLeft: '2px'
               }}
             />
@@ -117,12 +113,13 @@ class InOutFacts extends PureComponent {
     renderGroup(facts, title, column, row, wellSize) {
         return (
             <StyledGridItem column={column} row={row} className="m-bot-7">
+                <Proto>{title}</Proto>
                 <Flex alignContent={JustifyContent.FLEX_START} fillAll>
-                    <Proto>{title}</Proto>
-                    <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} noWrap={true} fill>
+
+                    <Flex style={{width:'500px'}} gutter={3} justifyContent={JustifyContent.FLEX_START} noWrap={true} >
                         {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
                             return (
-                                <FlexSize key={title} size={wellSize}>
+                                <FlexSize width={'200px'} key={title} size={wellSize}>
                                     <StyledDataWell>
                                       {/*HEY DUDE REINSTATE DIV FOR COLORED CUBE ICONS*/}
                                       {/*<div>*/}
@@ -203,7 +200,7 @@ class InOutFacts extends PureComponent {
                     factsInOut,
                     'In/Out',
                     'col-start / span 12',
-                    '2 / span 12',
+                    '1 / span 12',
                     {
                         md: 12,
                         lg: 6 }

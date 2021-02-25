@@ -18,13 +18,19 @@ class FlexSize extends React.Component {
       [space]: !!space,
     });
 
-    return <div className={joinedClassNames}>{children}</div>;
+    let width = this.props.width;
+    if (width) {
+      return <div style={{width:width}} className={joinedClassNames}>{children}</div>;
+    } else {
+      return <div className={joinedClassNames}>{children}</div>;
+    }
   }
 }
 
 FlexSize.propTypes = {
   size: PropTypes.object,
   padding: PropTypes.bool,
+  width: PropTypes.string,
 };
 
 FlexSize.defaultProps = {
