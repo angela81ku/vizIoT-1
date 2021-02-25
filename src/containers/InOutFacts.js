@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
+import PropTypes from 'prop-types';
 
 import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
@@ -132,19 +133,19 @@ class InOutFacts extends PureComponent {
         const facts = [
             {
                 title: 'Total',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),0)),
                 iconType: 'eva',
                 icon: 'cube',
             },
             {
                 title: 'Received',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),1)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),1)),
                 iconType: 'eva',
                 color: this.props.lineColors[0],
             },
             {
                 title: 'Sent',
-                dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),2)),
+                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),2)),
                 iconType: 'eva',
                 color: this.props.lineColors[1],
             }
@@ -167,6 +168,10 @@ class InOutFacts extends PureComponent {
 }
 
 export default InOutFacts;
+
+InOutFacts.propTypes = {
+    packetSelector: PropTypes.func.isRequired,
+}
 
 /**
  *  Finds the size of the most recent data packets from the current stream.

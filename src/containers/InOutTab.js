@@ -108,7 +108,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, pa
 
             <GridLayout>
                 <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
-                    <InOutFacts lineColors={lineColors}/>
+                    <InOutFacts lineColors={lineColors} packetSelector={packetSelector} />
                 </GridItem>
             </GridLayout>
             <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
