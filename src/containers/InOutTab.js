@@ -74,8 +74,9 @@ const collectStreams = data => {
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data }) => {
-    useSocket(IOCount, pushRealTimeIOTraffic);
+const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, packetPusher, packetSelector }) => {
+    // useSocket(IOCount, pushRealTimeIOTraffic);
+    useSocket(apiSource, packetPusher);
 
     const renderMainChart = () => {
         const { bucketConfig, selectionMode } = inoutChartConfig;
@@ -86,7 +87,6 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data }) => {
                 title={'Network'}
                 subtitle={'BYTES / SEC'}
                 data={data}
-                displayStreams={[1, 2]}
                 device={combinedNetworkDevice}
                 deviceKey={'COMBINED'}
                 dataKey={getDataKey({
@@ -132,13 +132,17 @@ InOutTab.propTypes = {
     combinedNetworkDevice: PropTypes.object.isRequired,
     inoutChartConfig: PropTypes.object.isRequired,
     data: PropTypes.array,
+    apiSource: PropTypes.string.isRequired,
+    packetPusher: PropTypes.func.isRequired,
+    packetSelector: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
     return {
         combinedNetworkDevice: selectEntireNetwork(state),
         inoutChartConfig: selectInOutChartConfig(state),
-        data: collectStreams(selectRealTimeIOTraffic(state)),
+        // data: collectStreams(selectRealTimeIOTraffic(state)),
+        data: collectStreams(props.packetSelector(state)),
     };
 };
 

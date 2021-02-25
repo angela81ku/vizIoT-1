@@ -19,7 +19,7 @@ import Navigator from 'VizIoT/components/Navigator';
 import { pathOr } from 'ramda';
 
 // my imports
-import InOutTab from './InOutTab';
+import { IOTab } from './IOTab';
 
 class VideoBackground extends PureComponent {
   render() {
@@ -166,7 +166,7 @@ class VizIoT extends React.Component {
               <Route
                 exact
                 path={`${Tabs[tabKeys.INOUT].path}`}
-                component={InOutTab}
+                component={IOTab}
               />
               <Route render={() => <NotFound />} />
             </Switch>
