@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import {
-  selectRealTimeIOTraffic,
-  selectRealtimeVelocitySizeSample,
-} from '../selectors/packetSelector';
+import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 
 import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
@@ -26,11 +23,6 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
 const QuickFactsWrapper = styled(Flex)`
   margin-bottom: 60px;
   padding-bottom: 50px;
-`;
-
-const WelcomeEmphasize = styled.span`
-  color: rgba(255, 255, 255, 1);
-  font-weight: 500;
 `;
 
 const StyledGridItem = styled(GridItem)`
@@ -121,27 +113,9 @@ class InOutFacts extends PureComponent {
                             return (
                                 <FlexSize width={'200px'} key={title} size={wellSize}>
                                     <StyledDataWell>
-                                      {/*HEY DUDE REINSTATE DIV FOR COLORED CUBE ICONS*/}
-                                      {/*<div>*/}
-                                      {/*    {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}*/}
-                                      {/*</div>*/}
-                                      {/*<hr*/}
-                                      {/*  style={{*/}
-                                      {/*    color: 'white',*/}
-                                      {/*    backgroundColor: 'white',*/}
-                                      {/*    width: '60%',*/}
-                                      {/*    margin: '2px'*/}
-                                      {/*  }}*/}
-                                      {/*/>*/}
-                                      {/*HEY DUDE REPLACE THE BOTTOM LINE FOR ICONS AND LINES*/}
                                       {this.getDataWellHead(icon, iconType, color)}
                                       <DataWellTitle fontSize={'2.5rem'}>{title}</DataWellTitle>
-                                      {/* The line below will make the FONT COLORED*/}
                                       <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
-                                      {/* The line below will make the font BACKGROUND COLORED*/}
-                                      {/*<ConnectedDataValue fontSize={fontSize || '5.0rem'} color={'white'} backgroundColor={color} dataSelector={dataSelector} />*/}
-                                      {/* The line below will return the FONT TO THE WAY IT WAS BEFORE -- UNCOMMENT UPPER DIV FOR ORIGINAL LAYOUT*/}
-                                      {/*<ConnectedDataValue fontSize={fontSize || '5.0rem'} color={'white'} backgroundColor={'#0c1a38'} dataSelector={dataSelector} />*/}
                                     </StyledDataWell>
                                 </FlexSize>
                             );
@@ -153,16 +127,7 @@ class InOutFacts extends PureComponent {
     }
 
     render() {
-        const {
-            currentMoment,
-        } = this.state;
 
-        // Replaced dataSelector with function that retrieves this in/out traffic
-        // consider changing icon to some kind of up/down arrow (check icon lib)
-        // console.log((state) => selectTodaySize((state)))
-        // console.log(selectRealtimeVelocitySizeSample);
-        // console.log(selectRealtimeVelocitySizeSample());
-        // console.log(curr)
         const factsInOut = [
             {
                 title: 'Total',
@@ -174,25 +139,15 @@ class InOutFacts extends PureComponent {
                 title: 'Received',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),0,1)),
                 iconType: 'eva',
-                //icon: 'minus-outline',
-                // this is the colors icon, may be left out
                 color: this.props.lineColors[0],
             },
             {
                 title: 'Sent',
                 dataSelector: (state) => formatBytesPerSecond(transformData(selectRealTimeIOTraffic(state),1,1)),
                 iconType: 'eva',
-                //icon: 'minus-outline',
-                // this colors the icon, may be left out
                 color: this.props.lineColors[1],
             }
         ];
-
-        const todayText = (
-            <div>
-                {'Today, '}<WelcomeEmphasize>{currentMoment.format('MMMM DD YYYY')}</WelcomeEmphasize>
-            </div>
-        );
 
         return (
             <QuickFactsWrapper>
@@ -241,5 +196,6 @@ function transformData(data, start, len) {
  * @returns {string}
  */
 const formatBytesPerSecond = data => {
-    return data + ' B/s'
+    return data + ' B/s';
 }
+
