@@ -72,12 +72,18 @@ const InOutTab = ({
     pageSubtitle,
     graphTitle,
     chartTitle,
-    chartSubtitle
+    chartSubtitle,
+    legendTitle,
+    displayFacts,
+    displayStreams,
 }) => {
 
     useSocket(apiSource, packetPusher);
 
     const renderMainChart = () => {
+
+        let index = 0;
+        const graphColors = lineColors.filter(stream => { return displayStreams.includes(index++) });
 
         return (
             <ConnectedLineChart
@@ -86,7 +92,7 @@ const InOutTab = ({
                 subtitle={chartSubtitle}
                 data={data}
                 chartConfig={inoutChartConfig}
-                lineColors={lineColors}
+                lineColors={graphColors}
             />
         );
     };
@@ -99,7 +105,13 @@ const InOutTab = ({
 
             <GridLayout>
                 <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
-                    <InOutFacts lineColors={lineColors} packetSelector={packetSelector} />
+                    <InOutFacts
+                        lineColors={lineColors}
+                        packetSelector={packetSelector}
+                        legendTitle={legendTitle}
+                        displayFacts={displayFacts}
+                        displayStreams={displayStreams}
+                    />
                 </GridItem>
             </GridLayout>
             <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
@@ -132,6 +144,8 @@ InOutTab.propTypes = {
     graphTitle: PropTypes.string,
     chartTitle: PropTypes.string,
     chartSubtitle: PropTypes.string,
+    legendTitle: PropTypes.string,
+    displayFacts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state, props) => {

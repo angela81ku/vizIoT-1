@@ -129,27 +129,28 @@ class InOutFacts extends PureComponent {
 
     render() {
 
-        const title = 'In/Out';
-        const facts = [
-            {
-                title: 'Total',
-                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),0)),
-                iconType: 'eva',
-                icon: 'cube',
-            },
-            {
-                title: 'Received',
-                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),1)),
-                iconType: 'eva',
-                color: this.props.lineColors[0],
-            },
-            {
-                title: 'Sent',
-                dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state),2)),
-                iconType: 'eva',
-                color: this.props.lineColors[1],
+        const title = this.props.legendTitle;
+        const displayFacts = this.props.displayFacts;
+        const displayStreams = this.props.displayStreams;
+        let facts = [];
+        for (let i = 0; i < displayFacts.length; ++i) {
+            if (displayStreams.includes(i)) {
+                facts.push({
+                    title: displayFacts[i],
+                    dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state), i)),
+                    iconType: 'eva',
+                    color: this.props.lineColors[i],
+                })
+            } else {
+                facts.push({
+                    title: displayFacts[i],
+                    dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state), i)),
+                    iconType: 'eva',
+                    icon: 'cube',
+                    color: this.props.lineColors[i],
+                })
             }
-        ];
+        }
 
         return (
             <QuickFactsWrapper>
@@ -171,6 +172,10 @@ export default InOutFacts;
 
 InOutFacts.propTypes = {
     packetSelector: PropTypes.func.isRequired,
+    legendTitle: PropTypes.string,
+    lineColors: PropTypes.array,
+    displayFacts: PropTypes.array.isRequired,
+    displayStreams: PropTypes.array,
 }
 
 /**
