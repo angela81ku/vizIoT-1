@@ -12,6 +12,8 @@ export const IOTab = ({}) => {
             apiSource={IOCount}
             packetSelector={selectRealTimeIOTraffic}
             packetPusher={pushRealTimeIOTraffic}
+            displayStreams={[1, 2]}
+            lineColors={[ '#03cbac', '#d9b409']}
         />
     )
 }
