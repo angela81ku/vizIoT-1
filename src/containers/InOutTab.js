@@ -71,7 +71,20 @@ const collectStreams = (data, displayStreams) => {
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, packetPusher, packetSelector, lineColors }) => {
+const InOutTab = ({
+    combinedNetworkDevice,
+    inoutChartConfig,
+    data,
+    apiSource,
+    packetPusher,
+    packetSelector,
+    lineColors,
+    pageTitle,
+    pageSubtitle,
+    graphTitle,
+    chartTitle,
+    chartSubtitle
+}) => {
     // useSocket(IOCount, pushRealTimeIOTraffic);
     useSocket(apiSource, packetPusher);
 
@@ -81,8 +94,8 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, pa
         return (
             <ConnectedLineChart
                 className="main-chart"
-                title={'Network'}
-                subtitle={'BYTES / SEC'}
+                title={chartTitle}
+                subtitle={chartSubtitle}
                 data={data}
                 device={combinedNetworkDevice}
                 deviceKey={'COMBINED'}
@@ -99,8 +112,8 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, pa
 
     return (
         <OverviewContainer>
-            <SectionTitle title="In/Out Traffic" size="lg" cardPadding={false}/>
-            <SectionSubtitle text="View network in/out traffic in real time" margins={true}/>
+            <SectionTitle title={pageTitle} size="lg" cardPadding={false}/>
+            <SectionSubtitle text={pageSubtitle} margins={true}/>
             <div className="medium-spacer" />
 
             <GridLayout>
@@ -111,7 +124,7 @@ const InOutTab = ({ combinedNetworkDevice, inoutChartConfig, data, apiSource, pa
             <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
                 <Flex gutter={2}>
                     <FlexSize size={{ lg: 12 }}>
-                        <Title>Network Traffic</Title>
+                        <Title>{graphTitle}</Title>
                         {renderMainChart()}
                     </FlexSize>
                 </Flex>
@@ -134,6 +147,11 @@ InOutTab.propTypes = {
     packetSelector: PropTypes.func.isRequired,
     displayStreams: PropTypes.array,
     lineColors: PropTypes.array,
+    pageTitle: PropTypes.string,
+    pageSubtitle: PropTypes.string,
+    graphTitle: PropTypes.string,
+    chartTitle: PropTypes.string,
+    chartSubtitle: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => {
