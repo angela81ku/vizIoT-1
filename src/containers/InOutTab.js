@@ -42,20 +42,45 @@ const OverviewContainer = styled.div`
   margin: 0 auto;
 `;
 
+// collects the streams that should be shown if display streams are provided
+// otherwise collects all the data provided to be displayed
 const collectStreams = (data, displayStreams) => {
 
-    if(data && data.length) {
-        let packetData = []
+    let packetData = []
+    if (!displayStreams && data && data.length) {
+        data.map(({startMS, size}) => {
+            packetData.push({startMS: startMS, size: size});
+        })
+    } else if (data && data.length) {
         data.map(({startMS, size}) => {
             let index = 0;
-            let sizeData = size.filter(stream => { return displayStreams.includes(index++) })
+            let sizeData = size.filter(stream => {
+                return displayStreams.includes(index++)
+            })
             packetData.push({startMS: startMS, size: sizeData});
         })
-        return packetData;
-    } else {
-        return [];
     }
 
+    return packetData;
+}
+
+// creates col if none are provided
+const interpolateColors = numberOfStreams => {
+    const maxVal = 255;
+    const jumpVal = Math.floor(maxVal/numberOfStreams);
+    const colors = [];
+    for (let i = 0; i < numberOfStreams; ++i) {
+        const jump = i * jumpVal;
+        const r = i * jump;
+        const g = Math.floor(maxVal/2)
+        const b = maxVal - (jump)
+        const colorString = 'rgb('+ r + ', ' + g + ', ' + b +')';
+        colors.push(colorString);
+    }
+
+    console.log(colors)
+
+    return colors;
 }
 
 // fetching: do in the containers
@@ -67,7 +92,7 @@ const InOutTab = ({
     apiSource,
     packetPusher,
     packetSelector,
-    lineColors,
+    dataColors,
     pageTitle,
     pageSubtitle,
     graphTitle,
@@ -76,14 +101,63 @@ const InOutTab = ({
     legendTitle,
     displayFacts,
     displayStreams,
+    numberOfStreams
 }) => {
+
+    // ERROR CHECKING
+
+    // ensure that there are enough color for each data stream provided
+    if (dataColors && numberOfStreams !== dataColors.length) {
+        throw new Error('numOfStreams must be equal to number of colors provided in dataColors');
+    }
+
+    // ensure that there are not more displayStream values than there are streams
+    if (displayStreams && displayStreams.length > numberOfStreams) {
+        throw new Error('There cannot be more displayStreams than there are numberOfStreams')
+    }
+
+    // ensure there are not more than 255 streams
+    // not just because that's an insane number of streams, but also the color interpolation doesn't work past 255
+    if (numberOfStreams > 255) {
+        throw new Error('Cannot support more than 255 streams');
+    }
+
+    // set up default values for displayStreams if none are provided
+    let streams = [];
+    if (!displayStreams) {
+        for (let i = 0; i < numberOfStreams; ++i) {
+            streams.push(i);
+        }
+    } else {
+        streams = displayStreams;
+    }
+
+    // set up default values for dataColors if none are provided
+    let colors = [];
+    if (!dataColors) {
+        colors = interpolateColors(numberOfStreams);
+    } else {
+        colors = dataColors;
+    }
 
     useSocket(apiSource, packetPusher);
 
     const renderMainChart = () => {
 
         let index = 0;
-        const graphColors = lineColors.filter(stream => { return displayStreams.includes(index++) });
+
+        // if displayStreams and lineColors exist, select these colors for the linegraph
+        // otherwise, just place all line colors into a graph
+        let graphColors = [];
+        // if (lineColors && displayStreams) {
+            graphColors = colors.filter(stream => {
+                return streams.includes(index++)
+            });
+        // } else if (lineColors) {
+        //     graphColors = lineColors;
+        // } else if (displayStreams) {
+        //     graphColors =
+        // }
 
         return (
             <ConnectedLineChart
@@ -106,11 +180,11 @@ const InOutTab = ({
             <GridLayout>
                 <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
                     <InOutFacts
-                        lineColors={lineColors}
+                        lineColors={colors}
                         packetSelector={packetSelector}
                         legendTitle={legendTitle}
                         displayFacts={displayFacts}
-                        displayStreams={displayStreams}
+                        displayStreams={streams}
                     />
                 </GridItem>
             </GridLayout>
@@ -137,15 +211,17 @@ InOutTab.propTypes = {
     apiSource: PropTypes.string.isRequired,
     packetPusher: PropTypes.func.isRequired,
     packetSelector: PropTypes.func.isRequired,
+    displayFacts: PropTypes.array.isRequired,
+    numberOfStreams: PropTypes.number.isRequired,
     displayStreams: PropTypes.array,
-    lineColors: PropTypes.array,
+    dataColors: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
     graphTitle: PropTypes.string,
     chartTitle: PropTypes.string,
     chartSubtitle: PropTypes.string,
     legendTitle: PropTypes.string,
-    displayFacts: PropTypes.array.isRequired,
+
 };
 
 const mapStateToProps = (state, props) => {

@@ -16,15 +16,16 @@ export const IOTab = ({}) => {
             apiSource={IOCount}
             packetSelector={selectRealTimeIOTraffic}
             packetPusher={pushRealTimeIOTraffic}
+            displayFacts={facts}
+            numberOfStreams={3}
+            dataColors={[ 'white', '#03cbac', '#d9b409']}
             displayStreams={[1, 2]}
-            lineColors={[ 'white', '#03cbac', '#d9b409']}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }
             graphTitle={'Network Traffic'}
             chartTitle={'Network'}
             chartSubtitle={'BYTES / SEC'}
             legendTitle={'In/Out'}
-            displayFacts={facts}
         />
     )
 }
