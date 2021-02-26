@@ -141,7 +141,7 @@ InOutTab.defaultProps = {
 InOutTab.propTypes = {
     combinedNetworkDevice: PropTypes.object.isRequired,
     inoutChartConfig: PropTypes.object.isRequired,
-    data: PropTypes.array,
+    data: PropTypes.array.isRequired,
     apiSource: PropTypes.string.isRequired,
     packetPusher: PropTypes.func.isRequired,
     packetSelector: PropTypes.func.isRequired,
