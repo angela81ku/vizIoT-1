@@ -5,19 +5,14 @@ import PropTypes from 'prop-types';
 import Flex from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
 
-import {pushRealTimeIOTraffic} from '../actions/packetActions';
 import { connect } from 'react-redux';
-import { selectEntireNetwork } from '../selectors/deviceSelectors';
 import { selectInOutChartConfig } from '../selectors/chartSelectors';
-import { getDataKey } from '../utility/DataKey';
 
 import styled from 'styled-components';
 
 import GridItem from '../components/BeanUILibrary/GridItem';
-import { IOCount } from '../socket/subscribe';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 
-import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 import ConnectedLineChart from '../containers/ConnectedLineChart';
 
 import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
@@ -47,11 +42,6 @@ const OverviewContainer = styled.div`
   margin: 0 auto;
 `;
 
-// colors of lines in line graph
-// in, out
-// const lineColors = [ '#03cbac', '#d9b409'];
-// const displayStreams = [1, 2];
-
 const collectStreams = (data, displayStreams) => {
 
     if(data && data.length) {
@@ -72,7 +62,6 @@ const collectStreams = (data, displayStreams) => {
 // connection: as deep as i can.
 
 const InOutTab = ({
-    combinedNetworkDevice,
     inoutChartConfig,
     data,
     apiSource,
@@ -85,11 +74,10 @@ const InOutTab = ({
     chartTitle,
     chartSubtitle
 }) => {
-    // useSocket(IOCount, pushRealTimeIOTraffic);
+
     useSocket(apiSource, packetPusher);
 
     const renderMainChart = () => {
-        const { bucketConfig, selectionMode } = inoutChartConfig;
 
         return (
             <ConnectedLineChart
@@ -97,13 +85,6 @@ const InOutTab = ({
                 title={chartTitle}
                 subtitle={chartSubtitle}
                 data={data}
-                device={combinedNetworkDevice}
-                deviceKey={'COMBINED'}
-                dataKey={getDataKey({
-                    ...bucketConfig.toJS(),
-                    selectionMode,
-                    macAddresses: [],
-                })}
                 chartConfig={inoutChartConfig}
                 lineColors={lineColors}
             />
@@ -139,7 +120,6 @@ InOutTab.defaultProps = {
 };
 
 InOutTab.propTypes = {
-    combinedNetworkDevice: PropTypes.object.isRequired,
     inoutChartConfig: PropTypes.object.isRequired,
     data: PropTypes.array.isRequired,
     apiSource: PropTypes.string.isRequired,
@@ -156,9 +136,7 @@ InOutTab.propTypes = {
 
 const mapStateToProps = (state, props) => {
     return {
-        combinedNetworkDevice: selectEntireNetwork(state),
         inoutChartConfig: selectInOutChartConfig(state),
-        // data: collectStreams(selectRealTimeIOTraffic(state)),
         data: collectStreams(props.packetSelector(state), props.displayStreams),
     };
 };
