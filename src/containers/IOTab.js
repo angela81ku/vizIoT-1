@@ -1,5 +1,5 @@
 import React from 'react';
-import {pushRealTimeIOTraffic} from '../actions/packetActions';
+import { pushRealTimeIOTraffic } from '../actions/packetActions';
 import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 import { IOCount } from '../socket/subscribe';
 import InOutTab from './InOutTab';

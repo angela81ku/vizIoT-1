@@ -11,6 +11,7 @@ import {
   pushSize1Min,
   pushRealtimeIndividualVelocitySizeSample,
   pushRealTimeIOTraffic,
+  pushRealTimeProtocolTraffic,
 } from 'VizIoT/actions/packetActions';
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
@@ -131,6 +132,15 @@ const realTimeIOTraffic = createReducer({
   },
 }, { data: null });
 
+const realTimeProtocolTraffic = createReducer({
+  [pushRealTimeProtocolTraffic]: (state, newEntry) => {
+    return {
+      ...state,
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
+    }
+  },
+}, { data: null });
+
 export default combineReducers({
   packetPerDevice,
   pushSize,
@@ -141,4 +151,5 @@ export default combineReducers({
   realtimeIndividualVelocitySizeSample,
   packets,
   realTimeIOTraffic,
+  realTimeProtocolTraffic,
 });

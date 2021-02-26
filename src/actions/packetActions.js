@@ -18,6 +18,7 @@ export const pushIndividualSizeToday = createAction('packets per device today');
 
 // My actions
 export const pushRealTimeIOTraffic = createAction('real time I/O traffic');
+export const pushRealTimeProtocolTraffic = createAction('real time Protocol traffic');
 
 export default Object.assign(
   {},
@@ -31,4 +32,5 @@ export default Object.assign(
     pushRealtimeIndividualVelocitySizeSample,
     pushIndividualSizeToday,
     pushRealTimeIOTraffic,
+    pushRealTimeProtocolTraffic,
   });
