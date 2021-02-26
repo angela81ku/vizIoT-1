@@ -40,12 +40,12 @@ export const Tabs = {
   },
   [tabKeys.INOUT]: {
     key: tabKeys.INOUT,
-    title: 'In/Out Traffic',
+    title: 'In/Out',
     path: '/inout'
   },
   [tabKeys.PROTOCOL]: {
     key: tabKeys.PROTOCOL,
-    title: 'Protocol Traffic',
+    title: 'Protocol',
     path: '/protocol'
   }
 };
