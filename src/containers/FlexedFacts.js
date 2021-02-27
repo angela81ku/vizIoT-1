@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,6 @@ import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import styled from 'styled-components';
 import BIcon from '../components/BeanUILibrary/BIcon';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
-import moment from 'moment';
 
 // to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`
@@ -49,22 +48,70 @@ const ConnectedDataValue = connect((state, { dataSelector }) => {
     };
 })(DataWellValueWithFontSize);
 
-class FlexedFacts extends PureComponent {
+class FlexedFacts extends Component {
     state = {
-        currentMoment: moment(),
+        componentWidth: null,
+        facts: null,
     };
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
 
     componentDidMount() {
-        this.interval = setInterval(this.updateTime, 45000);
+        // console.log(document.getElementById('metric-container').clientWidth)
+        this.setState({
+            componentWidth: document.getElementById('metric-container').clientWidth,
+        })
     }
 
-    updateTime = () => {
-        this.setState(() => ({ currentMoment: moment() }));
-    };
+    renderMetrics(componentWidth) {
+        console.log(componentWidth)
+
+        const displayFacts = this.props.displayFacts;
+        const displayStreams = this.props.displayStreams;
+        const streamData = this.props.streamData;
+
+        // determine how to display the fact
+        // if stream is displayed, create line corresponding to color of line on graph
+        // else, display a cube
+        let facts = [];
+        for (let i = 0; i < displayFacts.length; ++i) {
+            if (displayStreams.includes(i)) {
+                facts.push({
+                    title: displayFacts[i],
+                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+                    iconType: 'eva',
+                    color: this.props.lineColors[i],
+                    fontSize: '4.0rem'
+                })
+            } else {
+                facts.push({
+                    title: displayFacts[i],
+                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+                    iconType: 'eva',
+                    icon: 'cube',
+                    color: this.props.lineColors[i],
+                    fontSize: '4.0rem'
+                })
+            }
+        }
+
+        return (
+            <Flex>
+                {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
+                    return (
+                        <StyledMetric key={title}>
+                            <StyledDataWell>
+                                {this.getDataWellHead(icon, iconType, color)}
+                                <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
+                                <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
+                            </StyledDataWell>
+                        </StyledMetric>
+                    );
+                })}
+            </Flex>
+        )
+
+    }
+
 
   /**
    * Return an icon if specified, other create colored line.
@@ -105,50 +152,52 @@ class FlexedFacts extends PureComponent {
     render() {
 
         const title = this.props.legendTitle;
-        const displayFacts = this.props.displayFacts;
-        const displayStreams = this.props.displayStreams;
-        const streamData = this.props.streamData;
-
-        // determine how to display the fact
-        // if stream is displayed, create line corresponding to color of line on graph
-        // else, display a cube
-        let facts = [];
-        for (let i = 0; i < displayFacts.length; ++i) {
-            if (displayStreams.includes(i)) {
-                facts.push({
-                    title: displayFacts[i],
-                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
-                    iconType: 'eva',
-                    color: this.props.lineColors[i],
-                    fontSize: '4.0rem'
-                })
-            } else {
-                facts.push({
-                    title: displayFacts[i],
-                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
-                    iconType: 'eva',
-                    icon: 'cube',
-                    color: this.props.lineColors[i],
-                    fontSize: '4.0rem'
-                })
-            }
-        }
+        const { componentWidth } = this.state;
+        // const displayFacts = this.props.displayFacts;
+        // const displayStreams = this.props.displayStreams;
+        // const streamData = this.props.streamData;
+        //
+        // // determine how to display the fact
+        // // if stream is displayed, create line corresponding to color of line on graph
+        // // else, display a cube
+        // let facts = [];
+        // for (let i = 0; i < displayFacts.length; ++i) {
+        //     if (displayStreams.includes(i)) {
+        //         facts.push({
+        //             title: displayFacts[i],
+        //             dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+        //             iconType: 'eva',
+        //             color: this.props.lineColors[i],
+        //             fontSize: '4.0rem'
+        //         })
+        //     } else {
+        //         facts.push({
+        //             title: displayFacts[i],
+        //             dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+        //             iconType: 'eva',
+        //             icon: 'cube',
+        //             color: this.props.lineColors[i],
+        //             fontSize: '4.0rem'
+        //         })
+        //     }
+        // }
 
         return (
             <Flex>
                 <Proto>{title}</Proto>
-                <MetricContainer>
-                    {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
-                        return (
-                            <StyledMetric key={title}>
-                                <StyledDataWell>
-                                    {this.getDataWellHead(icon, iconType, color)}
-                                    <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
-                                    <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
-                                </StyledDataWell>
-                            </StyledMetric>
-                        );
-                    })}
+                <MetricContainer id={'metric-container'}>
+                    {/*{facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {*/}
+                    {/*    return (*/}
+                    {/*        <StyledMetric key={title}>*/}
+                    {/*            <StyledDataWell>*/}
+                    {/*                {this.getDataWellHead(icon, iconType, color)}*/}
+                    {/*                <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>*/}
+                    {/*                <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />*/}
+                    {/*            </StyledDataWell>*/}
+                    {/*        </StyledMetric>*/}
+                    {/*    );*/}
+                    {/*})}*/}
+                    {componentWidth && this.renderMetrics(componentWidth)}
                 </MetricContainer>
             </Flex>
         );

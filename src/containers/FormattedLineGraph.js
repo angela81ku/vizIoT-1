@@ -36,7 +36,7 @@ const FormattedLineGraph = ({
 }
 
 FormattedLineGraph.propTypes = {
-    inoutChartConfig: PropTypes.object.isRequired,
+    liveLineChartConfig: PropTypes.object.isRequired,
     lineData: PropTypes.array.isRequired,
     graphColors: PropTypes.array.isRequired,
     graphTitle: PropTypes.string,
