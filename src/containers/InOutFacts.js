@@ -1,16 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 import PropTypes from 'prop-types';
 
-import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
-import FlexSize from '../components/BeanUILibrary/FlexSize';
+import Flex from '../components/BeanUILibrary/Flex';
 import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
-import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
 import BIcon from '../components/BeanUILibrary/BIcon';
-import GridItem from '../components/BeanUILibrary/GridItem';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import moment from 'moment';
 
@@ -21,17 +17,6 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
   background-color: ${props => props.backgroundColor};
 `;
 
-const QuickFactsWrapper = styled(Flex)`
-  margin-bottom: 60px;
-  padding-bottom: 50px;
-`;
-
-const StyledGridItem = styled(GridItem)`
-  width: 100%;
-  overflow: visible;
-  
-`;
-
 const Proto = styled.div`
   ${H2}
   padding-bottom: 3rem;
@@ -40,8 +25,23 @@ const Proto = styled.div`
 `;
 
 const StyledDataWell = styled(DataWell)`
-  padding-bottom: 7rem;
+  padding-bottom: 2rem;
 `;
+
+const StyledMetric = styled.div`
+  width: 275px;
+`
+
+const MetricContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`
+
+const WellTitle = styled.div`
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+`
 
 const ConnectedDataValue = connect((state, { dataSelector }) => {
     return {
@@ -102,37 +102,16 @@ class InOutFacts extends PureComponent {
       }
     }
 
-
-    renderGroup(facts, title, column, row, wellSize) {
-        return (
-            <StyledGridItem column={column} row={row} className="m-bot-7">
-                <Proto>{title}</Proto>
-                <Flex alignContent={JustifyContent.FLEX_START} fillAll>
-
-                    <Flex style={{width:'500px'}} gutter={3} justifyContent={JustifyContent.FLEX_START} noWrap={true} >
-                        {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
-                            return (
-                                <FlexSize width={'200px'} key={title} size={wellSize}>
-                                    <StyledDataWell>
-                                      {this.getDataWellHead(icon, iconType, color)}
-                                      <DataWellTitle fontSize={'2.5rem'}>{title}</DataWellTitle>
-                                      <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
-                                    </StyledDataWell>
-                                </FlexSize>
-                            );
-                        })}
-                    </Flex>
-                </Flex>
-            </StyledGridItem>
-        );
-    }
-
     render() {
 
         const title = this.props.legendTitle;
         const displayFacts = this.props.displayFacts;
         const displayStreams = this.props.displayStreams;
         const streamData = this.props.streamData;
+
+        // determine how to display the fact
+        // if stream is displayed, create line corresponding to color of line on graph
+        // else, display a cube
         let facts = [];
         for (let i = 0; i < displayFacts.length; ++i) {
             if (displayStreams.includes(i)) {
@@ -154,17 +133,22 @@ class InOutFacts extends PureComponent {
         }
 
         return (
-            <QuickFactsWrapper>
-                {this.renderGroup(
-                    facts,
-                    title,
-                    'col-start / span 12',
-                    '1 / span 12',
-                    {
-                        md: 12,
-                        lg: 6 }
-                )}
-            </QuickFactsWrapper>
+            <Flex>
+                <Proto>{title}</Proto>
+                <MetricContainer>
+                    {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
+                        return (
+                            <StyledMetric key={title}>
+                                <StyledDataWell>
+                                    {this.getDataWellHead(icon, iconType, color)}
+                                    <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
+                                    <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
+                                </StyledDataWell>
+                            </StyledMetric>
+                        );
+                    })}
+                </MetricContainer>
+            </Flex>
         );
     }
 }
@@ -172,7 +156,6 @@ class InOutFacts extends PureComponent {
 export default InOutFacts;
 
 InOutFacts.propTypes = {
-    // packetSelector: PropTypes.func.isRequired,
     legendTitle: PropTypes.string,
     lineColors: PropTypes.array,
     displayFacts: PropTypes.array.isRequired,

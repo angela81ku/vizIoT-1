@@ -22,14 +22,6 @@ import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from '../components/SectionTitle';
 import InOutFacts from './InOutFacts';
 
-const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-auto-rows: 8rem;
-  grid-gap: 2rem;
-  grid-row-gap: 7rem;
-`;
-
 const Title = styled.div`
   ${H2}
   padding-bottom: 3rem;
@@ -153,7 +145,6 @@ const InOutTab = ({
         throw new Error('number of streams from packet selector must be equal to number of facts provided:' +
             ' numberOfStreams=' + streamData[0].size.length + ' numberOfFacts=' + facts.length);
     }
-    // console.log(lineData);
 
     useSocket(apiSource, packetPusher);
 
@@ -170,14 +161,17 @@ const InOutTab = ({
         });
 
         return (
-            <ConnectedLineChart
-                className="main-chart"
-                title={chartTitle}
-                subtitle={chartSubtitle}
-                data={lineData}
-                chartConfig={inoutChartConfig}
-                lineColors={graphColors}
-            />
+            <div>
+                <Title>{graphTitle}</Title>
+                <ConnectedLineChart
+                    className="main-chart"
+                    title={chartTitle}
+                    subtitle={chartSubtitle}
+                    data={lineData}
+                    chartConfig={inoutChartConfig}
+                    lineColors={graphColors}
+                />
+            </div>
         );
     };
 
@@ -185,28 +179,16 @@ const InOutTab = ({
         <TabContainer>
             <SectionTitle title={pageTitle} size="lg" cardPadding={false}/>
             <SectionSubtitle text={pageSubtitle} margins={true}/>
-            <div className="medium-spacer" />
+            <div className="small-spacer" />
 
-            <GridLayout>
-                <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
-                    <InOutFacts
-                        lineColors={colors}
-                        // packetSelector={packetSelector}
-                        streamData={streamData}
-                        legendTitle={legendTitle}
-                        displayFacts={displayFacts}
-                        displayStreams={streams}
-                    />
-                </GridItem>
-            </GridLayout>
-            <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
-                <Flex gutter={2}>
-                    <FlexSize size={{ lg: 12 }}>
-                        <Title>{graphTitle}</Title>
-                        {renderMainChart()}
-                    </FlexSize>
-                </Flex>
-            </GridItem>
+            <InOutFacts
+                lineColors={colors}
+                streamData={streamData}
+                legendTitle={legendTitle}
+                displayFacts={displayFacts}
+                displayStreams={streams}
+            />
+            {renderMainChart()}
             <div className="xl-spacer" />
         </TabContainer>
     );

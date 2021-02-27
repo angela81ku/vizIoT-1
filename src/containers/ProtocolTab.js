@@ -27,6 +27,26 @@ export const ProtocolTab = ({}) => {
             title: 'DNS',
             color: 'red',
             isVisible: true,
+        },
+        {
+            title: 'TCP',
+            color: 'white',
+            isVisible: true,
+        },
+        {
+            title: 'UDP',
+            color: '#03cbac',
+            isVisible: true,
+        },
+        {
+            title: 'HTTP',
+            color: '#d9b409',
+            isVisible: true,
+        },
+        {
+            title: 'DNS',
+            color: 'red',
+            isVisible: true,
         }
     ]
 
