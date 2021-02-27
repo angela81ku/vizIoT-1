@@ -2,31 +2,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flex from '../components/BeanUILibrary/Flex';
-import FlexSize from '../components/BeanUILibrary/FlexSize';
-
 import { connect } from 'react-redux';
-import { selectInOutChartConfig } from '../selectors/chartSelectors';
-
 import styled from 'styled-components';
-
-import GridItem from '../components/BeanUILibrary/GridItem';
-import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
-
-import ConnectedLineChart from '../containers/ConnectedLineChart';
-
 import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
 
 // my imports
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from '../components/SectionTitle';
 import InOutFacts from './InOutFacts';
-
-const Title = styled.div`
-  ${H2}
-  padding-bottom: 3rem;
-  font-weight: 200;
-`;
+import FormattedLineGraph from './FormattedLineGraph';
 
 const TabContainer = styled.div`
   padding: 0 11.8rem;
@@ -34,6 +18,8 @@ const TabContainer = styled.div`
   margin: 0 auto;
 `;
 
+// finds number of streams to be displayed on the line graph
+// based on visibility of facts
 const findNumberOfStreams = facts => {
     const displayStreams = [];
     for (let i = 0; i < facts.length; ++i) {
@@ -113,11 +99,23 @@ const findColors = facts => {
     return colors;
 }
 
+// if displayStreams and lineColors exist, select these colors for the linegraph
+// otherwise, just place all line colors into a graph
+const findGraphColors = (colors, streams) => {
+    let graphColors = [];
+    let index = 0;
+    colors.forEach(stream => {
+        if (streams.includes(index++)) {
+            graphColors.push(stream);
+        }
+    });
+    return graphColors;
+}
+
 // fetching: do in the containers
 // connection: as deep as i can.
 
 const InOutTab = ({
-    inoutChartConfig,
     lineData,
     streamData,
     apiSource,
@@ -136,6 +134,7 @@ const InOutTab = ({
     const streams = findNumberOfStreams(facts);
     const displayFacts = facts.map(fact => { return fact.title });
     const colors = findColors(facts);
+    const graphColors = findGraphColors(colors, streams);
 
     if (displayFacts.includes(undefined)) {
         throw new Error('\'title\' must be defined for all \'fact\' objects')
@@ -147,33 +146,6 @@ const InOutTab = ({
     }
 
     useSocket(apiSource, packetPusher);
-
-    const renderMainChart = () => {
-
-        // if displayStreams and lineColors exist, select these colors for the linegraph
-        // otherwise, just place all line colors into a graph
-        let graphColors = [];
-        let index = 0;
-        colors.forEach(stream => {
-            if (streams.includes(index++)) {
-                graphColors.push(stream);
-            }
-        });
-
-        return (
-            <div>
-                <Title>{graphTitle}</Title>
-                <ConnectedLineChart
-                    className="main-chart"
-                    title={chartTitle}
-                    subtitle={chartSubtitle}
-                    data={lineData}
-                    chartConfig={inoutChartConfig}
-                    lineColors={graphColors}
-                />
-            </div>
-        );
-    };
 
     return (
         <TabContainer>
@@ -188,7 +160,13 @@ const InOutTab = ({
                 displayFacts={displayFacts}
                 displayStreams={streams}
             />
-            {renderMainChart()}
+            <FormattedLineGraph
+                graphTitle={graphTitle}
+                chartTitle={chartTitle}
+                chartSubtitle={chartSubtitle}
+                lineData={lineData}
+                graphColors={graphColors}
+            />
             <div className="xl-spacer" />
         </TabContainer>
     );
@@ -199,7 +177,6 @@ InOutTab.defaultProps = {
 };
 
 InOutTab.propTypes = {
-    inoutChartConfig: PropTypes.object.isRequired,
     lineData: PropTypes.array.isRequired,
     streamData: PropTypes.array,
     apiSource: PropTypes.string.isRequired,
@@ -217,7 +194,6 @@ InOutTab.propTypes = {
 const mapStateToProps = (state, props) => {
     const data = props.packetSelector(state);
     return {
-        inoutChartConfig: selectInOutChartConfig(state),
         lineData: collectLineData(data, props.facts),
         streamData: data,
     };
