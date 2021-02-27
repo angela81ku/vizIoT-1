@@ -9,7 +9,7 @@ import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
 // my imports
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from '../components/SectionTitle';
-import InOutFacts from './InOutFacts';
+import FlexedFacts from './FlexedFacts';
 import FormattedLineGraph from './FormattedLineGraph';
 
 const TabContainer = styled.div`
@@ -115,7 +115,7 @@ const findGraphColors = (colors, streams) => {
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const InOutTab = ({
+const LineGraphPage = ({
     lineData,
     streamData,
     apiSource,
@@ -153,7 +153,7 @@ const InOutTab = ({
             <SectionSubtitle text={pageSubtitle} margins={true}/>
             <div className="small-spacer" />
 
-            <InOutFacts
+            <FlexedFacts
                 lineColors={colors}
                 streamData={streamData}
                 legendTitle={legendTitle}
@@ -172,11 +172,11 @@ const InOutTab = ({
     );
 };
 
-InOutTab.defaultProps = {
+LineGraphPage.defaultProps = {
     networkId: 42,
 };
 
-InOutTab.propTypes = {
+LineGraphPage.propTypes = {
     lineData: PropTypes.array.isRequired,
     streamData: PropTypes.array,
     apiSource: PropTypes.string.isRequired,
@@ -199,4 +199,4 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-export default connect(mapStateToProps)(InOutTab);
+export default connect(mapStateToProps)(LineGraphPage);

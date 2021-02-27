@@ -49,7 +49,7 @@ const ConnectedDataValue = connect((state, { dataSelector }) => {
     };
 })(DataWellValueWithFontSize);
 
-class InOutFacts extends PureComponent {
+class FlexedFacts extends PureComponent {
     state = {
         currentMoment: moment(),
     };
@@ -153,9 +153,9 @@ class InOutFacts extends PureComponent {
     }
 }
 
-export default InOutFacts;
+export default FlexedFacts;
 
-InOutFacts.propTypes = {
+FlexedFacts.propTypes = {
     legendTitle: PropTypes.string,
     lineColors: PropTypes.array,
     displayFacts: PropTypes.array.isRequired,

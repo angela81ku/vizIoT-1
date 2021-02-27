@@ -5,7 +5,6 @@ import {selectInOutChartConfig} from '../selectors/chartSelectors';
 import styled from 'styled-components';
 import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { connect } from 'react-redux';
-import Flex from '../components/BeanUILibrary/Flex';
 
 const Title = styled.div`
   ${H2}

@@ -2,7 +2,7 @@ import React from 'react';
 import { pushRealTimeIOTraffic } from '../actions/packetActions';
 import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 import { IOCount } from '../socket/subscribe';
-import InOutTab from './InOutTab';
+import InOutTab from './LineGraphPage';
 
 
 export const IOTab = ({}) => {

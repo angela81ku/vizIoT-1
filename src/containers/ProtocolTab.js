@@ -2,7 +2,7 @@ import React from 'react';
 import { pushRealTimeProtocolTraffic } from '../actions/packetActions';
 import { selectRealTimeProtocolTraffic } from '../selectors/packetSelector';
 import { ProtocolCount } from '../socket/subscribe';
-import InOutTab from './InOutTab';
+import InOutTab from './LineGraphPage';
 
 
 export const ProtocolTab = ({}) => {
