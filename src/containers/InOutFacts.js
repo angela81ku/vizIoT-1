@@ -132,19 +132,20 @@ class InOutFacts extends PureComponent {
         const title = this.props.legendTitle;
         const displayFacts = this.props.displayFacts;
         const displayStreams = this.props.displayStreams;
+        const streamData = this.props.streamData;
         let facts = [];
         for (let i = 0; i < displayFacts.length; ++i) {
             if (displayStreams.includes(i)) {
                 facts.push({
                     title: displayFacts[i],
-                    dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state), i)),
+                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
                     iconType: 'eva',
                     color: this.props.lineColors[i],
                 })
             } else {
                 facts.push({
                     title: displayFacts[i],
-                    dataSelector: (state) => formatBytesPerSecond(transformData(this.props.packetSelector(state), i)),
+                    dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
                     iconType: 'eva',
                     icon: 'cube',
                     color: this.props.lineColors[i],
@@ -171,11 +172,12 @@ class InOutFacts extends PureComponent {
 export default InOutFacts;
 
 InOutFacts.propTypes = {
-    packetSelector: PropTypes.func.isRequired,
+    // packetSelector: PropTypes.func.isRequired,
     legendTitle: PropTypes.string,
     lineColors: PropTypes.array,
     displayFacts: PropTypes.array.isRequired,
     displayStreams: PropTypes.array,
+    streamData: PropTypes.array,
 }
 
 /**

@@ -8,7 +8,26 @@ import InOutTab from './InOutTab';
 export const ProtocolTab = ({}) => {
 
     const facts = [
-        'TCP', 'UDP', 'HTTP', 'DNS'
+        {
+            title: 'TCP',
+            color: 'white',
+            isVisible: true,
+        },
+        {
+            title: 'UDP',
+            color: '#03cbac',
+            isVisible: true,
+        },
+        {
+            title: 'HTTP',
+            color: '#d9b409',
+            isVisible: true,
+        },
+        {
+            title: 'DNS',
+            color: 'red',
+            isVisible: true,
+        }
     ]
 
     return (
@@ -16,10 +35,7 @@ export const ProtocolTab = ({}) => {
             apiSource={ProtocolCount}
             packetSelector={selectRealTimeProtocolTraffic}
             packetPusher={pushRealTimeProtocolTraffic}
-            displayFacts={facts}
-            numberOfStreams={4}
-            lineColors={[ 'white', '#03cbac', '#d9b409', 'red']}
-            displayStreams={[0, 1, 2, 3]}
+            facts={facts}
             pageTitle={'Protocol Traffic'}
             pageSubtitle={'View network protocol traffic in real time' }
             graphTitle={'Network Traffic'}

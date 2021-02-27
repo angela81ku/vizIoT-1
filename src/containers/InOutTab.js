@@ -36,15 +36,28 @@ const Title = styled.div`
   font-weight: 200;
 `;
 
-const OverviewContainer = styled.div`
+const TabContainer = styled.div`
   padding: 0 11.8rem;
   padding-top: 80px;
   margin: 0 auto;
 `;
 
+const findNumberOfStreams = facts => {
+    const displayStreams = [];
+    for (let i = 0; i < facts.length; ++i) {
+        if (facts[i].isVisible) {
+            displayStreams.push(i);
+        }
+    }
+
+    return displayStreams;
+}
+
 // collects the streams that should be shown if display streams are provided
 // otherwise collects all the data provided to be displayed
-const collectStreams = (data, displayStreams) => {
+const collectLineData = (data, facts) => {
+
+    const displayStreams = findNumberOfStreams(facts);
 
     let packetData = []
     if (!displayStreams && data && data.length) {
@@ -54,8 +67,11 @@ const collectStreams = (data, displayStreams) => {
     } else if (data && data.length) {
         data.map(({startMS, size}) => {
             let index = 0;
-            let sizeData = size.filter(stream => {
-                return displayStreams.includes(index++)
+            let sizeData = [];
+            size.forEach(stream => {
+                if(displayStreams.includes(index++)) {
+                    sizeData.push(stream)
+                }
             })
             packetData.push({startMS: startMS, size: sizeData});
         })
@@ -65,20 +81,42 @@ const collectStreams = (data, displayStreams) => {
 }
 
 // creates col if none are provided
-const interpolateColors = numberOfStreams => {
+const findColors = facts => {
+
+    const colors = [];
+    facts.forEach(fact => {
+        if (!fact.color) {
+            colors.push(null);
+        } else {
+            colors.push(fact.color);
+        }
+    })
+
+    let needsColors = []
+    let index = 0;
+    colors.forEach(color => {
+        if (color === null) { needsColors.push(index); }
+        index++;
+    })
+
+    const numberOfStreams = needsColors.length;
     const maxVal = 255;
     const jumpVal = Math.floor(maxVal/numberOfStreams);
-    const colors = [];
+    const interpolatedColors = [];
+
     for (let i = 0; i < numberOfStreams; ++i) {
         const jump = i * jumpVal;
         const r = i * jump;
         const g = Math.floor(maxVal/2)
         const b = maxVal - (jump)
         const colorString = 'rgb('+ r + ', ' + g + ', ' + b +')';
-        colors.push(colorString);
+        interpolatedColors.push(colorString);
     }
 
-    console.log(colors)
+    let i = 0;
+    needsColors.forEach(index => {
+        colors[index] = interpolatedColors[i++];
+    })
 
     return colors;
 }
@@ -88,83 +126,55 @@ const interpolateColors = numberOfStreams => {
 
 const InOutTab = ({
     inoutChartConfig,
-    data,
+    lineData,
+    streamData,
     apiSource,
     packetPusher,
-    packetSelector,
-    dataColors,
     pageTitle,
     pageSubtitle,
     graphTitle,
     chartTitle,
     chartSubtitle,
     legendTitle,
-    displayFacts,
-    displayStreams,
-    numberOfStreams
+    facts,
 }) => {
 
-    // ERROR CHECKING
+    // use facts to populate colors
 
-    // ensure that there are enough color for each data stream provided
-    if (dataColors && numberOfStreams !== dataColors.length) {
-        throw new Error('numOfStreams must be equal to number of colors provided in dataColors');
+    const streams = findNumberOfStreams(facts);
+    const displayFacts = facts.map(fact => { return fact.title });
+    const colors = findColors(facts);
+
+    if (displayFacts.includes(undefined)) {
+        throw new Error('\'title\' must be defined for all \'fact\' objects')
     }
 
-    // ensure that there are not more displayStream values than there are streams
-    if (displayStreams && displayStreams.length > numberOfStreams) {
-        throw new Error('There cannot be more displayStreams than there are numberOfStreams')
+    if (streamData && streamData.length > 0 && streamData[0].size.length !== facts.length) {
+        throw new Error('number of streams from packet selector must be equal to number of facts provided:' +
+            ' numberOfStreams=' + streamData[0].size.length + ' numberOfFacts=' + facts.length);
     }
-
-    // ensure there are not more than 255 streams
-    // not just because that's an insane number of streams, but also the color interpolation doesn't work past 255
-    if (numberOfStreams > 255) {
-        throw new Error('Cannot support more than 255 streams');
-    }
-
-    // set up default values for displayStreams if none are provided
-    let streams = [];
-    if (!displayStreams) {
-        for (let i = 0; i < numberOfStreams; ++i) {
-            streams.push(i);
-        }
-    } else {
-        streams = displayStreams;
-    }
-
-    // set up default values for dataColors if none are provided
-    let colors = [];
-    if (!dataColors) {
-        colors = interpolateColors(numberOfStreams);
-    } else {
-        colors = dataColors;
-    }
+    // console.log(lineData);
 
     useSocket(apiSource, packetPusher);
 
     const renderMainChart = () => {
 
-        let index = 0;
-
         // if displayStreams and lineColors exist, select these colors for the linegraph
         // otherwise, just place all line colors into a graph
         let graphColors = [];
-        // if (lineColors && displayStreams) {
-            graphColors = colors.filter(stream => {
-                return streams.includes(index++)
-            });
-        // } else if (lineColors) {
-        //     graphColors = lineColors;
-        // } else if (displayStreams) {
-        //     graphColors =
-        // }
+        let index = 0;
+        colors.forEach(stream => {
+            if (streams.includes(index++)) {
+                graphColors.push(stream);
+            }
+        });
 
         return (
             <ConnectedLineChart
                 className="main-chart"
                 title={chartTitle}
                 subtitle={chartSubtitle}
-                data={data}
+                data={lineData}
                 chartConfig={inoutChartConfig}
                 lineColors={graphColors}
             />
@@ -172,7 +182,7 @@ const InOutTab = ({
     };
 
     return (
-        <OverviewContainer>
+        <TabContainer>
             <SectionTitle title={pageTitle} size="lg" cardPadding={false}/>
             <SectionSubtitle text={pageSubtitle} margins={true}/>
             <div className="medium-spacer" />
@@ -181,7 +191,8 @@ const InOutTab = ({
                 <GridItem overflow={'visible'} column={'col-start / span 5'} row={'1 / 3'}>
                     <InOutFacts
                         lineColors={colors}
-                        packetSelector={packetSelector}
+                        // packetSelector={packetSelector}
+                        streamData={streamData}
                         legendTitle={legendTitle}
                         displayFacts={displayFacts}
                         displayStreams={streams}
@@ -197,7 +208,7 @@ const InOutTab = ({
                 </Flex>
             </GridItem>
             <div className="xl-spacer" />
-        </OverviewContainer>
+        </TabContainer>
     );
 };
 
@@ -207,27 +218,26 @@ InOutTab.defaultProps = {
 
 InOutTab.propTypes = {
     inoutChartConfig: PropTypes.object.isRequired,
-    data: PropTypes.array.isRequired,
+    lineData: PropTypes.array.isRequired,
+    streamData: PropTypes.array,
     apiSource: PropTypes.string.isRequired,
     packetPusher: PropTypes.func.isRequired,
     packetSelector: PropTypes.func.isRequired,
-    displayFacts: PropTypes.array.isRequired,
-    numberOfStreams: PropTypes.number.isRequired,
-    displayStreams: PropTypes.array,
-    dataColors: PropTypes.array,
+    facts: PropTypes.array.isRequired,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
     graphTitle: PropTypes.string,
     chartTitle: PropTypes.string,
     chartSubtitle: PropTypes.string,
     legendTitle: PropTypes.string,
-
 };
 
 const mapStateToProps = (state, props) => {
+    const data = props.packetSelector(state);
     return {
         inoutChartConfig: selectInOutChartConfig(state),
-        data: collectStreams(props.packetSelector(state), props.displayStreams),
+        lineData: collectLineData(data, props.facts),
+        streamData: data,
     };
 };
 

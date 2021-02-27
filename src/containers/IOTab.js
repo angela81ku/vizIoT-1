@@ -8,7 +8,21 @@ import InOutTab from './InOutTab';
 export const IOTab = ({}) => {
 
     const facts = [
-        'Total', 'Received', 'Sent'
+        {
+            title: 'Total',
+            color: 'white',
+            isVisible: false,
+        },
+        {
+            title: 'Received',
+            color: '#03cbac',
+            isVisible: true,
+        },
+        {
+            title: 'Sent',
+            color: '#d9b409',
+            isVisible: true,
+        }
     ]
 
     return (
@@ -16,10 +30,7 @@ export const IOTab = ({}) => {
             apiSource={IOCount}
             packetSelector={selectRealTimeIOTraffic}
             packetPusher={pushRealTimeIOTraffic}
-            displayFacts={facts}
-            numberOfStreams={3}
-            dataColors={[ 'white', '#03cbac', '#d9b409']}
-            displayStreams={[1, 2]}
+            facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }
             graphTitle={'Network Traffic'}
