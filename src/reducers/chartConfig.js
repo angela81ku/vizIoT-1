@@ -18,7 +18,7 @@ const defaultState = {
   // analyzeAggregationByDevice
 
   // will be two-device chart configuration
-  inoutChartConfig: {
+  liveLineChartConfig: {
     bucketConfig: new BucketRecord({
       bucketSize: 1,
       bucketProps: [BucketProperty.ACTIVITY_COUNT],

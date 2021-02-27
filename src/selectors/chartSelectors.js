@@ -6,7 +6,7 @@ export const selectSingleDeviceChartConfig = ({ chartConfig }) => {
   return chartConfig.singleDeviceChartConfig;
 };
 
-export const selectInOutChartConfig =({ chartConfig }) => {
-  return chartConfig.inoutChartConfig;
+export const selectLiveLineChartConfig =({ chartConfig }) => {
+  return chartConfig.liveLineChartConfig;
 }
 

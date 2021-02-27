@@ -1,7 +1,7 @@
 import ConnectedLineChart from './ConnectedLineChart';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {selectInOutChartConfig} from '../selectors/chartSelectors';
+import {selectLiveLineChartConfig} from '../selectors/chartSelectors';
 import styled from 'styled-components';
 import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ const FormattedLineGraph = ({
     chartTitle,
     chartSubtitle,
     lineData,
-    inoutChartConfig,
+    liveLineChartConfig,
     graphColors
 }) => {
     return (
@@ -28,7 +28,7 @@ const FormattedLineGraph = ({
                 title={chartTitle}
                 subtitle={chartSubtitle}
                 data={lineData}
-                chartConfig={inoutChartConfig}
+                chartConfig={liveLineChartConfig}
                 lineColors={graphColors}
             />
         </div>
@@ -46,7 +46,7 @@ FormattedLineGraph.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        inoutChartConfig: selectInOutChartConfig(state),
+        liveLineChartConfig: selectLiveLineChartConfig(state),
     };
 };
 
