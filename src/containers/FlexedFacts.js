@@ -19,7 +19,7 @@ const DataWellValueWithFontSize = styled(DataWellValue)`
 
 const Proto = styled.div`
   ${H2}
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   font-weight: 200;
   color: #fff;
 `;
@@ -29,7 +29,7 @@ const StyledDataWell = styled(DataWell)`
 `;
 
 const StyledMetric = styled.div`
-  width: 275px;
+  width: 250px;
 `
 
 const MetricContainer = styled.div`
@@ -39,7 +39,7 @@ const MetricContainer = styled.div`
 `
 
 const WellTitle = styled.div`
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   margin-bottom: 5px;
 `
 
@@ -120,6 +120,7 @@ class FlexedFacts extends PureComponent {
                     dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
                     iconType: 'eva',
                     color: this.props.lineColors[i],
+                    fontSize: '4.0rem'
                 })
             } else {
                 facts.push({
@@ -128,6 +129,7 @@ class FlexedFacts extends PureComponent {
                     iconType: 'eva',
                     icon: 'cube',
                     color: this.props.lineColors[i],
+                    fontSize: '4.0rem'
                 })
             }
         }

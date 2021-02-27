@@ -2,7 +2,7 @@ import React from 'react';
 import { pushRealTimeProtocolTraffic } from '../actions/packetActions';
 import { selectRealTimeProtocolTraffic } from '../selectors/packetSelector';
 import { ProtocolCount } from '../socket/subscribe';
-import InOutTab from './LineGraphPage';
+import LineGraphPage from './LineGraphPage';
 
 
 export const ProtocolTab = ({}) => {
@@ -51,7 +51,7 @@ export const ProtocolTab = ({}) => {
     ]
 
     return (
-        <InOutTab
+        <LineGraphPage
             apiSource={ProtocolCount}
             packetSelector={selectRealTimeProtocolTraffic}
             packetPusher={pushRealTimeProtocolTraffic}

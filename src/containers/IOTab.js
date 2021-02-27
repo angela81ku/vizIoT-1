@@ -2,7 +2,7 @@ import React from 'react';
 import { pushRealTimeIOTraffic } from '../actions/packetActions';
 import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
 import { IOCount } from '../socket/subscribe';
-import InOutTab from './LineGraphPage';
+import LineGraphPage from './LineGraphPage';
 
 
 export const IOTab = ({}) => {
@@ -26,7 +26,7 @@ export const IOTab = ({}) => {
     ]
 
     return (
-        <InOutTab
+        <LineGraphPage
             apiSource={IOCount}
             packetSelector={selectRealTimeIOTraffic}
             packetPusher={pushRealTimeIOTraffic}
