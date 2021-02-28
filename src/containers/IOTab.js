@@ -25,11 +25,18 @@ export const IOTab = ({}) => {
         }
     ]
 
+    const resources = {
+        apiSource: IOCount,
+        packetSelector: selectRealTimeIOTraffic,
+        packetPusher: pushRealTimeIOTraffic,
+    }
+
     return (
         <LineGraphPage
-            apiSource={IOCount}
-            packetSelector={selectRealTimeIOTraffic}
-            packetPusher={pushRealTimeIOTraffic}
+            // apiSource={IOCount}
+            // packetSelector={selectRealTimeIOTraffic}
+            // packetPusher={pushRealTimeIOTraffic}
+            graphResource={resources}
             facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }

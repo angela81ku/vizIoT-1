@@ -158,8 +158,7 @@ const getDataWellHead = (icon, iconType, color) => {
 }
 
 const FlexedFacts = ({
-    apiSource,
-    packetPusher,
+    resources,
     legendTitle,
     displayFacts,
     displayStreams,
@@ -167,7 +166,7 @@ const FlexedFacts = ({
     streamData
 }) => {
 
-    useSocket(apiSource, packetPusher)
+    useSocket(resources.apiSource, resources.packetPusher)
 
     return (
         <Flex>
@@ -181,9 +180,7 @@ const FlexedFacts = ({
 
 
 FlexedFacts.propTypes = {
-    apiSource: PropTypes.string.isRequired,
-    packetPusher: PropTypes.func.isRequired,
-    packetSelector: PropTypes.func.isRequired,
+    resources: PropTypes.object.isRequired,
     legendTitle: PropTypes.string,
     lineColors: PropTypes.array,
     displayFacts: PropTypes.array.isRequired,
@@ -192,7 +189,7 @@ FlexedFacts.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-    let data = props.packetSelector(state);
+    let data = props.resources.packetSelector(state);
     if(!data) { data = []; }
     return {
         streamData: data,

@@ -117,9 +117,7 @@ const findGraphColors = (colors, streams) => {
 
 const LineGraphPage = ({
     streamData,
-    apiSource,
-    packetPusher,
-    packetSelector,
+    graphResource,
     pageTitle,
     pageSubtitle,
     graphTitle,
@@ -145,8 +143,6 @@ const LineGraphPage = ({
             ' numberOfStreams=' + streamData[0].size.length + ' numberOfFacts=' + facts.length);
     }
 
-    useSocket(apiSource, packetPusher);
-
     return (
         <TabContainer>
             <SectionTitle title={pageTitle} size="lg" cardPadding={false}/>
@@ -154,19 +150,14 @@ const LineGraphPage = ({
             <div className="small-spacer" />
 
             <FlexedFacts
-                apiSource={apiSource}
-                packetPusher={packetPusher}
-                packetSelector={packetSelector}
                 lineColors={colors}
-                // streamData={streamData}
                 legendTitle={legendTitle}
                 displayFacts={displayFacts}
                 displayStreams={streams}
+                resources={graphResource}
             />
             <FormattedLineGraph
-                apiSource={apiSource}
-                packetPusher={packetPusher}
-                packetSelector={packetSelector}
+                resources={graphResource}
                 graphTitle={graphTitle}
                 chartTitle={chartTitle}
                 chartSubtitle={chartSubtitle}
@@ -184,9 +175,7 @@ LineGraphPage.defaultProps = {
 LineGraphPage.propTypes = {
     lineData: PropTypes.array.isRequired,
     streamData: PropTypes.array,
-    apiSource: PropTypes.string.isRequired,
-    packetPusher: PropTypes.func.isRequired,
-    packetSelector: PropTypes.func.isRequired,
+    graphResource: PropTypes.object.isRequired,
     facts: PropTypes.array.isRequired,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
@@ -196,13 +185,5 @@ LineGraphPage.propTypes = {
     legendTitle: PropTypes.string,
 };
 
-const mapStateToProps = (state, props) => {
-    const data = props.packetSelector(state);
-    // console.log(data)
-    return {
-        // lineData: collectLineData(data, props.facts),
-        // streamData: data,
-    };
-};
 
-export default connect(mapStateToProps)(LineGraphPage);
+export default LineGraphPage;

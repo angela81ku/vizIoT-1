@@ -14,8 +14,7 @@ const Title = styled.div`
 `;
 
 const FormattedLineGraph = ({
-    apiSource,
-    packetPusher,
+    resources,
     graphTitle,
     chartTitle,
     chartSubtitle,
@@ -24,7 +23,7 @@ const FormattedLineGraph = ({
     graphColors
 }) => {
 
-    useSocket(apiSource, packetPusher);
+    useSocket(resources.apiSource, resources.packetPusher);
 
     return (
         <div style={{width:'100%', height:'100%'}}>
@@ -43,9 +42,7 @@ const FormattedLineGraph = ({
 
 FormattedLineGraph.propTypes = {
     liveLineChartConfig: PropTypes.object.isRequired,
-    apiSource: PropTypes.string.isRequired,
-    packetPusher: PropTypes.func.isRequired,
-    packetSelector: PropTypes.func.isRequired,
+    resources: PropTypes.object.isRequired,
     lineData: PropTypes.array.isRequired,
     graphColors: PropTypes.array.isRequired,
     graphTitle: PropTypes.string,
@@ -54,7 +51,7 @@ FormattedLineGraph.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
-    let data = props.packetSelector(state);
+    let data = props.resources.packetSelector(state);
     if(!data) { data = []; }
     return {
         liveLineChartConfig: selectLiveLineChartConfig(state),
