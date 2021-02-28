@@ -116,10 +116,10 @@ const findGraphColors = (colors, streams) => {
 // connection: as deep as i can.
 
 const LineGraphPage = ({
-    lineData,
     streamData,
     apiSource,
     packetPusher,
+    packetSelector,
     pageTitle,
     pageSubtitle,
     graphTitle,
@@ -154,17 +154,22 @@ const LineGraphPage = ({
             <div className="small-spacer" />
 
             <FlexedFacts
+                apiSource={apiSource}
+                packetPusher={packetPusher}
+                packetSelector={packetSelector}
                 lineColors={colors}
-                streamData={streamData}
+                // streamData={streamData}
                 legendTitle={legendTitle}
                 displayFacts={displayFacts}
                 displayStreams={streams}
             />
             <FormattedLineGraph
+                apiSource={apiSource}
+                packetPusher={packetPusher}
+                packetSelector={packetSelector}
                 graphTitle={graphTitle}
                 chartTitle={chartTitle}
                 chartSubtitle={chartSubtitle}
-                lineData={lineData}
                 graphColors={graphColors}
             />
             <div className="xl-spacer" />
@@ -193,9 +198,10 @@ LineGraphPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
     const data = props.packetSelector(state);
+    // console.log(data)
     return {
-        lineData: collectLineData(data, props.facts),
-        streamData: data,
+        // lineData: collectLineData(data, props.facts),
+        // streamData: data,
     };
 };
 

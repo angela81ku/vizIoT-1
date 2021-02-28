@@ -5,6 +5,7 @@ import {selectLiveLineChartConfig} from '../selectors/chartSelectors';
 import styled from 'styled-components';
 import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { connect } from 'react-redux';
+import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 
 const Title = styled.div`
   ${H2}
@@ -13,6 +14,8 @@ const Title = styled.div`
 `;
 
 const FormattedLineGraph = ({
+    apiSource,
+    packetPusher,
     graphTitle,
     chartTitle,
     chartSubtitle,
@@ -20,6 +23,9 @@ const FormattedLineGraph = ({
     liveLineChartConfig,
     graphColors
 }) => {
+
+    useSocket(apiSource, packetPusher);
+
     return (
         <div style={{width:'100%', height:'100%'}}>
             <Title>{graphTitle}</Title>
@@ -37,6 +43,9 @@ const FormattedLineGraph = ({
 
 FormattedLineGraph.propTypes = {
     liveLineChartConfig: PropTypes.object.isRequired,
+    apiSource: PropTypes.string.isRequired,
+    packetPusher: PropTypes.func.isRequired,
+    packetSelector: PropTypes.func.isRequired,
     lineData: PropTypes.array.isRequired,
     graphColors: PropTypes.array.isRequired,
     graphTitle: PropTypes.string,
@@ -44,9 +53,12 @@ FormattedLineGraph.propTypes = {
     chartSubtitle: PropTypes.string,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+    let data = props.packetSelector(state);
+    if(!data) { data = []; }
     return {
         liveLineChartConfig: selectLiveLineChartConfig(state),
+        lineData: data,
     };
 };
 
