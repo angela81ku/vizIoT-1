@@ -1,7 +1,7 @@
 import React from 'react';
-import { pushRealTimeProtocolTraffic } from '../actions/packetActions';
-import { selectRealTimeProtocolTraffic } from '../selectors/packetSelector';
-import { ProtocolCount } from '../socket/subscribe';
+import {pushRealTimeIOTraffic, pushRealTimeProtocolTraffic} from '../actions/packetActions';
+import {selectRealTimeIOTraffic, selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
+import {IOCount, ProtocolCount} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 
 
@@ -11,50 +11,54 @@ export const ProtocolTab = ({}) => {
         {
             title: 'TCP',
             color: 'white',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'UDP',
             color: '#03cbac',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'HTTP',
             color: '#d9b409',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'DNS',
             color: 'red',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'TCP',
             color: 'white',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'UDP',
             color: '#03cbac',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'HTTP',
             color: '#d9b409',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'DNS',
             color: 'red',
-            isVisible: true,
+            isGraphed: true,
         }
     ]
 
+    const resources = {
+        apiSource: ProtocolCount,
+        packetSelector: selectRealTimeProtocolTraffic,
+        packetPusher: pushRealTimeProtocolTraffic,
+    }
+
     return (
         <LineGraphPage
-            apiSource={ProtocolCount}
-            packetSelector={selectRealTimeProtocolTraffic}
-            packetPusher={pushRealTimeProtocolTraffic}
+            graphResource={resources}
             facts={facts}
             pageTitle={'Protocol Traffic'}
             pageSubtitle={'View network protocol traffic in real time' }

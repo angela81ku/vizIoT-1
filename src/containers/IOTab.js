@@ -11,17 +11,17 @@ export const IOTab = ({}) => {
         {
             title: 'Total',
             color: 'white',
-            isVisible: false,
+            isGraphed: false,
         },
         {
             title: 'Received',
             color: '#03cbac',
-            isVisible: true,
+            isGraphed: true,
         },
         {
             title: 'Sent',
             color: '#d9b409',
-            isVisible: true,
+            isGraphed: true,
         }
     ]
 
@@ -33,9 +33,6 @@ export const IOTab = ({}) => {
 
     return (
         <LineGraphPage
-            // apiSource={IOCount}
-            // packetSelector={selectRealTimeIOTraffic}
-            // packetPusher={pushRealTimeIOTraffic}
             graphResource={resources}
             facts={facts}
             pageTitle={'In/Out Traffic'}

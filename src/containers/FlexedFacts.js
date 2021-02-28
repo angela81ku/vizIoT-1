@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import BIcon from '../components/BeanUILibrary/BIcon';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
+import {findColors} from "../utility/ColorUtility";
 
 // to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`
@@ -85,7 +86,7 @@ const renderMetrics = (displayFacts, displayStreams, streamData, lineColors) => 
     for (let i = 0; i < displayFacts.length; ++i) {
         if (displayStreams.includes(i)) {
             facts.push({
-                title: displayFacts[i],
+                title: displayFacts[i].title,
                 dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
                 iconType: 'eva',
                 color: lineColors[i],
@@ -93,7 +94,7 @@ const renderMetrics = (displayFacts, displayStreams, streamData, lineColors) => 
             })
         } else {
             facts.push({
-                title: displayFacts[i],
+                title: displayFacts[i].title,
                 dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
                 iconType: 'eva',
                 icon: 'cube',
@@ -161,12 +162,41 @@ const FlexedFacts = ({
     resources,
     legendTitle,
     displayFacts,
-    displayStreams,
-    lineColors,
     streamData
 }) => {
 
     useSocket(resources.apiSource, resources.packetPusher)
+
+    // find out whether or not metrics should have an icon
+    // those that are graphed should have a line, add to display streams for
+    // getDataWellHead in renderMetrics()
+    let displayStreams = [];
+    let lineColors = [];
+    let index = 0;
+    displayFacts.forEach(fact => {
+        // check to see if metric is displayed on a graph
+        // default is false, will be displayed with cube icon
+        if (fact.isGraphed) {
+            displayStreams.push(index);
+        }
+        if (fact.color) {
+            lineColors.push(fact.color)
+        }
+        ++index;
+    })
+
+    console.log(displayFacts)
+
+    if (lineColors.length !== displayFacts.length) {
+        // if no colors provided, find colors for metrics using color interpolator
+        if (lineColors.length === 0) {
+            lineColors = findColors(displayFacts.length);
+        }
+        // otherwise, only some colors are defined, throw an error
+        else {
+            throw new Error('Some facts do not have a color; all facts must have a color or no facts can have a color')
+        }
+    }
 
     return (
         <Flex>
@@ -182,9 +212,7 @@ const FlexedFacts = ({
 FlexedFacts.propTypes = {
     resources: PropTypes.object.isRequired,
     legendTitle: PropTypes.string,
-    lineColors: PropTypes.array,
     displayFacts: PropTypes.array.isRequired,
-    displayStreams: PropTypes.array,
     streamData: PropTypes.array,
 }
 

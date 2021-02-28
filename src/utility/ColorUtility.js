@@ -31,3 +31,22 @@ export function padZero(str, len) {
   var zeros = new Array(len).join('0');
   return (zeros + str).slice(-len);
 }
+
+// creates count number of colors
+export function findColors(count) {
+
+  const maxVal = 255;
+  const jumpVal = Math.floor(maxVal/count);
+  const colors = [];
+
+  for (let i = 0; i < count; ++i) {
+    const jump = i * jumpVal;
+    const r = i * jump;
+    const g = Math.floor(maxVal/2)
+    const b = maxVal - (jump)
+    const colorString = 'rgb('+ r + ', ' + g + ', ' + b +')';
+    colors.push(colorString);
+  }
+
+  return colors;
+}
