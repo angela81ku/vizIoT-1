@@ -1,7 +1,7 @@
 import React from 'react';
-import { pushRealTimeIOTraffic } from '../actions/packetActions';
-import { selectRealTimeIOTraffic } from '../selectors/packetSelector';
-import { IOCount } from '../socket/subscribe';
+import { pushRealTimeIOTraffic, pushRealTimeIOMetricTraffic } from '../actions/packetActions';
+import { selectRealTimeIOTraffic, selectRealTimeIOMetricTraffic } from '../selectors/packetSelector';
+import { IOCount, IOMetric } from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 
 
@@ -31,9 +31,16 @@ export const IOTab = ({}) => {
         packetPusher: pushRealTimeIOTraffic,
     }
 
+    const metricResources = {
+        apiSource: IOMetric,
+        packetSelector: selectRealTimeIOMetricTraffic,
+        packetPusher: pushRealTimeIOMetricTraffic,
+    }
+
     return (
         <LineGraphPage
             graphResource={resources}
+            metricResource={metricResources}
             facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }

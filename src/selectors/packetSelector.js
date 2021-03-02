@@ -31,4 +31,6 @@ export const selectDeviceToLiveSamples = path(['packets', 'realtimeIndividualVel
 // my selector
 export const selectRealTimeIOTraffic = path(['packets', 'realTimeIOTraffic', 'data']);
 
+export const selectRealTimeIOMetricTraffic = path(['packets', 'realTimeIOMetricTraffic', 'data'])
+
 export const selectRealTimeProtocolTraffic = path(['packets', 'realTimeProtocolTraffic', 'data']);

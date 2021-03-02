@@ -77,14 +77,14 @@ const formatBytesPerSecond = data => {
     return data + ' B/s';
 }
 
-const renderMetrics = (displayFacts, displayStreams, streamData, lineColors) => {
+const renderMetrics = (displayFacts, streamData, lineColors) => {
 
     // determine how to display the fact
     // if stream is displayed, create line corresponding to color of line on graph
     // else, display a cube
     let facts = [];
     for (let i = 0; i < displayFacts.length; ++i) {
-        if (displayStreams.includes(i)) {
+        if (displayFacts[i].isGraphed) {
             facts.push({
                 title: displayFacts[i].title,
                 dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
@@ -170,22 +170,16 @@ const FlexedFacts = ({
     // find out whether or not metrics should have an icon
     // those that are graphed should have a line, add to display streams for
     // getDataWellHead in renderMetrics()
-    let displayStreams = [];
     let lineColors = [];
     let index = 0;
     displayFacts.forEach(fact => {
         // check to see if metric is displayed on a graph
         // default is false, will be displayed with cube icon
-        if (fact.isGraphed) {
-            displayStreams.push(index);
-        }
         if (fact.color) {
             lineColors.push(fact.color)
         }
         ++index;
     })
-
-    console.log(displayFacts)
 
     if (lineColors.length !== displayFacts.length) {
         // if no colors provided, find colors for metrics using color interpolator
@@ -202,7 +196,7 @@ const FlexedFacts = ({
         <Flex>
             <Proto>{legendTitle}</Proto>
             <MetricContainer id={'metric-container'}>
-                {renderMetrics(displayFacts, displayStreams, streamData, lineColors)}
+                {renderMetrics(displayFacts, streamData, lineColors)}
             </MetricContainer>
         </Flex>
     );

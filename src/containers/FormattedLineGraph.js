@@ -43,11 +43,12 @@ const FormattedLineGraph = ({
                     // otherwise, is numeric, find single color
                     colors = findColors(1);
                 }
-
             } else {
                 throw new Error('size attribute does not exist on provided data as number or array: ' + lineData)
             }
         }
+        // if it looks like there should be an "else" here, there shouldn't be
+        // this set of conditionals should do nothing if lineData is not yet defined
     }
     // otherwise, use provided graph colors
     else {

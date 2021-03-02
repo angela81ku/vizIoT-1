@@ -16,6 +16,7 @@ import {
 import { combineReducers } from 'redux';
 import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
 import { createDeviceDataMap, mergeDeviceDataMaps, updateDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
+import {pushRealTimeIOMetricTraffic} from '../../actions/packetActions';
 // import {pushRealTimeIOTraffic} from '../../actions/packetActions';
 
 const isMocking = true;
@@ -132,6 +133,15 @@ const realTimeIOTraffic = createReducer({
   },
 }, { data: null });
 
+const realTimeIOMetricTraffic = createReducer({
+  [pushRealTimeIOMetricTraffic]: (state, newEntry) => {
+    return {
+      ...state,
+      data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
+    }
+  },
+}, { data: null })
+
 const realTimeProtocolTraffic = createReducer({
   [pushRealTimeProtocolTraffic]: (state, newEntry) => {
     return {
@@ -151,5 +161,6 @@ export default combineReducers({
   realtimeIndividualVelocitySizeSample,
   packets,
   realTimeIOTraffic,
+  realTimeIOMetricTraffic,
   realTimeProtocolTraffic,
 });

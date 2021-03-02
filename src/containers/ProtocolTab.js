@@ -1,7 +1,7 @@
 import React from 'react';
-import {pushRealTimeIOTraffic, pushRealTimeProtocolTraffic} from '../actions/packetActions';
-import {selectRealTimeIOTraffic, selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
-import {IOCount, ProtocolCount} from '../socket/subscribe';
+import {pushRealTimeProtocolTraffic} from '../actions/packetActions';
+import {selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
+import {ProtocolCount} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 
 

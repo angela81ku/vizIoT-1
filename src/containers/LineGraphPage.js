@@ -18,24 +18,12 @@ const TabContainer = styled.div`
   margin: 0 auto;
 `;
 
-// if displayStreams and lineColors exist, select these colors for the linegraph
-// otherwise, just place all line colors into a graph
-const findGraphColors = (colors, streams) => {
-    let graphColors = [];
-    let index = 0;
-    colors.forEach(stream => {
-        if (streams.includes(index++)) {
-            graphColors.push(stream);
-        }
-    });
-    return graphColors;
-}
-
 // fetching: do in the containers
 // connection: as deep as i can.
 
 const LineGraphPage = ({
     graphResource,
+    metricResource,
     pageTitle,
     pageSubtitle,
     graphTitle,
@@ -63,7 +51,7 @@ const LineGraphPage = ({
             <FlexedFacts
                 displayFacts={facts}
                 legendTitle={legendTitle}
-                resources={graphResource}
+                resources={metricResource ? metricResource : graphResource}
             />
             <FormattedLineGraph
                 resources={graphResource}
@@ -83,7 +71,7 @@ LineGraphPage.defaultProps = {
 
 LineGraphPage.propTypes = {
     graphResource: PropTypes.object.isRequired,
-    metricResources: PropTypes.object,
+    metricResource: PropTypes.object,
     facts: PropTypes.array.isRequired,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
