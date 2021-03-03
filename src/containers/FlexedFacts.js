@@ -10,6 +10,7 @@ import BIcon from '../components/BeanUILibrary/BIcon';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {findColors} from '../utility/ColorUtility';
+import {socketResourceCheck} from '../utility/ResourceSocketUtility';
 
 // to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`
@@ -168,10 +169,7 @@ const FlexedFacts = ({
     // if the resource is in use, do not call useSocket, otherwise it will double-capture packets and starve
     // the graphing component
     // IS DOUBLE CALLED IF GRAPH RESOURCE AND FACT RESOURCE ARE THE SAME
-    if (!resources.inUse) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useSocket(resources.apiSource, resources.packetPusher)
-    }
+    socketResourceCheck(resources);
 
     // find out whether or not metrics should have an icon
     // those that are graphed should have a line, add to display streams for

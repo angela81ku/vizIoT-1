@@ -7,6 +7,7 @@ import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { connect } from 'react-redux';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {findColors} from '../utility/ColorUtility';
+import {socketResourceCheck} from "../utility/ResourceSocketUtility";
 
 const Title = styled.div`
   ${H2}
@@ -25,7 +26,7 @@ const FormattedLineGraph = ({
 }) => {
 
     // collect data with given resources
-    useSocket(resources.apiSource, resources.packetPusher);
+    socketResourceCheck(resources);
 
     let colors = []
     // check to see if graph colors is defined
