@@ -17,10 +17,13 @@ export const ProtocolTab = ({}) => {
     const facts = [tcpFact, udpFact, httpFact, dnsFact]
 
     const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
+    resources.inUse = true;
 
     return (
         <LineGraphPage
             graphResource={resources}
+            graphSocketOverride={true}
+            //metricSocketOverride={false}
             facts={facts}
             pageTitle={'Protocol Traffic'}
             pageSubtitle={'View network protocol traffic in real time' }

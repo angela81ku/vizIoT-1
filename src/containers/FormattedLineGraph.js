@@ -7,7 +7,7 @@ import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import { connect } from 'react-redux';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {findColors} from '../utility/ColorUtility';
-import {socketResourceCheck} from "../utility/ResourceSocketUtility";
+import {socketResourceCheck} from '../utility/ResourceSocketUtility';
 
 const Title = styled.div`
   ${H2}
@@ -17,6 +17,7 @@ const Title = styled.div`
 
 const FormattedLineGraph = ({
     resources,
+    socketOverride,
     graphTitle,
     chartTitle,
     chartSubtitle,
@@ -26,7 +27,7 @@ const FormattedLineGraph = ({
 }) => {
 
     // collect data with given resources
-    socketResourceCheck(resources);
+    socketResourceCheck(resources, socketOverride);
 
     let colors = []
     // check to see if graph colors is defined
@@ -82,6 +83,7 @@ const FormattedLineGraph = ({
 FormattedLineGraph.propTypes = {
     liveLineChartConfig: PropTypes.object.isRequired,
     resources: PropTypes.object.isRequired,
+    socketOverride: PropTypes.bool,
     lineData: PropTypes.array.isRequired,
     graphColors: PropTypes.array.isRequired,
     graphTitle: PropTypes.string,

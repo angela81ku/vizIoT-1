@@ -161,6 +161,7 @@ const getDataWellHead = (icon, iconType, color) => {
 
 const FlexedFacts = ({
     resources,
+    socketOverride,
     legendTitle,
     displayFacts,
     streamData
@@ -169,7 +170,7 @@ const FlexedFacts = ({
     // if the resource is in use, do not call useSocket, otherwise it will double-capture packets and starve
     // the graphing component
     // IS DOUBLE CALLED IF GRAPH RESOURCE AND FACT RESOURCE ARE THE SAME
-    socketResourceCheck(resources);
+    socketResourceCheck(resources, socketOverride);
 
     // find out whether or not metrics should have an icon
     // those that are graphed should have a line, add to display streams for
@@ -209,6 +210,7 @@ const FlexedFacts = ({
 
 FlexedFacts.propTypes = {
     resources: PropTypes.object.isRequired,
+    socketOverride: PropTypes.bool,
     legendTitle: PropTypes.string,
     displayFacts: PropTypes.array.isRequired,
     streamData: PropTypes.array,

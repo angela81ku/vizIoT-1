@@ -23,7 +23,9 @@ const TabContainer = styled.div`
 
 const LineGraphPage = ({
     graphResource,
+    graphSocketOverride,
     metricResource,
+    metricSocketOverride,
     pageTitle,
     pageSubtitle,
     graphTitle,
@@ -46,16 +48,14 @@ const LineGraphPage = ({
     }
 
     // if facts are defined, render the facts
-    const factRenderer = (facts, legendTitle, metricResource, graphResource) => {
+    const factRenderer = (facts, legendTitle, metricResource, graphResource, metricSocketOverride) => {
         if (facts) {
-            if (!metricResource) {
-                graphResource.inUse = true;
-            }
             return (
                 <FlexedFacts
                     displayFacts={facts}
                     legendTitle={legendTitle}
                     resources={metricResource ? metricResource : graphResource}
+                    socketOverride={metricSocketOverride}
                 />
             )
         }
@@ -67,9 +67,10 @@ const LineGraphPage = ({
             <SectionSubtitle text={pageSubtitle} margins={true}/>
             <div className="small-spacer" />
 
-            {factRenderer(facts, legendTitle, metricResource, graphResource)}
+            {factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             <FormattedLineGraph
                 resources={graphResource}
+                socketOverride={graphSocketOverride}
                 graphTitle={graphTitle}
                 chartTitle={chartTitle}
                 chartSubtitle={chartSubtitle}
@@ -84,9 +85,13 @@ LineGraphPage.defaultProps = {
     networkId: 42,
 };
 
+// set graph socket override to make sure resource passed to graph is implemented/not implemented
+// use metric Socket override to make sure resource passed to is implemented/not implemented
 LineGraphPage.propTypes = {
     graphResource: PropTypes.object.isRequired,
+    graphSocketOverride: PropTypes.bool,
     metricResource: PropTypes.object,
+    metricSocketOverride: PropTypes.bool,
     facts: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
