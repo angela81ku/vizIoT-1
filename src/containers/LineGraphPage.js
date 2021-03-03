@@ -34,13 +34,29 @@ const LineGraphPage = ({
 }) => {
 
     // use facts to populate colors
-
+    // if isGraphed == true, include color
+    // if no color provided, do not add
     let graphColors = [];
-    facts.forEach(fact => {
-        if (fact.isGraphed) {
-            graphColors.push(fact.color);
+    if (facts) {
+        facts.forEach(fact => {
+            if (fact.isGraphed === true && fact.color) {
+                graphColors.push(fact.color);
+            }
+        })
+    }
+
+    // if facts are defined, render the facts
+    const factRenderer = (facts, legendTitle, metricResource, graphResource) => {
+        if (facts) {
+            return (
+                <FlexedFacts
+                    displayFacts={facts}
+                    legendTitle={legendTitle}
+                    resources={metricResource ? metricResource : graphResource}
+                />
+            )
         }
-    })
+    }
 
     return (
         <TabContainer>
@@ -48,11 +64,7 @@ const LineGraphPage = ({
             <SectionSubtitle text={pageSubtitle} margins={true}/>
             <div className="small-spacer" />
 
-            <FlexedFacts
-                displayFacts={facts}
-                legendTitle={legendTitle}
-                resources={metricResource ? metricResource : graphResource}
-            />
+            {factRenderer(facts, legendTitle, metricResource, graphResource)}
             <FormattedLineGraph
                 resources={graphResource}
                 graphTitle={graphTitle}
@@ -72,7 +84,7 @@ LineGraphPage.defaultProps = {
 LineGraphPage.propTypes = {
     graphResource: PropTypes.object.isRequired,
     metricResource: PropTypes.object,
-    facts: PropTypes.array.isRequired,
+    facts: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
     graphTitle: PropTypes.string,

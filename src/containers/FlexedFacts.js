@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import BIcon from '../components/BeanUILibrary/BIcon';
 import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
-import {findColors} from "../utility/ColorUtility";
+import {findColors} from '../utility/ColorUtility';
 
 // to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`

@@ -3,39 +3,20 @@ import { pushRealTimeIOTraffic, pushRealTimeIOMetricTraffic } from '../actions/p
 import { selectRealTimeIOTraffic, selectRealTimeIOMetricTraffic } from '../selectors/packetSelector';
 import { IOCount, IOMetric } from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
+import {factFactory} from '../Factories/FactFactory';
+import {resourceFactory} from '../Factories/ResourceFactory';
 
 
 export const IOTab = ({}) => {
 
-    const facts = [
-        {
-            title: 'Total',
-            color: 'white',
-            isGraphed: false,
-        },
-        {
-            title: 'Received',
-            color: '#03cbac',
-            isGraphed: true,
-        },
-        {
-            title: 'Sent',
-            color: '#d9b409',
-            isGraphed: true,
-        }
-    ]
+    const totalFact = factFactory('Total', 'white', false);
+    const receivedFact = factFactory('Received', '#03cbac', true);
+    const sentFact = factFactory('Sent', '#d9b409', true);
 
-    const resources = {
-        apiSource: IOCount,
-        packetSelector: selectRealTimeIOTraffic,
-        packetPusher: pushRealTimeIOTraffic,
-    }
+    const facts = [totalFact, receivedFact, sentFact]
 
-    const metricResources = {
-        apiSource: IOMetric,
-        packetSelector: selectRealTimeIOMetricTraffic,
-        packetPusher: pushRealTimeIOMetricTraffic,
-    }
+    const resources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
+    const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
 
     return (
         <LineGraphPage

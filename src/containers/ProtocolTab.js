@@ -3,58 +3,20 @@ import {pushRealTimeProtocolTraffic} from '../actions/packetActions';
 import {selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
 import {ProtocolCount} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
+import {resourceFactory} from '../Factories/ResourceFactory';
+import {factFactory} from '../Factories/FactFactory';
 
 
 export const ProtocolTab = ({}) => {
 
-    const facts = [
-        {
-            title: 'TCP',
-            color: 'white',
-            isGraphed: true,
-        },
-        {
-            title: 'UDP',
-            color: '#03cbac',
-            isGraphed: true,
-        },
-        {
-            title: 'HTTP',
-            color: '#d9b409',
-            isGraphed: true,
-        },
-        {
-            title: 'DNS',
-            color: 'red',
-            isGraphed: true,
-        },
-        {
-            title: 'TCP',
-            color: 'white',
-            isGraphed: true,
-        },
-        {
-            title: 'UDP',
-            color: '#03cbac',
-            isGraphed: true,
-        },
-        {
-            title: 'HTTP',
-            color: '#d9b409',
-            isGraphed: true,
-        },
-        {
-            title: 'DNS',
-            color: 'red',
-            isGraphed: true,
-        }
-    ]
+    const tcpFact = factFactory('TCP', 'white', true);
+    const udpFact = factFactory('UDP', '#03cbac', true);
+    const httpFact = factFactory('HTTP', '#d9b409', true);
+    const dnsFact = factFactory('DNS', 'red', true);
 
-    const resources = {
-        apiSource: ProtocolCount,
-        packetSelector: selectRealTimeProtocolTraffic,
-        packetPusher: pushRealTimeProtocolTraffic,
-    }
+    const facts = [tcpFact, udpFact, httpFact, dnsFact]
+
+    const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
 
     return (
         <LineGraphPage

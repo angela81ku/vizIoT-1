@@ -36,12 +36,13 @@ const FormattedLineGraph = ({
             // find out if there is a size attribute
             if (lineData[0].size) {
                 // check to see if size is an array
-                if (!lineData[0].size.length) {
+                if (lineData[0].size.length) {
                     // find colors for each stream provided
                     colors = findColors(lineData[0].size.length)
                 } else {
                     // otherwise, is numeric, find single color
                     colors = findColors(1);
+                    console.log('finding single...')
                 }
             } else {
                 throw new Error('size attribute does not exist on provided data as number or array: ' + lineData)
