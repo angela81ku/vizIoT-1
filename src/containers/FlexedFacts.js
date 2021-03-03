@@ -165,7 +165,13 @@ const FlexedFacts = ({
     streamData
 }) => {
 
-    useSocket(resources.apiSource, resources.packetPusher)
+    // if the resource is in use, do not call useSocket, otherwise it will double-capture packets and starve
+    // the graphing component
+    // IS DOUBLE CALLED IF GRAPH RESOURCE AND FACT RESOURCE ARE THE SAME
+    if (!resources.inUse) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useSocket(resources.apiSource, resources.packetPusher)
+    }
 
     // find out whether or not metrics should have an icon
     // those that are graphed should have a line, add to display streams for

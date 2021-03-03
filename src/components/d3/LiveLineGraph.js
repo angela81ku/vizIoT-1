@@ -297,6 +297,8 @@ class LiveLineGraph extends Component {
           _graphData.push(graphData[j][i]);
         }
 
+        console.log(_graphData)
+
         // draw line
         const attr = '.line' + i;
         LiveLineGraph.redrawLine(

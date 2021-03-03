@@ -13,6 +13,7 @@ export const resourceFactory = (apiSource, packetSelector, packetPusher) => {
     return {
         apiSource,
         packetSelector,
-        packetPusher
+        packetPusher,
+        inUse: false,
     }
 }

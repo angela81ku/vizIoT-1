@@ -48,6 +48,9 @@ const LineGraphPage = ({
     // if facts are defined, render the facts
     const factRenderer = (facts, legendTitle, metricResource, graphResource) => {
         if (facts) {
+            if (!metricResource) {
+                graphResource.inUse = true;
+            }
             return (
                 <FlexedFacts
                     displayFacts={facts}
