@@ -66,7 +66,7 @@ const FormattedLineGraph = ({
     }
 
     return (
-        <div style={{width:'inherit', height:'100%'}}>
+        <div style={{width:'100%', height:'100%'}}>
             <Title>{graphTitle}</Title>
             <ConnectedLineChart
                 className="main-chart"
