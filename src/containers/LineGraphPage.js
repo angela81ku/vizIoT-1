@@ -21,34 +21,17 @@ const TabContainer = styled.div`
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const LineGraphPage = ({
-    graphResource,
-    graphSocketOverride,
-    metricResource,
-    metricSocketOverride,
-    pageTitle,
-    pageSubtitle,
-    graphTitle,
-    chartTitle,
-    chartSubtitle,
-    legendTitle,
-    facts,
-}) => {
+class LineGraphPage extends React.Component {
 
-    // use facts to populate colors
-    // if isGraphed == true, include color
-    // if no color provided, do not add
-    let graphColors = [];
-    if (facts) {
-        facts.forEach(fact => {
-            if (fact.isGraphed === true && fact.color) {
-                graphColors.push(fact.color);
-            }
-        })
-    }
+
+
+    // componentDidMount()
+
+
+
 
     // if facts are defined, render the facts
-    const factRenderer = (facts, legendTitle, metricResource, graphResource, metricSocketOverride) => {
+    factRenderer = (facts, legendTitle, metricResource, graphResource, metricSocketOverride) => {
         if (facts) {
             return (
                 <FlexedFacts
@@ -61,13 +44,38 @@ const LineGraphPage = ({
         }
     }
 
-    return (
-        <TabContainer>
+    render () {
+
+        const graphResource = this.props.graphResource;
+        const graphSocketOverride = this.props.graphSocketOverride;
+        const metricResource = this.props.metricResource;
+        const metricSocketOverride = this.props.metricSocketOverride;
+        const pageTitle = this.props.pageTitle;
+        const pageSubtitle = this.props.pageSubtitle;
+        const graphTitle = this.props.graphTitle;
+        const chartTitle = this.props.chartTitle;
+        const chartSubtitle = this.props.chartSubtitle;
+        const legendTitle = this.props.legendTitle;
+        const facts = this.props.facts;
+
+        // use facts to populate colors
+        // if isGraphed == true, include color
+        // if no color provided, do not add
+        let graphColors = [];
+        if (facts) {
+            facts.forEach(fact => {
+                if (fact.isGraphed === true && fact.color) {
+                    graphColors.push(fact.color);
+                }
+            })
+        }
+
+        return <TabContainer>
             <SectionTitle title={pageTitle} size="lg" cardPadding={false}/>
             <SectionSubtitle text={pageSubtitle} margins={true}/>
-            <div className="small-spacer" />
+            <div className="small-spacer"/>
 
-            {factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
+            {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             <FormattedLineGraph
                 resources={graphResource}
                 socketOverride={graphSocketOverride}
@@ -76,9 +84,10 @@ const LineGraphPage = ({
                 chartSubtitle={chartSubtitle}
                 graphColors={graphColors}
             />
-            <div className="xl-spacer" />
+            <div className="xl-spacer"/>
         </TabContainer>
-    );
+
+    }
 };
 
 LineGraphPage.defaultProps = {
