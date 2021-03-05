@@ -23,12 +23,18 @@ const TabContainer = styled.div`
 
 class LineGraphPage extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            metricWidth: undefined
+        }
+    }
 
-
-    // componentDidMount()
-
-
-
+    componentDidMount() {
+        const metricWidth = document.getElementById('metric-container').clientWidth;
+        console.log(metricWidth)
+        this.setState({ metricWidth });
+    }
 
     // if facts are defined, render the facts
     factRenderer = (facts, legendTitle, metricResource, graphResource, metricSocketOverride) => {
