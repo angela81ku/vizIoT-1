@@ -40,6 +40,10 @@ const MetricContainer = styled.div`
   width: 100%;
 `
 
+const StyledFlex = styled(Flex)`
+  
+`
+
 const WellTitle = styled.div`
   font-size: 2.1rem;
   margin-bottom: 5px;
@@ -106,19 +110,21 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
     }
 
     return (
-        <Flex>
-            {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
-                return (
-                    <StyledMetric key={title}>
-                        <StyledDataWell>
-                            {getDataWellHead(icon, iconType, color)}
-                            <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
-                            <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
-                        </StyledDataWell>
-                    </StyledMetric>
-                );
-            })}
-        </Flex>
+        <div id={'fact-flex'}>
+            <Flex>
+                {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
+                    return (
+                        <StyledMetric key={title}>
+                            <StyledDataWell>
+                                {getDataWellHead(icon, iconType, color)}
+                                <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
+                                <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
+                            </StyledDataWell>
+                        </StyledMetric>
+                    );
+                })}
+            </Flex>
+        </div>
     )
 
 }

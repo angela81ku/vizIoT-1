@@ -31,8 +31,10 @@ class LineGraphPage extends React.Component {
     }
 
     componentDidMount() {
-        const metricWidth = document.getElementById('metric-container').clientWidth;
-        console.log(metricWidth)
+        const metricMult = 1.25;
+        let metricWidth = document.getElementById('fact-flex').clientWidth;
+        metricWidth *= metricMult;
+        console.log(metricWidth);
         this.setState({ metricWidth });
     }
 
@@ -50,6 +52,23 @@ class LineGraphPage extends React.Component {
         }
     }
 
+    lineGraphRenderer = (graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth) => {
+        if (metricWidth) {
+            return (
+                <div style={{width:metricWidth}}>
+                    <FormattedLineGraph
+                        resources={graphResource}
+                        socketOverride={graphSocketOverride}
+                        graphTitle={graphTitle}
+                        chartTitle={chartTitle}
+                        chartSubtitle={chartSubtitle}
+                        graphColors={graphColors}
+                    />
+                </div>
+            )
+        }
+    }
+
     render () {
 
         const graphResource = this.props.graphResource;
@@ -63,6 +82,7 @@ class LineGraphPage extends React.Component {
         const chartSubtitle = this.props.chartSubtitle;
         const legendTitle = this.props.legendTitle;
         const facts = this.props.facts;
+        const metricWidth = this.state.metricWidth;
 
         // use facts to populate colors
         // if isGraphed == true, include color
@@ -82,14 +102,7 @@ class LineGraphPage extends React.Component {
             <div className="small-spacer"/>
 
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
-            <FormattedLineGraph
-                resources={graphResource}
-                socketOverride={graphSocketOverride}
-                graphTitle={graphTitle}
-                chartTitle={chartTitle}
-                chartSubtitle={chartSubtitle}
-                graphColors={graphColors}
-            />
+            {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             <div className="xl-spacer"/>
         </TabContainer>
 
