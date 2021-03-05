@@ -30,12 +30,22 @@ class LineGraphPage extends React.Component {
         }
     }
 
-    componentDidMount() {
+    setGraphWidth() {
         const metricMult = 1.25;
         let metricWidth = document.getElementById('fact-flex').clientWidth;
+        console.log(metricWidth)
         metricWidth *= metricMult;
         console.log(metricWidth);
         this.setState({ metricWidth });
+    }
+
+    componentDidMount() {
+        this.setGraphWidth()
+        window.addEventListener('resize', this.setGraphWidth.bind(this))
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setGraphWidth.bind(this))
     }
 
     // if facts are defined, render the facts
