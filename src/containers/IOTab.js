@@ -15,13 +15,16 @@ export const IOTab = ({}) => {
 
     const facts = [totalFact, receivedFact, sentFact]
 
-    const resources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
+    const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
 
+    // TODO: Debug overrides -- without specifying overrides, sockets are being called twice after ~6 packet collections
     return (
         <LineGraphPage
-            graphResource={resources}
+            graphResource={graphResources}
+            graphSocketOverride={true}
             metricResource={metricResources}
+            metricSocketOverride={true}
             facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }

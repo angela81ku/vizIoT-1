@@ -23,7 +23,6 @@ export const ProtocolTab = ({}) => {
         <LineGraphPage
             graphResource={resources}
             graphSocketOverride={true}
-            //metricSocketOverride={false}
             facts={facts}
             pageTitle={'Protocol Traffic'}
             pageSubtitle={'View network protocol traffic in real time' }
