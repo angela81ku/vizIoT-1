@@ -26,26 +26,60 @@ class LineGraphPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            metricWidth: undefined
+            metricWidth: undefined,
+            metricRect: undefined,
+            graphRect: undefined
         }
     }
 
     setGraphWidth() {
+        const factFlex = document.getElementById('fact-flex');
         const metricMult = 1.25;
-        let metricWidth = document.getElementById('fact-flex').clientWidth;
-        console.log(metricWidth)
-        metricWidth *= metricMult;
-        console.log(metricWidth);
+        const metricW = factFlex.clientWidth;
+        const metricWidth = metricW * metricMult;
         this.setState({ metricWidth });
+    }
+
+    setRects() {
+        // get bounds of metric container (if it exists yet)
+        let metricRect = undefined;
+        const metricContainer = document.getElementById('fact-flex')
+        if (metricContainer) {
+            metricRect = metricContainer.getBoundingClientRect();
+        }
+
+        // get bounds of graph container (if it exists yet)
+        let graphRect = undefined;
+        const graphContainer = document.getElementById('graph-container');
+        if (graphContainer) {
+            graphRect = graphContainer.getBoundingClientRect();
+        }
+
+        this.setState({metricRect, graphRect})
     }
 
     componentDidMount() {
         this.setGraphWidth()
         window.addEventListener('resize', this.setGraphWidth.bind(this))
+        window.addEventListener('resize', this.setRects.bind(this))
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        // get current values from state
+        const metricRect = this.state.metricRect;
+        const graphRect = this.state.graphRect;
+
+        // if either component is null, call setRects, which calls setState
+        // prevents infinite render-loop
+        if (metricRect === undefined || graphRect === undefined) {
+            this.setRects();
+        }
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.setGraphWidth.bind(this))
+        window.removeEventListener('resize', this.setRects.bind(this))
     }
 
     // if facts are defined, render the facts
@@ -65,7 +99,7 @@ class LineGraphPage extends React.Component {
     lineGraphRenderer = (graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth) => {
         if (metricWidth) {
             return (
-                <div style={{width:metricWidth}}>
+                <div style={{width: metricWidth}} id={'graph-container'}>
                     <FormattedLineGraph
                         resources={graphResource}
                         socketOverride={graphSocketOverride}
@@ -79,8 +113,42 @@ class LineGraphPage extends React.Component {
         }
     }
 
+    metricGraphLineRenderer = (metricRect, graphRect) => {
+        if (metricRect && graphRect) {
+            console.log(metricRect);
+            console.log(graphRect);
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            // vertical line near metrics
+            const metricx1 = metricRect.right;
+            const metricy1 = metricRect.top;
+            const metricx2 = metricx1;
+            const metricy2 = metricRect.bottom;
+
+            // horizontal line
+            const horizontalx1 = metricx1;
+            const horizontaly1 = (metricRect.top + metricRect.bottom) / 2.0;
+            const horiztonalx2 = graphRect.right;
+            const horizontaly2 = horizontaly1;
+
+            //vertical line near graph
+            const graphx1 = horiztonalx2;
+            const graphy1 = horizontaly1;
+            const graphx2 = graphx1;
+            const graphy2 = graphRect.bottom - 20;
+
+            return <svg width={windowWidth} height={windowHeight} style={{top:'0', left:'0', position:'absolute'}}>
+                <line stroke-width="2px" stroke="#ffffff"  x1={metricx1} y1={metricy1} x2={metricx2} y2={metricy2} id="metric-vert"/>
+                <line stroke-width="2px" stroke="#ffffff"  x1={horizontalx1} y1={horizontaly1} x2={horiztonalx2} y2={horizontaly2} id="metric-horiz"/>
+                <line stroke-width="2px" stroke="#ffffff"  x1={graphx1} y1={graphy1} x2={graphx2} y2={graphy2} id="graph-vert"/>
+            </svg>
+        }
+
+    }
+
     render () {
 
+        // prop vals
         const graphResource = this.props.graphResource;
         const graphSocketOverride = this.props.graphSocketOverride;
         const metricResource = this.props.metricResource;
@@ -92,7 +160,11 @@ class LineGraphPage extends React.Component {
         const chartSubtitle = this.props.chartSubtitle;
         const legendTitle = this.props.legendTitle;
         const facts = this.props.facts;
+
+        // state vals
         const metricWidth = this.state.metricWidth;
+        const metricRect = this.state.metricRect;
+        const graphRect = this.state.graphRect;
 
         // use facts to populate colors
         // if isGraphed == true, include color
@@ -113,6 +185,7 @@ class LineGraphPage extends React.Component {
 
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
+            {this.metricGraphLineRenderer(metricRect, graphRect)}
             <div className="xl-spacer"/>
         </TabContainer>
 

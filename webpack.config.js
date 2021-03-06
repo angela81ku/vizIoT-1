@@ -20,12 +20,17 @@
 //     }, {
 //       test: /\.s?css$/,
 //       use: [
-//         "style-loader",
+//         'style-loader',
 //         "css-loader",
 //         "sass-loader",
-//         "postcss-loader"
+//         "postcss-loader",
+//         ""
 //       ]
 //     }]
+//   },
+//
+//   externals: {
+//     "react-native": true,
 //   },
 //
 //   // converts babel source to react source in browser to debug
@@ -37,3 +42,5 @@
 //     historyApiFallback: true
 //   }
 // };
+//
+//
