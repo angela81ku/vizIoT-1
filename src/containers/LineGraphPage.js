@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
 
 // my imports
@@ -18,9 +18,22 @@ const TabContainer = styled.div`
   margin: 0 auto;
 `;
 
+const fade = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+
+
 const StyledLineRenderer = styled.div`
-    
+  animation: ${fade} 2.25s;
 `
+
+
 
 // fetching: do in the containers
 // connection: as deep as i can.
@@ -127,7 +140,7 @@ class LineGraphPage extends React.Component {
     }
 
     metricGraphLineRenderer = (metricRect, graphRect, color) => {
-        if (metricRect && graphRect) {
+        if (metricRect && graphRect && graphRect.height > 100) {
             // console.log(metricRect);
             // console.log(graphRect);
             const windowWidth = window.innerWidth;
