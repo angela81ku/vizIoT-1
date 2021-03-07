@@ -78,8 +78,22 @@ class LineGraphPage extends React.Component {
         this.setState({graphRect})
     }
 
+    unsetGraphRect() {
+        this.setState({
+            graphRect: undefined,
+        })
+    }
+
+    unsetMetricRect() {
+        this.setState({
+            metricRect: undefined,
+        })
+    }
+
     componentDidMount() {
         this.setGraphWidth();
+        this.setMetricRect();
+        this.setGraphRect();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -96,6 +110,11 @@ class LineGraphPage extends React.Component {
         if (graphRect === undefined) {
             this.setGraphRect();
         }
+    }
+
+    componentWillUnmount() {
+        this.unsetMetricRect();
+        this.unsetGraphRect();
     }
 
     // if facts are defined, render the facts
