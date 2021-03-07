@@ -11,6 +11,16 @@ import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from '../components/SectionTitle';
 import FlexedFacts from './FlexedFacts';
 import FormattedLineGraph from './FormattedLineGraph';
+import Flex, {FlexDirection, JustifyContent} from "../components/BeanUILibrary/Flex";
+import FlexSize from '../components/BeanUILibrary/FlexSize';
+import {H2, H4} from "../components/BeanUILibrary/functional-css/TypographyStyles";
+import {selectThreeDevices} from "../selectors/deviceSelectors";
+import {selectDeviceToLiveSamples} from "../selectors/packetSelector";
+import {selectSingleDeviceChartConfig} from "../selectors/chartSelectors";
+import DeviceCollection from "../components/device/DeviceCollection";
+import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
+import {fetchDevices} from "../actionsRequest/deviceRequest";
+import DeviceContainer from "./IndividualDeviceContainer";
 
 const TabContainer = styled.div`
   padding: 0 11.8rem;
@@ -28,12 +38,9 @@ const fade = keyframes`
   }
 `;
 
-
 const StyledLineRenderer = styled.div`
   animation: ${fade} 2.25s;
 `
-
-
 
 // fetching: do in the containers
 // connection: as deep as i can.
@@ -225,6 +232,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
+            <DeviceContainer/>
             <div className="xl-spacer"/>
         </TabContainer>
 

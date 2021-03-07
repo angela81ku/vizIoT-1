@@ -114,7 +114,7 @@ const DeviceCard = ({
   onHover,
   onLeaveHover,
   active,
-  device: { id, name, category, macAddress },
+  device: { name, category, macAddress },
   velocity,
   total,
   dataIn,

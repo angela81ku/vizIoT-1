@@ -5,6 +5,7 @@ import { headers, baseUrlApi } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
 import ApiRecord from './Api';
 import { createMockCall } from 'VizIoT/utility/ApiUtility';
+import {addDevice} from "./DeviceAggregator";
 
 export const fetchDevices = new ApiRecord({
   call: ({ networkId }) => {
@@ -35,3 +36,12 @@ export const fetchDevices = new ApiRecord({
   },
   paramParser: p => new Record({ networkId: null })(p),
 });
+
+export async function fetchDevicesNormalized() {
+  const url = `${baseUrlApi}/device/top3`;
+  const res =  await axios.get(url, { headers })
+  const devices = res.data.devices;
+  devices.forEach(d => {
+    addDevice(d);
+  })
+}
