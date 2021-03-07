@@ -80,10 +80,6 @@ class LineGraphPage extends React.Component {
 
     componentDidMount() {
         this.setGraphWidth();
-
-        window.addEventListener('resize', this.setGraphWidth.bind(this))
-        window.addEventListener('resize', this.setMetricRect.bind(this))
-        window.addEventListener('resize', this.setGraphRect.bind(this))
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,12 +96,6 @@ class LineGraphPage extends React.Component {
         if (graphRect === undefined) {
             this.setGraphRect();
         }
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setGraphWidth.bind(this))
-        window.removeEventListener('resize', this.setMetricRect.bind(this))
-        window.removeEventListener('resize', this.setGraphRect.bind(this))
     }
 
     // if facts are defined, render the facts
@@ -146,25 +136,25 @@ class LineGraphPage extends React.Component {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             // vertical line near metrics
-            const metricx1 = metricRect.right;
-            const metricy1 = metricRect.top;
+            const metricx1 = metricRect.width;
+            const metricy1 = 0;
             const metricx2 = metricx1;
-            const metricy2 = metricRect.bottom;
+            const metricy2 = metricRect.height;
 
             // horizontal line
             const horizontalx1 = metricx1;
-            const horizontaly1 = (metricRect.top + metricRect.bottom) / 2.0;
-            const horiztonalx2 = graphRect.right;
+            const horizontaly1 = metricRect.height / 2.0;
+            const horiztonalx2 = graphRect.width;
             const horizontaly2 = horizontaly1;
 
             //vertical line near graph
             const graphx1 = horiztonalx2;
             const graphy1 = horizontaly1;
             const graphx2 = graphx1;
-            const graphy2 = graphRect.bottom - 20;
+            const graphy2 = graphRect.height + metricy2 - 10;
 
             return <StyledLineRenderer>
-                <svg width={windowWidth} height={windowHeight} style={{top:'0', left:'0', position:'absolute'}}>
+                <svg width={windowWidth} height={windowHeight} style={{top:metricRect.top, left:metricRect.left, position:'absolute'}}>
                     <line strokeWidth="2px" stroke={color} x1={metricx1} y1={metricy1} x2={metricx2} y2={metricy2} id="metric-vert"/>
                     <line strokeWidth="2px" stroke={color} x1={horizontalx1} y1={horizontaly1} x2={horiztonalx2} y2={horizontaly2} id="metric-horiz"/>
                     <line strokeWidth="2px" stroke={color} x1={graphx1} y1={graphy1} x2={graphx2} y2={graphy2} id="graph-vert"/>
