@@ -89,7 +89,12 @@ class RollingXAxis extends Component {
       if (seconds === 0) {
         return 0;
       } else {
-        return this.props.dataWindowSize - d.getSeconds();
+        const res = this.props.dataWindowSize - d.getSeconds();
+        if (res < 0) {
+          return res + this.props.dataWindowSize;
+        } else {
+          return res;
+        }
       }
     }
 
