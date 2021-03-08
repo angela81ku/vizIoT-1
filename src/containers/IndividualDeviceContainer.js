@@ -35,19 +35,24 @@ const DeviceContainer = (
 
   useTimedFetcher(fetchDevicesNormalized, 1000)
 
-  return <div><Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
-      <FlexSize size={{ lg: 3 }}>
-        <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
-        <RecentDevices>Most activity within the last 30 seconds</RecentDevices>
-      </FlexSize>
-    </Flex>
-    <Flex>
-      <FlexSize size={{ lg: 9 }}>
-        <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-          <DeviceCollectionNormalized mode={'CARD'} dataCollector={getDevices} chartConfig={chartConfig}/>
-        </Flex>
-      </FlexSize>
-    </Flex>
+  return <div style={{display:'grid', gridColumn:1}} className={'grid-container'}>
+    <div className={'grid-item'}>
+      <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
+        <FlexSize size={{ lg: 3 }}>
+          <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
+          <RecentDevices>Most activity within the last 30 seconds</RecentDevices>
+        </FlexSize>
+      </Flex>
+    </div>
+    <div className={'grid-item'}>
+      <Flex>
+        <FlexSize size={{ lg: 9 }}>
+          <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
+            <DeviceCollectionNormalized mode={'CARD'} dataCollector={getDevices} chartConfig={chartConfig}/>
+          </Flex>
+        </FlexSize>
+      </Flex>
+    </div>
   </div>
 }
 

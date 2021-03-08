@@ -228,8 +228,12 @@ class LiveLineGraph extends Component {
     // console.log(graphData);
     let dataMax = 0;
     graphData.forEach(second => {
-      const secondMax = max(second.map(d => d.yData));
-      dataMax = Math.max(secondMax, dataMax);
+      if (second.length) {
+        const secondMax = max(second.map(d => d.yData));
+        dataMax = Math.max(secondMax, dataMax);
+      } else {
+        dataMax = Math.max(second.yData, dataMax);
+      }
     })
     // const dataMax = max(maxVal, 1) //max(graphData.map(d => d.yData)) || 1;
 
@@ -274,34 +278,35 @@ class LiveLineGraph extends Component {
 
       // make sure there are attributes for each flow to be drawn to the screen
       // this will re-write names for 'line$#' html attr
-      const flows = graphData[graphData.length - 1].length;
-      if (this.state.flowLines !== flows && this.state.graphWrapper !== null) {
-        LiveLineGraph.assignGraphLines(this.state.graphWrapper, flows)
-        this.setState({
-          flowLines: flows
-        })
-      }
-
-      // iterate through all the different plot points
-      // graphData[0] = line1 (flow 1)
-      // graphData[1] = line2 (flow 2)
-      // graphData[2] = ...
-      for (let i = 0; i < graphData[0].length; ++i) {
-        // don't try to draw more lines than there are colors
-        if (i > this.state.lColors.length) {
-          break;
-        }
-        // store all data points for flow i
-        const _graphData = [];
-        for (let j = 0; j < graphData.length; ++j) {
-          _graphData.push(graphData[j][i]);
+      if (graphData[0].length) {
+        const flows = graphData[graphData.length - 1].length;
+        if (this.state.flowLines !== flows && this.state.graphWrapper !== null) {
+          LiveLineGraph.assignGraphLines(this.state.graphWrapper, flows)
+          this.setState({
+            flowLines: flows
+          })
         }
 
-        // console.log(_graphData)
+        // iterate through all the different plot points
+        // graphData[0] = line1 (flow 1)
+        // graphData[1] = line2 (flow 2)
+        // graphData[2] = ...
+        for (let i = 0; i < graphData[0].length; ++i) {
+          // don't try to draw more lines than there are colors
+          if (i > this.state.lColors.length) {
+            break;
+          }
+          // store all data points for flow i
+          const _graphData = [];
+          for (let j = 0; j < graphData.length; ++j) {
+            _graphData.push(graphData[j][i]);
+          }
 
-        // draw line
-        const attr = '.line' + i;
-        LiveLineGraph.redrawLine(
+          // console.log(_graphData)
+
+          // draw line
+          const attr = '.line' + i;
+          LiveLineGraph.redrawLine(
             g.select(attr),
             this.createLinePathData(x, y, _graphData),
             transitionDuration,
@@ -309,6 +314,23 @@ class LiveLineGraph extends Component {
             x,
             node,
             this.state.lColors[i],
+          );
+        }
+      } else {
+        LiveLineGraph.assignGraphLines(this.state.graphWrapper, 1)
+        this.setState({
+          flowLines: 1
+        })
+
+        const attr = '.line0';
+        LiveLineGraph.redrawLine(
+          g.select(attr),
+          this.createLinePathData(x, y, graphData),
+          transitionDuration,
+          transitionAmount,
+          x,
+          node,
+          this.state.lColors[0],
         );
       }
     }

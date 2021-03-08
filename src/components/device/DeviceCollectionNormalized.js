@@ -49,7 +49,7 @@ class DeviceCollectionNormalized extends Component {
     const { hoveredDevice } = this.state;
     const { devices, chartConfig } = this.props;
 
-    setTimeout(this.mockSet.bind(this), 1000)
+    setTimeout(this.mockSet.bind(this), 500)
 
     return (
       <Flex gutter={2} className="p-top-5">
@@ -71,6 +71,11 @@ class DeviceCollectionNormalized extends Component {
             });
           }
 
+          const graphDataNested = [graphData]
+
+          // console.log(graphData)
+          // console.log(chartConfig)
+
           return (
             <DeviceCardWrapper
               key={_id}
@@ -83,7 +88,7 @@ class DeviceCollectionNormalized extends Component {
                 active={hoveredDevice !== null && hoveredDevice !== _id}
                 device={deviceVals}
                 graphData={graphData}
-                chartConfig={chartConfig}
+                chartConfig={chartConfig.chartConfig}
               />
             </DeviceCardWrapper>
           );

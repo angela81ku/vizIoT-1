@@ -145,17 +145,19 @@ const DeviceCard = ({
             <DCategory className="p-bot-1">{category}</DCategory>
             <DName>{name || macAddress}</DName>
           </FlexChild>
-          <FlexChild>
-            <ConnectionsLabel className="m-top-2 m-bot-4">
-              <ConnectionsValue>{(velocity && formatBytes(velocity, 's')) || DEFAULT_VAL}</ConnectionsValue>
-            </ConnectionsLabel>
-            {/*<ConnectionDestination>*/}
-                {/*{'90.5% to '}*/}
-                {/*<ConnectionDestinationHost>*/}
-                  {/*{'google.com'}*/}
-                {/*</ConnectionDestinationHost>*/}
-            {/*</ConnectionDestination>*/}
-          </FlexChild>
+          {(velocity) => { if(velocity) {
+            return <FlexChild>
+              <ConnectionsLabel className="m-top-2 m-bot-4">
+                <ConnectionsValue>{(velocity && formatBytes(velocity, 's')) || DEFAULT_VAL}</ConnectionsValue>
+              </ConnectionsLabel>
+              {/*<ConnectionDestination>*/}
+              {/*{'90.5% to '}*/}
+              {/*<ConnectionDestinationHost>*/}
+              {/*{'google.com'}*/}
+              {/*</ConnectionDestinationHost>*/}
+              {/*</ConnectionDestination>*/}
+            </FlexChild>
+          }}}
           <FlexChild className="m-top-2">
             <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
               <DeviceDownloadMetrics size={{ xs: 4 }}>
