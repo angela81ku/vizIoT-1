@@ -11,7 +11,10 @@ export const addDevice = (device) => {
       macAddress: device.macAddress,
       name: device.name,
       category: device.category,
-      data: dataVals
+      data: dataVals,
+      inTraffic: device.in,
+      outTraffic: device.out,
+      totalTraffic: device.total,
     }
   }
   // otherwise append data to existing entry
@@ -26,7 +29,10 @@ export const addDevice = (device) => {
         macAddress: device.macAddress,
         name: device.name,
         category: device.category,
-        data: currData
+        data: currData,
+        inTraffic: device.in,
+        outTraffic: device.out,
+        totalTraffic: device.total,
       }
     }
   }

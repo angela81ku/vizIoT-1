@@ -55,7 +55,7 @@ class DeviceCollectionNormalized extends Component {
       <Flex gutter={2} className="p-top-5">
         {Object.keys(devices).map( key => {
           const deviceVals = devices[key];
-          const {_id, data} = deviceVals;
+          const {_id, data, inTraffic, outTraffic, totalTraffic } = deviceVals;
 
           let graphData = [];
           if (data && data.length) {
@@ -87,6 +87,9 @@ class DeviceCollectionNormalized extends Component {
                 onLeaveHover={this.onCardLeaveHover}
                 active={hoveredDevice !== null && hoveredDevice !== _id}
                 device={deviceVals}
+                dataIn={inTraffic}
+                dataOut={outTraffic}
+                total={totalTraffic}
                 graphData={graphData}
                 chartConfig={chartConfig.chartConfig}
               />

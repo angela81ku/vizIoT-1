@@ -145,7 +145,7 @@ const DeviceCard = ({
             <DCategory className="p-bot-1">{category}</DCategory>
             <DName>{name || macAddress}</DName>
           </FlexChild>
-          {(velocity) => { if(velocity) {
+          {(velocity) => { if(velocity || true) {
             return <FlexChild>
               <ConnectionsLabel className="m-top-2 m-bot-4">
                 <ConnectionsValue>{(velocity && formatBytes(velocity, 's')) || DEFAULT_VAL}</ConnectionsValue>
