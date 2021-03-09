@@ -10,7 +10,10 @@ import DeviceCard from 'VizIoT/components/device/DeviceCard';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {connect} from "react-redux";
-import chartConfig from "../../reducers/chartConfig";
+import { TopThree } from '../../socket/subscribe'
+import {parseTop3} from "../../data/api/packetApi";
+import {useSocket} from "../BeanUILibrary/hooks/useSocket";
+import {call} from "ramda";
 
 const DeviceCardWrapper = styled(FlexSize)`
   display: inline-flex;
@@ -47,15 +50,43 @@ class DeviceCollectionNormalized extends Component {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { devices, chartConfig } = this.props;
+    const { devices, packets, chartConfig } = this.props;
 
-    setTimeout(this.mockSet.bind(this), 500)
+    // console.log(devices)
+    // console.log(packets)
+
+    const aggregatedDevices = {};
+    Object.keys(devices).forEach(device => {
+      const deviceVals = devices[device];
+      const {_id, macAddress, name, category, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
+      if (packets.hasOwnProperty(macAddress)) {
+        const packetEntry = packets[macAddress]
+        const data = packetEntry.data;
+
+        aggregatedDevices[macAddress] = {
+          _id: _id,
+          macAddress: macAddress,
+          name: name,
+          category: category,
+          data: data,
+          inTraffic: inTraffic,
+          outTraffic: outTraffic,
+          totalTraffic: totalTraffic,
+          velocity: velocity,
+        }
+      }
+
+    })
+
+    // console.log(aggregatedDevices)
+
+    setTimeout(this.mockSet.bind(this), 1000)
 
     return (
       <Flex gutter={2} className="p-top-5">
-        {Object.keys(devices).map( key => {
-          const deviceVals = devices[key];
-          const {_id, data, inTraffic, outTraffic, totalTraffic } = deviceVals;
+        {Object.keys(aggregatedDevices).map( key => {
+          const deviceVals = aggregatedDevices[key];
+          const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
 
           let graphData = [];
           if (data && data.length) {
@@ -71,8 +102,6 @@ class DeviceCollectionNormalized extends Component {
             });
           }
 
-          console.log(totalTraffic)
-
           return (
             <DeviceCardWrapper
               key={_id}
@@ -87,6 +116,7 @@ class DeviceCollectionNormalized extends Component {
                 dataIn={inTraffic}
                 dataOut={outTraffic}
                 total={totalTraffic}
+                velocity={velocity}
                 graphData={graphData}
                 chartConfig={chartConfig.chartConfig}
               />
@@ -98,19 +128,24 @@ class DeviceCollectionNormalized extends Component {
     );
   }
 }
-
+1000
 DeviceCollectionNormalized.propTypes = {
-  dataCollector: PropTypes.func.isRequired,
+  deviceCollector: PropTypes.func.isRequired,
+  packetCollector: PropTypes.func.isRequired,
   devices: PropTypes.object.isRequired,
   chartConfig: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, props) => {
 
-  const data = props.dataCollector();
+  const deviceData = props.deviceCollector();
+  const packetData = props.packetCollector();
+
+  console.log(packetData)
 
   return {
-    devices: data,
+    devices: deviceData,
+    packets: packetData,
     chartConfig: props.chartConfig
   };
 }

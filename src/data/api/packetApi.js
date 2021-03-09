@@ -3,6 +3,7 @@
 import { baseUrlApi, newPacketUrl } from '../../constants/RequestConstants';
 import { Record } from 'immutable';
 import { postCallWithRecord } from './apiUtils';
+import {addData} from './DataAggregator';
 
 export const packetApiKeys = {
   PACKET: 'packet',
@@ -18,3 +19,10 @@ export const packetApi = {
     }),
   },
 };
+
+export const parseTop3 = res => {
+  const deviceObject = res.deviceData;
+  deviceObject.forEach(device => {
+    addData(device.macAddress, device.data)
+  })
+}

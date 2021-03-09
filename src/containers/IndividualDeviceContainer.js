@@ -13,6 +13,10 @@ import DeviceCollection from "../components/device/DeviceCollection";
 import {fetchDevicesNormalized} from "../data/api/devicesApi";
 import {getDevices} from "../data/api/DeviceAggregator";
 import DeviceCollectionNormalized from "../components/device/DeviceCollectionNormalized";
+import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
+import {TopThree} from "../socket/subscribe";
+import {parseTop3} from "../data/api/packetApi";
+import {getData} from '../data/api/DataAggregator';
 
 const Title = styled.div`
   ${H2}
@@ -33,7 +37,8 @@ const DeviceContainer = (
   chartConfig
 ) => {
 
-  useTimedFetcher(fetchDevicesNormalized, 1000)
+  useTimedFetcher(fetchDevicesNormalized, 15000)
+  useSocket(TopThree, parseTop3)
 
   return <div style={{display:'grid', gridColumn:1}} className={'grid-container'}>
     <div className={'grid-item'}>
@@ -48,7 +53,7 @@ const DeviceContainer = (
       <Flex>
         <FlexSize size={{ lg: 9 }}>
           <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-            <DeviceCollectionNormalized mode={'CARD'} dataCollector={getDevices} chartConfig={chartConfig}/>
+            <DeviceCollectionNormalized mode={'CARD'} deviceCollector={getDevices} packetCollector={getData} chartConfig={chartConfig}/>
           </Flex>
         </FlexSize>
       </Flex>
