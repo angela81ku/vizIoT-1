@@ -36,13 +36,12 @@ const RecentDevices = styled.div`
 `;
 
 const DeviceContainer = ({
-                           chartConfig,
-                           individualGraphResource,
-                         }) => {
+  chartConfig,
+  individualGraphResource,
+  individualDeviceFetcher
+}) => {
 
-  // console.log(chartConfig)
-
-  useTimedFetcher(fetchDevicesNormalized, 15000)
+  useTimedFetcher(individualDeviceFetcher.fetcher, individualDeviceFetcher.delay)
   useSocket(individualGraphResource.apiSource, individualGraphResource.packetPusher)
 
   return <div style={{display:'grid', gridColumn:1}} className={'grid-container'}>
@@ -60,7 +59,7 @@ const DeviceContainer = ({
           <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
             <DeviceCollectionNormalized
               mode={'CARD'}
-              deviceCollector={ getDevices}
+              deviceCollector={individualDeviceFetcher.collector}
               packetCollector={individualGraphResource.packetSelector}
               chartConfig={chartConfig}
             />
@@ -72,7 +71,8 @@ const DeviceContainer = ({
 }
 
 DeviceContainer.propTypes = {
-  individualGraphResource: PropTypes.object,
+  individualGraphResource: PropTypes.object.isRequired,
+  individualDeviceFetcher: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, props) => {

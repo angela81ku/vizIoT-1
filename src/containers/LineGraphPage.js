@@ -190,10 +190,11 @@ class LineGraphPage extends React.Component {
 
     }
 
-    deviceContainerRenderer = graphResource => {
-        if (graphResource) {
+    deviceContainerRenderer = (graphResource, fetcher) => {
+        if (graphResource && fetcher) {
             return <DeviceContainer
               individualGraphResource={graphResource}
+              individualDeviceFetcher={fetcher}
             />
         }
     }
@@ -208,6 +209,7 @@ class LineGraphPage extends React.Component {
         const metricResource = this.props.metricResource;
         const metricSocketOverride = this.props.metricSocketOverride;
         const individualGraphResource = this.props.individualGraphResource;
+        const individualDeviceFetcher = this.props.individualDeviceFetcher;
         const pageTitle = this.props.pageTitle;
         const pageSubtitle = this.props.pageSubtitle;
         const graphTitle = this.props.graphTitle;
@@ -241,7 +243,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            {this.deviceContainerRenderer(individualGraphResource)}
+            {this.deviceContainerRenderer(individualGraphResource, individualDeviceFetcher)}
             <div className="xl-spacer"/>
         </TabContainer>
 
@@ -260,6 +262,7 @@ LineGraphPage.propTypes = {
     metricResource: PropTypes.object,
     metricSocketOverride: PropTypes.bool,
     individualGraphResource: PropTypes.object,
+    individualDeviceFetcher: PropTypes.object,
     facts: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,

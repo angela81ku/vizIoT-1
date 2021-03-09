@@ -7,6 +7,9 @@ import {factFactory} from '../Factories/FactFactory';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {getData} from "../data/api/DataAggregator";
 import {parseTop3} from "../data/api/packetApi";
+import {fetcherFactory} from "../Factories/FetcherFactory";
+import {fetchDevicesNormalized} from "../data/api/devicesApi";
+import {getDevices} from "../data/api/DeviceAggregator";
 
 
 export const IOTab = ({}) => {
@@ -20,6 +23,7 @@ export const IOTab = ({}) => {
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
     const individualGraphResources = resourceFactory(TopThree, getData, parseTop3)
+    const deviceFetcher = fetcherFactory(fetchDevicesNormalized, getDevices, 15000)
 
     // console.log(individualGraphResources)
 
@@ -31,6 +35,7 @@ export const IOTab = ({}) => {
             metricResource={metricResources}
             metricSocketOverride={true}
             individualGraphResource={individualGraphResources}
+            individualDeviceFetcher={deviceFetcher}
             facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }
