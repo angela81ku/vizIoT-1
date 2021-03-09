@@ -71,10 +71,7 @@ class DeviceCollectionNormalized extends Component {
             });
           }
 
-          const graphDataNested = [graphData]
-
-          // console.log(graphData)
-          // console.log(chartConfig)
+          console.log(totalTraffic)
 
           return (
             <DeviceCardWrapper

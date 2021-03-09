@@ -24,16 +24,16 @@ export const addDevice = (device) => {
     // if data is greater than 70, replace object value
     if (currData.length > 70) {
       currData = currData.slice(-70);
-      devices[device.macAddress] = {
-        _id: device._id,
-        macAddress: device.macAddress,
-        name: device.name,
-        category: device.category,
-        data: currData,
-        inTraffic: device.in,
-        outTraffic: device.out,
-        totalTraffic: device.total,
-      }
+    }
+    devices[device.macAddress] = {
+      _id: device._id,
+      macAddress: device.macAddress,
+      name: device.name,
+      category: device.category,
+      data: currData,
+      inTraffic: device.in,
+      outTraffic: device.out,
+      totalTraffic: device.total,
     }
   }
 }
