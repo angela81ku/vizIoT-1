@@ -54,6 +54,7 @@ class DeviceCollectionNormalized extends Component {
 
     // console.log(devices)
     // console.log(packets)
+    // console.log(chartConfig)
 
     const aggregatedDevices = {};
     Object.keys(devices).forEach(device => {
@@ -77,8 +78,6 @@ class DeviceCollectionNormalized extends Component {
       }
 
     })
-
-    // console.log(aggregatedDevices)
 
     setTimeout(this.mockSet.bind(this), 1000)
 
@@ -118,7 +117,7 @@ class DeviceCollectionNormalized extends Component {
                 total={totalTraffic}
                 velocity={velocity}
                 graphData={graphData}
-                chartConfig={chartConfig.chartConfig}
+                chartConfig={chartConfig}
               />
             </DeviceCardWrapper>
           );
@@ -128,7 +127,7 @@ class DeviceCollectionNormalized extends Component {
     );
   }
 }
-1000
+
 DeviceCollectionNormalized.propTypes = {
   deviceCollector: PropTypes.func.isRequired,
   packetCollector: PropTypes.func.isRequired,
@@ -140,8 +139,6 @@ const mapStateToProps = (state, props) => {
 
   const deviceData = props.deviceCollector();
   const packetData = props.packetCollector();
-
-  console.log(packetData)
 
   return {
     devices: deviceData,

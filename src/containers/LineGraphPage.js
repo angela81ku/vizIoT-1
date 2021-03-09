@@ -190,6 +190,14 @@ class LineGraphPage extends React.Component {
 
     }
 
+    deviceContainerRenderer = graphResource => {
+        if (graphResource) {
+            return <DeviceContainer
+              individualGraphResource={graphResource}
+            />
+        }
+    }
+
     render () {
 
         setTimeout(this.setGraphRect.bind(this), 100)
@@ -199,6 +207,7 @@ class LineGraphPage extends React.Component {
         const graphSocketOverride = this.props.graphSocketOverride;
         const metricResource = this.props.metricResource;
         const metricSocketOverride = this.props.metricSocketOverride;
+        const individualGraphResource = this.props.individualGraphResource;
         const pageTitle = this.props.pageTitle;
         const pageSubtitle = this.props.pageSubtitle;
         const graphTitle = this.props.graphTitle;
@@ -232,7 +241,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            <DeviceContainer/>
+            {this.deviceContainerRenderer(individualGraphResource)}
             <div className="xl-spacer"/>
         </TabContainer>
 
@@ -250,6 +259,7 @@ LineGraphPage.propTypes = {
     graphSocketOverride: PropTypes.bool,
     metricResource: PropTypes.object,
     metricSocketOverride: PropTypes.bool,
+    individualGraphResource: PropTypes.object,
     facts: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,

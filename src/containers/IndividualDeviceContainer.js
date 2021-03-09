@@ -1,6 +1,7 @@
 import Flex, {FlexDirection, JustifyContent} from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
 import {fetchDevices} from "../actionsRequest/deviceRequest";
 import styled from "styled-components";
@@ -17,6 +18,7 @@ import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
 import {TopThree} from "../socket/subscribe";
 import {parseTop3} from "../data/api/packetApi";
 import {getData} from '../data/api/DataAggregator';
+import LineGraphPage from "./LineGraphPage";
 
 const Title = styled.div`
   ${H2}
@@ -33,12 +35,15 @@ const RecentDevices = styled.div`
   ${H4}
 `;
 
-const DeviceContainer = (
-  chartConfig
-) => {
+const DeviceContainer = ({
+                           chartConfig,
+                           individualGraphResource,
+                         }) => {
+
+  // console.log(chartConfig)
 
   useTimedFetcher(fetchDevicesNormalized, 15000)
-  useSocket(TopThree, parseTop3)
+  useSocket(individualGraphResource.apiSource, individualGraphResource.packetPusher)
 
   return <div style={{display:'grid', gridColumn:1}} className={'grid-container'}>
     <div className={'grid-item'}>
@@ -53,7 +58,12 @@ const DeviceContainer = (
       <Flex>
         <FlexSize size={{ lg: 9 }}>
           <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-            <DeviceCollectionNormalized mode={'CARD'} deviceCollector={getDevices} packetCollector={getData} chartConfig={chartConfig}/>
+            <DeviceCollectionNormalized
+              mode={'CARD'}
+              deviceCollector={ getDevices}
+              packetCollector={individualGraphResource.packetSelector}
+              chartConfig={chartConfig}
+            />
           </Flex>
         </FlexSize>
       </Flex>
@@ -61,7 +71,12 @@ const DeviceContainer = (
   </div>
 }
 
+DeviceContainer.propTypes = {
+  individualGraphResource: PropTypes.object,
+}
+
 const mapStateToProps = (state, props) => {
+
   return {
     chartConfig: selectSingleDeviceChartConfig(state),
   };
