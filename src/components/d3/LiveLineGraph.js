@@ -280,9 +280,13 @@ class LiveLineGraph extends Component {
       .attr('height', graphHeight);
 
     const graphMin = Math.min(200, graphHeight)
-    let strokeWidth = graphMin / 100;
+    const flowCount = this.state.flowLines;
+    // if the flowcount is less than or equal to 2, return 2
+    // if the flow count is greater than or equal to 5, return 5
+    // otherwise, return actual number of flows
+    const flowFactor = flowCount <= 2 ? 2 : flowCount >= 5 ? 5 : flowCount;
+    let strokeWidth = graphMin / (100 * (flowFactor / 2.0));
 
-    console.log(strokeWidth)
 
     if (strokeWidth < 0.5) {
       strokeWidth = 0.5;
