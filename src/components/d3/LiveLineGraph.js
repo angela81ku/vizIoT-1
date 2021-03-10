@@ -287,7 +287,7 @@ class LiveLineGraph extends Component {
     const flowFactor = flowCount <= 2 ? 2 : flowCount >= 5 ? 5 : flowCount;
     let strokeWidth = graphMin / (100 * (flowFactor / 2.0));
 
-
+    // if width is < 0.5, make 0.5 so line doesn't become too small
     if (strokeWidth < 0.5) {
       strokeWidth = 0.5;
     }
