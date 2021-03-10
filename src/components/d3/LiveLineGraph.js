@@ -205,6 +205,7 @@ class LiveLineGraph extends Component {
 
   componentDidUpdate() {
     // After render, turn flag false to prevent further renders
+
     this.setState({ redraw: false });
   }
 
@@ -278,6 +279,15 @@ class LiveLineGraph extends Component {
       .attr('width', graphWidth)
       .attr('height', graphHeight);
 
+    const graphMin = Math.min(200, graphHeight)
+    let strokeWidth = graphMin / 100;
+
+    console.log(strokeWidth)
+
+    if (strokeWidth < 0.5) {
+      strokeWidth = 0.5;
+    }
+
     // Path Update
     if (graphData && graphData.length > 0) {
 
@@ -319,6 +329,7 @@ class LiveLineGraph extends Component {
             x,
             node,
             this.state.lColors[i],
+            strokeWidth
           );
         }
       } else {
@@ -336,6 +347,7 @@ class LiveLineGraph extends Component {
           x,
           node,
           this.state.lColors[0],
+          strokeWidth,
         );
       }
     }
@@ -353,13 +365,13 @@ class LiveLineGraph extends Component {
     return lineFunction(data);
   }
 
-  static redrawLine(g, linePathData, transitionDuration, transitionAmount, x, node, color) {
+  static redrawLine(g, linePathData, transitionDuration, transitionAmount, x, node, color, strokeWidth) {
     // also assigns color now
     g.attr('transform', null)
       .attr('d', linePathData)
       .attr('fill', 'none')
       .attr('stroke', color)
-      .attr('stroke-width', '2')
+      .attr('stroke-width', `${strokeWidth}`)
       .interrupt() // VERY IMPORTANT
       .transition()
       .duration(1000)
