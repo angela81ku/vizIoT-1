@@ -81,8 +81,6 @@ class DeviceCollectionNormalized extends Component {
 
     })
 
-    setTimeout(this.mockSet.bind(this), 1000)
-
     return (
       <Flex gutter={2} className="p-top-5">
         {Object.keys(aggregatedDevices).map( key => {

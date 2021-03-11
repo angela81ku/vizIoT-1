@@ -244,7 +244,7 @@ class LineGraphPage extends React.Component {
 
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
-            {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
+            {/*this.metricGraphLineRenderer(metricRect, graphRect, 'white')*/}
             {this.deviceContainerRenderer(individualGraphResource, individualDeviceFetcher, graphColors)}
             <div className="xl-spacer"/>
         </TabContainer>
