@@ -29,8 +29,8 @@ export const addData = (deviceArray) => {
       let currData = deviceData[device.macAddress].data;
       currData.push(device.data)
       // if data is greater than 70, replace object value
-      if (currData.length > 70) {
-        currData = currData.slice(-70);
+      if (currData.length > 35) {
+        currData = currData.slice(-35);
       }
       deviceData[device.macAddress] = {
         mac: device.macAddress,
