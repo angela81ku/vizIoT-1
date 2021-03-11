@@ -38,7 +38,8 @@ const RecentDevices = styled.div`
 const DeviceContainer = ({
   chartConfig,
   individualGraphResource,
-  individualDeviceFetcher
+  individualDeviceFetcher,
+  graphColors,
 }) => {
 
   useTimedFetcher(individualDeviceFetcher.fetcher, individualDeviceFetcher.delay)
@@ -62,6 +63,7 @@ const DeviceContainer = ({
               deviceCollector={individualDeviceFetcher.collector}
               packetCollector={individualGraphResource.packetSelector}
               chartConfig={chartConfig}
+              graphColors={graphColors}
             />
           </Flex>
         </FlexSize>
@@ -73,6 +75,7 @@ const DeviceContainer = ({
 DeviceContainer.propTypes = {
   individualGraphResource: PropTypes.object.isRequired,
   individualDeviceFetcher: PropTypes.object.isRequired,
+  graphColors: PropTypes.array,
 }
 
 const mapStateToProps = (state, props) => {

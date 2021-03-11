@@ -14,6 +14,8 @@ import { TopThree } from '../../socket/subscribe'
 import {parseTop3} from "../../data/api/packetApi";
 import {useSocket} from "../BeanUILibrary/hooks/useSocket";
 import {call} from "ramda";
+import {transformData} from "../../data/processors/TransformGraphData";
+import {findColors} from "../../utility/ColorUtility";
 
 const DeviceCardWrapper = styled(FlexSize)`
   display: inline-flex;
@@ -50,7 +52,7 @@ class DeviceCollectionNormalized extends Component {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { devices, packets, chartConfig } = this.props;
+    const { devices, packets, chartConfig, graphColors } = this.props;
 
     // console.log(devices)
     // console.log(packets)
@@ -87,19 +89,23 @@ class DeviceCollectionNormalized extends Component {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
 
-          let graphData = [];
-          if (data && data.length) {
-            const catchUpSeconds = 0;
-            graphData = data.map(({startMS, size: yData}) => {
-              return {
-                xData: moment
-                  .unix(startMS / 1000.0)
-                  .add(catchUpSeconds, 'seconds')
-                  .toDate(),
-                yData,
-              };
-            });
-          }
+          // let graphData = [];
+          // if (data && data.length) {
+          //   const catchUpSeconds = 0;
+          //   graphData = data.map(({startMS, size: yData}) => {
+          //     return {
+          //       xData: moment
+          //         .unix(startMS / 1000.0)
+          //         .add(catchUpSeconds, 'seconds')
+          //         .toDate(),
+          //       yData,
+          //     };
+          //   });
+          // }
+
+          const graphData = transformData(data);
+
+          // console.log(graphData)
 
           return (
             <DeviceCardWrapper
@@ -118,6 +124,7 @@ class DeviceCollectionNormalized extends Component {
                 velocity={velocity}
                 graphData={graphData}
                 chartConfig={chartConfig}
+                graphColors={graphColors}
               />
             </DeviceCardWrapper>
           );
@@ -133,6 +140,7 @@ DeviceCollectionNormalized.propTypes = {
   packetCollector: PropTypes.func.isRequired,
   devices: PropTypes.object.isRequired,
   chartConfig: PropTypes.object.isRequired,
+  graphColors: PropTypes.array,
 };
 
 const mapStateToProps = (state, props) => {

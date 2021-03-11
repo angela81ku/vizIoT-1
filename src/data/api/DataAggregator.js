@@ -52,6 +52,8 @@ export const addData = (deviceArray) => {
     }
   })
 
+  // console.log(currentlyInUse)
+
   // console.log(deviceData)
   // reset devices in use after all operations have been completed
   devicesInUse = currentlyInUse;

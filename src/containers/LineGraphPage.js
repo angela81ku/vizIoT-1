@@ -21,6 +21,7 @@ import DeviceCollection from "../components/device/DeviceCollection";
 import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
 import {fetchDevices} from "../actionsRequest/deviceRequest";
 import DeviceContainer from "./IndividualDeviceContainer";
+import {findColors} from "../utility/ColorUtility";
 
 const TabContainer = styled.div`
   padding: 0 11.8rem;
@@ -190,11 +191,12 @@ class LineGraphPage extends React.Component {
 
     }
 
-    deviceContainerRenderer = (graphResource, fetcher) => {
+    deviceContainerRenderer = (graphResource, fetcher, colors) => {
         if (graphResource && fetcher) {
             return <DeviceContainer
               individualGraphResource={graphResource}
               individualDeviceFetcher={fetcher}
+              graphColors={colors}
             />
         }
     }
@@ -243,7 +245,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            {this.deviceContainerRenderer(individualGraphResource, individualDeviceFetcher)}
+            {this.deviceContainerRenderer(individualGraphResource, individualDeviceFetcher, graphColors)}
             <div className="xl-spacer"/>
         </TabContainer>
 

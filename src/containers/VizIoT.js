@@ -18,6 +18,8 @@ import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
 import { pathOr } from 'ramda';
 
+// import { }
+
 // my imports
 import { IOTab } from './IOTab';
 import {ProtocolTab} from "./ProtocolTab";
@@ -41,7 +43,6 @@ const Background = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #0c1a38;
 `;
 
 const BackgroundRelative = styled.div`

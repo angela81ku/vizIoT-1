@@ -337,10 +337,12 @@ class LiveLineGraph extends Component {
           );
         }
       } else {
-        LiveLineGraph.assignGraphLines(this.state.graphWrapper, 1)
-        this.setState({
-          flowLines: 1
-        })
+        if (this.state.flowLines === undefined || this.state.flowLines !== 1) {
+          LiveLineGraph.assignGraphLines(this.state.graphWrapper, 1)
+          this.setState({
+            flowLines: 1
+          })
+        }
 
         const attr = '.line0';
         LiveLineGraph.redrawLine(
@@ -431,6 +433,7 @@ class LiveLineGraph extends Component {
     const looper = setInterval(() => {
       // console.log('start next transition');
       this.redrawChart();
+      this.draw
 
       // this.setState(() => ({ redraw: true }));
     }, 1000); // 4s loop

@@ -21,6 +21,10 @@ export const packetApi = {
 };
 
 export const parseTop3 = res => {
-  const deviceObject = res.deviceData;
-  addData(deviceObject);
+  if (res.hasOwnProperty('deviceData')) {
+    const deviceObject = res.deviceData;
+    addData(deviceObject);
+  } else {
+    console.log('No deviceData in message from server')
+  }
 }

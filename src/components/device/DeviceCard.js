@@ -120,10 +120,12 @@ const DeviceCard = ({
   dataIn,
   dataOut,
   graphData,
+  graphColors,
   chartConfig: {
     dataWindowSize,
   },
 }) => {
+
   return (
     <DCard
       onMouseEnter={onHover}
@@ -139,6 +141,7 @@ const DeviceCard = ({
               className="device-small-chart"
               dataWindowSize={dataWindowSize}
               data={graphData}
+              lineColors={graphColors}
             />
           </AutoFitComponent>
           <FlexChild>
@@ -200,6 +203,7 @@ DeviceCard.propTypes = {
     xData: PropTypes.any.isRequired,
     yData: PropTypes.any.isRequired,
   }).isRequired),
+  graphColors: PropTypes.array,
 };
 
 export default DeviceCard;
