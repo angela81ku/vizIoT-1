@@ -89,23 +89,16 @@ class DeviceCollectionNormalized extends Component {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
 
-          // let graphData = [];
-          // if (data && data.length) {
-          //   const catchUpSeconds = 0;
-          //   graphData = data.map(({startMS, size: yData}) => {
-          //     return {
-          //       xData: moment
-          //         .unix(startMS / 1000.0)
-          //         .add(catchUpSeconds, 'seconds')
-          //         .toDate(),
-          //       yData,
-          //     };
-          //   });
-          // }
-
           const graphData = transformData(data);
 
-          // console.log(graphData)
+          let colors = graphColors;
+          if (colors === undefined || colors.length === 0 && graphData.length && graphData.length > 0) {
+            if (graphData[0].length) {
+              colors = findColors(graphData[0].length)
+            } else {
+              colors = findColors(1);
+            }
+          }
 
           return (
             <DeviceCardWrapper
@@ -124,7 +117,7 @@ class DeviceCollectionNormalized extends Component {
                 velocity={velocity}
                 graphData={graphData}
                 chartConfig={chartConfig}
-                graphColors={graphColors}
+                graphColors={colors}
               />
             </DeviceCardWrapper>
           );
