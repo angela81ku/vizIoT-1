@@ -82,7 +82,7 @@ class DeviceCollectionNormalized extends Component {
     })
 
     return (
-      <Flex gutter={2} className="p-top-5">
+      <Flex gutter={2} className="p-top-5" alignContent={'left'}>
         {Object.keys(aggregatedDevices).map( key => {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;

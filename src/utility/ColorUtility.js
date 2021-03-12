@@ -32,6 +32,17 @@ export function padZero(str, len) {
   return (zeros + str).slice(-len);
 }
 
+// these colors are color-blind friendly
+// please continue adding colorblind color schemes for accessibility purposes
+const staticColors = [
+  'rgb(204,51,17)',
+  'rgb(0,119,187)',
+  'rgb(238,51,119)',
+  'rgb(51,187,238)',
+  'rgb(238,119,51)',
+  'rgb(0,153,136)',
+]
+
 // creates count number of colors
 export function findColors(count) {
 
@@ -39,7 +50,13 @@ export function findColors(count) {
   const jumpVal = Math.floor(maxVal/count);
   const colors = [];
 
-  for (let i = 0; i < count; ++i) {
+  // use provided static colors either up to all provided static colors or requested colors
+  for (let i = 0; i < staticColors.length && i < count; ++i) {
+    colors.push(staticColors[i]);
+  }
+
+  // if there are more colors than what is provided in static colors, interpolate values
+  for (let i = 0; i < count - staticColors.length; ++i) {
     const jump = i * jumpVal;
     const r = i * jump;
     const g = Math.floor(maxVal/2)

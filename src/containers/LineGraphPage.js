@@ -250,11 +250,7 @@ class LineGraphPage extends React.Component {
         </TabContainer>
 
     }
-};
-
-LineGraphPage.defaultProps = {
-    networkId: 42,
-};
+}
 
 // set graph socket override to make sure resource passed to graph is implemented/not implemented
 // use metric Socket override to make sure resource passed to is implemented/not implemented
