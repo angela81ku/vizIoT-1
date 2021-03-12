@@ -3,7 +3,8 @@ const devices = {};
 export const addDevice = (device) => {
 
   const deviceMac = device.macAddress;
-  // if data does not exist for this device, create a new entry
+  // creates a new entry for device if none exists
+  // updates an existing entry for device if one already exists
   devices[deviceMac] = {
     _id: device._id,
     macAddress: device.macAddress,
@@ -17,5 +18,6 @@ export const addDevice = (device) => {
 }
 
 export const getDevices = () => {
+  //return all collected devices
   return devices;
 }

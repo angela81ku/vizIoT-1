@@ -2,22 +2,23 @@
 /*
 {
   mac: <macaddr>,
-  data: <data[]>,
+  data: <[{startMS, endMS, size[]]>,
 }
+where size is an array of length 2 containing [sent, received] values
  */
 // keeps track of all devices
 const deviceData = {};
 // keeps track of top 3 devices
 let devicesInUse = {};
 
-export const addData = (deviceArray) => {
+export const addTopThreeIOData = (devices) => {
 
   // console.log(deviceArray)
   const currentlyInUse = {};
 
   // if data does not exist for this device, create a new entry
-  for (let i = 0; i < deviceArray.length; ++i) {
-    const device = deviceArray[i];
+  for (let i = 0; i < devices.length; ++i) {
+    const device = devices[i];
     if (!deviceData.hasOwnProperty(device.macAddress)) {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
@@ -28,7 +29,7 @@ export const addData = (deviceArray) => {
     else {
       let currData = deviceData[device.macAddress].data;
       currData.push(device.data)
-      // if data is greater than 70, replace object value
+      // if data is greater than 35, replace object value
       if (currData.length > 35) {
         currData = currData.slice(-35);
       }
@@ -56,9 +57,11 @@ export const addData = (deviceArray) => {
 
   // console.log(deviceData)
   // reset devices in use after all operations have been completed
+  // do this at end so as to minimize data race for devicesInUse should the line viz component attempt to access
+  // during data update
   devicesInUse = currentlyInUse;
 }
 
-export const getData = () => {
+export const getTopThreeIOData = () => {
   return devicesInUse;
 }

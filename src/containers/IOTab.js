@@ -5,11 +5,11 @@ import {IOCount, IOMetric, TopThree} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {factFactory} from '../Factories/FactFactory';
 import {resourceFactory} from '../Factories/ResourceFactory';
-import {getData} from "../data/api/DataAggregator";
+import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
 import {parseTop3} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDevicesNormalized} from "../data/api/devicesApi";
-import {getDevices} from "../data/api/DeviceAggregator";
+import {getDevices} from "../data/aggregators/DeviceAggregator";
 
 
 export const IOTab = ({}) => {
@@ -22,7 +22,7 @@ export const IOTab = ({}) => {
 
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
-    const individualGraphResources = resourceFactory(TopThree, getData, parseTop3)
+    const individualGraphResources = resourceFactory(TopThree, getTopThreeIOData, parseTop3)
     const deviceFetcher = fetcherFactory(fetchDevicesNormalized, getDevices, 15000)
 
     // console.log(individualGraphResources)

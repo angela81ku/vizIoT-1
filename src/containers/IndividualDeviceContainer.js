@@ -12,12 +12,12 @@ import {selectDeviceToLiveSamples} from "../selectors/packetSelector";
 import {selectLiveLineChartConfig, selectSingleDeviceChartConfig} from "../selectors/chartSelectors";
 import DeviceCollection from "../components/device/DeviceCollection";
 import {fetchDevicesNormalized} from "../data/api/devicesApi";
-import {getDevices} from "../data/api/DeviceAggregator";
+import {getDevices} from "../data/aggregators/DeviceAggregator";
 import DeviceCollectionNormalized from "../components/device/DeviceCollectionNormalized";
 import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
 import {TopThree} from "../socket/subscribe";
 import {parseTop3} from "../data/api/packetApi";
-import {getData} from '../data/api/DataAggregator';
+import {getTopThreeIOData} from '../data/aggregators/TopThreeIOAggregator';
 import LineGraphPage from "./LineGraphPage";
 
 const Title = styled.div`
