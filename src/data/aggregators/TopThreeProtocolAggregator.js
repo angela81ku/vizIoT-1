@@ -1,4 +1,3 @@
-
 /*
 {
   mac: <macaddr>,
@@ -11,7 +10,7 @@ const deviceData = {};
 // keeps track of top 3 devices
 let devicesInUse = {};
 
-export const addTopThreeIOData = (devices) => {
+export const addTopThreeProtocolData = (devices) => {
 
   // console.log(deviceArray)
   const currentlyInUse = {};
@@ -62,6 +61,6 @@ export const addTopThreeIOData = (devices) => {
   devicesInUse = currentlyInUse;
 }
 
-export const getTopThreeIOData = () => {
+export const getTopThreeProtocolData = () => {
   return devicesInUse;
 }

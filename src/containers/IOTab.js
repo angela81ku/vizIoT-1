@@ -1,15 +1,15 @@
 import React from 'react';
 import { pushRealTimeIOTraffic, pushRealTimeIOMetricTraffic } from '../actions/packetActions';
 import { selectRealTimeIOTraffic, selectRealTimeIOMetricTraffic } from '../selectors/packetSelector';
-import {IOCount, IOMetric, TopThree} from '../socket/subscribe';
+import {IOCount, IOMetric, TopThreeIO} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {factFactory} from '../Factories/FactFactory';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
-import {parseTop3} from "../data/api/packetApi";
+import {parseTop3IO} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
-import {fetchDevicesNormalized} from "../data/api/devicesApi";
-import {getDevices} from "../data/aggregators/DeviceAggregator";
+import {fetchDevicesIO} from "../data/api/devicesApi";
+import {getDevices} from "../data/aggregators/DeviceAggregatorIO";
 
 
 export const IOTab = ({}) => {
@@ -22,8 +22,8 @@ export const IOTab = ({}) => {
 
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
-    const individualGraphResources = resourceFactory(TopThree, getTopThreeIOData, parseTop3)
-    const deviceFetcher = fetcherFactory(fetchDevicesNormalized, getDevices, 15000)
+    const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
+    const deviceFetcher = fetcherFactory(fetchDevicesIO, getDevices, 15000)
 
     // console.log(individualGraphResources)
 

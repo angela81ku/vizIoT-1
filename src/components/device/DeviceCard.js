@@ -199,10 +199,7 @@ DeviceCard.propTypes = {
   dataIn: PropTypes.number,
   dataOut: PropTypes.number,
   chartConfig: PropTypes.object.isRequired,
-  graphData: PropTypes.arrayOf(PropTypes.shape({
-    xData: PropTypes.any.isRequired,
-    yData: PropTypes.any.isRequired,
-  }).isRequired),
+  graphData: PropTypes.array,
   graphColors: PropTypes.array,
 };
 

@@ -1,10 +1,16 @@
 import React from 'react';
 import {pushRealTimeProtocolTraffic} from '../actions/packetActions';
 import {selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
-import {ProtocolCount} from '../socket/subscribe';
+import {ProtocolCount, TopThreeIO, TopThreeProtocol} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {factFactory} from '../Factories/FactFactory';
+import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
+import {parseTop3IO, parseTop3Protocol} from "../data/api/packetApi";
+import {fetcherFactory} from "../Factories/FetcherFactory";
+import {fetchDevicesIO} from "../data/api/devicesApi";
+import {getDevices} from "../data/aggregators/DeviceAggregatorIO";
+import {getTopThreeProtocolData} from "../data/aggregators/TopThreeProtocolAggregator";
 
 
 export const ProtocolTab = ({}) => {
@@ -17,12 +23,18 @@ export const ProtocolTab = ({}) => {
     const facts = [tcpFact, udpFact, httpFact, dnsFact]
 
     const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
+
+    const individualGraphResources = resourceFactory(TopThreeProtocol, getTopThreeProtocolData, parseTop3Protocol)
+    const deviceFetcher = fetcherFactory(fetchDevicesIO, getDevices, 15000)
+
     resources.inUse = true;
 
     return (
         <LineGraphPage
             graphResource={resources}
             graphSocketOverride={true}
+            individualGraphResource={individualGraphResources}
+            individualDeviceFetcher={deviceFetcher}
             facts={facts}
             pageTitle={'Protocol Traffic'}
             pageSubtitle={'View network protocol traffic in real time' }

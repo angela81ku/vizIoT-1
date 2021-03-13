@@ -11,12 +11,12 @@ import {selectThreeDevices} from "../selectors/deviceSelectors";
 import {selectDeviceToLiveSamples} from "../selectors/packetSelector";
 import {selectLiveLineChartConfig, selectSingleDeviceChartConfig} from "../selectors/chartSelectors";
 import DeviceCollection from "../components/device/DeviceCollection";
-import {fetchDevicesNormalized} from "../data/api/devicesApi";
-import {getDevices} from "../data/aggregators/DeviceAggregator";
+import {fetchDevicesIO} from "../data/api/devicesApi";
+import {getDevices} from "../data/aggregators/DeviceAggregatorIO";
 import DeviceCollectionNormalized from "../components/device/DeviceCollectionNormalized";
 import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
 import {TopThree} from "../socket/subscribe";
-import {parseTop3} from "../data/api/packetApi";
+import {parseTop3IO} from "../data/api/packetApi";
 import {getTopThreeIOData} from '../data/aggregators/TopThreeIOAggregator';
 import LineGraphPage from "./LineGraphPage";
 

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import {connect} from "react-redux";
 import { TopThree } from '../../socket/subscribe'
-import {parseTop3} from "../../data/api/packetApi";
+import {parseTop3IO} from "../../data/api/packetApi";
 import {useSocket} from "../BeanUILibrary/hooks/useSocket";
 import {call} from "ramda";
 import {transformData} from "../../data/processors/TransformGraphData";
@@ -82,7 +82,7 @@ class DeviceCollectionNormalized extends Component {
     })
 
     return (
-      <Flex gutter={2} className="p-top-5" alignContent={'left'}>
+      <Flex gutter={2} className="p-top-5">
         {Object.keys(aggregatedDevices).map( key => {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
