@@ -52,7 +52,7 @@ class DeviceCollectionNormalized extends Component {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { devices, packets, chartConfig, graphColors } = this.props;
+    const { devices, packets, chartConfig, graphColors, graphSize } = this.props;
 
     // console.log(devices)
     // console.log(packets)
@@ -114,6 +114,7 @@ class DeviceCollectionNormalized extends Component {
                 total={totalTraffic}
                 velocity={velocity}
                 graphData={graphData}
+                graphSize={graphSize}
                 chartConfig={chartConfig}
                 graphColors={colors}
               />
@@ -131,6 +132,7 @@ DeviceCollectionNormalized.propTypes = {
   packetCollector: PropTypes.func.isRequired,
   devices: PropTypes.object.isRequired,
   chartConfig: PropTypes.object.isRequired,
+  graphSize: PropTypes.string,
   graphColors: PropTypes.array,
 };
 

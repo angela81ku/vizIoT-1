@@ -191,10 +191,11 @@ class LineGraphPage extends React.Component {
 
     }
 
-    deviceContainerRenderer = (graphResource, fetcher, colors) => {
+    deviceContainerRenderer = (graphResource, graphSize, fetcher, colors) => {
         if (graphResource && fetcher) {
             return <DeviceContainer
               individualGraphResource={graphResource}
+              individualGraphSize={graphSize}
               individualDeviceFetcher={fetcher}
               graphColors={colors}
             />
@@ -211,6 +212,7 @@ class LineGraphPage extends React.Component {
         const metricResource = this.props.metricResource;
         const metricSocketOverride = this.props.metricSocketOverride;
         const individualGraphResource = this.props.individualGraphResource;
+        const individualGraphSize = this.props.individualGraphSize;
         const individualDeviceFetcher = this.props.individualDeviceFetcher;
         const pageTitle = this.props.pageTitle;
         const pageSubtitle = this.props.pageSubtitle;
@@ -245,7 +247,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            {this.deviceContainerRenderer(individualGraphResource, individualDeviceFetcher, graphColors)}
+            {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors)}
             <div className="xl-spacer"/>
         </TabContainer>
 
@@ -260,6 +262,7 @@ LineGraphPage.propTypes = {
     metricResource: PropTypes.object,
     metricSocketOverride: PropTypes.bool,
     individualGraphResource: PropTypes.object,
+    individualGraphSize: PropTypes.string,
     individualDeviceFetcher: PropTypes.object,
     facts: PropTypes.array,
     pageTitle: PropTypes.string,

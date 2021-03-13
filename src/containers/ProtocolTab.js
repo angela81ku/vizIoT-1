@@ -34,6 +34,7 @@ export const ProtocolTab = ({}) => {
             graphResource={resources}
             graphSocketOverride={true}
             individualGraphResource={individualGraphResources}
+            individualGraphSize='device-large-chart'
             individualDeviceFetcher={deviceFetcher}
             facts={facts}
             pageTitle={'Protocol Traffic'}

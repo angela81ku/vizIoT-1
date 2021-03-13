@@ -35,6 +35,7 @@ export const IOTab = ({}) => {
             metricResource={metricResources}
             metricSocketOverride={true}
             individualGraphResource={individualGraphResources}
+            individualGraphSize='device-medium-chart'
             individualDeviceFetcher={deviceFetcher}
             facts={facts}
             pageTitle={'In/Out Traffic'}

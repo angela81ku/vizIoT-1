@@ -121,6 +121,7 @@ const DeviceCard = ({
   dataOut,
   graphData,
   graphColors,
+  graphSize,
   chartConfig: {
     dataWindowSize,
   },
@@ -138,7 +139,7 @@ const DeviceCard = ({
         <DRight className="p-4" grow={10}>
           <AutoFitComponent>
             <LineChart
-              className="device-small-chart"
+              className={graphSize ? graphSize : 'device-small-chart'}
               dataWindowSize={dataWindowSize}
               data={graphData}
               lineColors={graphColors}
@@ -200,6 +201,7 @@ DeviceCard.propTypes = {
   dataOut: PropTypes.number,
   chartConfig: PropTypes.object.isRequired,
   graphData: PropTypes.array,
+  graphSize: PropTypes.string,
   graphColors: PropTypes.array,
 };
 
