@@ -58,7 +58,7 @@ const DeviceContainer = ({
     <div className={'grid-item'}>
       <Flex>
         <FlexSize width={'100%'}>
-          <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
+          <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_START}>
             <DeviceCollectionNormalized
               mode={'CARD'}
               deviceCollector={individualDeviceFetcher.collector}
