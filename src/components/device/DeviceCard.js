@@ -115,16 +115,16 @@ const renderFacts = (cardFacts, providedFacts) => {
   if (providedFacts) {
     return providedFacts.map(fact => {
       return (
-        <DeviceDownloadMetrics>
-          <BIcon type={'fas'} name={fact.icon} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+        <DeviceDownloadMetrics style={{color: fact.color}}>
+          <BIcon type={'fas'} name={fact.icon} color={fact.color} className="m-right-1"/> {fact.data || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
   } else {
     return cardFacts.map(fact => {
       return (
-        <DeviceDownloadMetrics>
-          <BIcon type={'fas'} name={fact.icon} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+        <DeviceDownloadMetrics style={{color: fact.color}}>
+          <BIcon type={'fas'} name={fact.icon} color={fact.color} className="m-right-1"/> {fact.data || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -143,6 +143,7 @@ const DeviceCard = ({
   dataStreams,
   graphData,
   graphColors,
+  factColors,
   graphSize,
   chartConfig: {
     dataWindowSize,
@@ -168,6 +169,11 @@ const DeviceCard = ({
 
   // console.log(dataStreams)
 
+  if (dataStreams && dataStreams.length !== factColors.length) {
+    throw new Error('Provided facts and colors must be of equal length. Streams: '
+      + dataStreams.length.toString() + ' -- Facts: ' + factColors.length.toString());
+  }
+
   // if facts are provided, coerce them into a collection of objects that can be rendered by renderFacts() method
   let providedFacts = undefined;
   if (dataStreams) {
@@ -176,6 +182,7 @@ const DeviceCard = ({
       providedFacts.push({
         icon: 'box',
         data: dataStreams[i],
+        color: factColors[i],
       })
     }
   }
@@ -247,6 +254,7 @@ DeviceCard.propTypes = {
   graphData: PropTypes.array,
   graphSize: PropTypes.string,
   graphColors: PropTypes.array,
+  factColors: PropTypes.array,
 };
 
 export default DeviceCard;

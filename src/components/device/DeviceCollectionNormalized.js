@@ -51,7 +51,7 @@ class DeviceCollectionNormalized extends Component {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { devices, packets, chartConfig, graphColors, graphSize } = this.props;
+    const { devices, packets, chartConfig, graphColors, graphSize, factColors } = this.props;
 
     // console.log(devices)
     // console.log(packets)
@@ -83,16 +83,21 @@ class DeviceCollectionNormalized extends Component {
         {Object.keys(aggregatedDevices).map( key => {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, dataStreams, velocity } = deviceVals;
-          
+
           const graphData = transformData(data);
 
-          let colors = graphColors;
-          if (colors === undefined || colors.length === 0 && graphData.length && graphData.length > 0) {
+          let gColors = graphColors;
+          if (gColors === undefined || gColors.length === 0 && graphData.length && graphData.length > 0) {
             if (graphData[0].length) {
-              colors = findColors(graphData[0].length)
+              gColors = findColors(graphData[0].length)
             } else {
-              colors = findColors(1);
+              gColors = findColors(1);
             }
+          }
+
+          let fColors = factColors;
+          if (fColors === undefined || fColors.length === 0 && dataStreams.length && dataStreams.length > 0) {
+            fColors = findColors(dataStreams.length)
           }
 
           return (
@@ -110,7 +115,8 @@ class DeviceCollectionNormalized extends Component {
                 graphData={graphData}
                 graphSize={graphSize}
                 chartConfig={chartConfig}
-                graphColors={colors}
+                graphColors={gColors}
+                factColors={fColors}
               />
             </DeviceCardWrapper>
           );
@@ -128,6 +134,7 @@ DeviceCollectionNormalized.propTypes = {
   chartConfig: PropTypes.object.isRequired,
   graphSize: PropTypes.string,
   graphColors: PropTypes.array,
+  factColors: PropTypes.array,
 };
 
 const mapStateToProps = (state, props) => {

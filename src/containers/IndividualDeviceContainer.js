@@ -41,6 +41,7 @@ const DeviceContainer = ({
   individualGraphSize,
   individualDeviceFetcher,
   graphColors,
+  factColors,
 }) => {
 
   useTimedFetcher(individualDeviceFetcher.fetcher, individualDeviceFetcher.delay)
@@ -66,6 +67,7 @@ const DeviceContainer = ({
               chartConfig={chartConfig}
               graphColors={graphColors}
               graphSize={individualGraphSize}
+              factColors={factColors}
             />
           </Flex>
         </FlexSize>
@@ -79,6 +81,7 @@ DeviceContainer.propTypes = {
   individualGraphSize: PropTypes.string,
   individualDeviceFetcher: PropTypes.object.isRequired,
   graphColors: PropTypes.array,
+  factColors: PropTypes.array,
 }
 
 const mapStateToProps = (state, props) => {

@@ -191,13 +191,14 @@ class LineGraphPage extends React.Component {
 
     }
 
-    deviceContainerRenderer = (graphResource, graphSize, fetcher, colors) => {
+    deviceContainerRenderer = (graphResource, graphSize, fetcher, colors, factColors) => {
         if (graphResource && fetcher) {
             return <DeviceContainer
               individualGraphResource={graphResource}
               individualGraphSize={graphSize}
               individualDeviceFetcher={fetcher}
               graphColors={colors}
+              factColors={factColors}
             />
         }
     }
@@ -231,10 +232,14 @@ class LineGraphPage extends React.Component {
         // if isGraphed == true, include color
         // if no color provided, do not add
         let graphColors = [];
+        let factColors = [];
         if (facts) {
             facts.forEach(fact => {
-                if (fact.isGraphed === true && fact.color) {
-                    graphColors.push(fact.color);
+                if (fact.color) {
+                    if (fact.isGraphed === true) {
+                        graphColors.push(fact.color);
+                    }
+                    factColors.push(fact.color);
                 }
             })
         }
@@ -247,7 +252,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors)}
+            {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors, factColors)}
             <div className="xl-spacer"/>
         </TabContainer>
 
