@@ -60,7 +60,7 @@ class DeviceCollectionNormalized extends Component {
     const aggregatedDevices = {};
     Object.keys(devices).forEach(device => {
       const deviceVals = devices[device];
-      const {_id, macAddress, name, category, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
+      const {_id, macAddress, name, category, dataStreams, velocity } = deviceVals;
       if (packets.hasOwnProperty(macAddress)) {
         const packetEntry = packets[macAddress]
         const data = packetEntry.data;
@@ -71,10 +71,8 @@ class DeviceCollectionNormalized extends Component {
           name: name,
           category: category,
           data: data,
-          inTraffic: inTraffic,
-          outTraffic: outTraffic,
-          totalTraffic: totalTraffic,
           velocity: velocity,
+          dataStreams: dataStreams,
         }
       }
 
@@ -84,8 +82,8 @@ class DeviceCollectionNormalized extends Component {
       <Flex gutter={2} className="p-top-5" >
         {Object.keys(aggregatedDevices).map( key => {
           const deviceVals = aggregatedDevices[key];
-          const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
-
+          const {_id, data, dataStreams, velocity } = deviceVals;
+          
           const graphData = transformData(data);
 
           let colors = graphColors;
@@ -107,9 +105,7 @@ class DeviceCollectionNormalized extends Component {
                 onLeaveHover={this.onCardLeaveHover}
                 active={hoveredDevice !== null && hoveredDevice !== _id}
                 device={deviceVals}
-                dataIn={inTraffic}
-                dataOut={outTraffic}
-                total={totalTraffic}
+                dataStreams={dataStreams}
                 velocity={velocity}
                 graphData={graphData}
                 graphSize={graphSize}

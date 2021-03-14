@@ -9,7 +9,7 @@ import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
 import {parseTop3IO} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDevicesIO} from "../data/api/devicesApi";
-import {getDevices} from "../data/aggregators/DeviceAggregatorIO";
+import {getDeviceIOData, getDevices} from "../data/aggregators/DeviceAggregatorIO";
 
 
 export const IOTab = ({}) => {
@@ -23,7 +23,7 @@ export const IOTab = ({}) => {
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
     const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
-    const deviceFetcher = fetcherFactory(fetchDevicesIO, getDevices, 15000)
+    const deviceFetcher = fetcherFactory(fetchDevicesIO, getDeviceIOData, 15000)
 
     // console.log(individualGraphResources)
 

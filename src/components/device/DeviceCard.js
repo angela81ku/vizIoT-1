@@ -111,6 +111,26 @@ const DRight = styled(FlexChild)`
 
 const DEFAULT_VAL = '~';
 
+const renderFacts = (cardFacts, providedFacts) => {
+  if (providedFacts) {
+    return providedFacts.map(fact => {
+      return (
+        <DeviceDownloadMetrics>
+          <BIcon type={'fas'} name={fact.icon} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+        </DeviceDownloadMetrics>
+      )
+    })
+  } else {
+    return cardFacts.map(fact => {
+      return (
+        <DeviceDownloadMetrics>
+          <BIcon type={'fas'} name={fact.icon} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+        </DeviceDownloadMetrics>
+      )
+    })
+  }
+}
+
 const DeviceCard = ({
   onHover,
   onLeaveHover,
@@ -120,6 +140,7 @@ const DeviceCard = ({
   total,
   dataIn,
   dataOut,
+  dataStreams,
   graphData,
   graphColors,
   graphSize,
@@ -128,6 +149,8 @@ const DeviceCard = ({
   },
 }) => {
 
+  // the original values provided with the device cards
+  // if no data stream is provided, provide these facts as the default to preserve original functionality
   const cardFacts = [
     {
       icon: 'box',
@@ -141,15 +164,21 @@ const DeviceCard = ({
       icon: 'arrow-alt-circle-down',
       data: dataOut,
     },
-    {
-      icon: 'arrow-alt-circle-down',
-      data: dataOut,
-    },
-    {
-      icon: 'arrow-alt-circle-down',
-      data: dataOut,
-    },
   ]
+
+  // console.log(dataStreams)
+
+  // if facts are provided, coerce them into a collection of objects that can be rendered by renderFacts() method
+  let providedFacts = undefined;
+  if (dataStreams) {
+    providedFacts = [];
+    for (let i = 0; i < dataStreams.length; ++i) {
+      providedFacts.push({
+        icon: 'box',
+        data: dataStreams[i],
+      })
+    }
+  }
 
   const cardWidth = (cardFacts.length * 60) + 50;
 
@@ -180,22 +209,11 @@ const DeviceCard = ({
             <ConnectionsLabel className="m-top-2 m-bot-4">
               <ConnectionsValue>{(velocity && formatBytes(velocity, 's')) || DEFAULT_VAL}</ConnectionsValue>
             </ConnectionsLabel>
-            {/*<ConnectionDestination>*/}
-            {/*{'90.5% to '}*/}
-            {/*<ConnectionDestinationHost>*/}
-            {/*{'google.com'}*/}
-            {/*</ConnectionDestinationHost>*/}
-            {/*</ConnectionDestination>*/}
+
           </FlexChild>
           <FlexChild className="m-top-2">
             <Flex noWrap={true} justifyContent={JustifyContent.SPACE_BETWEEN} style={{textAlign:'left'}}>
-              {cardFacts.map(fact => {
-                return (
-                  <DeviceDownloadMetrics>
-                    <BIcon type={'fas'} name={fact.icon} className="m-right-1" /> {fact.data || DEFAULT_VAL}
-                  </DeviceDownloadMetrics>
-                )
-              })}
+              {renderFacts(cardFacts, providedFacts)}
             </Flex>
           </FlexChild>
         </DRight>
@@ -224,6 +242,7 @@ DeviceCard.propTypes = {
   total: PropTypes.number,
   dataIn: PropTypes.number,
   dataOut: PropTypes.number,
+  dataStreams: PropTypes.array,
   chartConfig: PropTypes.object.isRequired,
   graphData: PropTypes.array,
   graphSize: PropTypes.string,
