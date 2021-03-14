@@ -17,11 +17,10 @@ import {call} from "ramda";
 import {transformData} from "../../data/processors/TransformGraphData";
 import {findColors} from "../../utility/ColorUtility";
 
-const DeviceCardWrapper = styled(FlexSize)`
+const DeviceCardWrapper = styled.div`
   display: inline-flex;
   justify-content: center;
-  width: 100%;
-  
+  margin-right: 10px;
 `;
 
 class DeviceCollectionNormalized extends Component {
@@ -82,7 +81,7 @@ class DeviceCollectionNormalized extends Component {
     })
 
     return (
-      <Flex gutter={2} className="p-top-5">
+      <Flex gutter={2} className="p-top-5" >
         {Object.keys(aggregatedDevices).map( key => {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, inTraffic, outTraffic, totalTraffic, velocity } = deviceVals;
@@ -101,7 +100,6 @@ class DeviceCollectionNormalized extends Component {
           return (
             <DeviceCardWrapper
               key={_id}
-              size={{xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2}}
               space="m-bot-4"
             >
               <DeviceCard

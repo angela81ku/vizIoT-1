@@ -93,7 +93,8 @@ const ConnectionDestinationHost = styled.span`
 `;
 
 const DeviceDownloadMetrics = styled(FlexChild)`
-  text-align: right;
+  text-align: left;
+  min-width: 60px;
   // color: ${TRON};
   opacity: 0.70;
 `;
@@ -127,6 +128,31 @@ const DeviceCard = ({
   },
 }) => {
 
+  const cardFacts = [
+    {
+      icon: 'box',
+      data: total,
+    },
+    {
+      icon: 'arrow-alt-circle-up',
+      data: dataIn,
+    },
+    {
+      icon: 'arrow-alt-circle-down',
+      data: dataOut,
+    },
+    {
+      icon: 'arrow-alt-circle-down',
+      data: dataOut,
+    },
+    {
+      icon: 'arrow-alt-circle-down',
+      data: dataOut,
+    },
+  ]
+
+  const cardWidth = (cardFacts.length * 60) + 50;
+
   return (
     <DCard
       onMouseEnter={onHover}
@@ -134,6 +160,7 @@ const DeviceCard = ({
       compact={false}
       active={active}
       noPadding={true}
+      style={{width:cardWidth}}
     >
       <DContent>
         <DRight className="p-4" grow={10}>
@@ -161,16 +188,14 @@ const DeviceCard = ({
             {/*</ConnectionDestination>*/}
           </FlexChild>
           <FlexChild className="m-top-2">
-            <Flex noWrap={true} fill justifyContent={JustifyContent.SPACE_BETWEEN}>
-              <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="box" className="m-right-1" /> {total || DEFAULT_VAL}
-              </DeviceDownloadMetrics>
-              <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-up" className="m-right-1" /> {dataIn || DEFAULT_VAL}
-              </DeviceDownloadMetrics>
-              <DeviceDownloadMetrics size={{ xs: 4 }}>
-                <BIcon type={'fas'} name="arrow-alt-circle-down" className="m-right-1" /> {dataOut || DEFAULT_VAL}
-              </DeviceDownloadMetrics>
+            <Flex noWrap={true} justifyContent={JustifyContent.SPACE_BETWEEN} style={{textAlign:'left'}}>
+              {cardFacts.map(fact => {
+                return (
+                  <DeviceDownloadMetrics>
+                    <BIcon type={'fas'} name={fact.icon} className="m-right-1" /> {fact.data || DEFAULT_VAL}
+                  </DeviceDownloadMetrics>
+                )
+              })}
             </Flex>
           </FlexChild>
         </DRight>
