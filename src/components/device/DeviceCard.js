@@ -94,7 +94,8 @@ const ConnectionDestinationHost = styled.span`
 
 const DeviceDownloadMetrics = styled(FlexChild)`
   text-align: left;
-  min-width: 60px;
+  min-width: 80px;
+  padding-left: 5px;
   // color: ${TRON};
   opacity: 0.70;
 `;
@@ -116,7 +117,7 @@ const renderFacts = (cardFacts, providedFacts) => {
     return providedFacts.map(fact => {
       return (
         <DeviceDownloadMetrics style={{color: fact.color}}>
-          <BIcon type={'fas'} name={fact.icon} color={fact.color} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {fact.data || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -124,7 +125,7 @@ const renderFacts = (cardFacts, providedFacts) => {
     return cardFacts.map(fact => {
       return (
         <DeviceDownloadMetrics style={{color: fact.color}}>
-          <BIcon type={'fas'} name={fact.icon} color={fact.color} className="m-right-1"/> {fact.data || DEFAULT_VAL}
+          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {fact.data || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -187,7 +188,14 @@ const DeviceCard = ({
     }
   }
 
-  const cardWidth = (cardFacts.length * 60) + 50;
+  let cardWidth = 0;
+  if (providedFacts) {
+    cardWidth = (providedFacts.length * 80) + 10;
+  } else {
+    cardWidth = (cardFacts.length * 80) + 10;
+  }
+
+  const graphWidth = Math.max(230, cardWidth - 30)
 
   return (
     <DCard
@@ -200,14 +208,14 @@ const DeviceCard = ({
     >
       <DContent>
         <DRight className="p-4" grow={10}>
-          <AutoFitComponent>
+          <div style={{width: graphWidth}}>
             <LineChart
               className={graphSize ? graphSize : 'device-small-chart'}
               dataWindowSize={dataWindowSize}
               data={graphData}
               lineColors={graphColors}
             />
-          </AutoFitComponent>
+          </div>
           <FlexChild>
             <DCategory className="p-bot-1">{category}</DCategory>
             <DName>{name || macAddress}</DName>
@@ -218,7 +226,7 @@ const DeviceCard = ({
             </ConnectionsLabel>
 
           </FlexChild>
-          <FlexChild className="m-top-2">
+          <FlexChild className="m-top-2" >
             <Flex noWrap={true} justifyContent={JustifyContent.SPACE_BETWEEN} style={{textAlign:'left'}}>
               {renderFacts(cardFacts, providedFacts)}
             </Flex>
