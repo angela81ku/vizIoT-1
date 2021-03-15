@@ -13,6 +13,10 @@ export const addDevice = (device) => {
     inTraffic: device.in,
     outTraffic: device.out,
     totalTraffic: device.total,
+    tcpTraffic: device.tcp,
+    udpTraffic: device.udp,
+    httpTraffic: device.http,
+    dnsTraffic: device.dns,
     velocity: device.velocity,
   }
 }
@@ -38,5 +42,24 @@ export const getDeviceIOData = () => {
   })
 
   return ioDevices
+
+}
+
+export const getDeviceProtocolData = () => {
+
+  const protocolDevices = {};
+  Object.keys(devices).forEach(d => {
+    const device = devices[d];
+    protocolDevices[d] = {
+      _id: device._id,
+      macAddress: device.macAddress,
+      name: device.name,
+      category: device.category,
+      dataStreams: [device.tcpTraffic, device.udpTraffic, device.httpTraffic, device.dnsTraffic],
+      velocity: device.velocity,
+    }
+  })
+
+  return protocolDevices;
 
 }

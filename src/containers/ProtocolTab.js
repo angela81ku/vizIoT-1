@@ -8,8 +8,8 @@ import {factFactory} from '../Factories/FactFactory';
 import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
 import {parseTop3IO, parseTop3Protocol} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
-import {fetchDevicesIO} from "../data/api/devicesApi";
-import {getDevices} from "../data/aggregators/DeviceAggregatorIO";
+import {fetchDeviceData} from "../data/api/devicesApi";
+import {getDeviceProtocolData, getDevices} from "../data/aggregators/DeviceAggregator";
 import {getTopThreeProtocolData} from "../data/aggregators/TopThreeProtocolAggregator";
 
 
@@ -25,7 +25,7 @@ export const ProtocolTab = ({}) => {
     const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
 
     const individualGraphResources = resourceFactory(TopThreeProtocol, getTopThreeProtocolData, parseTop3Protocol)
-    const deviceFetcher = fetcherFactory(fetchDevicesIO, getDevices, 15000)
+    const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceProtocolData, 15000)
 
     resources.inUse = true;
 
