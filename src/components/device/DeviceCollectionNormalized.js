@@ -51,7 +51,7 @@ class DeviceCollectionNormalized extends Component {
 
   render() {
     const { hoveredDevice } = this.state;
-    const { devices, packets, chartConfig, graphColors, graphSize, factColors } = this.props;
+    const { devices, packets, chartConfig, graphColors, graphSize, factColors, cardSymbols } = this.props;
 
     // console.log(devices)
     // console.log(packets)
@@ -117,6 +117,7 @@ class DeviceCollectionNormalized extends Component {
                 chartConfig={chartConfig}
                 graphColors={gColors}
                 factColors={fColors}
+                cardSymbols={cardSymbols}
               />
             </DeviceCardWrapper>
           );
@@ -135,6 +136,7 @@ DeviceCollectionNormalized.propTypes = {
   graphSize: PropTypes.string,
   graphColors: PropTypes.array,
   factColors: PropTypes.array,
+  cardSymbols: PropTypes.array,
 };
 
 const mapStateToProps = (state, props) => {

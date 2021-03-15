@@ -25,6 +25,8 @@ export const IOTab = ({}) => {
     const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
     const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceIOData, 15000)
 
+    const cardSymbols = ['box', 'arrow-alt-circle-up', 'arrow-alt-circle-down']
+
     // console.log(individualGraphResources)
 
     // TODO: Debug overrides -- without specifying overrides, sockets are being called twice after ~6 packet collections
@@ -37,6 +39,7 @@ export const IOTab = ({}) => {
             individualGraphResource={individualGraphResources}
             individualGraphSize='device-medium-chart'
             individualDeviceFetcher={deviceFetcher}
+            cardSymbols={cardSymbols}
             facts={facts}
             pageTitle={'In/Out Traffic'}
             pageSubtitle={'View network in/out traffic in real time' }

@@ -145,6 +145,7 @@ const DeviceCard = ({
   graphData,
   graphColors,
   factColors,
+  cardSymbols,
   graphSize,
   chartConfig: {
     dataWindowSize,
@@ -175,20 +176,33 @@ const DeviceCard = ({
       + dataStreams.length.toString() + ' -- Facts: ' + factColors.length.toString());
   }
 
+  if (cardSymbols && dataStreams && cardSymbols.length !== dataStreams.length) {
+    throw new Error('Number of Card Symbols provided do not match number of Data Streams provided: Symbols: '
+      + cardSymbols.length.toString() + ' -- Streams: ' + dataStreams.length.toString());
+  }
+
   // if facts are provided, coerce them into a collection of objects that can be rendered by renderFacts() method
   let providedFacts = undefined;
   if (dataStreams) {
     providedFacts = [];
     for (let i = 0; i < dataStreams.length; ++i) {
-      providedFacts.push({
-        icon: 'box',
-        data: dataStreams[i],
-        color: factColors[i],
-      })
+      if (cardSymbols) {
+        providedFacts.push({
+          icon: cardSymbols[i],
+          data: dataStreams[i],
+          color: factColors[i],
+        })
+      } else {
+        providedFacts.push({
+          icon: 'box',
+          data: dataStreams[i],
+          color: factColors[i],
+        })
+      }
     }
   }
 
-  let cardWidth = 0;
+  let cardWidth;
   if (providedFacts) {
     cardWidth = (providedFacts.length * 80) + 10;
   } else {
@@ -263,6 +277,7 @@ DeviceCard.propTypes = {
   graphSize: PropTypes.string,
   graphColors: PropTypes.array,
   factColors: PropTypes.array,
+  cardSymbols: PropTypes.array,
 };
 
 export default DeviceCard;

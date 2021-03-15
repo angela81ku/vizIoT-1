@@ -191,7 +191,7 @@ class LineGraphPage extends React.Component {
 
     }
 
-    deviceContainerRenderer = (graphResource, graphSize, fetcher, colors, factColors) => {
+    deviceContainerRenderer = (graphResource, graphSize, fetcher, colors, factColors, cardSymbols) => {
         if (graphResource && fetcher) {
             return <DeviceContainer
               individualGraphResource={graphResource}
@@ -199,6 +199,7 @@ class LineGraphPage extends React.Component {
               individualDeviceFetcher={fetcher}
               graphColors={colors}
               factColors={factColors}
+              cardSymbols={cardSymbols}
             />
         }
     }
@@ -215,6 +216,7 @@ class LineGraphPage extends React.Component {
         const individualGraphResource = this.props.individualGraphResource;
         const individualGraphSize = this.props.individualGraphSize;
         const individualDeviceFetcher = this.props.individualDeviceFetcher;
+        const cardSymbols = this.props.cardSymbols;
         const pageTitle = this.props.pageTitle;
         const pageSubtitle = this.props.pageSubtitle;
         const graphTitle = this.props.graphTitle;
@@ -252,7 +254,7 @@ class LineGraphPage extends React.Component {
             {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
             {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
             {this.metricGraphLineRenderer(metricRect, graphRect, 'white')}
-            {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors, factColors)}
+            {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors, factColors, cardSymbols)}
             <div className="xl-spacer"/>
         </TabContainer>
 
@@ -269,6 +271,7 @@ LineGraphPage.propTypes = {
     individualGraphResource: PropTypes.object,
     individualGraphSize: PropTypes.string,
     individualDeviceFetcher: PropTypes.object,
+    cardSymbols: PropTypes.array,
     facts: PropTypes.array,
     pageTitle: PropTypes.string,
     pageSubtitle: PropTypes.string,
