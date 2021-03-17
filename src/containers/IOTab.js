@@ -25,7 +25,7 @@ export const IOTab = ({}) => {
     const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
     const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceIOData, 15000)
 
-    const cardSymbols = ['box', 'arrow-alt-circle-up', 'arrow-alt-circle-down']
+    const cardSymbols = ['box', 'arrow-alt-circle-down', 'arrow-alt-circle-up']
 
     // console.log(individualGraphResources)
 
