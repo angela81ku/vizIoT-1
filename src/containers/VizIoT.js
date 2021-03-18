@@ -23,6 +23,7 @@ import { pathOr } from 'ramda';
 // my imports
 import { IOTab } from './IOTab';
 import {ProtocolTab} from "./ProtocolTab";
+import {ConnectionTableTab} from "./ConnectionTableTab";
 
 class VideoBackground extends PureComponent {
   render() {
@@ -174,6 +175,11 @@ class VizIoT extends React.Component {
                   exact
                   path={`${Tabs[tabKeys.PROTOCOL].path}`}
                   component={ProtocolTab}
+              />
+              <Route
+                exact
+                path={`${Tabs[tabKeys.CONNECTION_TABLE].path}`}
+                component={ConnectionTableTab}
               />
               <Route render={() => <NotFound />} />
             </Switch>

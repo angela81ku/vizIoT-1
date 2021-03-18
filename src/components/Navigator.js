@@ -14,7 +14,7 @@ import { _sticky } from './BeanUILibrary/functional-css/layout';
 
 const NavMenu = styled(TabColumn)`
   width: 100%;
-  height: 50rem;
+  height: 60rem;
 `;
 
 const TabItemStyled = styled(TabItem)`

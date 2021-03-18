@@ -10,6 +10,7 @@ export const tabKeys = keyMirror({
   DESTINATIONS: null,
   INOUT: null,
   PROTOCOL: null,
+  CONNECTION_TABLE: null,
 });
 
 export const Tabs = {
@@ -47,6 +48,11 @@ export const Tabs = {
     key: tabKeys.PROTOCOL,
     title: 'Protocol',
     path: '/protocol'
+  },
+  [tabKeys.CONNECTION_TABLE]: {
+    key: tabKeys.CONNECTION_TABLE,
+    title: 'Connections',
+    path: '/connection'
   }
 };
 
