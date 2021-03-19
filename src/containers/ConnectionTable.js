@@ -121,16 +121,18 @@ const renderTableHeader = () => {
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
-    <GraphColumn style={{padding:'3%', display:'inline-grid', gridTemplateColumns:'auto auto auto', alignContent:'center'}}>
-      <FixedTitle style={{color:'red'}} size='xsm' >
-        Sent
-      </FixedTitle>
-      <FixedTitle>
-        /
-      </FixedTitle>
-      <FixedTitle style={{color:'blue'}} size='xsm' >
-        Received
-      </FixedTitle>
+    <GraphColumn style={{textAlign:'center'}}>
+      <div style={{display:'inline-grid', gridTemplateColumns:'auto auto auto', justifyContent:'start'}}>
+        <FixedTitle style={{color:'red'}} size='xsm' >
+          Sent
+        </FixedTitle>
+        <FixedTitle>
+          /
+        </FixedTitle>
+        <FixedTitle style={{color:'blue'}} size='xsm' >
+          Received
+        </FixedTitle>
+      </div>
     </GraphColumn>
     <MetricColumn>
       <FixedTitle style={{paddingLeft:'20%'}} title='Traffic' size='xsm'/>
