@@ -101,6 +101,113 @@ const FixedTitle = styled(SectionTitle)`
   margin: 0 0 0 0;
 `
 
+const renderTableHeader = () => {
+  return <BorderedSolidRow height='75px'>
+    <SourceColumn>
+      <FixedTitle title='Source' style={{marginLeft:'5%'}}/>
+      <SolidRow>
+        <TabColumn>
+          <SectionSubtitle text='Name'/>
+        </TabColumn>
+      </SolidRow>
+    </SourceColumn>
+    <ArrowColumn/>
+    <DestinationColumn>
+      <FixedTitle title='Destination' style={{paddingLeft:'23%'}}/>
+      <SolidRow>
+        <IPColumn>
+          <SectionSubtitle text='IP'/>
+        </IPColumn>
+        <CountryColumn>
+          <SectionSubtitle text='Country'/>
+        </CountryColumn>
+      </SolidRow>
+    </DestinationColumn>
+    <GraphColumn style={{padding:'3%', display:'inline-grid', gridTemplateColumns:'auto auto auto', alignContent:'center'}}>
+      <FixedTitle style={{color:'red'}} size='xsm' >
+        Sent
+      </FixedTitle>
+      <FixedTitle>
+        /
+      </FixedTitle>
+      <FixedTitle style={{color:'blue'}} size='xsm' >
+        Received
+      </FixedTitle>
+    </GraphColumn>
+    <MetricColumn>
+      <FixedTitle style={{paddingLeft:'20%'}} title='Traffic' size='xsm'/>
+      <SolidRow>
+        <MetricSymbolColumn/>
+        <RecentMetricColumn>
+          <SectionSubtitle text='5 sec'/>
+        </RecentMetricColumn>
+        <OverallMetricColumn>
+          <SectionSubtitle text='60 sec'/>
+        </OverallMetricColumn>
+      </SolidRow>
+    </MetricColumn>
+  </BorderedSolidRow>
+}
+
+const renderTableRow = () => {
+  return <BorderedSolidRow height='100px'>
+    <SourceColumn>
+      <SolidRow>
+        <TabColumn>
+          AppleTV
+        </TabColumn>
+      </SolidRow>
+    </SourceColumn>
+    <ArrowColumn>
+      <SolidRow>
+        <ArrowContainerColumn>
+          <BIcon name='arrow-back-outline' type='eva' size={28} color='blue'/>
+        </ArrowContainerColumn>
+        <ArrowContainerColumn>
+          <BIcon name='arrow-forward-outline' type='eva' size={28} color='red'/>
+        </ArrowContainerColumn>
+      </SolidRow>
+    </ArrowColumn>
+    <DestinationColumn>
+      <SolidRow>
+        <IPColumn>
+          255.255.255.255
+        </IPColumn>
+        <CountryColumn>
+          UK
+        </CountryColumn>
+      </SolidRow>
+    </DestinationColumn>
+    <GraphColumn style={{alignContent:'center'}}>
+      I'm a graph...
+    </GraphColumn>
+    <MetricColumn>
+      <SolidRow height='50%'>
+        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color='red'/>
+        </MetricSymbolColumn>
+        <RecentMetricColumn>
+          500 B/S
+        </RecentMetricColumn>
+        <OverallMetricColumn>
+          100 B/S
+        </OverallMetricColumn>
+      </SolidRow>
+      <SolidRow height='50%'>
+        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color='blue'/>
+        </MetricSymbolColumn>
+        <RecentMetricColumn>
+          500 B/S
+        </RecentMetricColumn>
+        <OverallMetricColumn>
+          100 B/S
+        </OverallMetricColumn>
+      </SolidRow>
+    </MetricColumn>
+  </BorderedSolidRow>
+}
+
 export const ConnectionTableTab = ({}) => {
 
   return <TabContainer>
@@ -109,70 +216,8 @@ export const ConnectionTableTab = ({}) => {
     <div className="small-spacer"/>
     <ConnectionCard>
 
-      <BorderedSolidRow height='75px'>
-        <SourceColumn>
-          <FixedTitle title='Source'/>
-          <SolidRow>
-            <TabColumn>
-              <SectionSubtitle text='Name'/>
-            </TabColumn>
-          </SolidRow>
-        </SourceColumn>
-        <ArrowColumn>
-          <SolidRow>
-            <ArrowContainerColumn>
-              <BIcon name='arrow-back-outline' type='eva' size={28} color='blue'/>
-            </ArrowContainerColumn>
-            <ArrowContainerColumn>
-              <BIcon name='arrow-forward-outline' type='eva' size={28} color='red'/>
-            </ArrowContainerColumn>
-          </SolidRow>
-        </ArrowColumn>
-        <DestinationColumn>
-          <FixedTitle title='Destination' style={{paddingLeft:'23%'}}/>
-          <SolidRow>
-            <IPColumn>
-              <SectionSubtitle text='IP'/>
-            </IPColumn>
-            <CountryColumn>
-              <SectionSubtitle text='Country'/>
-            </CountryColumn>
-          </SolidRow>
-        </DestinationColumn>
-        <GraphColumn style={{padding:'3%', display:'inline-grid', gridTemplateColumns:'auto auto auto', alignContent:'center'}}>
-          <FixedTitle style={{color:'red'}} size='xsm' >
-            Sent
-          </FixedTitle>
-          <FixedTitle>
-            /
-          </FixedTitle>
-          <FixedTitle style={{color:'blue'}} size='xsm' >
-            Received
-          </FixedTitle>
-        </GraphColumn>
-        <MetricColumn>
-          <FixedTitle style={{paddingLeft:'20%'}} title='Traffic' size='xsm'/>
-          <SolidRow>
-            <MetricSymbolColumn/>
-            <RecentMetricColumn>
-              <SectionSubtitle text='5 sec'/>
-            </RecentMetricColumn>
-            <OverallMetricColumn>
-              <SectionSubtitle text='60 sec'/>
-            </OverallMetricColumn>
-          </SolidRow>
-        </MetricColumn>
-      </BorderedSolidRow>
-
-
-      <BorderedSolidRow>
-        <SourceColumn>
-          I'm a column
-        </SourceColumn>
-        <SourceColumn>
-          I'm another column
-        </SourceColumn>
-      </BorderedSolidRow>
+      {renderTableHeader()}
+      {renderTableRow()}
 
     </ConnectionCard>
 
