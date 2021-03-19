@@ -149,12 +149,12 @@ const renderTableHeader = () => {
   </BorderedSolidRow>
 }
 
-const renderTableRow = () => {
+const renderTableRow = (name, ip, country, sentFive, sentSixty, receivedFive, receivedSixty) => {
   return <BorderedSolidRow height='100px'>
     <SourceColumn>
       <SolidRow>
         <TabColumn>
-          AppleTV
+          {handleUndefinedValue(name)}
         </TabColumn>
       </SolidRow>
     </SourceColumn>
@@ -171,10 +171,10 @@ const renderTableRow = () => {
     <DestinationColumn>
       <SolidRow>
         <IPColumn>
-          255.255.255.255
+          {handleUndefinedValue(ip)}
         </IPColumn>
         <CountryColumn>
-          UK
+          {handleUndefinedValue(country)}
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
@@ -187,10 +187,10 @@ const renderTableRow = () => {
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color='red'/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          500 B/S
+          {handleUndefinedValue(sentFive)} B/S
         </RecentMetricColumn>
         <OverallMetricColumn>
-          100 B/S
+          {handleUndefinedValue(sentSixty)} B/S
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
@@ -198,17 +198,50 @@ const renderTableRow = () => {
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color='blue'/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          500 B/S
+          {handleUndefinedValue(receivedFive)} B/S
         </RecentMetricColumn>
         <OverallMetricColumn>
-          100 B/S
+          {handleUndefinedValue(receivedSixty)} B/S
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
   </BorderedSolidRow>
 }
 
+const handleUndefinedValue = val => {
+  if (val) { return val; }
+  return '~'
+}
+
 export const ConnectionTableTab = ({}) => {
+
+  const facts = [
+    {
+      name: 'AppleTV',
+      ip: '255.255.255.255',
+      sentFive: 50,
+      sentSixty: 100,
+      receivedFive: 10,
+      receivedSixty: 25,
+    },
+    {
+      name: 'AppleTV',
+      ip: '8.8.8.8',
+      country: 'US',
+      sentFive: 102,
+      sentSixty: 500,
+      receivedFive: 102,
+      receivedSixty:500,
+    },
+    {
+      name: 'IKettle',
+      ip: '54.24.12.34',
+      country: 'RU',
+      sentFive: 21,
+      receivedFive: 100,
+      receivedSixty: 120,
+    }
+  ]
 
   return <TabContainer>
     <SectionTitle title="Destination Table" size="lg" cardPadding={false}/>
@@ -217,7 +250,10 @@ export const ConnectionTableTab = ({}) => {
     <ConnectionCard>
 
       {renderTableHeader()}
-      {renderTableRow()}
+      {/*{renderTableRow('appletv', '255.255.255.255', 'UK', 500, 600, 700, 800)}*/}
+      {facts.map(conn => {
+        return renderTableRow(conn.name, conn.ip, conn.country, conn.sentFive, conn.sentSixty, conn.receivedFive, conn.receivedSixty)
+      })}
 
     </ConnectionCard>
 
