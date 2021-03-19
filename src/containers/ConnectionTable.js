@@ -17,7 +17,6 @@ import {addConnections, getConnections} from "../data/aggregators/ConnectionAggr
 const ConnectionCard = styled(BCard)`
   min-height: 400px;
   min-width: 800px;
-
 `
 
 // these are the primary columns, in order
@@ -112,7 +111,7 @@ const renderTableHeader = () => {
     </SourceColumn>
     <ArrowColumn/>
     <DestinationColumn>
-      <FixedTitle title='Destination' style={{paddingLeft:'23%'}}/>
+      <FixedTitle title='Destination' style={{marginLeft:'23%'}}/>
       <SolidRow>
         <IPColumn>
           <SectionSubtitle text='IP'/>
