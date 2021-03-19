@@ -16,12 +16,8 @@ import {addConnections, getConnections} from "../data/aggregators/ConnectionAggr
 // top level
 const ConnectionCard = styled(BCard)`
   min-height: 400px;
-  max-height: 1000px;
-  
   min-width: 800px;
-  max-width: 1250px;
-  //width: 1000px;
-  //height: 700px;
+
 `
 
 // these are the primary columns, in order
