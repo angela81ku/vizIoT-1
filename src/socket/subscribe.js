@@ -56,3 +56,4 @@ export const IOMetric = '/total/IO/metric/1s'
 export const ProtocolCount = '/total/protocol/1s';
 export const TopThreeIO = '/data/top3/IO/1s';
 export const TopThreeProtocol = '/data/top3/Protocol/1s';
+export const DeviceConnection = '/data/connections';

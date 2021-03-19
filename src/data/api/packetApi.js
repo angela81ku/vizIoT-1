@@ -38,3 +38,4 @@ export const parseTop3Protocol = res => {
     console.log('No deviceData in message from server');
   }
 }
+

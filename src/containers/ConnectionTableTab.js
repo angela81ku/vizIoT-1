@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 
 import SectionTitle from "../components/SectionTitle";
@@ -7,6 +7,11 @@ import BCard from "../components/BeanUILibrary/BCard";
 import SolidRow from '../components/BeanUILibrary/SolidRow';
 import TabColumn from "../components/BeanUILibrary/TabColumn";
 import BIcon from "../components/BeanUILibrary/BIcon";
+import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
+import {DeviceConnection} from "../socket/subscribe";
+import {addConnections, getConnections} from "../data/aggregators/ConnectionAggregator";
+import {selectLiveLineChartConfig} from "../selectors/chartSelectors";
+import {connect} from "react-redux";
 
 
 const TabContainer = styled.div`
@@ -214,6 +219,18 @@ const handleUndefinedValue = val => {
 }
 
 export const ConnectionTableTab = ({}) => {
+  const [connections, setConnections] = useState([]);
+
+  useSocket(DeviceConnection, addConnections);
+
+  setInterval(()=> {
+    const nConnect = getConnections();
+    if (nConnect !== connections) { setConnections(nConnect) }
+  }, 100)
+
+  //const connections = getConnections();
+
+  console.log(connections);
 
   const facts = [
     {
@@ -251,7 +268,7 @@ export const ConnectionTableTab = ({}) => {
     <ConnectionCard>
 
       {renderTableHeader()}
-      {facts.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
+      {connections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         return renderTableRow(conn.name, conn.ip, conn.country, conn.sentFive, conn.sentSixty, conn.receivedFive, conn.receivedSixty)
       })}
 
