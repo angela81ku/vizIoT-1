@@ -8,10 +8,11 @@ import {
   CARD_CONTENT_PADDING,
 } from '../styles/base/viz-theme';
 import BIcon from 'UIBean/BIcon';
-import { H0, H1, H3, H5 } from 'UIBean/functional-css/TypographyStyles';
+import { H0, H1, H3, H5, H6 } from 'UIBean/functional-css/TypographyStyles';
 import { pure } from 'recompose';
 
 const Sizes = {
+  XSMALL: 'xsm',
   SMALL: 'sm',
   MEDIUM: 'md',
   LARGE: 'lg',
@@ -31,6 +32,8 @@ const SectionTitleWrapper = styled.div`
 
 const getFont = ({ size }) => {
   switch (size) {
+    case Sizes.XSMALL:
+      return H6;
     case Sizes.SMALL:
       return H5;
     case Sizes.MEDIUM:

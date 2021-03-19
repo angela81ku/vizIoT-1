@@ -17,7 +17,7 @@ const TabContainer = styled.div`
 
 // top level
 const ConnectionCard = styled(BCard)`
-  width: 750px;
+  width: 1000px;
   height: 700px;
 `
 
@@ -25,7 +25,7 @@ const ConnectionCard = styled(BCard)`
 
 // main col
 const SourceColumn = styled(TabColumn)`
-  width: 20%;
+  width: 15%;
   height: 100%;
   justify-content: center;
 `
@@ -44,7 +44,7 @@ const ArrowContainerColumn = styled(TabColumn)`
 
 // main col
 const DestinationColumn = styled(TabColumn)`
-  width: 40%;
+  width: 30%;
   height: 100%;
 `
 
@@ -62,9 +62,34 @@ const CountryColumn = styled(TabColumn)`
 
 // main col
 const GraphColumn = styled(TabColumn)`
+  width: 25%;
+  height: 100%;
+  border-left: 1px solid rgba(255, 255, 255, .5);
+`
+
+// main col
+const MetricColumn = styled(TabColumn)`
   width: 20%;
   height: 100%;
   border-left: 1px solid rgba(255, 255, 255, .5);
+`
+
+// sub col
+const MetricSymbolColumn = styled(TabColumn)`
+  width: 20%;
+  height: 100%;
+`
+
+// sub col
+const RecentMetricColumn = styled(TabColumn)`
+  width: 40%;
+  height: 100%;
+`
+
+// sub col
+const OverallMetricColumn = styled(TabColumn)`
+  width: 40%;
+  height: 100%;
 `
 
 const BorderedSolidRow = styled(SolidRow)`
@@ -114,9 +139,29 @@ export const ConnectionTableTab = ({}) => {
             </CountryColumn>
           </SolidRow>
         </DestinationColumn>
-        <GraphColumn>
-          I'm a graph!
+        <GraphColumn style={{padding:'3%', display:'inline-grid', gridTemplateColumns:'auto auto auto', alignContent:'center'}}>
+          <FixedTitle style={{color:'red'}} size='xsm' >
+            Sent
+          </FixedTitle>
+          <FixedTitle>
+            /
+          </FixedTitle>
+          <FixedTitle style={{color:'blue'}} size='xsm' >
+            Received
+          </FixedTitle>
         </GraphColumn>
+        <MetricColumn>
+          <FixedTitle style={{paddingLeft:'20%'}} title='Traffic' size='xsm'/>
+          <SolidRow>
+            <MetricSymbolColumn/>
+            <RecentMetricColumn>
+              <SectionSubtitle text='5 sec'/>
+            </RecentMetricColumn>
+            <OverallMetricColumn>
+              <SectionSubtitle text='60 sec'/>
+            </OverallMetricColumn>
+          </SolidRow>
+        </MetricColumn>
       </BorderedSolidRow>
 
 
