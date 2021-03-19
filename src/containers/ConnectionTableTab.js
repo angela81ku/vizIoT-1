@@ -238,6 +238,7 @@ export const ConnectionTableTab = ({}) => {
       ip: '54.24.12.34',
       country: 'RU',
       sentFive: 21,
+      sentSixty: 500,
       receivedFive: 100,
       receivedSixty: 120,
     }
@@ -250,8 +251,7 @@ export const ConnectionTableTab = ({}) => {
     <ConnectionCard>
 
       {renderTableHeader()}
-      {/*{renderTableRow('appletv', '255.255.255.255', 'UK', 500, 600, 700, 800)}*/}
-      {facts.map(conn => {
+      {facts.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         return renderTableRow(conn.name, conn.ip, conn.country, conn.sentFive, conn.sentSixty, conn.receivedFive, conn.receivedSixty)
       })}
 
