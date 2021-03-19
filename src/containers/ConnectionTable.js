@@ -135,7 +135,7 @@ const renderTableHeader = () => {
       </div>
     </GraphColumn>
     <MetricColumn>
-      <FixedTitle style={{paddingLeft:'20%'}} title='Traffic' size='xsm'/>
+      <FixedTitle style={{marginLeft:'20%'}} title='Traffic' size='xsm'/>
       <SolidRow>
         <MetricSymbolColumn/>
         <RecentMetricColumn>
