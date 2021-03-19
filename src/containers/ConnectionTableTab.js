@@ -228,39 +228,6 @@ export const ConnectionTableTab = ({}) => {
     if (nConnect !== connections) { setConnections(nConnect) }
   }, 100)
 
-  //const connections = getConnections();
-
-  console.log(connections);
-
-  const facts = [
-    {
-      name: 'AppleTV',
-      ip: '255.255.255.255',
-      sentFive: 50,
-      sentSixty: 100,
-      receivedFive: 10,
-      receivedSixty: 25,
-    },
-    {
-      name: 'AppleTV',
-      ip: '8.8.8.8',
-      country: 'US',
-      sentFive: 102,
-      sentSixty: 500,
-      receivedFive: 102,
-      receivedSixty:500,
-    },
-    {
-      name: 'IKettle',
-      ip: '54.24.12.34',
-      country: 'RU',
-      sentFive: 21,
-      sentSixty: 500,
-      receivedFive: 100,
-      receivedSixty: 120,
-    }
-  ]
-
   return <TabContainer>
     <SectionTitle title="Destination Table" size="lg" cardPadding={false}/>
     <SectionSubtitle text="View destinations by device connection" margins={true}/>
