@@ -73,12 +73,27 @@ const drawLine = (data, max, height, width, color, isSent) => {
     pointStr += relativeX + ',' + relativeY + ' ';
   }
 
-  return <polyline
-    fill='none'
-    stroke={color}
-    strokeWidth='1'
-    points={pointStr}
-  />
+  // manually add polygon points for fill using existing string
+  let fillStr = pointStr;
+  // prepend first point (leftmost)
+  fillStr = pointWidth + ',' + halfHeight + ' ' + fillStr;
+  // append last point (rightmost)
+  fillStr += width + ',' + halfHeight
+
+  return <g>
+    <polyline
+      fill='none'
+      stroke={color}
+      strokeWidth='1'
+      points={pointStr}
+    />
+    <polyline
+      fill={color}
+      opacity={0.3}
+      stroke='transparent'
+      points={fillStr}
+    />
+  </g>
 }
 
 export const DualLineGraph = ({
