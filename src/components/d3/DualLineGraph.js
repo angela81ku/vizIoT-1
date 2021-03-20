@@ -56,6 +56,31 @@ const drawYLabels = (max, height) => {
 
 }
 
+const drawLine = (data, max, height, width, color, isSent) => {
+
+  const halfHeight = height / 2;
+  const maxMult = halfHeight / (max * 1.0);
+  const pointWidth = width / data.length;
+  let pointStr = '';
+  for (let i = 0; i < data.length; ++i) {
+
+    let relativeY = halfHeight;
+    if (isSent) { relativeY = halfHeight - (maxMult * data[i]); }
+    else { relativeY = height - (maxMult * data[i]); }
+
+    const relativeX = pointWidth * (i + 1);
+
+    pointStr += relativeX + ',' + relativeY + ' ';
+  }
+
+  return <polyline
+    fill='none'
+    stroke={color}
+    strokeWidth='1'
+    points={pointStr}
+  />
+}
+
 export const DualLineGraph = ({
   height,
   width,
@@ -66,14 +91,24 @@ export const DualLineGraph = ({
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
 
+  const sent = [];
+  const received = [];
+  for (let i = 0; i < 30; i++) {
+    const a = Math.floor(Math.random() * 2000);
+    const b = Math.floor(Math.random() * 2000);
+    sent.push(a);
+    received.push(b);
+  }
+
   return (
     <svg viewBox={view}>
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(3, xAxisStart, xAxisEnd, xAxisYPos)}
       {drawYLabels(2000, height)}
+      {drawLine(sent, 2000, height, width, 'red', true)}
+      {drawLine(received, 2000, height, width, 'blue', false)}
     </svg>
   )
-
 }
 
 DualLineGraph.propTypes = {
