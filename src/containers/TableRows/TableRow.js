@@ -54,7 +54,6 @@ export const TableRow = ({
 
   const graphRef = useRef();
   const dimensions = useDimensions(graphRef)
-  console.log(dimensions)
 
   return <BorderedSolidRow height='100px' >
     <SourceColumn>
@@ -86,7 +85,7 @@ export const TableRow = ({
     </DestinationColumn>
     <GraphColumn style={{alignContent:'center'}}>
       <div style={{height:'100%', width:'100%'}} ref={graphRef}>
-        <DualLineGraph/>
+        <DualLineGraph height={dimensions.height} width={dimensions.width}/>
       </div>
     </GraphColumn>
     <MetricColumn>
