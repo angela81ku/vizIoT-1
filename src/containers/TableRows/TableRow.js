@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import PropTypes from "prop-types";
+import React, {useState, useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
 
 import {
   ArrowColumn,
@@ -8,12 +8,39 @@ import {
   DestinationColumn, GraphColumn,
   IPColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
   SourceColumn
-} from "./ColumnStyles";
-import SolidRow from "../../components/BeanUILibrary/SolidRow";
-import TabColumn from "../../components/BeanUILibrary/TabColumn";
-import BIcon from "../../components/BeanUILibrary/BIcon";
-import {DualLineGraph} from "../../components/d3/DualLineGraph";
-import {ConnectionTable} from "../ConnectionTable";
+} from './ColumnStyles';
+import SolidRow from '../../components/BeanUILibrary/SolidRow';
+import TabColumn from '../../components/BeanUILibrary/TabColumn';
+import BIcon from '../../components/BeanUILibrary/BIcon';
+import {DualLineGraph} from '../../components/d3/DualLineGraph';
+import {ConnectionTable} from '../ConnectionTable';
+
+function useDimensions(targetRef) {
+  const getDimensions = () => {
+    return {
+      width: targetRef.current ? targetRef.current.offsetWidth : 0,
+      height: targetRef.current ? targetRef.current.offsetHeight : 0
+    };
+  };
+
+  const [dimensions, setDimensions] = useState(getDimensions);
+
+  const handleResize = () => {
+    setDimensions(getDimensions());
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
+
+  const dims = getDimensions();
+  if (dims.width !== dimensions.width || dims.height !== dimensions.height) {
+    return dims;
+  } else {
+    return dimensions;
+  }
+}
 
 export const TableRow = ({
    name,
@@ -25,7 +52,9 @@ export const TableRow = ({
    receivedSixty
 }) => {
 
-  const [dimensions, setDimensions] = useState({width: undefined, height: undefined})
+  const graphRef = useRef();
+  const dimensions = useDimensions(graphRef)
+  console.log(dimensions)
 
   return <BorderedSolidRow height='100px' >
     <SourceColumn>
@@ -56,7 +85,9 @@ export const TableRow = ({
       </SolidRow>
     </DestinationColumn>
     <GraphColumn style={{alignContent:'center'}}>
-      <DualLineGraph/>
+      <div style={{height:'100%', width:'100%'}} ref={graphRef}>
+        <DualLineGraph/>
+      </div>
     </GraphColumn>
     <MetricColumn>
       <SolidRow height='50%'>
