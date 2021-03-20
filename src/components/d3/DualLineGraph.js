@@ -13,11 +13,11 @@ const drawX = (start, end, yPos) => {
 
 const drawXLabels = (ticks, start, end, yPos) => {
 
-  const xSkip = (end - start) / ticks;
+  const xSkip = (end - start) / ((ticks * 10) - 1);
   const skipPos = [];
   for (let i = 0; i < ticks; ++i) {
     skipPos[i] = {
-      pos: end - (i * xSkip),
+      pos: end - (i * xSkip * 10),
       time: i * 10,
     }
   }
@@ -60,7 +60,7 @@ const drawLine = (data, max, height, width, color, isSent) => {
 
   const halfHeight = height / 2;
   const maxMult = halfHeight / (max * 1.0);
-  const pointWidth = width / data.length;
+  const pointWidth = width / (data.length - 1);
   let pointStr = '';
   for (let i = 0; i < data.length; ++i) {
 
@@ -68,7 +68,7 @@ const drawLine = (data, max, height, width, color, isSent) => {
     if (isSent) { relativeY = halfHeight - (maxMult * data[i]); }
     else { relativeY = height - (maxMult * data[i]); }
 
-    const relativeX = pointWidth * (i + 1);
+    const relativeX = pointWidth * i;
 
     pointStr += relativeX + ',' + relativeY + ' ';
   }
@@ -76,7 +76,7 @@ const drawLine = (data, max, height, width, color, isSent) => {
   // manually add polygon points for fill using existing string
   let fillStr = pointStr;
   // prepend first point (leftmost)
-  fillStr = pointWidth + ',' + halfHeight + ' ' + fillStr;
+  fillStr = '0,' + halfHeight + ' ' + fillStr;
   // append last point (rightmost)
   fillStr += width + ',' + halfHeight
 
