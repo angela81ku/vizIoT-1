@@ -99,6 +99,7 @@ const drawLine = (data, max, height, width, color, isSent) => {
 export const DualLineGraph = ({
   height,
   width,
+  data,
 }) => {
 
   const view = `0 0 ${width} ${height}`
@@ -106,22 +107,26 @@ export const DualLineGraph = ({
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
 
+  // console.log(data)
+
   const sent = [];
   const received = [];
-  for (let i = 0; i < 30; i++) {
-    const a = Math.floor(Math.random() * 2000);
-    const b = Math.floor(Math.random() * 2000);
-    sent.push(a);
-    received.push(b);
+  let max = 0;
+  for (let i = 0; i < data.length; ++i) {
+    const currSent = data[i][0];
+    const currReceived = data[i][1];
+    max = Math.max(max, currSent, currReceived)
+    sent.push(data[i][0]);
+    received.push(data[i][1]);
   }
 
   return (
     <svg viewBox={view}>
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(3, xAxisStart, xAxisEnd, xAxisYPos)}
-      {drawYLabels(2000, height)}
-      {drawLine(sent, 2000, height, width, 'red', true)}
-      {drawLine(received, 2000, height, width, 'blue', false)}
+      {drawYLabels(max, height)}
+      {drawLine(sent, max, height, width, 'red', true)}
+      {drawLine(received, max, height, width, 'blue', false)}
     </svg>
   )
 }
@@ -129,4 +134,5 @@ export const DualLineGraph = ({
 DualLineGraph.propTypes = {
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
 }

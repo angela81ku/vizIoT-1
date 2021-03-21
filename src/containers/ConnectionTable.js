@@ -32,11 +32,23 @@ export const ConnectionTable = ({
   useSocket(DeviceConnectionPackets, parseConnectionPackets)
 
   const updateConnections = (connections) => {
+    console.log('setting connections')
     setConnections(connections);
   }
 
-  const updatePackets = (packets) => {
-    setPackets(packets);
+  const updatePackets = (p) => {
+    console.log('setting packets')
+    const nP = {};
+    connections.forEach(conn => {
+      const stream = p[conn.id];
+      if (stream) {
+        nP[conn.id] = stream;
+      } else {
+        nP[conn.id] = [];
+      }
+    })
+    console.log(nP)
+    setPackets(nP);
   }
 
   useEffect(() => {
@@ -57,12 +69,14 @@ export const ConnectionTable = ({
   }
 
   let renderIndex = 0;
+  console.log('rerendering')
 
   return <ConnectionCard>
       <TableHeader/>
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
-        const currentPackets = packets[conn.id];
+        let currentPackets = packets[conn.id];
+        if (currentPackets && currentPackets.length > 30) { currentPackets = currentPackets.slice(-30)}
         return <TableRow
           name={conn.name}
           ip={conn.ip}

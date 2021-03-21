@@ -43,13 +43,14 @@ function useDimensions(targetRef) {
 }
 
 export const TableRow = ({
-   name,
-   ip,
-   country,
-   sentFive,
-   sentSixty,
-   receivedFive,
-   receivedSixty
+  name,
+  ip,
+  country,
+  data,
+  sentFive,
+  sentSixty,
+  receivedFive,
+  receivedSixty
 }) => {
 
   const graphRef = useRef();
@@ -85,7 +86,7 @@ export const TableRow = ({
     </DestinationColumn>
     <GraphColumn style={{alignContent:'center'}}>
       <div style={{height:'100%', width:'100%'}} ref={graphRef}>
-        <DualLineGraph height={dimensions.height} width={dimensions.width}/>
+        <DualLineGraph height={dimensions.height} width={dimensions.width} data={data}/>
       </div>
     </GraphColumn>
     <MetricColumn>
@@ -119,6 +120,7 @@ TableRow.propTypes = {
   name: PropTypes.string.isRequired,
   ip: PropTypes.string.isRequired,
   country: PropTypes.string,
+  data: PropTypes.array.isRequired,
   sentFive: PropTypes.number.isRequired,
   sentSixty: PropTypes.number.isRequired,
   receivedFive: PropTypes.number.isRequired,
