@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 
 import SectionTitle from "../components/SectionTitle";
 import SectionSubtitle from "../components/SectionSubtitle";
-import BCard from "../components/BeanUILibrary/BCard";
-import SolidRow from '../components/BeanUILibrary/SolidRow';
-import TabColumn from "../components/BeanUILibrary/TabColumn";
-import BIcon from "../components/BeanUILibrary/BIcon";
-import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
-import {DeviceConnection} from "../socket/subscribe";
-import {addConnections, getConnections} from "../data/aggregators/ConnectionAggregator";
 import {ConnectionTable} from "./ConnectionTable";
 
 

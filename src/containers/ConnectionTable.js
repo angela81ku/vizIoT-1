@@ -1,28 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 
-import SectionTitle from "../components/SectionTitle";
-import SectionSubtitle from "../components/SectionSubtitle";
 import BCard from "../components/BeanUILibrary/BCard";
-import SolidRow from '../components/BeanUILibrary/SolidRow';
-import TabColumn from "../components/BeanUILibrary/TabColumn";
-import BIcon from "../components/BeanUILibrary/BIcon";
 import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
-import {DeviceConnection} from "../socket/subscribe";
-import {addConnections, getConnections} from "../data/aggregators/ConnectionAggregator";
-import {DualLineGraph} from "../components/d3/DualLineGraph";
-import { BlankRow } from "./TableRows/BlankRow";
+import {DeviceConnection, DeviceConnectionPackets} from "../socket/subscribe";
 import {
-  ArrowColumn, ArrowContainerColumn, BorderedSolidRow,
-  CountryColumn,
-  DestinationColumn,
-  FixedTitle, GraphColumn,
-  IPColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
-  SourceColumn
-} from "./TableRows/ColumnStyles";
+  addConnectionListener,
+  addPacketListener,
+  getConnections,
+  getPackets, removeConnectionListener, removePacketListener
+} from "../data/aggregators/ConnectionAggregator";
+import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
+import {parseConnectionPackets, parseConnections} from "../data/api/connectionsApi";
 
 // top level
 const ConnectionCard = styled(BCard)`
@@ -34,13 +26,28 @@ export const ConnectionTable = ({
   rows
 }) => {
   const [connections, setConnections] = useState([]);
+  const [packets, setPackets] = useState({})
 
-  useSocket(DeviceConnection, addConnections);
+  useSocket(DeviceConnection, parseConnections);
+  useSocket(DeviceConnectionPackets, parseConnectionPackets)
 
-  setInterval(()=> {
-    const nConnect = getConnections();
-    if (nConnect !== connections) { setConnections(nConnect) }
-  }, 100)
+  const updateConnections = (connections) => {
+    setConnections(connections);
+  }
+
+  const updatePackets = (packets) => {
+    setPackets(packets);
+  }
+
+  useEffect(() => {
+    addPacketListener(updatePackets);
+    addConnectionListener(updateConnections);
+
+    return () => {
+      removePacketListener(updatePackets);
+      removeConnectionListener(updateConnections);
+    }
+  })
 
   let displayConnections;
   if (connections > rows) {
@@ -55,9 +62,11 @@ export const ConnectionTable = ({
       <TableHeader/>
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
+        const currentPackets = packets[conn.id];
         return <TableRow
           name={conn.name}
           ip={conn.ip}
+          data={currentPackets ? currentPackets : []}
           country={conn.country}
           sentFive={conn.sentFive}
           sentSixty={conn.sentSixty}
