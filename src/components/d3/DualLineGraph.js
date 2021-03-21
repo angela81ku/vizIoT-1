@@ -77,9 +77,9 @@ const drawLine = (data, max, height, width, color, isSent) => {
   // manually add polygon points for fill using existing string
   let fillStr = pointStr;
   // prepend first point (leftmost)
-  fillStr = '0,' + halfHeight + ' ' + fillStr;
+  fillStr = width + ',' + halfHeight + ' ' + fillStr;
   // append last point (rightmost)
-  fillStr += width + ',' + halfHeight
+  fillStr += (width - ((data.length - 1) * pointWidth)) + ',' + halfHeight;
 
   return <g>
     <polyline
