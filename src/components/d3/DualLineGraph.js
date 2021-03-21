@@ -60,15 +60,16 @@ const drawLine = (data, max, height, width, color, isSent) => {
 
   const halfHeight = height / 2;
   const maxMult = halfHeight / (max * 1.0);
-  const pointWidth = width / (data.length - 1);
+  const pointWidth = width / (29);
   let pointStr = '';
-  for (let i = 0; i < data.length; ++i) {
+  const diff = 30 - data.length;
+  for (let i = data.length - 1; i >= 0; --i) {
 
     let relativeY = halfHeight;
     if (isSent) { relativeY = halfHeight - (maxMult * data[i]); }
     else { relativeY = height - (maxMult * data[i]); }
 
-    const relativeX = pointWidth * i;
+    const relativeX = pointWidth * (i + diff);
 
     pointStr += relativeX + ',' + relativeY + ' ';
   }
