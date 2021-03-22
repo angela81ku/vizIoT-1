@@ -23,6 +23,8 @@ export const ConnectionTableTab = ({}) => {
       rows={5}
       xTicks={3}
       timeFrame={30}
+      sentColor={'#ff1e00'}
+      receivedColor={'#0073ff'}
     />
 
     <div className="xl-spacer"/>

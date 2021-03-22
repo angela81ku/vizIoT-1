@@ -33,6 +33,8 @@ export const ConnectionTable = ({
   rows,
   timeFrame,
   xTicks,
+  sentColor,
+  receivedColor,
 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
@@ -98,7 +100,10 @@ export const ConnectionTable = ({
   let renderIndex = 0;
 
   return <ConnectionCard>
-      <TableHeader/>
+      <TableHeader
+        sentColor={sentColor}
+        receivedColor={receivedColor}
+      />
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
         // console.log(conn)
@@ -118,10 +123,12 @@ export const ConnectionTable = ({
           receivedSixty={conn.receivedSixty}
           time={timeFrame}
           ticks={xTicks}
+          sentColor={sentColor}
+          receivedColor={receivedColor}
         />
       })}
       {[...Array(rows - renderIndex)].map(x => {
-        return <BlankRow/>;
+        return <BlankRow sentColor={sentColor} receivedColor={receivedColor}/>;
       })}
 
     </ConnectionCard>
@@ -132,4 +139,6 @@ ConnectionTable.propTypes = {
   rows: PropTypes.number.isRequired,
   timeFrame: PropTypes.number,
   xTicks: PropTypes.number,
+  sentColor: PropTypes.string,
+  receivedColor: PropTypes.string,
 }

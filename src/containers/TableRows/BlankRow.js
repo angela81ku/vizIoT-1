@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
 import SolidRow from "../../components/BeanUILibrary/SolidRow";
 import TabColumn from "../../components/BeanUILibrary/TabColumn";
@@ -12,7 +13,10 @@ import {
   SourceColumn
 } from "./ColumnStyles";
 
-export const BlankRow = ({}) => {
+export const BlankRow = ({
+  sentColor,
+  receivedColor
+}) => {
   return <BorderedSolidRow height='100px'>
     <SourceColumn>
       <SolidRow>
@@ -24,10 +28,10 @@ export const BlankRow = ({}) => {
     <ArrowColumn>
       <SolidRow>
         <ArrowContainerColumn>
-          <BIcon name='arrow-back-outline' type='eva' size={28} color={'#0073ff'}/>
+          <BIcon name='arrow-back-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </ArrowContainerColumn>
         <ArrowContainerColumn>
-          <BIcon name='arrow-forward-outline' type='eva' size={28} color={'#ff1e00'}/>
+          <BIcon name='arrow-forward-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </ArrowContainerColumn>
       </SolidRow>
     </ArrowColumn>
@@ -47,7 +51,7 @@ export const BlankRow = ({}) => {
     <MetricColumn>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={'#ff1e00'}/>
+          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           ~ B/S
@@ -58,7 +62,7 @@ export const BlankRow = ({}) => {
       </SolidRow>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={'#0073ff'}/>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           ~ B/S
@@ -69,4 +73,9 @@ export const BlankRow = ({}) => {
       </SolidRow>
     </MetricColumn>
   </BorderedSolidRow>
+}
+
+BlankRow.propTypes = {
+  sentColor: PropTypes.string,
+  receivedColor: PropTypes.string,
 }

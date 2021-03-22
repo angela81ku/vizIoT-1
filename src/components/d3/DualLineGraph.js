@@ -104,6 +104,8 @@ export const DualLineGraph = ({
   data,
   ticks,
   time,
+  topColor,
+  bottomColor,
 }) => {
 
   const view = `0 0 ${width} ${height}`
@@ -130,8 +132,8 @@ export const DualLineGraph = ({
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(tickMarks, maxTime, xAxisStart, xAxisEnd, xAxisYPos)}
       {drawYLabels(max, height)}
-      {drawLine(sent, max, height, width, '#ff1e00', true)}
-      {drawLine(received, max, height, width, '#0073ff', false)}
+      {drawLine(sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
+      {drawLine(received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
     </svg>
   )
 }
@@ -142,4 +144,6 @@ DualLineGraph.propTypes = {
   data: PropTypes.array.isRequired,
   ticks: PropTypes.number,
   time: PropTypes.number,
+  topColor: PropTypes.string,
+  bottomColor: PropTypes.string,
 }

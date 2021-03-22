@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
 import SolidRow from "../../components/BeanUILibrary/SolidRow";
 import TabColumn from "../../components/BeanUILibrary/TabColumn";
@@ -13,7 +14,10 @@ import {
 } from "./ColumnStyles";
 import SectionSubtitle from "../../components/SectionSubtitle";
 
-export const TableHeader = ({}) => {
+export const TableHeader = ({
+  sentColor,
+  receivedColor,
+}) => {
   return <BorderedSolidRow height='75px'>
     <SourceColumn>
       <FixedTitle title='Source' style={{marginLeft:'5%'}}/>
@@ -37,13 +41,13 @@ export const TableHeader = ({}) => {
     </DestinationColumn>
     <GraphColumn style={{textAlign:'center'}}>
       <div style={{display:'inline-grid', gridTemplateColumns:'auto auto auto', justifyContent:'start'}}>
-        <FixedTitle style={{color:'#ff1e00'}} size='xsm' >
+        <FixedTitle style={{color:(sentColor ? sentColor : '#ff1e00')}} size='xsm' >
           Sent
         </FixedTitle>
         <FixedTitle>
           /
         </FixedTitle>
-        <FixedTitle style={{color:'#0073ff'}} size='xsm' >
+        <FixedTitle style={{color:(receivedColor ? receivedColor : '#0073ff')}} size='xsm' >
           Received
         </FixedTitle>
       </div>
@@ -63,3 +67,7 @@ export const TableHeader = ({}) => {
   </BorderedSolidRow>
 }
 
+TableHeader.propTypes = {
+  sentColor: PropTypes.string,
+  receivedColor: PropTypes.string,
+}

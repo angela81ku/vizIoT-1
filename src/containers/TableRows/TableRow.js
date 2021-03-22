@@ -53,6 +53,8 @@ export const TableRow = ({
   receivedSixty,
   time,
   ticks,
+  sentColor,
+  receivedColor
 }) => {
 
   const graphRef = useRef();
@@ -69,10 +71,10 @@ export const TableRow = ({
     <ArrowColumn>
       <SolidRow>
         <ArrowContainerColumn>
-          <BIcon name='arrow-back-outline' type='eva' size={28} color={'#0073ff'}/>
+          <BIcon name='arrow-back-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </ArrowContainerColumn>
         <ArrowContainerColumn>
-          <BIcon name='arrow-forward-outline' type='eva' size={28} color={'#ff1e00'}/>
+          <BIcon name='arrow-forward-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </ArrowContainerColumn>
       </SolidRow>
     </ArrowColumn>
@@ -88,13 +90,20 @@ export const TableRow = ({
     </DestinationColumn>
     <GraphColumn style={{alignContent:'center'}}>
       <div style={{height:'100%', width:'100%'}} ref={graphRef}>
-        <DualLineGraph height={dimensions.height} width={dimensions.width} data={data} time={time} ticks={ticks}/>
+        <DualLineGraph
+          height={dimensions.height}
+          width={dimensions.width}
+          data={data} time={time}
+          ticks={ticks}
+          topColor={sentColor}
+          bottomColor={receivedColor}
+        />
       </div>
     </GraphColumn>
     <MetricColumn>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={'#ff1e00'}/>
+          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           {handleUndefinedValue(sentFive)} B/S
@@ -105,7 +114,7 @@ export const TableRow = ({
       </SolidRow>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={'#0073ff'}/>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           {handleUndefinedValue(receivedFive)} B/S
@@ -129,6 +138,8 @@ TableRow.propTypes = {
   receivedSixty: PropTypes.number.isRequired,
   time: PropTypes.number,
   ticks: PropTypes.number,
+  sentColor: PropTypes.string,
+  receivedColor: PropTypes.string,
 }
 
 const handleUndefinedValue = val => {
