@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import BCard from "../components/BeanUILibrary/BCard";
 import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
-import {DeviceConnection, DeviceConnectionPackets} from "../socket/subscribe";
+import {
+  DeviceConnection,
+  DeviceConnectionPackets1s,
+  DeviceConnectionPackets5s,
+  DeviceConnectionPackets60s,
+} from "../socket/subscribe";
 import {
   addConnectionListener,
   addPacketListener,
@@ -15,6 +20,8 @@ import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
 import {parseConnectionPackets, parseConnections} from "../data/api/connectionsApi";
+import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
+import {fetchDeviceConnections} from "../data/api/devicesApi";
 
 // top level
 const ConnectionCard = styled(BCard)`
@@ -28,26 +35,29 @@ export const ConnectionTable = ({
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
 
-  useSocket(DeviceConnection, parseConnections);
-  useSocket(DeviceConnectionPackets, parseConnectionPackets)
+  useSocket(DeviceConnectionPackets1s, parseConnectionPackets)
+  useSocket(DeviceConnectionPackets5s, parseConnectionPackets)
+  useSocket(DeviceConnectionPackets60s, parseConnectionPackets)
+  useTimedFetcher(fetchDeviceConnections, 10000)
 
   const updateConnections = (connections) => {
-    console.log('setting connections')
     setConnections(connections);
   }
 
   const updatePackets = (p) => {
-    console.log('setting packets')
     const nP = {};
     connections.forEach(conn => {
       const stream = p[conn.id];
       if (stream) {
         nP[conn.id] = stream;
       } else {
-        nP[conn.id] = [];
+        nP[conn.id] = {
+          second: undefined,
+          five: undefined,
+          sixty: undefined,
+        };
       }
     })
-    console.log(nP)
     setPackets(nP);
   }
 
@@ -62,20 +72,38 @@ export const ConnectionTable = ({
   })
 
   let displayConnections;
-  if (connections > rows) {
+  if (connections.length > rows) {
     displayConnections = connections.slice(0, rows)
   } else {
     displayConnections = connections;
   }
 
+  for (let i = 0; displayConnections && i < displayConnections.length; ++i) {
+    const currConnection = displayConnections[i];
+    const packet = packets[currConnection.id];
+    if(packet) {
+      if (packet['five'] !== undefined) {
+        currConnection['sentFive'] = packet['five'][0];
+        currConnection['receivedFive'] = packet['five'][1];
+      }
+      if (packet['sixty'] !== undefined) {
+        currConnection['sentSixty'] = packet['sixty'][0];
+        currConnection['receivedSixty'] = packet['sixty'][1];
+      }
+    }
+  }
+
   let renderIndex = 0;
-  console.log('rerendering')
 
   return <ConnectionCard>
       <TableHeader/>
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
-        let currentPackets = packets[conn.id];
+        // console.log(conn)
+        // console.log(packets)
+        const packetData = packets[conn.id];
+        let currentPackets;
+        if (packetData) { currentPackets = packetData['one']}
         if (currentPackets && currentPackets.length > 30) { currentPackets = currentPackets.slice(-30)}
         return <TableRow
           name={conn.name}

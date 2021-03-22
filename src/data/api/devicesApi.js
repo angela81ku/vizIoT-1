@@ -6,6 +6,7 @@ import { Record } from 'immutable';
 import ApiRecord from './Api';
 import { createMockCall } from 'VizIoT/utility/ApiUtility';
 import {addDevice, getDevices} from "../aggregators/DeviceAggregator";
+import {addConnections, updateConnectionListeners} from "../aggregators/ConnectionAggregator";
 
 export const fetchDevices = new ApiRecord({
   call: ({ networkId }) => {
@@ -44,4 +45,12 @@ export async function fetchDeviceData() {
   devices.forEach(d => {
     addDevice(d);
   })
+}
+
+export async function fetchDeviceConnections() {
+  const url = `${baseUrlApi}/device/connections`;
+  const res =  await axios.get(url, { headers })
+  const connections = res.data.connections;
+  addConnections(connections);
+  updateConnectionListeners();
 }

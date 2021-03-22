@@ -57,4 +57,6 @@ export const ProtocolCount = '/total/protocol/1s';
 export const TopThreeIO = '/data/top3/IO/1s';
 export const TopThreeProtocol = '/data/top3/Protocol/1s';
 export const DeviceConnection = '/data/connections';
-export const DeviceConnectionPackets = '/data/connections/1s';
+export const DeviceConnectionPackets1s = '/data/connections/1s';
+export const DeviceConnectionPackets5s = '/data/connections/5s';
+export const DeviceConnectionPackets60s = '/data/connections/60s';
