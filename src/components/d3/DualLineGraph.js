@@ -130,8 +130,8 @@ export const DualLineGraph = ({
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(tickMarks, maxTime, xAxisStart, xAxisEnd, xAxisYPos)}
       {drawYLabels(max, height)}
-      {drawLine(sent, max, height, width, 'red', true)}
-      {drawLine(received, max, height, width, 'blue', false)}
+      {drawLine(sent, max, height, width, '#ff1e00', true)}
+      {drawLine(received, max, height, width, '#0073ff', false)}
     </svg>
   )
 }

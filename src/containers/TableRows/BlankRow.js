@@ -24,10 +24,10 @@ export const BlankRow = ({}) => {
     <ArrowColumn>
       <SolidRow>
         <ArrowContainerColumn>
-          <BIcon name='arrow-back-outline' type='eva' size={28} color='blue'/>
+          <BIcon name='arrow-back-outline' type='eva' size={28} color={'#0073ff'}/>
         </ArrowContainerColumn>
         <ArrowContainerColumn>
-          <BIcon name='arrow-forward-outline' type='eva' size={28} color='red'/>
+          <BIcon name='arrow-forward-outline' type='eva' size={28} color={'#ff1e00'}/>
         </ArrowContainerColumn>
       </SolidRow>
     </ArrowColumn>
@@ -47,7 +47,7 @@ export const BlankRow = ({}) => {
     <MetricColumn>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color='red'/>
+          <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={'#ff1e00'}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           ~ B/S
@@ -58,7 +58,7 @@ export const BlankRow = ({}) => {
       </SolidRow>
       <SolidRow height='50%'>
         <MetricSymbolColumn style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color='blue'/>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={'#0073ff'}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
           ~ B/S

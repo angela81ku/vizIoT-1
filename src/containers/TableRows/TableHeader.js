@@ -37,13 +37,13 @@ export const TableHeader = ({}) => {
     </DestinationColumn>
     <GraphColumn style={{textAlign:'center'}}>
       <div style={{display:'inline-grid', gridTemplateColumns:'auto auto auto', justifyContent:'start'}}>
-        <FixedTitle style={{color:'red'}} size='xsm' >
+        <FixedTitle style={{color:'#ff1e00'}} size='xsm' >
           Sent
         </FixedTitle>
         <FixedTitle>
           /
         </FixedTitle>
-        <FixedTitle style={{color:'blue'}} size='xsm' >
+        <FixedTitle style={{color:'#0073ff'}} size='xsm' >
           Received
         </FixedTitle>
       </div>
