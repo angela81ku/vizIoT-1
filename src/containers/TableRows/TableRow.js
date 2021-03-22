@@ -50,7 +50,9 @@ export const TableRow = ({
   sentFive,
   sentSixty,
   receivedFive,
-  receivedSixty
+  receivedSixty,
+  time,
+  ticks,
 }) => {
 
   const graphRef = useRef();
@@ -86,7 +88,7 @@ export const TableRow = ({
     </DestinationColumn>
     <GraphColumn style={{alignContent:'center'}}>
       <div style={{height:'100%', width:'100%'}} ref={graphRef}>
-        <DualLineGraph height={dimensions.height} width={dimensions.width} data={data}/>
+        <DualLineGraph height={dimensions.height} width={dimensions.width} data={data} time={time} ticks={ticks}/>
       </div>
     </GraphColumn>
     <MetricColumn>
@@ -125,6 +127,8 @@ TableRow.propTypes = {
   sentSixty: PropTypes.number.isRequired,
   receivedFive: PropTypes.number.isRequired,
   receivedSixty: PropTypes.number.isRequired,
+  time: PropTypes.number,
+  ticks: PropTypes.number,
 }
 
 const handleUndefinedValue = val => {

@@ -19,7 +19,11 @@ export const ConnectionTableTab = ({}) => {
     <SectionTitle title="Destination Table" size="lg" cardPadding={false}/>
     <SectionSubtitle text="View destinations by device connection" margins={true}/>
     <div className="small-spacer"/>
-    <ConnectionTable rows={5}/>
+    <ConnectionTable
+      rows={5}
+      xTicks={3}
+      timeFrame={30}
+    />
 
     <div className="xl-spacer"/>
   </TabContainer>

@@ -30,7 +30,9 @@ const ConnectionCard = styled(BCard)`
 `
 
 export const ConnectionTable = ({
-  rows
+  rows,
+  timeFrame,
+  xTicks,
 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
@@ -114,6 +116,8 @@ export const ConnectionTable = ({
           sentSixty={conn.sentSixty}
           receivedFive={conn.receivedFive}
           receivedSixty={conn.receivedSixty}
+          time={timeFrame}
+          ticks={xTicks}
         />
       })}
       {[...Array(rows - renderIndex)].map(x => {
@@ -126,4 +130,6 @@ export const ConnectionTable = ({
 
 ConnectionTable.propTypes = {
   rows: PropTypes.number.isRequired,
+  timeFrame: PropTypes.number,
+  xTicks: PropTypes.number,
 }

@@ -11,14 +11,15 @@ const drawX = (start, end, yPos) => {
   return <line x1={start} y1={yPos} x2={end} y2={yPos} stroke={strokeColor} strokeWidth={1}/>
 }
 
-const drawXLabels = (ticks, start, end, yPos) => {
+const drawXLabels = (ticks, maxTime, start, end, yPos) => {
 
-  const xSkip = (end - start) / ((ticks * 10) - 1);
+  const interval = maxTime / ticks;
+  const xSkip = (end - start) / ((ticks * interval) - 1);
   const skipPos = [];
   for (let i = 0; i < ticks; ++i) {
     skipPos[i] = {
-      pos: end - (i * xSkip * 10),
-      time: i * 10,
+      pos: end - (i * xSkip * interval),
+      time: i * interval,
     }
   }
 
@@ -101,14 +102,14 @@ export const DualLineGraph = ({
   height,
   width,
   data,
+  ticks,
+  time,
 }) => {
 
   const view = `0 0 ${width} ${height}`
   const xAxisStart = 0;
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
-
-  // console.log(data)
 
   const sent = [];
   const received = [];
@@ -121,10 +122,13 @@ export const DualLineGraph = ({
     received.push(data[i][1]);
   }
 
+  const tickMarks = (ticks ? ticks : 3);
+  const maxTime = (time ? time : 30);
+
   return (
     <svg viewBox={view}>
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
-      {drawXLabels(3, xAxisStart, xAxisEnd, xAxisYPos)}
+      {drawXLabels(tickMarks, maxTime, xAxisStart, xAxisEnd, xAxisYPos)}
       {drawYLabels(max, height)}
       {drawLine(sent, max, height, width, 'red', true)}
       {drawLine(received, max, height, width, 'blue', false)}
@@ -136,4 +140,6 @@ DualLineGraph.propTypes = {
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
+  ticks: PropTypes.number,
+  time: PropTypes.number,
 }
