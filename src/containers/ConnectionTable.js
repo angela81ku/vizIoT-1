@@ -19,7 +19,12 @@ import {
 import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
-import {parseConnectionPackets, parseConnections} from "../data/api/connectionsApi";
+import {
+  parseConnectionPackets,
+  parseConnections,
+  parseFiveSecondConnectionPackets,
+  parseSecondConnectionPackets, parseSixtySecondConnectionPackets
+} from "../data/api/connectionsApi";
 import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
 import {fetchDeviceConnections} from "../data/api/devicesApi";
 
@@ -39,9 +44,9 @@ export const ConnectionTable = ({
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
 
-  useSocket(DeviceConnectionPackets1s, parseConnectionPackets)
-  useSocket(DeviceConnectionPackets5s, parseConnectionPackets)
-  useSocket(DeviceConnectionPackets60s, parseConnectionPackets)
+  useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
+  useSocket(DeviceConnectionPackets5s, parseFiveSecondConnectionPackets)
+  useSocket(DeviceConnectionPackets60s, parseSixtySecondConnectionPackets)
   useTimedFetcher(fetchDeviceConnections, 10000)
 
   const updateConnections = (connections) => {

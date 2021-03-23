@@ -13,6 +13,12 @@ let connections = [];
 let packetListeners = [];
 let connectionListeners = [];
 
+export const METRICS = {
+  SECOND: 0,
+  FIVE: 1,
+  SIXTY: 2,
+}
+
 export const addConnections = (connectionArray) => {
   connections = connectionArray;
 }
@@ -22,37 +28,42 @@ export const getConnections = () => {
   return connections;
 }
 
-export const addPackets = (packet) => {
+export const addPackets = (packet, metric) => {
   // check for 1 sec stream
   // console.log(packet)
-  if (packet.hasOwnProperty('size1s')) {
-    if (packets.hasOwnProperty(packet.id)) {
-      const packetObj = packets[packet.id];
-      let packetArr = packetObj.one;
-      packetArr.push(packet.size1s);
-      if (packetArr.length > 75) {
-        packetArr = packetArr.slice(-75)
+  switch (metric) {
+    case (METRICS.SECOND): {
+      if (packets.hasOwnProperty(packet.id)) {
+        const packetObj = packets[packet.id];
+        let packetArr = packetObj.one;
+        packetArr.push(packet.size);
+        if (packetArr.length > 75) {
+          packetArr = packetArr.slice(-75)
+        }
+        packets[packet.id]['one'] = packetArr;
+      } else {
+        packets[packet.id] = makeInitialPacket([packet.size], undefined, undefined);
       }
-      packets[packet.id]['one'] = packetArr;
-    } else {
-      packets[packet.id] = makeInitialPacket([packet.size1s], undefined, undefined);
+      break;
     }
-  }
-  // check for 5 sec stream
-  if (packet.hasOwnProperty('size5s')) {
-    if (packets.hasOwnProperty(packet.id)) {
-      packets[packet.id]['five'] = packet.size5s;
-    } else {
-      packets[packet.id] = makeInitialPacket([], packet.size5s, undefined);
+      // check for 5 sec stream
+    case (METRICS.FIVE): {
+      if (packets.hasOwnProperty(packet.id)) {
+        packets[packet.id]['five'] = packet.size;
+      } else {
+        packets[packet.id] = makeInitialPacket([], packet.size, undefined);
+      }
+      break;
     }
-  }
 
-  // check for 60 sec stream
-  if (packet.hasOwnProperty('size60s')) {
-    if (packets.hasOwnProperty(packet.id)) {
-      packets[packet.id]['sixty'] = packet.size60s;
-    } else {
-      packets[packet.id] = makeInitialPacket([], undefined, packet.size60s);
+      // check for 60 sec stream
+    case (METRICS.SIXTY): {
+      if (packets.hasOwnProperty(packet.id)) {
+        packets[packet.id]['sixty'] = packet.size;
+      } else {
+        packets[packet.id] = makeInitialPacket([], undefined, packet.size);
+      }
+      break;
     }
   }
 }
