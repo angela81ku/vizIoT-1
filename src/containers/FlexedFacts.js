@@ -11,6 +11,7 @@ import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles'
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {findColors} from '../utility/ColorUtility';
 import {socketResourceCheck} from '../utility/ResourceSocketUtility';
+import {formatBytes} from "../utility/FormatUtility";
 
 // to get rid of color, remove color attribute (USED FOR LEGEND PURPOSES)
 const DataWellValueWithFontSize = styled(DataWellValue)`
@@ -72,16 +73,6 @@ function transformData(data, index) {
     return 0;
 }
 
-/**
- * Formats Bytes per Second for each stream.
- *
- * @param data numeric data to be formatted.
- * @returns {string}
- */
-const formatBytesPerSecond = data => {
-    return data + ' B/s';
-}
-
 const renderMetrics = (displayFacts, streamData, lineColors) => {
 
     // determine how to display the fact
@@ -92,7 +83,7 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
         if (displayFacts[i].isGraphed) {
             facts.push({
                 title: displayFacts[i].title,
-                dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+                dataSelector: () => formatBytes(transformData(streamData, i), 'S', 0, false),
                 iconType: 'eva',
                 color: lineColors[i],
                 fontSize: '4.0rem'
@@ -100,7 +91,7 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
         } else {
             facts.push({
                 title: displayFacts[i].title,
-                dataSelector: () => formatBytesPerSecond(transformData(streamData, i)),
+                dataSelector: () => formatBytes(transformData(streamData, i), 'S', 0, false),
                 iconType: 'eva',
                 icon: 'cube',
                 color: lineColors[i],
