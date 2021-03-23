@@ -1,12 +1,13 @@
 'use es6';
 
-export const formatBytes = (val, denomUnit) => {
+export const formatBytes = (val, denomUnit, precision = 2, spaces = true) => {
 
   if (!val) {
     return val;
   }
 
-  const denom = denomUnit ? ' / ' + denomUnit : '' ;
+
+  const denom = spaces ? denomUnit ? ' / ' + denomUnit : '' : '/' + denomUnit;
 
   const byteRanges = [
     {
@@ -27,10 +28,11 @@ export const formatBytes = (val, denomUnit) => {
     },
   ];
 
-  const { limit, unit } = byteRanges.find(({ limit }) => val > limit);
+  const res = byteRanges.filter(arrVal => val > arrVal.limit)[0];
 
-  if (limit) {
-    return `${parseFloat(val / parseFloat(limit)).toFixed(2)} ${unit}`;
+  if (res.limit > 0) {
+    return `${parseFloat(val / parseFloat(res.limit)).toFixed(precision)} ${res.unit}`;
+  } else {
+    return `${parseFloat(val).toFixed(precision)} ${res.unit}`;
   }
-  return `${parseFloat(val).toFixed(2)} ${unit}`;
 };

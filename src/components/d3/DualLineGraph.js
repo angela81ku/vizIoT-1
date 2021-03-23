@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import {formatBytes} from "../../utility/FormatUtility";
 
 const textXXOffset = 15;
 const textXYOffset = 17;
@@ -49,8 +50,8 @@ const drawYLabels = (max, height) => {
   const tickVal = Math.floor(max / 2);
 
   return <g>
-    <text x={textYXOffset} y={midTop + textYYOffset} fill={strokeColor} fontSize={12}>{tickVal}B</text>
-    <text x={textYXOffset} y={midBottom + textYYOffset} fill={strokeColor} fontSize={12}>{tickVal}B</text>
+    <text x={textYXOffset} y={midTop + textYYOffset} fill={strokeColor} fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
+    <text x={textYXOffset} y={midBottom + textYYOffset} fill={strokeColor} fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
     <line x1={0} y1={midTop} x2={5} y2={midTop} stroke={strokeColor} strokeWidth={1}/>
     <line x1={0} y1={midBottom} x2={5} y2={midBottom} stroke={strokeColor} strokeWidth={1}/>
   </g>

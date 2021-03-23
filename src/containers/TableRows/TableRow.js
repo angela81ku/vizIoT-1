@@ -14,6 +14,7 @@ import TabColumn from '../../components/BeanUILibrary/TabColumn';
 import BIcon from '../../components/BeanUILibrary/BIcon';
 import {DualLineGraph} from '../../components/d3/DualLineGraph';
 import {ConnectionTable} from '../ConnectionTable';
+import {formatBytes} from "../../utility/FormatUtility";
 
 function useDimensions(targetRef) {
   const getDimensions = () => {
@@ -106,10 +107,10 @@ export const TableRow = ({
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          {handleUndefinedValue(sentFive)} B/S
+          {handleUndefinedNumeric(sentFive)}
         </RecentMetricColumn>
         <OverallMetricColumn>
-          {handleUndefinedValue(sentSixty)} B/S
+          {handleUndefinedNumeric(sentSixty)}
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
@@ -117,10 +118,10 @@ export const TableRow = ({
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          {handleUndefinedValue(receivedFive)} B/S
+          {handleUndefinedNumeric(receivedFive)}
         </RecentMetricColumn>
         <OverallMetricColumn>
-          {handleUndefinedValue(receivedSixty)} B/S
+          {handleUndefinedNumeric(receivedSixty)}
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
@@ -145,4 +146,9 @@ TableRow.propTypes = {
 const handleUndefinedValue = val => {
   if (val) { return val; }
   return '~'
+}
+
+const handleUndefinedNumeric = num => {
+  if (num) { return formatBytes(num, 'S', 0, false); }
+  return '~ B/S'
 }
