@@ -87,6 +87,7 @@ export const ConnectionTable = ({
     displayConnections = connections;
   }
 
+  // associate the streamed connection values with their id
   for (let i = 0; displayConnections && i < displayConnections.length; ++i) {
     const currConnection = displayConnections[i];
     const packet = packets[currConnection.id];
