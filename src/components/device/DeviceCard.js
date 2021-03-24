@@ -236,7 +236,7 @@ const DeviceCard = ({
           </FlexChild>
           <FlexChild>
             <ConnectionsLabel className="m-top-2 m-bot-4">
-              <ConnectionsValue>{(velocity && formatBytes(velocity, 'S', 0, false)) || DEFAULT_VAL}</ConnectionsValue>
+              <ConnectionsValue>{(velocity && formatBytes(velocity, 's', 0, false)) || DEFAULT_VAL}</ConnectionsValue>
             </ConnectionsLabel>
 
           </FlexChild>

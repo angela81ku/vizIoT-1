@@ -83,7 +83,7 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
         if (displayFacts[i].isGraphed) {
             facts.push({
                 title: displayFacts[i].title,
-                dataSelector: () => formatBytes(transformData(streamData, i), 'S', 0, false),
+                dataSelector: () => formatBytes(transformData(streamData, i), 's', 0, false),
                 iconType: 'eva',
                 color: lineColors[i],
                 fontSize: '4.0rem'
@@ -91,7 +91,7 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
         } else {
             facts.push({
                 title: displayFacts[i].title,
-                dataSelector: () => formatBytes(transformData(streamData, i), 'S', 0, false),
+                dataSelector: () => formatBytes(transformData(streamData, i), 's', 0, false),
                 iconType: 'eva',
                 icon: 'cube',
                 color: lineColors[i],
