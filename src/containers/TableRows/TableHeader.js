@@ -32,7 +32,7 @@ export const TableHeader = ({
       <FixedTitle title='Destination' style={{marginLeft:'23%'}}/>
       <SolidRow>
         <IPColumn>
-          <SectionSubtitle text='IP'/>
+          <SectionSubtitle text='Name'/>
         </IPColumn>
         <CountryColumn>
           <SectionSubtitle text='Country'/>

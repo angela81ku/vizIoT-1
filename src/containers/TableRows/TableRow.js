@@ -149,6 +149,6 @@ const handleUndefinedValue = val => {
 }
 
 const handleUndefinedNumeric = num => {
-  if (num) { return formatBytes(num, 'S', 0, false); }
-  return '~ B/S'
+  if (num) { return formatBytes(num, 's', 0, false); }
+  return '~ B/s'
 }

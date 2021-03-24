@@ -54,10 +54,10 @@ export const BlankRow = ({
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          ~ B/S
+          ~ B/s
         </RecentMetricColumn>
         <OverallMetricColumn>
-          ~ B/S
+          ~ B/s
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
@@ -65,10 +65,10 @@ export const BlankRow = ({
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         <RecentMetricColumn>
-          ~ B/S
+          ~ B/s
         </RecentMetricColumn>
         <OverallMetricColumn>
-          ~ B/S
+          ~ B/s
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
