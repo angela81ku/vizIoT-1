@@ -53,6 +53,7 @@ export const TableRow = ({
   receivedFive,
   receivedSixty,
   timeFrame,
+  timeStamp,
   ticks,
   sentColor,
   receivedColor
@@ -96,6 +97,7 @@ export const TableRow = ({
           width={dimensions.width}
           data={data}
           timeFrame={timeFrame}
+          timeStamp={timeStamp}
           ticks={ticks}
           topColor={sentColor}
           bottomColor={receivedColor}
@@ -139,6 +141,7 @@ TableRow.propTypes = {
   receivedFive: PropTypes.number,
   receivedSixty: PropTypes.number,
   timeFrame: PropTypes.number,
+  timeStamp: PropTypes.number.isRequired,
   ticks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,

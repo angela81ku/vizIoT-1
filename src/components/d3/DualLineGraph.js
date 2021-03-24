@@ -59,6 +59,7 @@ const drawYLabels = (max, height) => {
 }
 
 const drawLine = (data, max, height, width, color, isSent) => {
+  // console.log(data)
 
   const halfHeight = height / 2;
   const maxMult = halfHeight / (max * 1.0);
@@ -69,7 +70,7 @@ const drawLine = (data, max, height, width, color, isSent) => {
 
     let relativeY = halfHeight;
     if (isSent) { relativeY = halfHeight - (maxMult * data[i]); }
-    else { relativeY = height - (maxMult * data[i]); }
+    else { relativeY = halfHeight + (maxMult * data[i]); }
 
     const relativeX = pointWidth * (i + diff);
 
@@ -81,7 +82,9 @@ const drawLine = (data, max, height, width, color, isSent) => {
   // prepend first point (leftmost)
   fillStr = width + ',' + halfHeight + ' ' + fillStr;
   // append last point (rightmost)
-  fillStr += (width - ((data.length - 1) * pointWidth)) + ',' + halfHeight;
+  fillStr += '0,' + halfHeight;
+
+  // console.log(fillStr)
 
   return <g>
     <polyline
@@ -105,6 +108,7 @@ export const DualLineGraph = ({
   data,
   ticks,
   timeFrame,
+  timeStamp,
   topColor,
   bottomColor,
 }) => {
@@ -114,17 +118,34 @@ export const DualLineGraph = ({
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
 
-  // console.log(data);
+  // console.log(timeStamp);
 
-  const sent = [];
-  const received = [];
+  // find the last element that can be displayed by converting timeFrame to milliseconds
+  // and subtracting that value from timeStamp
+  const end = timeStamp - ((timeFrame) * 1000);
+  const sent = Array(timeFrame).fill(0);
+  const received = Array(timeFrame).fill(0);
   let max = 0;
   for (let i = 0; i < data.length; ++i) {
+    // get data points
     const currSent = data[i].size[0];
     const currReceived = data[i].size[1];
+
+    // get timestamp on packet
+    const currTime = data[i].time;
+    // get index of packet in sent/received
+    const index = Math.floor(((timeStamp - currTime) / 1000));
+    // console.log(index)
+    // if index has not yet been rendered on the graph or it is older than what is displayed, do not insert into array
+    if (index < 0 || index >= timeFrame) {
+      continue;
+    }
+    const relativeIndex = (timeFrame - 1) - index;
+    sent[relativeIndex] = (currSent);
+    received[relativeIndex] = currReceived;
+
+  // get max val for drawing y -- perform only if the metric provided is valid
     max = Math.max(max, currSent, currReceived)
-    sent.push(currSent);
-    received.push(currReceived);
   }
 
   const tickMarks = (ticks ? ticks : 3);
@@ -154,6 +175,7 @@ DualLineGraph.propTypes = {
   data: PropTypes.array.isRequired,
   ticks: PropTypes.number,
   timeFrame: PropTypes.number,
+  timeStamp: PropTypes.number.isRequired,
   topColor: PropTypes.string,
   bottomColor: PropTypes.string,
 }

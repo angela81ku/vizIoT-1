@@ -43,6 +43,7 @@ export const ConnectionTable = ({
 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
+  const [timeStamp, setTimeStamp] = useState(Date.now());
 
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
   useSocket(DeviceConnectionPackets5s, parseFiveSecondConnectionPackets)
@@ -79,6 +80,21 @@ export const ConnectionTable = ({
       removeConnectionListener(updateConnections);
     }
   })
+
+  // set the time stamp value to Date.Now()
+  // calling set state forces rerender, passing new timestamp to all graphs
+  useEffect(() => {
+    const handleTimeStamp = () => {
+      setTimeStamp(Date.now())
+    }
+    // setTimeout such that every 1000 milliseconds, state is always reset
+    const id = setTimeout(handleTimeStamp, 1000);
+
+    return () => {
+      clearTimeout(id);
+    }
+  }, [timeStamp])
+
 
   let displayConnections;
   if (connections.length > rows) {
@@ -117,7 +133,7 @@ export const ConnectionTable = ({
         const packetData = packets[conn.id];
         let currentPackets;
         if (packetData) { currentPackets = packetData['one']}
-        if (currentPackets && currentPackets.length > 30) { currentPackets = currentPackets.slice(-30)}
+        if (currentPackets && currentPackets.length > 35) { currentPackets = currentPackets.slice(-35)}
         return <TableRow
           name={conn.name}
           ip={conn.ip}
@@ -128,6 +144,7 @@ export const ConnectionTable = ({
           receivedFive={conn.receivedFive}
           receivedSixty={conn.receivedSixty}
           timeFrame={timeFrame}
+          timeStamp={timeStamp}
           ticks={xTicks}
           sentColor={sentColor}
           receivedColor={receivedColor}
