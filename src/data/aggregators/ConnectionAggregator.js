@@ -36,13 +36,16 @@ export const addPackets = (packet, metric) => {
       if (packets.hasOwnProperty(packet.id)) {
         const packetObj = packets[packet.id];
         let packetArr = packetObj.one;
-        packetArr.push(packet.size);
+        packetArr.push({
+          size: packet.size,
+          time: packet.time,
+        });
         if (packetArr.length > 75) {
           packetArr = packetArr.slice(-75)
         }
         packets[packet.id]['one'] = packetArr;
       } else {
-        packets[packet.id] = makeInitialPacket([packet.size], undefined, undefined);
+        packets[packet.id] = makeInitialPacket([{size: packet.size, time: packet.time}], undefined, undefined);
       }
       break;
     }

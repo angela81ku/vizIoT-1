@@ -104,7 +104,7 @@ export const DualLineGraph = ({
   width,
   data,
   ticks,
-  time,
+  timeFrame,
   topColor,
   bottomColor,
 }) => {
@@ -114,27 +114,36 @@ export const DualLineGraph = ({
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
 
+  // console.log(data);
+
   const sent = [];
   const received = [];
   let max = 0;
   for (let i = 0; i < data.length; ++i) {
-    const currSent = data[i][0];
-    const currReceived = data[i][1];
+    const currSent = data[i].size[0];
+    const currReceived = data[i].size[1];
     max = Math.max(max, currSent, currReceived)
-    sent.push(data[i][0]);
-    received.push(data[i][1]);
+    sent.push(currSent);
+    received.push(currReceived);
   }
 
   const tickMarks = (ticks ? ticks : 3);
-  const maxTime = (time ? time : 30);
+  const maxTime = (timeFrame ? timeFrame : 30);
+
+  const updateData = (max, height, width, sent, received, topColor, bottomColor) => {
+    return (
+      <>
+        {drawYLabels(max, height)}
+        {drawLine(sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
+        {drawLine(received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
+      </>
+  )}
 
   return (
     <svg viewBox={view}>
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(tickMarks, maxTime, xAxisStart, xAxisEnd, xAxisYPos)}
-      {drawYLabels(max, height)}
-      {drawLine(sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
-      {drawLine(received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
+      {updateData(max, height, width, sent, received, topColor, bottomColor)}
     </svg>
   )
 }
@@ -144,7 +153,7 @@ DualLineGraph.propTypes = {
   width: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
   ticks: PropTypes.number,
-  time: PropTypes.number,
+  timeFrame: PropTypes.number,
   topColor: PropTypes.string,
   bottomColor: PropTypes.string,
 }

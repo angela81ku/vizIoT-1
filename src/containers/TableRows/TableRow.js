@@ -52,7 +52,7 @@ export const TableRow = ({
   sentSixty,
   receivedFive,
   receivedSixty,
-  time,
+  timeFrame,
   ticks,
   sentColor,
   receivedColor
@@ -94,7 +94,8 @@ export const TableRow = ({
         <DualLineGraph
           height={dimensions.height}
           width={dimensions.width}
-          data={data} time={time}
+          data={data}
+          timeFrame={timeFrame}
           ticks={ticks}
           topColor={sentColor}
           bottomColor={receivedColor}
@@ -137,7 +138,7 @@ TableRow.propTypes = {
   sentSixty: PropTypes.number,
   receivedFive: PropTypes.number,
   receivedSixty: PropTypes.number,
-  time: PropTypes.number,
+  timeFrame: PropTypes.number,
   ticks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
