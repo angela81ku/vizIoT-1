@@ -3,7 +3,7 @@ import {
   addPackets,
   updateConnectionListeners,
   updatePacketListeners,
-  METRICS
+  METRICS, getPackets
 } from "../aggregators/ConnectionAggregator";
 import {baseUrlApi, headers} from "../../constants/RequestConstants";
 import axios from "axios";
@@ -18,6 +18,22 @@ export const parseSecondConnectionPackets = res => {
   } else {
     console.log('No packet data for connections in message from server');
   }
+}
+
+export async function fetchSecondConnections() {
+  const url = `${baseUrlApi}/device/connections/1s`;
+  const res =  await axios.get(url, { headers })
+  const connections = res.data.connections;
+  // console.log(connections)
+  Object.keys(connections).forEach(conn => {
+    const data = connections[conn];
+    for (let i = 0; i < data.length; ++i) {
+      const d = data[i];
+      addPackets({id: conn, size: d.size, time: d.time}, METRICS.SECOND)
+    }
+  })
+  console.log(getPackets())
+  updatePacketListeners();
 }
 
 export async function fetchFiveSecondConnections() {

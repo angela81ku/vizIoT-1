@@ -20,7 +20,7 @@ import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
 import {
-  fetchFiveSecondConnections, fetchSixtySecondConnections,
+  fetchFiveSecondConnections, fetchSecondConnections, fetchSixtySecondConnections,
   parseConnectionPackets,
   parseConnections,
   parseFiveSecondConnectionPackets,
@@ -45,6 +45,7 @@ export const ConnectionTable = ({
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
   const [timeStamp, setTimeStamp] = useState(Date.now());
+  const [prelimFetch, setPrelimFetch] = useState(false);
 
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
 
@@ -57,7 +58,7 @@ export const ConnectionTable = ({
   }
 
   const updatePackets = (p) => {
-    console.log(p)
+    // console.log(p)
     const nP = {};
     connections.forEach(conn => {
       const stream = p[conn.id];
@@ -97,6 +98,17 @@ export const ConnectionTable = ({
       clearTimeout(id);
     }
   }, [timeStamp])
+
+  // create a useEffect that fetches the initial connections a single time
+  // and never is called again
+  // double security -- check prelimFetch before call and make it a dependency that is only set inside
+  // the current useEffect
+  useEffect(() => {
+    if (!prelimFetch) {
+      fetchSecondConnections();
+      setPrelimFetch(true);
+    }
+  }, [prelimFetch])
 
 
   let displayConnections;
