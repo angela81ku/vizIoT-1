@@ -9,7 +9,7 @@ import {
   CountryColumn,
   DestinationColumn,
   FixedTitle, GraphColumn,
-  IPColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
+  DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
   SourceColumn
 } from "./ColumnStyles";
 import SectionSubtitle from "../../components/SectionSubtitle";
@@ -31,9 +31,9 @@ export const TableHeader = ({
     <DestinationColumn>
       <FixedTitle title='Destination' style={{marginLeft:'23%'}}/>
       <SolidRow>
-        <IPColumn>
+        <DestNameColumn>
           <SectionSubtitle text='Name'/>
-        </IPColumn>
+        </DestNameColumn>
         <CountryColumn>
           <SectionSubtitle text='Country'/>
         </CountryColumn>

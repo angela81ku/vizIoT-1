@@ -6,7 +6,7 @@ import {
   ArrowContainerColumn,
   BorderedSolidRow, CountryColumn,
   DestinationColumn, GraphColumn,
-  IPColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
+  DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
   SourceColumn
 } from './ColumnStyles';
 import SolidRow from '../../components/BeanUILibrary/SolidRow';
@@ -45,7 +45,7 @@ function useDimensions(targetRef) {
 
 export const TableRow = ({
   name,
-  ip,
+  destName,
   country,
   data,
   sentFive,
@@ -66,7 +66,9 @@ export const TableRow = ({
     <SourceColumn>
       <SolidRow>
         <TabColumn>
-          {handleUndefinedValue(name)}
+          <div style={{width:'100%', textAlign:'center', overflow:'hidden', textOverflow:'ellipsis'}}>
+            {handleUndefinedValue(name)}
+          </div>
         </TabColumn>
       </SolidRow>
     </SourceColumn>
@@ -82,9 +84,11 @@ export const TableRow = ({
     </ArrowColumn>
     <DestinationColumn>
       <SolidRow>
-        <IPColumn>
-          {handleUndefinedValue(ip)}
-        </IPColumn>
+        <DestNameColumn>
+          <div style={{width:'100%', textAlign:'center', overflow:'hidden', textOverflow:'ellipsis'}}>
+            {handleUndefinedValue(destName)}
+          </div>
+        </DestNameColumn>
         <CountryColumn>
           {handleUndefinedValue(country)}
         </CountryColumn>
@@ -133,7 +137,7 @@ export const TableRow = ({
 
 TableRow.propTypes = {
   name: PropTypes.string.isRequired,
-  ip: PropTypes.string.isRequired,
+  destName: PropTypes.string.isRequired,
   country: PropTypes.string,
   data: PropTypes.array.isRequired,
   sentFive: PropTypes.number,

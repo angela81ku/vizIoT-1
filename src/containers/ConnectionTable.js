@@ -150,7 +150,7 @@ export const ConnectionTable = ({
         if (currentPackets && currentPackets.length > 35) { currentPackets = currentPackets.slice(-35)}
         return <TableRow
           name={conn.name}
-          ip={conn.ip}
+          destName={conn.ip}
           data={currentPackets ? currentPackets : []}
           country={conn.country}
           sentFive={conn.sentFive}

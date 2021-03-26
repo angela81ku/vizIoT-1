@@ -9,7 +9,7 @@ import {
   CountryColumn,
   DestinationColumn,
   FixedTitle, GraphColumn,
-  IPColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
+  DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
   SourceColumn
 } from "./ColumnStyles";
 
@@ -37,9 +37,9 @@ export const BlankRow = ({
     </ArrowColumn>
     <DestinationColumn>
       <SolidRow>
-        <IPColumn>
+        <DestNameColumn>
           ~
-        </IPColumn>
+        </DestNameColumn>
         <CountryColumn>
           ~
         </CountryColumn>

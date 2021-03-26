@@ -31,9 +31,10 @@ export const DestinationColumn = styled(TabColumn)`
 `
 
 // sub col
-export const IPColumn = styled(TabColumn)`
+export const DestNameColumn = styled(TabColumn)`
   width: 65%;
   height: 100%;
+  overflow: hidden;
 `
 
 // sub col
