@@ -111,12 +111,7 @@ export const ConnectionTable = ({
   }, [prelimFetch])
 
 
-  let displayConnections;
-  if (connections.length > rows) {
-    displayConnections = connections.slice(0, rows)
-  } else {
-    displayConnections = connections;
-  }
+  let displayConnections = connections;
 
   // associate the streamed connection values with their id
   for (let i = 0; displayConnections && i < displayConnections.length; ++i) {
@@ -132,6 +127,10 @@ export const ConnectionTable = ({
         currConnection['receivedSixty'] = packet['sixty'][1];
       }
     }
+  }
+
+  if (displayConnections.length > rows) {
+    displayConnections = displayConnections.slice(0, rows)
   }
 
   let renderIndex = 0;
