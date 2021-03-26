@@ -15,6 +15,14 @@ import BIcon from '../../components/BeanUILibrary/BIcon';
 import {DualLineGraph} from '../../components/d3/DualLineGraph';
 import {ConnectionTable} from '../ConnectionTable';
 import {formatBytes} from "../../utility/FormatUtility";
+import styled from "styled-components";
+
+const TruncatedText = styled.div`
+  width:100%; 
+  text-align:center; 
+  overflow:hidden; 
+  text-overflow:ellipsis;
+`
 
 function useDimensions(targetRef) {
   const getDimensions = () => {
@@ -66,9 +74,9 @@ export const TableRow = ({
     <SourceColumn>
       <SolidRow>
         <TabColumn>
-          <div style={{width:'100%', textAlign:'center', overflow:'hidden', textOverflow:'ellipsis'}}>
+          <TruncatedText>
             {handleUndefinedValue(name)}
-          </div>
+          </TruncatedText>
         </TabColumn>
       </SolidRow>
     </SourceColumn>
@@ -85,9 +93,9 @@ export const TableRow = ({
     <DestinationColumn>
       <SolidRow>
         <DestNameColumn>
-          <div style={{width:'100%', textAlign:'center', overflow:'hidden', textOverflow:'ellipsis'}}>
+          <TruncatedText>
             {handleUndefinedValue(destName)}
-          </div>
+          </TruncatedText>
         </DestNameColumn>
         <CountryColumn>
           {handleUndefinedValue(country)}
