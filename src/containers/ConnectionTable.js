@@ -49,7 +49,7 @@ export const ConnectionTable = ({
 
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
 
-  useTimedFetcher(fetchDeviceConnections, 10000)
+  useTimedFetcher(fetchDeviceConnections, 1000)
   useTimedFetcher(fetchFiveSecondConnections, 5000)
   useTimedFetcher(fetchSixtySecondConnections, 60000)
 
