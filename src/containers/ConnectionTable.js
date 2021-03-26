@@ -20,6 +20,7 @@ import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
 import {
+  fetchFiveSecondConnections, fetchSixtySecondConnections,
   parseConnectionPackets,
   parseConnections,
   parseFiveSecondConnectionPackets,
@@ -46,15 +47,17 @@ export const ConnectionTable = ({
   const [timeStamp, setTimeStamp] = useState(Date.now());
 
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
-  useSocket(DeviceConnectionPackets5s, parseFiveSecondConnectionPackets)
-  useSocket(DeviceConnectionPackets60s, parseSixtySecondConnectionPackets)
+
   useTimedFetcher(fetchDeviceConnections, 10000)
+  useTimedFetcher(fetchFiveSecondConnections, 5000)
+  useTimedFetcher(fetchSixtySecondConnections, 60000)
 
   const updateConnections = (connections) => {
     setConnections(connections);
   }
 
   const updatePackets = (p) => {
+    console.log(p)
     const nP = {};
     connections.forEach(conn => {
       const stream = p[conn.id];

@@ -5,16 +5,8 @@ import {
   updatePacketListeners,
   METRICS
 } from "../aggregators/ConnectionAggregator";
-
-export const parseConnections = res => {
-  if (res.hasOwnProperty('connections')) {
-    const connections = res.connections;
-    addConnections(connections);
-    updateConnectionListeners();
-  } else {
-    console.log('No connection data in message from server');
-  }
-}
+import {baseUrlApi, headers} from "../../constants/RequestConstants";
+import axios from "axios";
 
 export const parseSecondConnectionPackets = res => {
   if (res.hasOwnProperty('connections')) {
@@ -28,26 +20,22 @@ export const parseSecondConnectionPackets = res => {
   }
 }
 
-export const parseFiveSecondConnectionPackets = res => {
-  if (res.hasOwnProperty('connections')) {
-    const conns = res.connections;
-    for (let i = 0; i < conns.length; ++i) {
-      addPackets(conns[i], METRICS.FIVE);
-    }
-    updatePacketListeners();
-  } else {
-    console.log('No packet data for connections in message from server');
+export async function fetchFiveSecondConnections() {
+  const url = `${baseUrlApi}/device/connections/5s`;
+  const res =  await axios.get(url, { headers })
+  const connections = res.data.connections;
+  for (let i = 0; i < connections.length; ++i) {
+    addPackets(connections[i], METRICS.FIVE);
   }
+  updatePacketListeners();
 }
 
-export const parseSixtySecondConnectionPackets = res => {
-  if (res.hasOwnProperty('connections')) {
-    const conns = res.connections;
-    for (let i = 0; i < conns.length; ++i) {
-      addPackets(conns[i], METRICS.SIXTY);
-    }
-    updatePacketListeners();
-  } else {
-    console.log('No packet data for connections in message from server');
+export async function fetchSixtySecondConnections() {
+  const url = `${baseUrlApi}/device/connections/60s`;
+  const res =  await axios.get(url, { headers })
+  const connections = res.data.connections;
+  for (let i = 0; i < connections.length; ++i) {
+    addPackets(connections[i], METRICS.SIXTY);
   }
+  updatePacketListeners();
 }
