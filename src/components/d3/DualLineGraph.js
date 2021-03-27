@@ -118,6 +118,9 @@ export const DualLineGraph = ({
   const xAxisEnd = width;
   const xAxisYPos = (height / 2);
 
+  // console.log(data)
+  // console.log(data.length)
+
   // console.log(timeStamp);
 
   // find the last element that can be displayed by converting timeFrame to milliseconds

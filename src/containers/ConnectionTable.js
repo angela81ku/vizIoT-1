@@ -53,29 +53,30 @@ export const ConnectionTable = ({
   useTimedFetcher(fetchFiveSecondConnections, 5000)
   useTimedFetcher(fetchSixtySecondConnections, 60000)
 
-  const updateConnections = (connections) => {
-    setConnections(connections);
-  }
-
-  const updatePackets = (p) => {
-    // console.log(p)
-    const nP = {};
-    connections.forEach(conn => {
-      const stream = p[conn.id];
-      if (stream) {
-        nP[conn.id] = stream;
-      } else {
-        nP[conn.id] = {
-          second: undefined,
-          five: undefined,
-          sixty: undefined,
-        };
-      }
-    })
-    setPackets(nP);
-  }
-
   useEffect(() => {
+
+    const updateConnections = (conns) => {
+      setConnections(conns);
+    }
+
+    const updatePackets = (p) => {
+      // console.log(p)
+      const nP = {};
+      connections.forEach(conn => {
+        const stream = p[conn.id];
+        if (stream) {
+          nP[conn.id] = stream;
+        } else {
+          nP[conn.id] = {
+            second: undefined,
+            five: undefined,
+            sixty: undefined,
+          };
+        }
+      })
+      setPackets(nP);
+    }
+
     addPacketListener(updatePackets);
     addConnectionListener(updateConnections);
 
@@ -92,7 +93,7 @@ export const ConnectionTable = ({
       setTimeStamp(Date.now())
     }
     // setTimeout such that every 1000 milliseconds, state is always reset
-    const id = setTimeout(handleTimeStamp, 1000);
+    const id = setInterval(handleTimeStamp, 1000);
 
     return () => {
       clearTimeout(id);
@@ -105,6 +106,7 @@ export const ConnectionTable = ({
   // the current useEffect
   useEffect(() => {
     if (!prelimFetch) {
+      console.log('fetching second connections...')
       fetchSecondConnections();
       setPrelimFetch(true);
     }
@@ -148,6 +150,7 @@ export const ConnectionTable = ({
         let currentPackets;
         if (packetData) { currentPackets = packetData['one']}
         if (currentPackets && currentPackets.length > 35) { currentPackets = currentPackets.slice(-35)}
+        // console.log(currentPackets)
         return <TableRow
           name={conn.name}
           destName={conn.destName}

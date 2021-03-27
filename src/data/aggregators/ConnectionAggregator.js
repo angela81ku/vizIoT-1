@@ -34,12 +34,24 @@ export const addPackets = (packet, metric) => {
   switch (metric) {
     case (METRICS.SECOND): {
       if (packets.hasOwnProperty(packet.id)) {
+        // get object with array for connection
         const packetObj = packets[packet.id];
+        // get array for one second
         let packetArr = packetObj.one;
-        packetArr.push({
-          size: packet.size,
-          time: packet.time,
-        });
+        // if new packet is the newest packet in the array, push to the back
+        if (packetArr.length === 0 || packet.time > packetArr[packetArr.length - 1].time) {
+          packetArr.push({
+            size: packet.size,
+            time: packet.time,
+          });
+        }
+        // otherwise binsearch, and slice new array around the position
+        else {
+          const pos = binSearch(packetArr.map(x => x.time), packet.time);
+          packetArr.splice(pos, 0, {size: packet.size, time: packet.time})
+        }
+
+        // limit the packets held to 75, since no viz requires more than a minute of data
         if (packetArr.length > 75) {
           packetArr = packetArr.slice(-75)
         }
@@ -113,4 +125,28 @@ export const updateConnectionListeners = () => {
   connectionListeners.forEach(l => {
       l(connections);
   })
+}
+
+// recursive bin search since there isn't one built into javascript................
+// iterative b/c I don't abuse the stack like that
+const binSearch = (arr, val) => {
+
+  let hi = arr.length - 1;
+  let lo = 0;
+
+  while (lo < hi) {
+    let mid = Math.floor((hi + lo) / 2);
+    const curr = arr[mid];
+    if (curr === val) {
+      return mid;
+    }
+    else if (curr < val) {
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+
+  return lo;
+
 }
