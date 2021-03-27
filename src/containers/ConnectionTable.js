@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 
@@ -28,6 +28,7 @@ import {
 } from "../data/api/connectionsApi";
 import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
 import {fetchDeviceConnections} from "../data/api/devicesApi";
+import {useDimensions} from "../components/BeanUILibrary/hooks/useDimensions";
 
 // top level
 const ConnectionCard = styled(BCard)`
@@ -41,18 +42,33 @@ export const ConnectionTable = ({
   xTicks,
   sentColor,
   receivedColor,
+  tableHeight
 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
   const [timeStamp, setTimeStamp] = useState(Date.now());
   const [prelimFetch, setPrelimFetch] = useState(false);
 
+  // set up fetchers and sockets
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
 
   useTimedFetcher(fetchDeviceConnections, 1000)
   useTimedFetcher(fetchFiveSecondConnections, 5000)
   useTimedFetcher(fetchSixtySecondConnections, 60000)
 
+  // set height values
+
+  // set up height refs to pass heights to child components
+  const cardRef = useRef();
+  const dimensions = useDimensions(cardRef);
+
+  // do height calculations
+  const heightDivisor = rows + 0.75;
+  const adjustedHeight = dimensions.height - (2 * convertRemToPixels(1));
+  const rowSize = Math.floor(adjustedHeight/heightDivisor);
+  const headerSize = Math.floor(rowSize * 0.75);
+
+  // set connection update hook
   useEffect(() => {
 
     const updateConnections = (conns) => {
@@ -84,7 +100,7 @@ export const ConnectionTable = ({
       removePacketListener(updatePackets);
       removeConnectionListener(updateConnections);
     }
-  })
+  }, [connections, packets])
 
   // set the time stamp value to Date.Now()
   // calling set state forces rerender, passing new timestamp to all graphs
@@ -106,7 +122,6 @@ export const ConnectionTable = ({
   // the current useEffect
   useEffect(() => {
     if (!prelimFetch) {
-      console.log('fetching second connections...')
       fetchSecondConnections();
       setPrelimFetch(true);
     }
@@ -137,10 +152,12 @@ export const ConnectionTable = ({
 
   let renderIndex = 0;
 
-  return <ConnectionCard>
+  return <div ref={cardRef} style={{height:'100%'}}>
+    <ConnectionCard style={{height:'100%'}}>
       <TableHeader
         sentColor={sentColor}
         receivedColor={receivedColor}
+        height={headerSize}
       />
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
@@ -165,13 +182,15 @@ export const ConnectionTable = ({
           ticks={xTicks}
           sentColor={sentColor}
           receivedColor={receivedColor}
+          height={rowSize}
         />
       })}
       {[...Array(rows - renderIndex)].map(x => {
-        return <BlankRow sentColor={sentColor} receivedColor={receivedColor}/>;
+        return <BlankRow sentColor={sentColor} receivedColor={receivedColor} height={rowSize}/>;
       })}
 
     </ConnectionCard>
+    </div>
 
 }
 
@@ -181,4 +200,9 @@ ConnectionTable.propTypes = {
   xTicks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
+  tableHeight: PropTypes.number,
+}
+
+function convertRemToPixels(rem) {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }

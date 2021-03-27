@@ -16,6 +16,7 @@ import {DualLineGraph} from '../../components/d3/DualLineGraph';
 import {ConnectionTable} from '../ConnectionTable';
 import {formatBytes} from "../../utility/FormatUtility";
 import styled from "styled-components";
+import {useDimensions} from "../../components/BeanUILibrary/hooks/useDimensions";
 
 const TruncatedText = styled.div`
   width:100%; 
@@ -23,33 +24,6 @@ const TruncatedText = styled.div`
   overflow:hidden; 
   text-overflow:ellipsis;
 `
-
-function useDimensions(targetRef) {
-  const getDimensions = () => {
-    return {
-      width: targetRef.current ? targetRef.current.offsetWidth : 0,
-      height: targetRef.current ? targetRef.current.offsetHeight : 0
-    };
-  };
-
-  const [dimensions, setDimensions] = useState(getDimensions);
-
-  const handleResize = () => {
-    setDimensions(getDimensions());
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
-
-  const dims = getDimensions();
-  if (dims.width !== dimensions.width || dims.height !== dimensions.height) {
-    return dims;
-  } else {
-    return dimensions;
-  }
-}
 
 export const TableRow = ({
   name,
@@ -64,13 +38,14 @@ export const TableRow = ({
   timeStamp,
   ticks,
   sentColor,
-  receivedColor
+  receivedColor,
+  height
 }) => {
 
   const graphRef = useRef();
   const dimensions = useDimensions(graphRef)
 
-  return <BorderedSolidRow height='100px' >
+  return <BorderedSolidRow height={`${height}px`} style={{minHeight:'50px'}}>
     <SourceColumn>
       <SolidRow>
         <TabColumn>
@@ -157,6 +132,7 @@ TableRow.propTypes = {
   ticks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
+  height: PropTypes.number.isRequired,
 }
 
 const handleUndefinedValue = val => {

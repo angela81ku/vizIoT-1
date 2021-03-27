@@ -9,7 +9,7 @@ const TabColumnContainer = styled.div`
   align-items: center;
   flex-direction: column;
   
-  min-height: 50px;
+  //min-height: 50px;
   flex-wrap: wrap;
   width: 100%;
 `;

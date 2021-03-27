@@ -16,31 +16,33 @@ export const SourceColumn = styled(TabColumn)`
 export const ArrowColumn = styled(TabColumn)`
   width: 10%;
   height: 100%;
+  justify-content: center;
 `
 
 // sub sub col
 export const ArrowContainerColumn = styled(TabColumn)`
   width: 50%;
   height: 100%;
+  justify-content: center;
+
 `
 
 // main col
 export const DestinationColumn = styled(TabColumn)`
   width: 30%;
   height: 100%;
+  justify-content: center;
 `
 
 // sub col
 export const DestNameColumn = styled(TabColumn)`
   width: 65%;
-  height: 100%;
   overflow: hidden;
 `
 
 // sub col
 export const CountryColumn = styled(TabColumn)`
   width: 35%;
-  height: 100%;
 `
 
 // main col
@@ -55,6 +57,7 @@ export const MetricColumn = styled(TabColumn)`
   width: 20%;
   height: 100%;
   border-left: 1px solid rgba(255, 255, 255, .5);
+  justify-content: center;
 `
 
 // sub col

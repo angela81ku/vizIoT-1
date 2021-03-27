@@ -15,9 +15,10 @@ import {
 
 export const BlankRow = ({
   sentColor,
-  receivedColor
+  receivedColor,
+  height,
 }) => {
-  return <BorderedSolidRow height='100px'>
+  return <BorderedSolidRow height={`${height}px`} style={{minHeight:'50px'}}>
     <SourceColumn>
       <SolidRow>
         <TabColumn>
@@ -78,4 +79,5 @@ export const BlankRow = ({
 BlankRow.propTypes = {
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
+  height: PropTypes.number.isRequired,
 }

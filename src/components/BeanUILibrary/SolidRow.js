@@ -8,11 +8,10 @@ const TabRowContainer = styled.div`
   justify-content: center;
   
   height: 100%;
-  min-height: 50px;
   flex-wrap: wrap;
 `;
 
-export default class TabRow extends Component {
+export default class SolidRow extends Component {
   render() {
     const { children, height, ...rest } = this.props;
     return (
