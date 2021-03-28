@@ -32,7 +32,6 @@ import {useDimensions} from "../components/BeanUILibrary/hooks/useDimensions";
 
 // top level
 const ConnectionCard = styled(BCard)`
-  min-height: 400px;
   min-width: 800px;
 `
 
@@ -55,9 +54,7 @@ export const ConnectionTable = ({
   useTimedFetcher(fetchDeviceConnections, 1000)
   useTimedFetcher(fetchFiveSecondConnections, 5000)
   useTimedFetcher(fetchSixtySecondConnections, 60000)
-
-  // set height values
-
+  
   // set up height refs to pass heights to child components
   const cardRef = useRef();
   const dimensions = useDimensions(cardRef);
@@ -67,6 +64,10 @@ export const ConnectionTable = ({
   const adjustedHeight = dimensions.height - (2 * convertRemToPixels(1));
   const rowSize = Math.floor(adjustedHeight/heightDivisor);
   const headerSize = Math.floor(rowSize * 0.75);
+
+  // get the min height of the total graph based on mins for tablerow and header and margins
+  const minHeight = (rows * 50) + 53 + (2 * convertRemToPixels(1));
+  const minHeightStr = `${minHeight}px`;
 
   // set connection update hook
   useEffect(() => {
@@ -152,7 +153,7 @@ export const ConnectionTable = ({
 
   let renderIndex = 0;
 
-  return <div ref={cardRef} style={{height:'100%'}}>
+  return <div ref={cardRef} style={{height:'100%', minHeight:minHeightStr}}>
     <ConnectionCard style={{height:'100%'}}>
       <TableHeader
         sentColor={sentColor}

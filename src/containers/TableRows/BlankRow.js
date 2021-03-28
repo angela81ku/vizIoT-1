@@ -18,7 +18,11 @@ export const BlankRow = ({
   receivedColor,
   height,
 }) => {
-  return <BorderedSolidRow height={`${height}px`} style={{minHeight:'50px'}}>
+
+  const minHeight = 50;
+  const relHeight = height < minHeight ? minHeight : height;
+
+  return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn>
       <SolidRow>
         <TabColumn>

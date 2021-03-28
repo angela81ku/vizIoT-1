@@ -45,7 +45,10 @@ export const TableRow = ({
   const graphRef = useRef();
   const dimensions = useDimensions(graphRef)
 
-  return <BorderedSolidRow height={`${height}px`} style={{minHeight:'50px'}}>
+  const minHeight = 50;
+  const relHeight = height < minHeight ? minHeight : height;
+
+  return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn>
       <SolidRow>
         <TabColumn>
@@ -136,7 +139,7 @@ TableRow.propTypes = {
 }
 
 const handleUndefinedValue = val => {
-  if (val) { return val; }
+  if (val !== undefined) { return val; }
   return '~'
 }
 

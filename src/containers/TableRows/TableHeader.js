@@ -20,7 +20,11 @@ export const TableHeader = ({
   receivedColor,
   height,
 }) => {
-  return <BorderedSolidRow height={`${height}px`} style={{minHeight:'53px'}}>
+
+  const minHeight = 53;
+  const relHeight = height < minHeight ? minHeight : height;
+
+  return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn style={{display:'flex', alignItems:'flex-start'}}>
       <FixedTitle title='Source' style={{width:'100%', textAlign:'center'}}/>
       <SectionSubtitle text='Name' style={{width:'100%', textAlign:'center'}}/>
