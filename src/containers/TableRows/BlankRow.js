@@ -10,69 +10,84 @@ import {
   DestinationColumn,
   FixedTitle, GraphColumn,
   DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
-  SourceColumn
+  SourceColumn, RELCOLWIDTHS, numberToPercentString
 } from "./ColumnStyles";
 
 export const BlankRow = ({
   sentColor,
   receivedColor,
   height,
+  width,
 }) => {
 
   const minHeight = 50;
   const relHeight = height < minHeight ? minHeight : height;
 
+  const relWidths = width < 800 ? RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+
+  const sourceWidth = numberToPercentString(relWidths.SourceColumn);
+  const arrowWidth = numberToPercentString(relWidths.ArrowColumn);
+  const arrowContainerWidth = numberToPercentString(relWidths.ArrowContainerColumn);
+  const destWidth = numberToPercentString(relWidths.DestinationColumn);
+  const destNameWidth = numberToPercentString(relWidths.DestNameColumn);
+  const destCountryWidth = numberToPercentString(relWidths.DestCountryColumn);
+  const graphWidth = numberToPercentString(relWidths.GraphColumn);
+  const metricWidth = numberToPercentString(relWidths.MetricColumn);
+  const metricSymbolWidth = numberToPercentString(relWidths.MetricSymbolColumn);
+  const recentMetricWidth = numberToPercentString(relWidths.RecentMetricColumn);
+  const overallMetricWidth = numberToPercentString(relWidths.OverallMetricColumn);
+
   return <BorderedSolidRow height={`${relHeight}px`}>
-    <SourceColumn>
+    <SourceColumn colWidth={sourceWidth}>
       <SolidRow>
         <TabColumn>
           ~
         </TabColumn>
       </SolidRow>
     </SourceColumn>
-    <ArrowColumn>
+    <ArrowColumn colWidth={arrowWidth}>
       <SolidRow>
-        <ArrowContainerColumn>
+        <ArrowContainerColumn colWidth={arrowContainerWidth}>
           <BIcon name='arrow-back-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </ArrowContainerColumn>
-        <ArrowContainerColumn>
+        <ArrowContainerColumn colWidth={arrowContainerWidth}>
           <BIcon name='arrow-forward-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </ArrowContainerColumn>
       </SolidRow>
     </ArrowColumn>
-    <DestinationColumn>
+    <DestinationColumn colWidth={destWidth}>
       <SolidRow>
-        <DestNameColumn>
+        <DestNameColumn colWidth={destNameWidth}>
           ~
         </DestNameColumn>
-        <CountryColumn>
+        <CountryColumn colWidth={destCountryWidth}>
           ~
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
-    <GraphColumn style={{alignContent:'center'}}>
+    <GraphColumn colWidth={graphWidth} style={{alignContent:'center'}}>
       ~
     </GraphColumn>
-    <MetricColumn>
+    <MetricColumn colWidth={metricWidth}>
       <SolidRow height='50%'>
-        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn>
+        <RecentMetricColumn colWidth={recentMetricWidth}>
           ~ B/s
         </RecentMetricColumn>
-        <OverallMetricColumn>
+        <OverallMetricColumn colWidth={overallMetricWidth}>
           ~ B/s
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
-        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn>
+        <RecentMetricColumn colWidth={recentMetricWidth}>
           ~ B/s
         </RecentMetricColumn>
-        <OverallMetricColumn>
+        <OverallMetricColumn colWidth={overallMetricWidth}>
           ~ B/s
         </OverallMetricColumn>
       </SolidRow>
@@ -84,4 +99,5 @@ BlankRow.propTypes = {
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
   height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
 }

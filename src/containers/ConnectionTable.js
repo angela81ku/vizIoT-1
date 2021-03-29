@@ -32,7 +32,7 @@ import {useDimensions} from "../components/BeanUILibrary/hooks/useDimensions";
 
 // top level
 const ConnectionCard = styled(BCard)`
-  min-width: 800px;
+  min-width: 600px;
 `
 
 export const ConnectionTable = ({
@@ -41,7 +41,6 @@ export const ConnectionTable = ({
   xTicks,
   sentColor,
   receivedColor,
-  tableHeight
 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
@@ -54,7 +53,7 @@ export const ConnectionTable = ({
   useTimedFetcher(fetchDeviceConnections, 1000)
   useTimedFetcher(fetchFiveSecondConnections, 5000)
   useTimedFetcher(fetchSixtySecondConnections, 60000)
-  
+
   // set up height refs to pass heights to child components
   const cardRef = useRef();
   const dimensions = useDimensions(cardRef);
@@ -64,6 +63,9 @@ export const ConnectionTable = ({
   const adjustedHeight = dimensions.height - (2 * convertRemToPixels(1));
   const rowSize = Math.floor(adjustedHeight/heightDivisor);
   const headerSize = Math.floor(rowSize * 0.75);
+
+  // get width of container
+  const width = dimensions.width;
 
   // get the min height of the total graph based on mins for tablerow and header and margins
   const minHeight = (rows * 50) + 53 + (2 * convertRemToPixels(1));
@@ -159,6 +161,7 @@ export const ConnectionTable = ({
         sentColor={sentColor}
         receivedColor={receivedColor}
         height={headerSize}
+        width={width}
       />
       {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
         ++renderIndex;
@@ -184,10 +187,16 @@ export const ConnectionTable = ({
           sentColor={sentColor}
           receivedColor={receivedColor}
           height={rowSize}
+          width={width}
         />
       })}
       {[...Array(rows - renderIndex)].map(x => {
-        return <BlankRow sentColor={sentColor} receivedColor={receivedColor} height={rowSize}/>;
+        return <BlankRow
+          sentColor={sentColor}
+          receivedColor={receivedColor}
+          height={rowSize}
+          width={width}
+        />;
       })}
 
     </ConnectionCard>
@@ -201,7 +210,6 @@ ConnectionTable.propTypes = {
   xTicks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
-  tableHeight: PropTypes.number,
 }
 
 function convertRemToPixels(rem) {

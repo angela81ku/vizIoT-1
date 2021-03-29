@@ -7,7 +7,7 @@ import {
   BorderedSolidRow, CountryColumn,
   DestinationColumn, GraphColumn,
   DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
-  SourceColumn
+  SourceColumn, RELCOLWIDTHS, numberToPercentString,
 } from './ColumnStyles';
 import SolidRow from '../../components/BeanUILibrary/SolidRow';
 import TabColumn from '../../components/BeanUILibrary/TabColumn';
@@ -39,7 +39,8 @@ export const TableRow = ({
   ticks,
   sentColor,
   receivedColor,
-  height
+  height,
+  width,
 }) => {
 
   const graphRef = useRef();
@@ -48,8 +49,22 @@ export const TableRow = ({
   const minHeight = 50;
   const relHeight = height < minHeight ? minHeight : height;
 
+  const relWidths = width < 800 ? RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+
+  const sourceWidth = numberToPercentString(relWidths.SourceColumn);
+  const arrowWidth = numberToPercentString(relWidths.ArrowColumn);
+  const arrowContainerWidth = numberToPercentString(relWidths.ArrowContainerColumn);
+  const destWidth = numberToPercentString(relWidths.DestinationColumn);
+  const destNameWidth = numberToPercentString(relWidths.DestNameColumn);
+  const destCountryWidth = numberToPercentString(relWidths.DestCountryColumn);
+  const graphWidth = numberToPercentString(relWidths.GraphColumn);
+  const metricWidth = numberToPercentString(relWidths.MetricColumn);
+  const metricSymbolWidth = numberToPercentString(relWidths.MetricSymbolColumn);
+  const recentMetricWidth = numberToPercentString(relWidths.RecentMetricColumn);
+  const overallMetricWidth = numberToPercentString(relWidths.OverallMetricColumn);
+
   return <BorderedSolidRow height={`${relHeight}px`}>
-    <SourceColumn>
+    <SourceColumn colWidth={sourceWidth}>
       <SolidRow>
         <TabColumn>
           <TruncatedText>
@@ -58,29 +73,29 @@ export const TableRow = ({
         </TabColumn>
       </SolidRow>
     </SourceColumn>
-    <ArrowColumn>
+    <ArrowColumn colWidth={arrowWidth}>
       <SolidRow>
-        <ArrowContainerColumn>
+        <ArrowContainerColumn colWidth={arrowContainerWidth}>
           <BIcon name='arrow-back-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </ArrowContainerColumn>
-        <ArrowContainerColumn>
+        <ArrowContainerColumn colWidth={arrowContainerWidth}>
           <BIcon name='arrow-forward-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </ArrowContainerColumn>
       </SolidRow>
     </ArrowColumn>
-    <DestinationColumn>
+    <DestinationColumn colWidth={destWidth}>
       <SolidRow>
-        <DestNameColumn>
+        <DestNameColumn colWidth={destNameWidth}>
           <TruncatedText>
             {handleUndefinedValue(destName)}
           </TruncatedText>
         </DestNameColumn>
-        <CountryColumn>
+        <CountryColumn colWidth={destCountryWidth}>
           {handleUndefinedValue(country)}
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
-    <GraphColumn style={{alignContent:'center'}}>
+    <GraphColumn colWidth={graphWidth} style={{alignContent:'center'}}>
       <div style={{height:'100%', width:'100%'}} ref={graphRef}>
         <DualLineGraph
           height={dimensions.height}
@@ -94,26 +109,26 @@ export const TableRow = ({
         />
       </div>
     </GraphColumn>
-    <MetricColumn>
+    <MetricColumn colWidth={metricWidth}>
       <SolidRow height='50%'>
-        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn>
+        <RecentMetricColumn colWidth={recentMetricWidth}>
           {handleUndefinedNumeric(sentFive)}
         </RecentMetricColumn>
-        <OverallMetricColumn>
+        <OverallMetricColumn colWidth={overallMetricWidth}>
           {handleUndefinedNumeric(sentSixty)}
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
-        <MetricSymbolColumn style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn>
+        <RecentMetricColumn colWidth={recentMetricWidth}>
           {handleUndefinedNumeric(receivedFive)}
         </RecentMetricColumn>
-        <OverallMetricColumn>
+        <OverallMetricColumn colWidth={overallMetricWidth}>
           {handleUndefinedNumeric(receivedSixty)}
         </OverallMetricColumn>
       </SolidRow>
