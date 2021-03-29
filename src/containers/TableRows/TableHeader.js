@@ -39,6 +39,10 @@ export const TableHeader = ({
   const recentMetricWidth = numberToPercentString(relWidths.RecentMetricColumn);
   const overallMetricWidth = numberToPercentString(relWidths.OverallMetricColumn);
 
+  const destVals = width < 800 ?
+    { title: 'Dest', width:'95%', marginLeft:'5%' } :
+    { title: 'Destination', width:'80%', marginLeft: '20%' };
+
   return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn colWidth={sourceWidth} style={{display:'flex', alignItems:'flex-start'}}>
       <FixedTitle title='Source' style={{width:'100%', textAlign:'center'}}/>
@@ -46,7 +50,7 @@ export const TableHeader = ({
     </SourceColumn>
     <ArrowColumn colWidth={arrowWidth}/>
     <DestinationColumn colWidth={destWidth} style={{display:'flex', alignItems:'flex-start'}}>
-      <FixedTitle title='Destination' style={{marginLeft:'20%', width:'80%', textAlign:'center'}}/>
+      <FixedTitle title={destVals.title} style={{marginLeft:destVals.marginLeft, width:destVals.width, textAlign:'center'}}/>
       <div style={{width:'100%', display:'inline-grid', gridTemplateColumns:`${destNameWidth} ${destCountryWidth}`}}>
         <SectionSubtitle text='Name' style={{textAlign:'center'}}/>
         <SectionSubtitle text='Country' style={{textAlign: 'center', overflow:'hidden'}}/>
