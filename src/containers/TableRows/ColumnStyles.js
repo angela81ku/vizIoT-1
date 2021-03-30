@@ -48,8 +48,40 @@ export const RELCOLWIDTHS = {
   }
 }
 
+export const getRelColWidths = (width) => {
+  return width < 800 ? width < 650 ? RELCOLWIDTHS.xsmall : RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+}
+
 export const numberToPercentString = (num) => {
   return `${num}%`;
+}
+
+export const getPercentageStrings = (relWidths) => {
+  const sourceWidth = numberToPercentString(relWidths.SourceColumn);
+  const arrowWidth = numberToPercentString(relWidths.ArrowColumn);
+  const arrowContainerWidth = numberToPercentString(relWidths.ArrowContainerColumn);
+  const destWidth = numberToPercentString(relWidths.DestinationColumn);
+  const destNameWidth = numberToPercentString(relWidths.DestNameColumn);
+  const destCountryWidth = numberToPercentString(relWidths.DestCountryColumn);
+  const graphWidth = numberToPercentString(relWidths.GraphColumn);
+  const metricWidth = numberToPercentString(relWidths.MetricColumn);
+  const metricSymbolWidth = numberToPercentString(relWidths.MetricSymbolColumn);
+  const recentMetricWidth = numberToPercentString(relWidths.RecentMetricColumn);
+  const overallMetricWidth = numberToPercentString(relWidths.OverallMetricColumn);
+
+  return {
+    sourceWidth,
+    arrowWidth,
+    arrowContainerWidth,
+    destWidth,
+    destNameWidth,
+    destCountryWidth,
+    graphWidth,
+    metricWidth,
+    metricSymbolWidth,
+    recentMetricWidth,
+    overallMetricWidth,
+  }
 }
 
 export const SourceColumn = styled(TabColumn)`

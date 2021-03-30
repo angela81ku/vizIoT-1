@@ -7,7 +7,7 @@ import {
   BorderedSolidRow, CountryColumn,
   DestinationColumn, GraphColumn,
   DestNameColumn, MetricColumn, MetricSymbolColumn, OverallMetricColumn, RecentMetricColumn,
-  SourceColumn, RELCOLWIDTHS, numberToPercentString,
+  SourceColumn, RELCOLWIDTHS, numberToPercentString, getRelColWidths, getPercentageStrings,
 } from './ColumnStyles';
 import SolidRow from '../../components/BeanUILibrary/SolidRow';
 import TabColumn from '../../components/BeanUILibrary/TabColumn';
@@ -49,19 +49,21 @@ export const TableRow = ({
   const minHeight = 50;
   const relHeight = height < minHeight ? minHeight : height;
 
-  const relWidths = width < 800 ? width < 650 ? RELCOLWIDTHS.xsmall : RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+  const relWidths = getRelColWidths(width);
 
-  const sourceWidth = numberToPercentString(relWidths.SourceColumn);
-  const arrowWidth = numberToPercentString(relWidths.ArrowColumn);
-  const arrowContainerWidth = numberToPercentString(relWidths.ArrowContainerColumn);
-  const destWidth = numberToPercentString(relWidths.DestinationColumn);
-  const destNameWidth = numberToPercentString(relWidths.DestNameColumn);
-  const destCountryWidth = numberToPercentString(relWidths.DestCountryColumn);
-  const graphWidth = numberToPercentString(relWidths.GraphColumn);
-  const metricWidth = numberToPercentString(relWidths.MetricColumn);
-  const metricSymbolWidth = numberToPercentString(relWidths.MetricSymbolColumn);
-  const recentMetricWidth = numberToPercentString(relWidths.RecentMetricColumn);
-  const overallMetricWidth = numberToPercentString(relWidths.OverallMetricColumn);
+  const {
+    sourceWidth,
+    arrowWidth,
+    arrowContainerWidth,
+    destWidth,
+    destNameWidth,
+    destCountryWidth,
+    graphWidth,
+    metricWidth,
+    metricSymbolWidth,
+    recentMetricWidth,
+    overallMetricWidth,
+  } = getPercentageStrings(relWidths);
 
   return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn colWidth={sourceWidth}>
