@@ -73,9 +73,7 @@ export const BlankRow = ({
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn colWidth={recentMetricWidth}>
-          ~ B/s
-        </RecentMetricColumn>
+        {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
           ~ B/s
         </OverallMetricColumn>
@@ -84,15 +82,21 @@ export const BlankRow = ({
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn colWidth={recentMetricWidth}>
-          ~ B/s
-        </RecentMetricColumn>
+        {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
           ~ B/s
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
   </BorderedSolidRow>
+}
+
+const renderBlankRecentMetricColumn = (numericWidth, recentMetricWidth) => {
+  if (numericWidth !== 0) {
+    return <RecentMetricColumn colWidth={recentMetricWidth}>
+      ~ B/s
+    </RecentMetricColumn>
+  }
 }
 
 BlankRow.propTypes = {

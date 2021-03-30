@@ -114,9 +114,7 @@ export const TableRow = ({
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn colWidth={recentMetricWidth}>
-          {handleUndefinedNumeric(sentFive)}
-        </RecentMetricColumn>
+        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, sentFive)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
           {handleUndefinedNumeric(sentSixty)}
         </OverallMetricColumn>
@@ -125,15 +123,21 @@ export const TableRow = ({
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
-        <RecentMetricColumn colWidth={recentMetricWidth}>
-          {handleUndefinedNumeric(receivedFive)}
-        </RecentMetricColumn>
+        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, receivedFive)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
           {handleUndefinedNumeric(receivedSixty)}
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
   </BorderedSolidRow>
+}
+
+const renderRecentMetricColumn = (numericWidth, recentMetricWidth, metric) => {
+  if (numericWidth !== 0) {
+    return <RecentMetricColumn colWidth={recentMetricWidth}>
+      {handleUndefinedNumeric(metric)}
+    </RecentMetricColumn>
+  }
 }
 
 TableRow.propTypes = {
