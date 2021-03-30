@@ -49,7 +49,7 @@ export const TableRow = ({
   const minHeight = 50;
   const relHeight = height < minHeight ? minHeight : height;
 
-  const relWidths = width < 800 ? RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+  const relWidths = width < 800 ? width < 650 ? RELCOLWIDTHS.xsmall : RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
 
   const sourceWidth = numberToPercentString(relWidths.SourceColumn);
   const arrowWidth = numberToPercentString(relWidths.ArrowColumn);

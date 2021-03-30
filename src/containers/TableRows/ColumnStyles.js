@@ -7,6 +7,19 @@ import SolidRow from "../../components/BeanUILibrary/SolidRow";
 import SectionTitle from "../../components/SectionTitle";
 
 export const RELCOLWIDTHS = {
+  xsmall: {
+    SourceColumn: 15,
+    ArrowColumn: 10,
+    ArrowContainerColumn: 50,
+    DestinationColumn: 22.5,
+    DestNameColumn: 100,
+    DestCountryColumn: 0,
+    GraphColumn: 35,
+    MetricColumn: 17.5,
+    MetricSymbolColumn: 30,
+    RecentMetricColumn: 0,
+    OverallMetricColumn: 70,
+  },
   small: {
     SourceColumn: 15,
     ArrowColumn: 10,
@@ -96,20 +109,17 @@ export const MetricColumn = styled(TabColumn)`
 // sub col
 export const MetricSymbolColumn = styled(TabColumn)`
   width: ${props => props.colWidth};
-  height: 100%;
 `
 
 // sub col
 export const RecentMetricColumn = styled(TabColumn)`
   width: ${props => props.colWidth};
   overflow: hidden;
-  height: 100%;
 `
 
 // sub col
 export const OverallMetricColumn = styled(TabColumn)`
   width: ${props => props.colWidth};
-  height: 100%;
 `
 
 export const BorderedSolidRow = styled(SolidRow)`

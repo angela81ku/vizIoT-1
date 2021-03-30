@@ -25,7 +25,7 @@ export const TableHeader = ({
   const minHeight = 53;
   const relHeight = height < minHeight ? minHeight : height;
 
-  const relWidths = width < 800 ? RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
+  const relWidths = width < 800 ? width < 650 ? RELCOLWIDTHS.xsmall : RELCOLWIDTHS.small : RELCOLWIDTHS.normal;
 
   const sourceWidth = numberToPercentString(relWidths.SourceColumn);
   const arrowWidth = numberToPercentString(relWidths.ArrowColumn);
@@ -69,16 +69,38 @@ export const TableHeader = ({
         </FixedTitle>
       </div>
     </GraphColumn>
-    <MetricColumn colWidth={metricWidth} style={{display:'flex', alignItems:'flex-start'}}>
-      <FixedTitle style={{paddingLeft:'17%', width:'100%', textAlign:'center'}} title='Traffic' size='xsm'/>
-      <div style={{display:'inline-grid', gridTemplateColumns:`${metricSymbolWidth} ${recentMetricWidth} ${overallMetricWidth}`, justifyContent:'start', width:'100%'}}>
-          <div style={{width:'100%'}}/>
-          <SectionSubtitle text='5 sec' style={{textAlign:'center'}}/>
-          <SectionSubtitle text='60 sec' style={{textAlign:'center'}}/>
-      </div>
+    {renderMetricCols(relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth)}
 
-    </MetricColumn>
   </BorderedSolidRow>
+}
+
+const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth) => {
+  if (relWidths.RecentMetricColumn === 0) {
+    return <MetricColumn colWidth={metricWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
+      <FixedTitle style={{paddingLeft: '17%', width: '100%', textAlign: 'center'}} title='Traffic' size='xsm'/>
+      <div style={{
+        width: '100%',
+        display: 'inline-grid',
+        gridTemplateColumns: `${metricSymbolWidth} ${overallMetricWidth}`
+      }}>
+        <div style={{width: '100%'}}/>
+        <SectionSubtitle text='60 sec' style={{textAlign: 'center'}}/>
+      </div>
+    </MetricColumn>
+  } else {
+    return <MetricColumn colWidth={metricWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
+      <FixedTitle style={{paddingLeft: '17%', width: '100%', textAlign: 'center'}} title='Traffic' size='xsm'/>
+      <div style={{
+        width: '100%',
+        display: 'inline-grid',
+        gridTemplateColumns: `${metricSymbolWidth} ${recentMetricWidth} ${overallMetricWidth}`
+      }}>
+        <div style={{width: '100%'}}/>
+        <SectionSubtitle text='5 sec' style={{textAlign: 'center', overflow: 'hidden'}}/>
+        <SectionSubtitle text='60 sec' style={{textAlign: 'center'}}/>
+      </div>
+    </MetricColumn>
+  }
 }
 
 TableHeader.propTypes = {
