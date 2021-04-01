@@ -2,12 +2,15 @@
 
 export const formatBytes = (val, denomUnit, precision = 2, spaces = true) => {
 
-  if (!val) {
+  if (val === undefined) {
     return val;
   }
 
-
   const denom = spaces ? denomUnit ? ' / ' + denomUnit : '' : '/' + denomUnit;
+
+  if (val === 0) {
+    return `0 B${denom}`
+  }
 
   const byteRanges = [
     {
