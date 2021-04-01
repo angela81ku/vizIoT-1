@@ -2,7 +2,7 @@
 
 export const formatBytes = (val, denomUnit, precision = 2, spaces = true) => {
 
-  if (val === undefined) {
+  if (val === undefined || val === null) {
     return val;
   }
 

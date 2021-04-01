@@ -163,7 +163,7 @@ class LiveLineGraph extends Component {
   mapPropsToState = props => {
     const { data, transitionDuration, lineColors } = props;
 
-    const lColors = lineColors ? lineColors : ['white'];
+    const lColors = lineColors ? lineColors : ['#13d4b7'];
 
     const graphDimensions = LiveLineGraph.getGraphDimensions(props);
     const domain = this.getLiveDomainForX();
