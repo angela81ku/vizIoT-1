@@ -14,6 +14,7 @@ module.exports = {
   getAggregateMacAddressSizeDataByTime,
   getAggregateMacAddressSizeDataWithinNSeconds,
   getAggregateMacAddressSizeDataFromStartOfTheDay,
+  getAggregateSentReceivedDataWithinNSeconds,
 }
 
 function buildSizeMacAddressData(macPacketList) {
@@ -199,7 +200,6 @@ async function getAggregateCountDataByTime(startMS, endMS) {
   return count
 }
 
-
 async function getAggregateSizeDataByTime(startMS, endMS) {
 
   const resultsFromTcpData = await TcpDataModel.aggregate([
@@ -280,4 +280,48 @@ async function getAggregateDataByTime(startMS, endMS) {
   return TcpDataModel.find({
     timestamp: { $gte: startMS, $lte: endMS },
   })
+}
+
+async function getAggregateSentReceivedDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: startMS, $lte: endMS },
+      },
+    },
+    // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
+  ])
+
+  const macAddrs = new Set();
+  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
+  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  let sent = 0;
+  let received = 0;
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i];
+    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('packet_size')) {
+      if (macAddrs.has(packet.src_mac)) {
+        sent += packet.packet_size;
+      } else {
+        received += packet.packet_size;
+      }
+    }
+  }
+
+  return [received, sent];
+}
+
+async function getAggregateSentReceivedDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const size = await getAggregateSentReceivedDataByTime(startMS, endMS);
+
+  return {
+    size,
+    startMS,
+    endMS,
+  }
 }

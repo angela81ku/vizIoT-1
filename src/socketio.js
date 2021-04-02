@@ -125,6 +125,14 @@ function initSocketIO(http) {
     chat.emit('/total/count/1min', result);
   }, interval)
 
+  setInterval(async () => {
+    // console.log('starting get');
+    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval);
+
+    chat.emit('/total/IO/1s', result);
+    // chat.emit('/total/IO/metric/1s', tempMetric);
+  }, interval)
+
 
 // const news = io
 //   .of('/news')
