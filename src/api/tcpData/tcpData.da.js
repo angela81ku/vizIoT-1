@@ -303,11 +303,11 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
     const packet = resultsFromTcpData[i];
-    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('packet_size')) {
+    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
       if (macAddrs.has(packet.src_mac)) {
         sent += packet.packet_size;
         total += packet.packet_size;
-      } else if (packet.hasOwnProperty('dst_mac')) {
+      } else if (macAddrs.has(packet.dst_mac)) {
         received += packet.packet_size;
         total += packet.packet_size;
       }
@@ -356,9 +356,11 @@ async function getDeviceSentReceivedDataByTime(startMS, endMS) {
       if (macAddrs.has(packet.src_mac)) {
         sent = packet.packet_size;
         mac = packet.src_mac;
-      } else {
+      } else if (macAddrs.has(packet.dst_mac)) {
         received = packet.packet_size;
         mac = packet.dst_mac;
+      } else {
+        continue;
       }
 
       if (deviceData.hasOwnProperty(mac)) {
