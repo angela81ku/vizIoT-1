@@ -304,10 +304,12 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
     const packet = resultsFromTcpData[i];
     if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
-      if (macAddrs.has(packet.src_mac)) {
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+      if (macAddrs.has(fixedSrc)) {
         sent += packet.packet_size;
         total += packet.packet_size;
-      } else if (macAddrs.has(packet.dst_mac)) {
+      } else if (macAddrs.has(fixedDst)) {
         received += packet.packet_size;
         total += packet.packet_size;
       }
@@ -339,26 +341,33 @@ async function getDeviceSentReceivedDataByTime(startMS, endMS) {
     },
   ])
 
+  // console.log(resultsFromTcpData)
+
   const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
+  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
   devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  // console.log(devicesDataPromise)
 
   const deviceData = {};
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
     const packet = resultsFromTcpData[i];
-    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('packet_size')) {
+    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
 
       let sent = 0;
       let received = 0;
       let mac = "";
 
-      if (macAddrs.has(packet.src_mac)) {
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+
+      if (macAddrs.has(fixedSrc)) {
         sent = packet.packet_size;
-        mac = packet.src_mac;
-      } else if (macAddrs.has(packet.dst_mac)) {
+        mac = fixedSrc;
+      } else if (macAddrs.has(fixedDst)) {
         received = packet.packet_size;
-        mac = packet.dst_mac;
+        mac = fixedDst;
       } else {
         continue;
       }
@@ -396,4 +405,14 @@ async function getDeviceSentReceivedDataWithinNSeconds(pastMS) {
     startMS,
     endMS,
   }
+}
+
+function removeLeadingZeros(macAddress) {
+  const macVals = macAddress.split(':');
+  for (let i = 0; i < macVals.length; ++i) {
+    if (macVals[i].length === 2 && macVals[i][0] === '0') {
+      macVals[i] = macVals[i][1];
+    }
+  }
+  return macVals.join(':');
 }

@@ -188,6 +188,8 @@ function initSocketIO(http) {
     })
 
     devices.sort((a, b) => { return a.totalTraffic - b.totalTraffic })
+
+    // console.log(devices)
     const sortedDevices = devices.slice(-3);
 
     const deviceData = {
