@@ -129,8 +129,18 @@ function initSocketIO(http) {
     // console.log('starting get');
     const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval);
 
+    // shear total off of the metrics for live line graph
+    result.size = result.size.slice(1);
+
     chat.emit('/total/IO/1s', result);
     // chat.emit('/total/IO/metric/1s', tempMetric);
+  }, interval)
+
+  setInterval(async () => {
+    // console.log('starting get');
+    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval * 60);
+
+    chat.emit('/total/IO/metric/1s', result);
   }, interval)
 
 

@@ -298,6 +298,7 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
 
   let sent = 0;
   let received = 0;
+  let total = 0;
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
     const packet = resultsFromTcpData[i];
@@ -307,10 +308,12 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
       } else {
         received += packet.packet_size;
       }
+
+      total += packet.packet_size;
     }
   }
 
-  return [received, sent];
+  return [total, received, sent];
 }
 
 async function getAggregateSentReceivedDataWithinNSeconds(pastMS) {
