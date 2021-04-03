@@ -147,7 +147,7 @@ function initSocketIO(http) {
   setInterval(async () => {
 
     const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval);
-    const minuteData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 60);
+    const minuteData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30);
 
     const awaitVals = await Promise.all([secondData, minuteData]);
     const second = awaitVals[0];
