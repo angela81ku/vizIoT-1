@@ -143,6 +143,60 @@ function initSocketIO(http) {
     chat.emit('/total/IO/metric/1s', result);
   }, interval)
 
+  // send top 3 devices for IO here
+  setInterval(async () => {
+
+    const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval);
+    const minuteData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 60);
+
+    const awaitVals = await Promise.all([secondData, minuteData]);
+    const second = awaitVals[0];
+    const minute = awaitVals[1];
+
+    const devices = [];
+
+    Object.keys(minute.deviceData).forEach(d => {
+      const secondDevice = second.deviceData[d];
+      if (secondDevice) {
+        devices.push({
+          macAddress: d,
+          velocity: 0,
+          totalTraffic: minute.deviceData[d].total,
+          inTraffic: minute.deviceData[d].received,
+          outTraffic: minute.deviceData[d].sent,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [secondDevice.received, secondDevice.sent],
+          }
+          ,
+        })
+      } else {
+        devices.push({
+          macAddress: d,
+          velocity: 0,
+          totalTraffic: minute.deviceData[d].total,
+          inTraffic: minute.deviceData[d].received,
+          outTraffic: minute.deviceData[d].sent,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [0, 0],
+          },
+        })
+      }
+    })
+
+    devices.sort((a, b) => { return a.totalTraffic - b.totalTraffic })
+    const sortedDevices = devices.slice(-3);
+
+    const deviceData = {
+      deviceData: sortedDevices,
+    }
+
+    chat.emit('/data/top3/IO/1s', deviceData);
+  }, interval)
+
 
 // const news = io
 //   .of('/news')

@@ -15,6 +15,7 @@ module.exports = {
   getAggregateMacAddressSizeDataWithinNSeconds,
   getAggregateMacAddressSizeDataFromStartOfTheDay,
   getAggregateSentReceivedDataWithinNSeconds,
+  getDeviceSentReceivedDataWithinNSeconds,
 }
 
 function buildSizeMacAddressData(macPacketList) {
@@ -305,11 +306,11 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
     if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('packet_size')) {
       if (macAddrs.has(packet.src_mac)) {
         sent += packet.packet_size;
-      } else {
+        total += packet.packet_size;
+      } else if (packet.hasOwnProperty('dst_mac')) {
         received += packet.packet_size;
+        total += packet.packet_size;
       }
-
-      total += packet.packet_size;
     }
   }
 
@@ -324,6 +325,72 @@ async function getAggregateSentReceivedDataWithinNSeconds(pastMS) {
 
   return {
     size,
+    startMS,
+    endMS,
+  }
+}
+
+async function getDeviceSentReceivedDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: startMS, $lte: endMS },
+      },
+    },
+  ])
+
+  const macAddrs = new Set();
+  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
+  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  const deviceData = {};
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i];
+    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('packet_size')) {
+
+      let sent = 0;
+      let received = 0;
+      let mac = "";
+
+      if (macAddrs.has(packet.src_mac)) {
+        sent = packet.packet_size;
+        mac = packet.src_mac;
+      } else {
+        received = packet.packet_size;
+        mac = packet.dst_mac;
+      }
+
+      if (deviceData.hasOwnProperty(mac)) {
+        const currSent = deviceData[mac].sent;
+        const currReceived = deviceData[mac].received;
+        const currTotal = deviceData[mac].total;
+
+        deviceData[mac].sent = currSent + sent;
+        deviceData[mac].received = currReceived + received;
+        deviceData[mac].total = currTotal + sent + received;
+      } else {
+        deviceData[mac] = {
+          macAddress: mac,
+          sent: sent,
+          received: received,
+          total: (sent + received),
+        }
+      }
+    }
+  }
+
+  return deviceData;
+}
+
+async function getDeviceSentReceivedDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const deviceData = await getDeviceSentReceivedDataByTime(startMS, endMS);
+
+  return {
+    deviceData,
     startMS,
     endMS,
   }
