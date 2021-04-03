@@ -13,7 +13,6 @@ let devicesInUse = {};
 
 export const addTopThreeIOData = (devices) => {
 
-  // console.log(deviceArray)
   const currentlyInUse = {};
 
   // if data does not exist for this device, create a new entry
@@ -22,6 +21,8 @@ export const addTopThreeIOData = (devices) => {
     if (!deviceData.hasOwnProperty(device.macAddress)) {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
+        velocity: device.velocity,
+        dataStreams: [device.totalTraffic, device.inTraffic, device.outTraffic],
         data: [device.data],
       }
     }
@@ -35,6 +36,8 @@ export const addTopThreeIOData = (devices) => {
       }
       deviceData[device.macAddress] = {
         mac: device.macAddress,
+        velocity: device.velocity,
+        dataStreams: [device.totalTraffic, device.inTraffic, device.outTraffic],
         data: currData
       }
     }
@@ -53,9 +56,6 @@ export const addTopThreeIOData = (devices) => {
     }
   })
 
-  // console.log(currentlyInUse)
-
-  // console.log(deviceData)
   // reset devices in use after all operations have been completed
   // do this at end so as to minimize data race for devicesInUse should the line viz component attempt to access
   // during data update

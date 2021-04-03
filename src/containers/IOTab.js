@@ -23,7 +23,7 @@ export const IOTab = ({}) => {
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
     const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
-    const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceIOData, 15000)
+    const deviceFetcher = fetcherFactory(fetchDeviceData, getDevices, 15000)
 
     const cardSymbols = ['box', 'arrow-alt-circle-down', 'arrow-alt-circle-up']
 

@@ -53,29 +53,31 @@ class DeviceCollectionNormalized extends Component {
     const { hoveredDevice } = this.state;
     const { devices, packets, chartConfig, graphColors, graphSize, factColors, cardSymbols } = this.props;
 
-    // console.log(devices)
-    // console.log(packets)
-    // console.log(chartConfig)
-
     const aggregatedDevices = {};
-    Object.keys(devices).forEach(device => {
-      const deviceVals = devices[device];
-      const {_id, macAddress, name, category, dataStreams, velocity } = deviceVals;
-      if (packets.hasOwnProperty(macAddress)) {
-        const packetEntry = packets[macAddress]
-        const data = packetEntry.data;
 
-        aggregatedDevices[macAddress] = {
+    Object.keys(packets).forEach(packet => {
+      const packetVals = packets[packet];
+      const {mac, velocity, dataStreams, data } = packetVals;
+      if (devices.hasOwnProperty(mac)) {
+        const {_id, macAddress, name, category } = devices[mac];
+        aggregatedDevices[mac] = {
           _id: _id,
-          macAddress: macAddress,
+          macAddress: mac,
           name: name,
           category: category,
           data: data,
           velocity: velocity,
           dataStreams: dataStreams,
         }
+      } else {
+        aggregatedDevices[mac] = {
+          macAddress: mac,
+          name: name,
+          data: data,
+          velocity: velocity,
+          dataStreams: dataStreams,
+        }
       }
-
     })
 
     return (
