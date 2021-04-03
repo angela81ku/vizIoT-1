@@ -160,7 +160,7 @@ function initSocketIO(http) {
       if (secondDevice) {
         devices.push({
           macAddress: d,
-          velocity: 0,
+          velocity: (minute.deviceData[d].total / 30),
           totalTraffic: minute.deviceData[d].total,
           inTraffic: minute.deviceData[d].received,
           outTraffic: minute.deviceData[d].sent,
@@ -174,7 +174,7 @@ function initSocketIO(http) {
       } else {
         devices.push({
           macAddress: d,
-          velocity: 0,
+          velocity: (minute.deviceData[d].total / 30),
           totalTraffic: minute.deviceData[d].total,
           inTraffic: minute.deviceData[d].received,
           outTraffic: minute.deviceData[d].sent,
