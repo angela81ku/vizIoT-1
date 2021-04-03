@@ -10,14 +10,14 @@ export const addDevice = (device) => {
     macAddress: device.macAddress,
     name: device.name,
     category: device.category,
-    inTraffic: device.in,
-    outTraffic: device.out,
-    totalTraffic: device.total,
-    tcpTraffic: device.tcp,
-    udpTraffic: device.udp,
-    httpTraffic: device.http,
-    dnsTraffic: device.dns,
-    velocity: device.velocity,
+    // inTraffic: device.in,
+    // outTraffic: device.out,
+    // totalTraffic: device.total,
+    // tcpTraffic: device.tcp,
+    // udpTraffic: device.udp,
+    // httpTraffic: device.http,
+    // dnsTraffic: device.dns,
+    // velocity: device.velocity,
   }
 }
 

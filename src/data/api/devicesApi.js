@@ -39,9 +39,9 @@ export const fetchDevices = new ApiRecord({
 });
 
 export async function fetchDeviceData() {
-  const url = `${baseUrlApi}/device/top3`;
+  const url = `${baseUrlApi}/device/all`;
   const res =  await axios.get(url, { headers })
-  const devices = res.data.devices;
+  const devices = res.data;
   devices.forEach(d => {
     addDevice(d);
   })
