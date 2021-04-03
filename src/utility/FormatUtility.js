@@ -6,7 +6,7 @@ export const formatBytes = (val, denomUnit, precision = 2, spaces = true) => {
     return val;
   }
 
-  const denom = spaces ? denomUnit ? ' / ' + denomUnit : '' : '/' + denomUnit;
+  const denom = spaces ? denomUnit ? ' / ' + denomUnit : '' : denomUnit ? '/' + denomUnit : '';
 
   if (val === 0) {
     return `0 B${denom}`
