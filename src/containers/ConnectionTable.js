@@ -51,8 +51,8 @@ export const ConnectionTable = ({
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
 
   useTimedFetcher(fetchDeviceConnections, 1000)
-  useTimedFetcher(fetchFiveSecondConnections, 5000)
-  useTimedFetcher(fetchSixtySecondConnections, 60000)
+  useTimedFetcher(fetchFiveSecondConnections, 1000)
+  useTimedFetcher(fetchSixtySecondConnections, 1000)
 
   // set up height refs to pass heights to child components
   const cardRef = useRef();
@@ -149,6 +149,9 @@ export const ConnectionTable = ({
     }
   }
 
+  // presort connections before shearing off lower connections
+  displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty));
+
   if (displayConnections.length > rows) {
     displayConnections = displayConnections.slice(0, rows)
   }
@@ -163,7 +166,7 @@ export const ConnectionTable = ({
         height={headerSize}
         width={width}
       />
-      {displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty)).map(conn => {
+      {displayConnections.map(conn => {
         ++renderIndex;
         // console.log(conn)
         // console.log(packets)

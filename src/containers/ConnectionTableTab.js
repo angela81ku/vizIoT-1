@@ -15,11 +15,9 @@ const TabContainer = styled.div`
 
 const setHeight = () => {
   const lastSpacer = document.getElementById('spacer-bottom');
-  console.log(lastSpacer)
   if (lastSpacer) {
     const spacerBottom = lastSpacer.getBoundingClientRect().bottom;
     const windowHeight = window.innerHeight;
-    console.log(windowHeight - spacerBottom)
     return Math.max(windowHeight - spacerBottom - 30, 0);
   } else {return undefined}
 }

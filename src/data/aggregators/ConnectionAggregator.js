@@ -63,21 +63,44 @@ export const addPackets = (packet, metric) => {
     }
       // check for 5 sec stream
     case (METRICS.FIVE): {
-      if (packets.hasOwnProperty(packet.id)) {
-        packets[packet.id]['five'] = packet.size;
-      } else {
-        packets[packet.id] = makeInitialPacket([], packet.size, undefined);
+      const idSet = new Set();
+      for (let i = 0; i < packet.length; ++i) {
+        const p = packet[i];
+        if (packets.hasOwnProperty(p.id)) {
+          packets[p.id]['five'] = p.size;
+        } else {
+          packets[p.id] = makeInitialPacket([], p.size, undefined);
+        }
+        idSet.add(p.id)
       }
+
+      Object.keys(packets).forEach(key => {
+        if (!idSet.has(key)) {
+          packets[key].five = [0, 0];
+        }
+      })
+
       break;
     }
 
       // check for 60 sec stream
     case (METRICS.SIXTY): {
-      if (packets.hasOwnProperty(packet.id)) {
-        packets[packet.id]['sixty'] = packet.size;
-      } else {
-        packets[packet.id] = makeInitialPacket([], undefined, packet.size);
+      const idSet = new Set();
+      for (let i = 0; i < packet.length; ++i) {
+        const p = packet[i]
+        if (packets.hasOwnProperty(p.id)) {
+          packets[p.id]['sixty'] = p.size;
+        } else {
+          packets[p.id] = makeInitialPacket([], undefined, p.size);
+        }
+        idSet.add(p.id)
       }
+
+      Object.keys(packets).forEach(key => {
+        if (!idSet.has(key)) {
+          packets[key].sixty = [0, 0];
+        }
+      })
       break;
     }
   }
