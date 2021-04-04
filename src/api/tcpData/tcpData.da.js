@@ -4,6 +4,7 @@ const { TcpDataModel } = require('./tcpData.model')
 const { TcpAggregatedDataModel } = require('./tcpAggregatedData.model')
 const { DeviceModel } = require('../device/device.model')
 const { getStartOfToday, getNow } = require('../../util/time')
+const { removeLeadingZeros } = require('../../util/FormatUtility')
 
 module.exports = {
   getRecentDataWithinNSeconds,
@@ -16,6 +17,8 @@ module.exports = {
   getAggregateMacAddressSizeDataFromStartOfTheDay,
   getAggregateSentReceivedDataWithinNSeconds,
   getDeviceSentReceivedDataWithinNSeconds,
+  getConnectionSentReceivedDataWithinNSeconds,
+  getConnectionSentReceivedDataByTime,
 }
 
 function buildSizeMacAddressData(macPacketList) {
@@ -407,12 +410,81 @@ async function getDeviceSentReceivedDataWithinNSeconds(pastMS) {
   }
 }
 
-function removeLeadingZeros(macAddress) {
-  const macVals = macAddress.split(':');
-  for (let i = 0; i < macVals.length; ++i) {
-    if (macVals[i].length === 2 && macVals[i][0] === '0') {
-      macVals[i] = macVals[i][1];
+async function getConnectionSentReceivedDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: startMS, $lte: endMS },
+      },
+    },
+  ])
+
+  // console.log(resultsFromTcpData)
+
+  const macAddrs = new Set();
+  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
+  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  // console.log(devicesDataPromise)
+
+  const connectionObject = {};
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i];
+    if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
+
+      let sent = 0;
+      let received = 0;
+      let macKey = "";
+
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+
+      if (macAddrs.has(fixedSrc)) {
+        sent = packet.packet_size;
+        macKey = fixedSrc + '--' + fixedDst;
+      } else if (macAddrs.has(fixedDst)) {
+        received = packet.packet_size;
+        macKey = fixedDst + '--' + fixedSrc;
+      } else {
+        continue;
+      }
+
+      if (connectionObject.hasOwnProperty(macKey)) {
+        const currSent = connectionObject[macKey].sent;
+        const currReceived = connectionObject[macKey].received;
+
+        connectionObject[macKey].sent = currSent + sent;
+        connectionObject[macKey].received = currReceived + received;
+      } else {
+        connectionObject[macKey] = {
+          sent: sent,
+          received: received,
+        }
+      }
     }
   }
-  return macVals.join(':');
+
+  // convert object into connectiosn after all data has been aggregated
+  const connections = Object.keys(connectionObject).map(key => {
+    return {
+      id: key,
+      size: [connectionObject[key].sent, connectionObject[key].received],
+      time : endMS,
+    }
+  });
+
+  return connections;
 }
+
+async function getConnectionSentReceivedDataWithinNSeconds(pastMS) {
+
+  const endMS = Date.now();
+  const startMS = endMS - pastMS;
+
+  const connections = await getConnectionSentReceivedDataByTime(startMS, endMS);
+
+  return connections;
+
+}
+

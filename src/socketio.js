@@ -199,6 +199,13 @@ function initSocketIO(http) {
     chat.emit('/data/top3/IO/1s', deviceData);
   }, interval)
 
+  setInterval(async () => {
+    // console.log('starting get');
+    const connections = await TcpDataDa.getConnectionSentReceivedDataWithinNSeconds(interval);
+
+    chat.emit('/data/connections/1s', {connections});
+  }, 1000)
+
 
 // const news = io
 //   .of('/news')
