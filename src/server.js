@@ -6,6 +6,8 @@ const config = require('./config/config')
 const expressConfig = require('./config/express')
 const routesConfig = require('./config/routes')
 
+const { startCountryDB } = require('./api/device/device.da')
+
 class Server {
   constructor() {
     this.app = express()
@@ -21,6 +23,11 @@ class Server {
 
     // express settings
     expressConfig(this.app)
+
+    // connect to local country database
+    startCountryDB()
+      .then(r => console.log('Country db connected'))
+      .catch(e => console.log('error opening Country db'));
 
     // connect to database
     mongoose.connect(this.config.db, { useNewUrlParser: true })

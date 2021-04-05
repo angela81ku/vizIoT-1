@@ -5,6 +5,7 @@ const DeviceDa = require('./device.da')
 
 module.exports = {
   getAllDevices,
+  getDeviceConnections,
 }
 
 async function getAllDevices(req, res) {
@@ -18,3 +19,19 @@ async function getAllDevices(req, res) {
       .send(e.message)
   }
 }
+
+async function getDeviceConnections(req, res) {
+  try {
+    const interval = 60000;
+    const endMS = Date.now()
+    const startMS = endMS - interval;
+
+    const connections = await DeviceDa.getConnections(startMS, endMS)
+    res.status(200);
+    res.send({connections})
+  } catch (e) {
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e)
+  }
+}
+
+

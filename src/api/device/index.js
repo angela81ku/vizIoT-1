@@ -9,5 +9,10 @@ router
   .route('/device/all')
   .get(ctrl.getAllDevices)
 
+router
+  .route('/device/connections')
+  .get(ctrl.getDeviceConnections)
+
+
 
 module.exports = router

@@ -1,10 +1,23 @@
 const { DeviceModel } = require('./device.model')
 const { TcpDataModel } = require('../tcpData/tcpData.model')
 const { removeLeadingZeros } = require('../../util/FormatUtility')
+const maxmind = require('maxmind')
+
+let db = undefined;
+let countryIPs = {};
 
 module.exports = {
   getAll,
   getConnections,
+  startCountryDB
+}
+
+async function startCountryDB() {
+  console.log(process.cwd())
+  const dbPath = process.cwd() + '/src/db/GeoLite2-Country.mmdb'
+  db = await maxmind.open(dbPath);
+  // console.log('await done')
+  // console.log(db.get('8.8.8.8').country.iso_code)
 }
 
 async function getAll() {
@@ -35,6 +48,7 @@ async function getConnections(startMS, endMS) {
       let macKey = '';
       let name = '';
       let destName = '';
+      let ip = '';
 
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
@@ -42,25 +56,39 @@ async function getConnections(startMS, endMS) {
       if (macAddrs.hasOwnProperty(fixedSrc)) {
         macKey = fixedSrc + '--' + fixedDst;
         name = macAddrs[fixedSrc].name;
-        destName = fixedDst
+        destName = fixedDst;
+        ip = packet.dst_ip;
       } else if (macAddrs.hasOwnProperty(fixedDst)) {
         macKey = fixedDst + '--' + fixedSrc;
-        name = macAddrs[fixedDst].name,
-        destName = fixedSrc
+        name = macAddrs[fixedDst].name;
+        destName = fixedSrc;
+        ip = packet.src_ip;
       } else {
         continue;
       }
 
+      let country = undefined;
+
+      if (countryIPs.hasOwnProperty(ip)) {
+        country = countryIPs[ip].country;
+      } else {
+        const res = await db.get(ip);
+        if (res && res.country && res.country.iso_code) {
+          country = res.country.iso_code;
+          countryIPs[ip].country = country;
+        }
+      }
+
+      // otherwise creat new entries
       // if connection exists, don't do any additional calculations
       if (connectionObject.hasOwnProperty(macKey)) {
         continue;
-      }
-      // otherwise creat new entries
-      else {
+      } else {
         connectionObject[macKey] = {
           id: macKey,
           name: name,
           destName: destName,
+          country: country,
         }
       }
     }
