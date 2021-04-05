@@ -2,9 +2,11 @@ const { DeviceModel } = require('./device.model')
 const { TcpDataModel } = require('../tcpData/tcpData.model')
 const { removeLeadingZeros } = require('../../util/FormatUtility')
 const maxmind = require('maxmind')
+const dns = require('dns')
 
 let db = undefined;
 let countryIPs = {};
+let dnsHostNames = {};
 
 module.exports = {
   getAll,
@@ -37,10 +39,8 @@ async function getConnections(startMS, endMS) {
   const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
   devicesDataPromise.forEach(entry => macAddrs[entry.macAddress] = { macAddress: entry.macAddress, name: entry.name})
 
-  // console.log(devicesDataPromise)
-
   const connectionObject = {};
-
+  
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
     const packet = resultsFromTcpData[i];
     if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
@@ -49,6 +49,7 @@ async function getConnections(startMS, endMS) {
       let name = '';
       let destName = '';
       let ip = '';
+      let port = -1;
 
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
@@ -58,24 +59,43 @@ async function getConnections(startMS, endMS) {
         name = macAddrs[fixedSrc].name;
         destName = fixedDst;
         ip = packet.dst_ip;
+        port = packet.dst_port;
       } else if (macAddrs.hasOwnProperty(fixedDst)) {
         macKey = fixedDst + '--' + fixedSrc;
         name = macAddrs[fixedDst].name;
         destName = fixedSrc;
         ip = packet.src_ip;
+        port = packet.src_port;
       } else {
         continue;
       }
 
       let country = undefined;
 
+      const dnsIP = ip + ':' + port;
+      if (dnsHostNames.hasOwnProperty(dnsIP)) {
+        const dnsIPVal = dnsHostNames[dnsIP];
+        if (dnsIPVal !== '-1') {
+          destName = dnsIPVal
+        }
+      } else {
+        await dns.lookupService(ip, port, (err, hostname, service) => {
+          if (!err) {
+            destName = hostname;
+            dnsHostNames[dnsIP] = hostname;
+          }
+        })
+      }
+
+      // handle grabbing
       if (countryIPs.hasOwnProperty(ip)) {
-        country = countryIPs[ip].country;
+        country = countryIPs[ip];
       } else {
         const res = await db.get(ip);
+        // console.log(res)
         if (res && res.country && res.country.iso_code) {
           country = res.country.iso_code;
-          countryIPs[ip].country = country;
+          countryIPs[ip] = country;
         }
       }
 
