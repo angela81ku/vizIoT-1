@@ -38,10 +38,10 @@ export async function fetchFiveSecondConnections() {
   updatePacketListeners();
 }
 
-export async function fetchSixtySecondConnections() {
-  const url = `${baseUrlApi}/tcpData/connections/60s`;
+export async function fetchThirtySecondConnections() {
+  const url = `${baseUrlApi}/tcpData/connections/30s`;
   const res =  await axios.get(url, { headers })
   const connections = res.data.connections;
-  addPackets(connections, METRICS.SIXTY);
+  addPackets(connections, METRICS.THIRTY);
   updatePacketListeners();
 }

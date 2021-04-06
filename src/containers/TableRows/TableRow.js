@@ -31,9 +31,9 @@ export const TableRow = ({
   country,
   data,
   sentFive,
-  sentSixty,
+  sentThirty,
   receivedFive,
-  receivedSixty,
+  receivedThirty,
   timeFrame,
   timeStamp,
   ticks,
@@ -118,7 +118,7 @@ export const TableRow = ({
         </MetricSymbolColumn>
         {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, sentFive)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          {handleUndefinedNumeric(sentSixty)}
+          {handleUndefinedNumeric(sentThirty)}
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
@@ -127,7 +127,7 @@ export const TableRow = ({
         </MetricSymbolColumn>
         {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, receivedFive)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          {handleUndefinedNumeric(receivedSixty)}
+          {handleUndefinedNumeric(receivedThirty)}
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
@@ -148,9 +148,9 @@ TableRow.propTypes = {
   country: PropTypes.string,
   data: PropTypes.array.isRequired,
   sentFive: PropTypes.number,
-  sentSixty: PropTypes.number,
+  sentThirty: PropTypes.number,
   receivedFive: PropTypes.number,
-  receivedSixty: PropTypes.number,
+  receivedThirty: PropTypes.number,
   timeFrame: PropTypes.number,
   timeStamp: PropTypes.number.isRequired,
   ticks: PropTypes.number,
@@ -165,6 +165,6 @@ const handleUndefinedValue = val => {
 }
 
 const handleUndefinedNumeric = num => {
-  if (num !== undefined) { return formatBytes(num, 's', 0, false); }
+  if (num !== undefined) { return formatBytes(num, 's', 2, false); }
   return '~ B/s'
 }

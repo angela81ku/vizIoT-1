@@ -16,7 +16,7 @@ let connectionListeners = [];
 export const METRICS = {
   SECOND: 0,
   FIVE: 1,
-  SIXTY: 2,
+  THIRTY: 2,
 }
 
 export const addConnections = (connectionArray) => {
@@ -84,12 +84,12 @@ export const addPackets = (packet, metric) => {
     }
 
       // check for 60 sec stream
-    case (METRICS.SIXTY): {
+    case (METRICS.THIRTY): {
       const idSet = new Set();
       for (let i = 0; i < packet.length; ++i) {
         const p = packet[i]
         if (packets.hasOwnProperty(p.id)) {
-          packets[p.id]['sixty'] = p.size;
+          packets[p.id]['thirty'] = p.size;
         } else {
           packets[p.id] = makeInitialPacket([], undefined, p.size);
         }
@@ -98,7 +98,7 @@ export const addPackets = (packet, metric) => {
 
       Object.keys(packets).forEach(key => {
         if (!idSet.has(key)) {
-          packets[key].sixty = [0, 0];
+          packets[key].thirty = [0, 0];
         }
       })
       break;

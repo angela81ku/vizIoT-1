@@ -86,7 +86,7 @@ const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetri
         gridTemplateColumns: `${metricSymbolWidth} ${overallMetricWidth}`
       }}>
         <div style={{width: '100%'}}/>
-        <SectionSubtitle text='60 sec' style={{textAlign: 'center'}}/>
+        <SectionSubtitle text='30 sec' style={{textAlign: 'center'}}/>
       </div>
     </MetricColumn>
   } else {
@@ -99,7 +99,7 @@ const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetri
       }}>
         <div style={{width: '100%'}}/>
         <SectionSubtitle text='5 sec' style={{textAlign: 'center', overflow: 'hidden'}}/>
-        <SectionSubtitle text='60 sec' style={{textAlign: 'center'}}/>
+        <SectionSubtitle text='30 sec' style={{textAlign: 'center'}}/>
       </div>
     </MetricColumn>
   }

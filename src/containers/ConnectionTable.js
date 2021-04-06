@@ -20,7 +20,7 @@ import { BlankRow } from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
 import {
-  fetchFiveSecondConnections, fetchSecondConnections, fetchSixtySecondConnections,
+  fetchFiveSecondConnections, fetchSecondConnections, fetchThirtySecondConnections,
   parseConnectionPackets,
   parseConnections,
   parseFiveSecondConnectionPackets,
@@ -45,14 +45,13 @@ export const ConnectionTable = ({
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
   const [timeStamp, setTimeStamp] = useState(Date.now());
-  const [prelimFetch, setPrelimFetch] = useState(false);
 
   // set up fetchers and sockets
   useSocket(DeviceConnectionPackets1s, parseSecondConnectionPackets)
 
   useTimedFetcher(fetchDeviceConnections, 1000)
   useTimedFetcher(fetchFiveSecondConnections, 1000)
-  useTimedFetcher(fetchSixtySecondConnections, 1000)
+  useTimedFetcher(fetchThirtySecondConnections, 1000)
 
   // set up height refs to pass heights to child components
   const cardRef = useRef();
@@ -89,7 +88,7 @@ export const ConnectionTable = ({
           nP[conn.id] = {
             second: undefined,
             five: undefined,
-            sixty: undefined,
+            thirty: undefined,
           };
         }
       })
@@ -119,16 +118,11 @@ export const ConnectionTable = ({
     }
   }, [timeStamp])
 
-  // create a useEffect that fetches the initial connections a single time
-  // and never is called again
-  // double security -- check prelimFetch before call and make it a dependency that is only set inside
-  // the current useEffect
+  // create a useEffect with empty dependences so it only runs on mount
+  // otherwise causes two rerenders which floods the backend temporarily
   useEffect(() => {
-    if (!prelimFetch) {
-      fetchSecondConnections();
-      setPrelimFetch(true);
-    }
-  }, [prelimFetch])
+    fetchSecondConnections();
+  }, [])
 
 
   let displayConnections = connections;
@@ -142,15 +136,15 @@ export const ConnectionTable = ({
         currConnection['sentFive'] = packet['five'][0];
         currConnection['receivedFive'] = packet['five'][1];
       }
-      if (packet['sixty'] !== undefined) {
-        currConnection['sentSixty'] = packet['sixty'][0];
-        currConnection['receivedSixty'] = packet['sixty'][1];
+      if (packet['thirty'] !== undefined) {
+        currConnection['sentThirty'] = packet['thirty'][0];
+        currConnection['receivedThirty'] = packet['thirty'][1];
       }
     }
   }
 
   // presort connections before shearing off lower connections
-  displayConnections.sort((a, b) => (b.receivedSixty + b.sentSixty) -  (a.receivedSixty + a.sentSixty));
+  displayConnections.sort((a, b) => (b.receivedThirty + b.sentThirty) -  (a.receivedThirty + a.sentThirty));
 
   if (displayConnections.length > rows) {
     displayConnections = displayConnections.slice(0, rows)
@@ -181,9 +175,9 @@ export const ConnectionTable = ({
           data={currentPackets ? currentPackets : []}
           country={conn.country}
           sentFive={conn.sentFive}
-          sentSixty={conn.sentSixty}
+          sentThirty={conn.sentThirty}
           receivedFive={conn.receivedFive}
-          receivedSixty={conn.receivedSixty}
+          receivedThirty={conn.receivedThirty}
           timeFrame={timeFrame}
           timeStamp={timeStamp}
           ticks={xTicks}
