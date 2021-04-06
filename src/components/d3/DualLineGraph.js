@@ -144,8 +144,8 @@ export const DualLineGraph = ({
       continue;
     }
     const relativeIndex = (timeFrame - 1) - index;
-    sent[relativeIndex] = (currSent);
-    received[relativeIndex] = currReceived;
+    sent[relativeIndex] += (currSent);
+    received[relativeIndex] += currReceived;
 
   // get max val for drawing y -- perform only if the metric provided is valid
     max = Math.max(max, currSent, currReceived)
