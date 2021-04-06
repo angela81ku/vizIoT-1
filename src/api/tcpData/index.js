@@ -18,7 +18,7 @@ router
   .get(ctrl.getFiveSecondDeviceConnectionData)
 
 router
-  .route('/tcpData/connections/60s')
-  .get(ctrl.getSixtySecondDeviceConnectionData)
+  .route('/tcpData/connections/30s')
+  .get(ctrl.getThirtySecondDeviceConnectionData)
 
 module.exports = router

@@ -7,7 +7,7 @@ module.exports = {
   getRecentDataWithinNSeconds,
   getOneSecondDeviceConnectionData,
   getFiveSecondDeviceConnectionData,
-  getSixtySecondDeviceConnectionData,
+  getThirtySecondDeviceConnectionData,
 }
 
 async function getRecentDataWithinNSeconds(req, res) {
@@ -50,9 +50,9 @@ async function getFiveSecondDeviceConnectionData(req, res) {
   }
 }
 
-async function getSixtySecondDeviceConnectionData(req, res) {
+async function getThirtySecondDeviceConnectionData(req, res) {
   try {
-    let connections = await TcpDataDa.getConnectionSentReceivedDataWithinNSeconds(60000)
+    let connections = await TcpDataDa.getConnectionSentReceivedDataWithinNSeconds(30000)
     res.status(200);
     res.send({connections})
   } catch (e) {

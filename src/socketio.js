@@ -147,23 +147,23 @@ function initSocketIO(http) {
   setInterval(async () => {
 
     const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval);
-    const minuteData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30);
+    const thirtySecondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30);
 
-    const awaitVals = await Promise.all([secondData, minuteData]);
+    const awaitVals = await Promise.all([secondData, thirtySecondData]);
     const second = awaitVals[0];
-    const minute = awaitVals[1];
+    const thirtySeconds = awaitVals[1];
 
     const devices = [];
 
-    Object.keys(minute.deviceData).forEach(d => {
+    Object.keys(thirtySeconds.deviceData).forEach(d => {
       const secondDevice = second.deviceData[d];
       if (secondDevice) {
         devices.push({
           macAddress: d,
-          velocity: (minute.deviceData[d].total / 30),
-          totalTraffic: minute.deviceData[d].total,
-          inTraffic: minute.deviceData[d].received,
-          outTraffic: minute.deviceData[d].sent,
+          velocity: (thirtySeconds.deviceData[d].total / 30),
+          totalTraffic: thirtySeconds.deviceData[d].total,
+          inTraffic: thirtySeconds.deviceData[d].received,
+          outTraffic: thirtySeconds.deviceData[d].sent,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
@@ -174,10 +174,10 @@ function initSocketIO(http) {
       } else {
         devices.push({
           macAddress: d,
-          velocity: (minute.deviceData[d].total / 30),
-          totalTraffic: minute.deviceData[d].total,
-          inTraffic: minute.deviceData[d].received,
-          outTraffic: minute.deviceData[d].sent,
+          velocity: (thirtySeconds.deviceData[d].total / 30),
+          totalTraffic: thirtySeconds.deviceData[d].total,
+          inTraffic: thirtySeconds.deviceData[d].received,
+          outTraffic: thirtySeconds.deviceData[d].sent,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
