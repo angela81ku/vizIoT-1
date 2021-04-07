@@ -12,6 +12,8 @@ let devicesInUse = {};
 
 export const addTopThreeProtocolData = (devices) => {
 
+  console.log(devices)
+
   // console.log(deviceArray)
   const currentlyInUse = {};
 
@@ -21,6 +23,8 @@ export const addTopThreeProtocolData = (devices) => {
     if (!deviceData.hasOwnProperty(device.macAddress)) {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
+        velocity: device.velocity,
+        dataStreams: [device.tcpTraffic, device.udpTraffic, device.httpTraffic, device.dnsTraffic],
         data: [device.data],
       }
     }
@@ -34,6 +38,8 @@ export const addTopThreeProtocolData = (devices) => {
       }
       deviceData[device.macAddress] = {
         mac: device.macAddress,
+        velocity: device.velocity,
+        dataStreams: [device.tcpTraffic, device.udpTraffic, device.httpTraffic, device.dnsTraffic],
         data: currData
       }
     }

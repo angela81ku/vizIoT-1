@@ -31,7 +31,7 @@ export const ProtocolTab = ({}) => {
     const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
     const metricResources = resourceFactory(ProtocolMetric, selectRealTimeProtocolMetricTraffic, pushRealTimeProtocolMetricTraffic)
     const individualGraphResources = resourceFactory(TopThreeProtocol, getTopThreeProtocolData, parseTop3Protocol)
-    const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceProtocolData, 15000)
+    const deviceFetcher = fetcherFactory(fetchDeviceData, getDevices, 15000)
 
     resources.inUse = true;
 
