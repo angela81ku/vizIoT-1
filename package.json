@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "dev-server": "webpack-dev-server --config ./config/webpack.dev.js",
+    "dev-server": "webpack serve --config ./config/webpack.dev.js",
     "build:production": "webpack --config ./config/webpack.prod.js",
     "deploy": "gh-pages -d dist"
   },
