@@ -137,13 +137,26 @@ function initSocketIO(http) {
   }, interval)
 
   setInterval(async () => {
+    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval);
+
+    chat.emit('/total/protocol/1s', result);
+  }, interval)
+
+  setInterval(async () => {
     // console.log('starting get');
     const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval * 60);
 
     chat.emit('/total/IO/metric/1s', result);
   }, interval)
 
-  // send top 3 devices for IO here
+  setInterval(async () => {
+    // console.log('starting get');
+    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval * 60);
+
+    chat.emit('/total/protocol/metric/1s', result);
+  }, interval)
+
+  // send top 3 devices for IO devices here
   setInterval(async () => {
 
     const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval);
@@ -198,6 +211,66 @@ function initSocketIO(http) {
 
     chat.emit('/data/top3/IO/1s', deviceData);
   }, interval)
+
+  // send top 3 devices for Protocol here
+  setInterval(async () => {
+
+    const secondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval);
+    const thirtySecondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval * 30);
+
+    const awaitVals = await Promise.all([secondData, thirtySecondData]);
+    const second = awaitVals[0];
+    const thirtySeconds = awaitVals[1];
+
+    const devices = [];
+
+    Object.keys(thirtySeconds.deviceData).forEach(d => {
+      const secondDevice = second.deviceData[d];
+      if (secondDevice) {
+        devices.push({
+          macAddress: d,
+          velocity: ((thirtySeconds.deviceData[d].TCP + thirtySeconds.deviceData[d].UDP + thirtySeconds.deviceData[d].HTTP + thirtySeconds.deviceData[d].DNS) / 30),
+          tcpTraffic: thirtySeconds.deviceData[d].TCP,
+          udpTraffic: thirtySeconds.deviceData[d].UDP,
+          httpTraffic: thirtySeconds.deviceData[d].HTTP,
+          dnsTraffic: thirtySeconds.deviceData[d].DNS,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [secondDevice.TCP, secondDevice.UDP, secondDevice.HTTP, secondDevice.DNS],
+          },
+        })
+      } else {
+        devices.push({
+          macAddress: d,
+          velocity: ((thirtySeconds.deviceData[d].TCP + thirtySeconds.deviceData[d].UDP + thirtySeconds.deviceData[d].HTTP + thirtySeconds.deviceData[d].DNS) / 30),
+          tcpTraffic: thirtySeconds.deviceData[d].TCP,
+          udpTraffic: thirtySeconds.deviceData[d].UDP,
+          httpTraffic: thirtySeconds.deviceData[d].HTTP,
+          dnsTraffic: thirtySeconds.deviceData[d].DNS,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [0, 0, 0, 0],
+          },
+        })
+      }
+    })
+
+    devices.sort((a, b) => {
+      return (a.tcpTraffic + a.udpTraffic + a.httpTraffic + a.dnsTraffic) - (b.tcpTraffic + b.udpTraffic + b.httpTraffic + b.dnsTraffic) })
+
+    // console.log(devices)
+    const sortedDevices = devices.slice(-3);
+
+    const deviceData = {
+      deviceData: sortedDevices,
+    }
+
+    chat.emit('/data/top3/protocol/1s', deviceData);
+  }, interval)
+
+
 
   setInterval(async () => {
     // console.log('starting get');

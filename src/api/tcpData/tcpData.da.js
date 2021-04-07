@@ -19,6 +19,8 @@ module.exports = {
   getDeviceSentReceivedDataWithinNSeconds,
   getConnectionSentReceivedDataWithinNSeconds,
   getConnectionSentReceivedDataByTime,
+  getAggregateProtocolDataWithinNSeconds,
+  getDeviceProtocolDataWithinNSeconds,
 }
 
 function buildSizeMacAddressData(macPacketList) {
@@ -402,6 +404,143 @@ async function getDeviceSentReceivedDataWithinNSeconds(pastMS) {
   const startMS = endMS - pastMS
 
   const deviceData = await getDeviceSentReceivedDataByTime(startMS, endMS);
+
+  return {
+    deviceData,
+    startMS,
+    endMS,
+  }
+}
+
+async function getAggregateProtocolDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: startMS, $lte: endMS },
+      },
+    },
+    // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
+  ])
+
+  const macAddrs = new Set();
+  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
+  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  let TCP = 0;
+  let UDP = 0;
+  let HTTP = 0;
+  let DNS = 0;
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i];
+    if (packet.hasOwnProperty('protocols') && packet.hasOwnProperty('packet_size')) {
+      const protocols = packet.protocols;
+
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+
+      if (macAddrs.has(fixedSrc) || macAddrs.has(fixedDst)) {
+        const packetSize = packet.packet_size;
+        if (protocols.includes('TCP')) { TCP += packetSize }
+        if (protocols.includes('UDP')) { UDP += packetSize }
+        if (protocols.includes('HTTP')) { HTTP += packetSize }
+        if (protocols.includes('DNS')) { DNS += packetSize }
+      }
+    }
+  }
+
+  return [TCP, UDP, HTTP, DNS];
+}
+
+async function getAggregateProtocolDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const size = await getAggregateProtocolDataByTime(startMS, endMS);
+
+  return {
+    size,
+    startMS,
+    endMS,
+  }
+}
+
+async function getDeviceProtocolDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: { $gte: startMS, $lte: endMS },
+      },
+    },
+  ])
+
+  // console.log(resultsFromTcpData)
+
+  const macAddrs = new Set();
+  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
+  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
+
+  const deviceData = {};
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i];
+    if (packet.hasOwnProperty('protocols') && packet.hasOwnProperty('packet_size')) {
+
+      let TCP = 0;
+      let UDP = 0;
+      let HTTP = 0;
+      let DNS = 0;
+      let mac = "";
+
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+      const protocols = packet.protocols;
+
+      if (macAddrs.has(fixedSrc)) {
+        mac = fixedSrc;
+      } else if (macAddrs.has(fixedDst)) {
+        mac = fixedDst;
+      } else {
+        continue;
+      }
+
+      const packetSize = packet.packet_size;
+      if (protocols.includes('TCP')) { TCP += packetSize }
+      if (protocols.includes('UDP')) { UDP += packetSize }
+      if (protocols.includes('HTTP')) { HTTP += packetSize }
+      if (protocols.includes('DNS')) { DNS += packetSize }
+
+      if (deviceData.hasOwnProperty(mac)) {
+        const currTCP = deviceData[mac].TCP;
+        const currUDP = deviceData[mac].UDP;
+        const currHTTP = deviceData[mac].HTTP;
+        const currDNS = deviceData[mac].DNS;
+
+
+        deviceData[mac].TCP = currTCP + TCP;
+        deviceData[mac].UDP = currUDP + UDP;
+        deviceData[mac].HTTP = currHTTP + HTTP;
+        deviceData[mac].DNS = currDNS + DNS;
+      } else {
+        deviceData[mac] = {
+          macAddress: mac,
+          TCP: TCP,
+          UDP: UDP,
+          HTTP: HTTP,
+          DNS: DNS,
+        }
+      }
+    }
+  }
+
+  return deviceData;
+}
+
+async function getDeviceProtocolDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const deviceData = await getDeviceProtocolDataByTime(startMS, endMS);
 
   return {
     deviceData,
