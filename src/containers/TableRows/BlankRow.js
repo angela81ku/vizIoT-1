@@ -77,7 +77,7 @@ export const BlankRow = ({
         </MetricSymbolColumn>
         {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          ~ B/s
+          ~ B
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
@@ -86,7 +86,7 @@ export const BlankRow = ({
         </MetricSymbolColumn>
         {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          ~ B/s
+          ~ B
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
@@ -96,7 +96,7 @@ export const BlankRow = ({
 const renderBlankRecentMetricColumn = (numericWidth, recentMetricWidth) => {
   if (numericWidth !== 0) {
     return <RecentMetricColumn colWidth={recentMetricWidth}>
-      ~ B/s
+      ~ B
     </RecentMetricColumn>
   }
 }
