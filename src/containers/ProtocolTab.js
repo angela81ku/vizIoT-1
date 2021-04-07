@@ -1,7 +1,13 @@
 import React from 'react';
-import {pushRealTimeProtocolTraffic} from '../actions/packetActions';
-import {selectRealTimeProtocolTraffic} from '../selectors/packetSelector';
-import {ProtocolCount, TopThreeIO, TopThreeProtocol} from '../socket/subscribe';
+import {
+    pushRealTimeProtocolMetricTraffic,
+    pushRealTimeProtocolTraffic
+} from '../actions/packetActions';
+import {
+    selectRealTimeProtocolMetricTraffic,
+    selectRealTimeProtocolTraffic
+} from '../selectors/packetSelector';
+import {IOMetric, ProtocolCount, ProtocolMetric, TopThreeIO, TopThreeProtocol} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {factFactory} from '../Factories/FactFactory';
@@ -23,7 +29,7 @@ export const ProtocolTab = ({}) => {
     const facts = [tcpFact, udpFact, httpFact, dnsFact]
 
     const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
-
+    const metricResources = resourceFactory(ProtocolMetric, selectRealTimeProtocolMetricTraffic, pushRealTimeProtocolMetricTraffic)
     const individualGraphResources = resourceFactory(TopThreeProtocol, getTopThreeProtocolData, parseTop3Protocol)
     const deviceFetcher = fetcherFactory(fetchDeviceData, getDeviceProtocolData, 15000)
 
@@ -33,6 +39,8 @@ export const ProtocolTab = ({}) => {
         <LineGraphPage
             graphResource={resources}
             graphSocketOverride={true}
+            metricResource={metricResources}
+            metricSocketOverride={true}
             individualGraphResource={individualGraphResources}
             individualGraphSize='device-large-chart'
             individualDeviceFetcher={deviceFetcher}

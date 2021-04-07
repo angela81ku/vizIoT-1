@@ -34,3 +34,5 @@ export const selectRealTimeIOTraffic = path(['packets', 'realTimeIOTraffic', 'da
 export const selectRealTimeIOMetricTraffic = path(['packets', 'realTimeIOMetricTraffic', 'data'])
 
 export const selectRealTimeProtocolTraffic = path(['packets', 'realTimeProtocolTraffic', 'data']);
+
+export const selectRealTimeProtocolMetricTraffic = path(['packets', 'realTimeProtocolMetricTraffic', 'data'])

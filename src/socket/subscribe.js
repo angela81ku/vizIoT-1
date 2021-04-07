@@ -54,6 +54,7 @@ export const ByDeviceSizeRoomToday = '/individual/size';
 export const IOCount = '/total/IO/1s';
 export const IOMetric = '/total/IO/metric/1s'
 export const ProtocolCount = '/total/protocol/1s';
+export const ProtocolMetric = '/total/protocol/metric/1s'
 export const TopThreeIO = '/data/top3/IO/1s';
 export const TopThreeProtocol = '/data/top3/Protocol/1s';
 export const DeviceConnection = '/data/connections';

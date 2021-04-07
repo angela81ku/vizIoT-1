@@ -20,6 +20,7 @@ export const pushIndividualSizeToday = createAction('packets per device today');
 export const pushRealTimeIOTraffic = createAction('real time I/O traffic');
 export const pushRealTimeIOMetricTraffic = createAction('real time I/O metric traffic');
 export const pushRealTimeProtocolTraffic = createAction('real time Protocol traffic');
+export const pushRealTimeProtocolMetricTraffic = createAction('real time Protocol metric traffic');
 
 export default Object.assign(
   {},
@@ -35,4 +36,5 @@ export default Object.assign(
     pushRealTimeIOTraffic,
     pushRealTimeProtocolTraffic,
     pushRealTimeIOMetricTraffic,
+    pushRealTimeProtocolMetricTraffic,
   });
