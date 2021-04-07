@@ -4,8 +4,8 @@
 
 # export DISPLAY=:0 #needed if you are running a simple gui app.
 
-process=/home/ubuntu/pypcap-monitor/sniff.py
-makerun="sudo python3 /home/ubuntu/pypcap-monitor/sniff.py"
+process=/home/ubuntu/dev-server/pypcap-monitor/sniff.py
+makerun="sudo python3 /home/ubuntu/dev-server/pypcap-monitor/sniff.py"
 logfile=/home/ubuntu/log_running.txt
 while true
 do

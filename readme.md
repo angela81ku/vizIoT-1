@@ -19,7 +19,7 @@ sniff the data. Insert the sniffed data into a MongoDB.
 2. [db_rolling.py](./db_rolling.py): Aggregate the data in the last two minutes
 3. [db_rolling2.py](./db_rolling2.py): delete the aggregated data 1 week before
 4. config.py: the MongoDB Address. This file should not be pushed
-to GitHub. Use [config-example.py](./config-example.py) as an example.
+to GitHub. Use [config-example.py](config.py) as an example.
 MONGO_DB_ADDRESS = '<MONGO_DB_ADDRESS>'.
 5. [addDevices.py](./addDevices.py): Read the device mac and name information from
 a file in the router. Store the device information into the MongoDB

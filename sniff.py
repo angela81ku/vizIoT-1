@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 import time
+import sys
+sys.path.append('/home/joseph/.local/lib/python3.8/site-packages')
+
 from scapy.all import *
 import pymongo
 from pymongo import MongoClient
@@ -11,6 +14,8 @@ IP = 'IP'
 TCP = 'TCP'
 UDP = 'UDP'
 ETHER = 'Ether'
+DNS = 'DNS'
+HTTP = 'HTTP'
 
 writeConcern = pymongo.write_concern.WriteConcern(w=0, wtimeout=None, j=None, fsync=None)
 client = MongoClient(MONGO_DB_ADDRESS, serverSelectionTimeoutMS=1)
@@ -20,6 +25,7 @@ http_data_collection = scapy_database['tcpdatas'].with_options(write_concern=wri
 
 def http_header(packet):
   # http_packet=str(packet)
+  print(packet)
   return GET_print(packet)
   # if http_packet.find('GET'):
   #         return GET_print(packet)
@@ -49,6 +55,7 @@ def add_packet_to_packet_set(packet):
 
 def GET_print(pkt):
   new_packet_obj = dict()
+  protocols = []
   # ret = "***************************************GET PACKET****************************************************\n"
   if ETHER in pkt:
     new_packet_obj['dst_mac'] = pkt[ETHER].dst
@@ -60,10 +67,19 @@ def GET_print(pkt):
     new_packet_obj['src_port'] = pkt[TCP].sport
     new_packet_obj['dst_port'] = pkt[TCP].dport
     new_packet_obj['packet_size'] = len(pkt[TCP])
+    protocols.append('TCP')
   if UDP in pkt:
     new_packet_obj['src_port'] = pkt[UDP].sport
     new_packet_obj['dst_port'] = pkt[UDP].dport
     new_packet_obj['packet_size'] = len(pkt[UDP])
+    protocols.append('UDP')
+  if DNS in pkt:
+    protocols.append('DNS')
+  if HTTP in pkt:
+    protocols.append('HTTP')
+
+  new_packet_obj['protocols'] = protocols
+
   # new_packet_obj['dst_ip'] = packet1.sprintf("%IP.dst%")
   # new_packet_obj['src_ip'] = packet1.sprintf("%IP.src%")
   # new_packet_obj['dst_mac'] = packet1.sprintf("%Ether.dst%")
