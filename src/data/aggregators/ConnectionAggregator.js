@@ -83,7 +83,7 @@ export const addPackets = (packet, metric) => {
       break;
     }
 
-      // check for 60 sec stream
+      // check for 30 sec stream
     case (METRICS.THIRTY): {
       const idSet = new Set();
       for (let i = 0; i < packet.length; ++i) {

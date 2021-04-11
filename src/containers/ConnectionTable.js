@@ -143,6 +143,12 @@ export const ConnectionTable = ({
     }
   }
 
+  // remove connections that have no data in the last 30 seconds
+  displayConnections = displayConnections.filter(entry =>
+    (entry.receivedThirty !== undefined || entry.sentThirty !== undefined)
+    &&
+    (entry.sentThirty !== 0 || entry.receivedThirty !== 0))
+
   // presort connections before shearing off lower connections
   displayConnections.sort((a, b) => (b.receivedThirty + b.sentThirty) -  (a.receivedThirty + a.sentThirty));
 
