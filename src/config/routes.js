@@ -2,10 +2,6 @@ const express = require('express')
 
 const tcpDataApi = require('../api/tcpData/index')
 const deviceApi = require('../api/device/index')
-const {getConnections} = require('../api/device/device.da')
-const {getConnectionSentReceivedDataWithinNSeconds,
-       getConnectionSentReceivedDataByTime,
-} = require('../api/tcpData/tcpData.da')
 
 const API_V1 = '/api/v1'
 

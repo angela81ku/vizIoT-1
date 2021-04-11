@@ -6,7 +6,7 @@ const config = require('./config/config')
 const expressConfig = require('./config/express')
 const routesConfig = require('./config/routes')
 
-const { startCountryDB } = require('./api/device/device.da')
+const { startCountryDB, populateDeviceMap } = require('./api/device/device.da')
 
 class Server {
   constructor() {
@@ -28,6 +28,11 @@ class Server {
     startCountryDB()
       .then(r => console.log('Country db connected'))
       .catch(e => console.log('error opening Country db'));
+
+    // populate device map for connections vis
+    populateDeviceMap()
+      .then(r => console.log('Populated device map'))
+      .catch(e => console.log('error populating device map'))
 
     // connect to database
     mongoose.connect(this.config.db, { useNewUrlParser: true })

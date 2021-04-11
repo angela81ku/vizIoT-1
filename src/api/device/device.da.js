@@ -7,19 +7,24 @@ const dns = require('dns')
 let db = undefined;
 let countryIPs = {};
 let dnsHostNames = {};
+const macAddrs = {};
 
 module.exports = {
   getAll,
   getConnections,
-  startCountryDB
+  startCountryDB,
+  populateDeviceMap,
 }
 
 async function startCountryDB() {
   console.log(process.cwd())
   const dbPath = process.cwd() + '/src/db/GeoLite2-Country.mmdb'
   db = await maxmind.open(dbPath);
-  // console.log('await done')
-  // console.log(db.get('8.8.8.8').country.iso_code)
+}
+
+async function populateDeviceMap() {
+  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
+  devicesDataPromise.forEach(entry => macAddrs[entry.macAddress] = { macAddress: entry.macAddress, name: entry.name})
 }
 
 async function getAll() {
@@ -34,10 +39,6 @@ async function getConnections(startMS, endMS) {
       },
     },
   ])
-
-  const macAddrs = {};
-  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
-  devicesDataPromise.forEach(entry => macAddrs[entry.macAddress] = { macAddress: entry.macAddress, name: entry.name})
 
   const connectionObject = {};
   
@@ -57,13 +58,13 @@ async function getConnections(startMS, endMS) {
       if (macAddrs.hasOwnProperty(fixedSrc)) {
         macKey = fixedSrc + '--' + fixedDst;
         name = macAddrs[fixedSrc].name;
-        destName = fixedDst;
+        destName = packet.dst_ip;
         ip = packet.dst_ip;
         port = packet.dst_port;
       } else if (macAddrs.hasOwnProperty(fixedDst)) {
         macKey = fixedDst + '--' + fixedSrc;
         name = macAddrs[fixedDst].name;
-        destName = fixedSrc;
+        destName = packet.src_ip;
         ip = packet.src_ip;
         port = packet.src_port;
       } else {
