@@ -61,8 +61,12 @@ const drawYLabels = (max, height) => {
 const drawLine = (data, max, height, width, color, isSent) => {
   // console.log(data)
 
+  // console.log(max)
   const halfHeight = height / 2;
-  const maxMult = halfHeight / (max * 1.0);
+  let maxMult = 0;
+  if (max > 0) {
+    maxMult = halfHeight / (max * 1.0);
+  }
   const pointWidth = width / (29);
   let pointStr = '';
   const diff = 30 - data.length;
