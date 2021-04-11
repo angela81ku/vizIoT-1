@@ -19,6 +19,7 @@ import {TopThree} from "../socket/subscribe";
 import {parseTop3IO} from "../data/api/packetApi";
 import {getTopThreeIOData} from '../data/aggregators/TopThreeIOAggregator';
 import LineGraphPage from "./LineGraphPage";
+import {usePersistentSocket} from "../components/BeanUILibrary/hooks/usePersistentSocket";
 
 const Title = styled.div`
   ${H2}
@@ -46,7 +47,7 @@ const DeviceContainer = ({
 }) => {
 
   useTimedFetcher(individualDeviceFetcher.fetcher, individualDeviceFetcher.delay)
-  useSocket(individualGraphResource.apiSource, individualGraphResource.packetPusher)
+  usePersistentSocket(individualGraphResource.apiSource, individualGraphResource.packetPusher)
 
   return <div style={{display:'grid', gridColumn:1}} className={'grid-container'}>
     <div className={'grid-item'}>

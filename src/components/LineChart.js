@@ -1,6 +1,6 @@
 'use es6';
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import LiveLineGraph from 'VizIoT/components/d3/LiveLineGraph';
 import MomentUnit from 'VizIoT/constants/MomentUnit';
@@ -25,31 +25,28 @@ const Subtitle = styled.div`
   letter-spacing: 2px;
 `;
 
-class LineChart extends React.Component {
-  render() {
-    const { title, subtitle, data, dataWindowSize, lineColors } = this.props;
+const LineChart = ({title, subtitle, data, dataWindowSize, lineColors, className}) => {
 
-    return data.length >= 1 && (
-      <Flex direction={FlexDirection.COLUMN}>
-        {title && <Title>{title}</Title>}
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
-        <AutoFitComponent className={this.props.className}>
-          <LiveLineGraph
-            data={data}
-            dataWindowSize={dataWindowSize}
-            dataWindowUnit={MomentUnit.SECONDS}
-            dimension={{
-              width: 0,
-              height: 0,
-            }}
-            padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
-            transitionDuration={1000}
-            lineColors={lineColors}
-          />
-        </AutoFitComponent>
-      </Flex>
-    );
-  }
+  return data.length >= 1 && (
+    <Flex direction={FlexDirection.COLUMN}>
+      {title && <Title>{title}</Title>}
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      <AutoFitComponent className={className}>
+        <LiveLineGraph
+          data={data}
+          dataWindowSize={dataWindowSize}
+          dataWindowUnit={MomentUnit.SECONDS}
+          dimension={{
+            width: 0,
+            height: 0,
+          }}
+          padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
+          transitionDuration={1000}
+          lineColors={lineColors}
+        />
+      </AutoFitComponent>
+    </Flex>
+  );
 }
 
 LineChart.propTypes = {

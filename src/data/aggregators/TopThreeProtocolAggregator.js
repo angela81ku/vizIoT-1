@@ -12,8 +12,6 @@ let devicesInUse = {};
 
 export const addTopThreeProtocolData = (devices) => {
 
-  console.log(devices)
-
   // console.log(deviceArray)
   const currentlyInUse = {};
 
@@ -58,9 +56,6 @@ export const addTopThreeProtocolData = (devices) => {
     }
   })
 
-  // console.log(currentlyInUse)
-
-  // console.log(deviceData)
   // reset devices in use after all operations have been completed
   // do this at end so as to minimize data race for devicesInUse should the line viz component attempt to access
   // during data update
