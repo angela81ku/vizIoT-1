@@ -21,7 +21,7 @@ import { pathOr } from 'ramda';
 // import { }
 
 // my imports
-import { IOTab } from './IOTab';
+import { SentReceivedTab } from './SentReceivedTab';
 import {ProtocolTab} from "./ProtocolTab";
 import {ConnectionTableTab} from "./ConnectionTableTab";
 
@@ -168,7 +168,7 @@ class VizIoT extends React.Component {
               <Route
                 exact
                 path={`${Tabs[tabKeys.INOUT].path}`}
-                component={IOTab}
+                component={SentReceivedTab}
               />
               <Route
                   exact

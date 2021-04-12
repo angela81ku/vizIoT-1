@@ -50,7 +50,7 @@ export const ProtocolTab = ({}) => {
             graphTitle={'Network Traffic'}
             chartTitle={'Network'}
             chartSubtitle={'BYTES / SEC'}
-            legendTitle={'Protocol'}
+            legendTitle={'Total protocol traffic over last 60 seconds'}
         />
     )
 }
