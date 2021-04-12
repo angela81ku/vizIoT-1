@@ -45,6 +45,8 @@ const NavButton = styled.button`
   padding: 2px 4px 2px;
   font-family: 'Rajdhani';
   font-size: 24px;
+  width: 160px;
+  height: 35px;
 `
 
 const ClockText = ({  }) => {
