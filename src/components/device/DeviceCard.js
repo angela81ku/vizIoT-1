@@ -117,7 +117,7 @@ const renderFacts = (cardFacts, providedFacts) => {
     return providedFacts.map(fact => {
       return (
         <DeviceDownloadMetrics style={{color: fact.color}}>
-          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {fact.data || DEFAULT_VAL}
+          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {formatBytes(fact.data, undefined, 0) || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -203,10 +203,11 @@ const DeviceCard = ({
   }
 
   let cardWidth;
+  const metricWidth = 90;
   if (providedFacts) {
-    cardWidth = (providedFacts.length * 80) + 10;
+    cardWidth = (providedFacts.length * metricWidth) + 10;
   } else {
-    cardWidth = (cardFacts.length * 80) + 10;
+    cardWidth = (cardFacts.length * metricWidth) + 10;
   }
 
   const graphWidth = Math.max(230, cardWidth - 30)

@@ -82,7 +82,11 @@ class DeviceCollectionNormalized extends Component {
 
     return (
       <Flex gutter={2} className="p-top-5" >
-        {Object.keys(aggregatedDevices).map( key => {
+        {Object.keys(aggregatedDevices)
+          .sort((a, b) => {
+            return aggregatedDevices[b].dataStreams.reduce((c, d) => c + d) - aggregatedDevices[a].dataStreams.reduce((c, d) => c + d)
+          })
+          .map( key => {
           const deviceVals = aggregatedDevices[key];
           const {_id, data, dataStreams, velocity } = deviceVals;
 
