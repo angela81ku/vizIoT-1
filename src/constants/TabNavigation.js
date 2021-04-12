@@ -41,8 +41,8 @@ export const Tabs = {
   },
   [tabKeys.INOUT]: {
     key: tabKeys.INOUT,
-    title: 'In/Out',
-    path: '/inout'
+    title: 'Sent/Received',
+    path: '/sentreceived'
   },
   [tabKeys.PROTOCOL]: {
     key: tabKeys.PROTOCOL,

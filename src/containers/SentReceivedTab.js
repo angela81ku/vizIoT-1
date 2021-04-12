@@ -9,10 +9,9 @@ import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
 import {parseTop3IO} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDeviceData} from "../data/api/devicesApi";
-import {getDeviceIOData, getDevices} from "../data/aggregators/DeviceAggregator";
 
 
-export const IOTab = ({}) => {
+export const SentReceivedTab = ({}) => {
 
     const totalFact = factFactory('Total', 'white', false);
     const receivedFact = factFactory('Received', '#03cbac', true);
@@ -41,12 +40,12 @@ export const IOTab = ({}) => {
             individualDeviceFetcher={deviceFetcher}
             cardSymbols={cardSymbols}
             facts={facts}
-            pageTitle={'In/Out Traffic'}
-            pageSubtitle={'View network in/out traffic in real time' }
+            pageTitle={'Sent/Received Traffic'}
+            pageSubtitle={'View network sent/received traffic in real time' }
             graphTitle={'Network Traffic'}
             chartTitle={'Network'}
             chartSubtitle={'BYTES / SEC'}
-            legendTitle={'In/Out'}
+            legendTitle={'Total sent/received traffic over last 60 seconds'}
         />
     )
 }
