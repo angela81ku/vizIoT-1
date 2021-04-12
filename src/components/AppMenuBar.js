@@ -38,6 +38,15 @@ const ClockTextContainer = styled.div`
   text-align: right;
 `;
 
+const NavButton = styled.button`
+  float: right;
+  color: white;
+  background: transparent;
+  padding: 2px 4px 2px;
+  font-family: 'Rajdhani';
+  font-size: 24px;
+`
+
 const ClockText = ({  }) => {
   const [currentMoment, setMoment] = useState(moment());
   useInterval(() => {
@@ -47,7 +56,7 @@ const ClockText = ({  }) => {
   return <ClockTextContainer>{currentMoment.format('h:mm:ss a').toUpperCase()}</ClockTextContainer>;
 };
 
-const AppMenuBar = () => {
+const AppMenuBar = ({toggleNav}) => {
 
   const [scrollTop, setScrollTop] = useState(0);
   useScroll(({ scrollX, scrollY }) => {
@@ -61,6 +70,7 @@ const AppMenuBar = () => {
         <FlexChild grow={2}>
           <LogoText className="appTime__logo">VizIoT</LogoText>
           <ClockText />
+          <NavButton onClick={toggleNav}>Change Screen</NavButton>
         </FlexChild>
     </Background>
   );

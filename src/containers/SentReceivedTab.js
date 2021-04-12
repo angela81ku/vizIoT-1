@@ -9,6 +9,7 @@ import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
 import {parseTop3IO} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDeviceData} from "../data/api/devicesApi";
+import {getDevices} from "../data/aggregators/DeviceAggregator";
 
 
 export const SentReceivedTab = ({}) => {

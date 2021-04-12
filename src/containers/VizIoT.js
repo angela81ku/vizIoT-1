@@ -24,6 +24,7 @@ import { pathOr } from 'ramda';
 import { SentReceivedTab } from './SentReceivedTab';
 import {ProtocolTab} from "./ProtocolTab";
 import {ConnectionTableTab} from "./ConnectionTableTab";
+import BButton from "../components/BeanUILibrary/BButton";
 
 class VideoBackground extends PureComponent {
   render() {
@@ -133,7 +134,7 @@ class VizIoT extends React.Component {
         <VideoBackground />
         <TabTitle subtitle={title} show={showTitle} />
         <div>
-          <AppMenuBar />
+          <AppMenuBar toggleNav={this.onToggleNav.bind(this)} />
           <Navigator location={location} isHidden={!showNav} />
           {/*<ActivitySidebar />*/}
           <CoverFlow
