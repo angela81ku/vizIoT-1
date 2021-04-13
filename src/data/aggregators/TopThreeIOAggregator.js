@@ -22,7 +22,7 @@ export const addTopThreeIOData = (devices) => {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
         velocity: device.velocity,
-        dataStreams: [device.totalTraffic, device.inTraffic, device.outTraffic],
+        dataStreams: [device.totalTraffic, device.outTraffic, device.inTraffic],
         data: [device.data],
       }
     }
@@ -37,7 +37,7 @@ export const addTopThreeIOData = (devices) => {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
         velocity: device.velocity,
-        dataStreams: [device.totalTraffic, device.inTraffic, device.outTraffic],
+        dataStreams: [device.totalTraffic, device.outTraffic, device.inTraffic],
         data: currData
       }
     }

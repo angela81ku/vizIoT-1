@@ -18,14 +18,15 @@ export const SentReceivedTab = ({}) => {
     const receivedFact = factFactory('Received', '#03cbac', true);
     const sentFact = factFactory('Sent', '#d9b409', true);
 
-    const facts = [totalFact, receivedFact, sentFact]
+    // const facts = [totalFact, receivedFact, sentFact]
+    const facts = [totalFact, sentFact, receivedFact]
 
     const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
     const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
     const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
     const deviceFetcher = fetcherFactory(fetchDeviceData, getDevices, 15000)
 
-    const cardSymbols = ['box', 'arrow-alt-circle-down', 'arrow-alt-circle-up']
+    const cardSymbols = ['box', 'arrow-alt-circle-up', 'arrow-alt-circle-down']
 
     // console.log(individualGraphResources)
 
