@@ -5,6 +5,7 @@ const { TcpAggregatedDataModel } = require('./tcpAggregatedData.model')
 const { DeviceModel } = require('../device/device.model')
 const { getStartOfToday, getNow } = require('../../util/time')
 const { removeLeadingZeros } = require('../../util/FormatUtility')
+const { getDeviceMap } = require('../../util/DeviceMap')
 
 module.exports = {
   getRecentDataWithinNSeconds,
@@ -21,6 +22,13 @@ module.exports = {
   getConnectionSentReceivedDataByTime,
   getAggregateProtocolDataWithinNSeconds,
   getDeviceProtocolDataWithinNSeconds,
+  populateDeviceMap,
+}
+
+let macAddrs = {};
+
+async function populateDeviceMap() {
+  macAddrs = await getDeviceMap();
 }
 
 function buildSizeMacAddressData(macPacketList) {
@@ -311,10 +319,10 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
     if (packet.hasOwnProperty('src_mac') && packet.hasOwnProperty('dst_mac') && packet.hasOwnProperty('packet_size')) {
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
-      if (macAddrs.has(fixedSrc)) {
+      if (macAddrs.hasOwnProperty(fixedSrc)) {
         sent += packet.packet_size;
         total += packet.packet_size;
-      } else if (macAddrs.has(fixedDst)) {
+      } else if (macAddrs.hasOwnProperty(fixedDst)) {
         received += packet.packet_size;
         total += packet.packet_size;
       }
@@ -346,14 +354,6 @@ async function getDeviceSentReceivedDataByTime(startMS, endMS) {
     },
   ])
 
-  // console.log(resultsFromTcpData)
-
-  const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
-  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
-
-  // console.log(devicesDataPromise)
-
   const deviceData = {};
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
@@ -367,10 +367,10 @@ async function getDeviceSentReceivedDataByTime(startMS, endMS) {
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
 
-      if (macAddrs.has(fixedSrc)) {
+      if (macAddrs.hasOwnProperty(fixedSrc)) {
         sent = packet.packet_size;
         mac = fixedSrc;
-      } else if (macAddrs.has(fixedDst)) {
+      } else if (macAddrs.hasOwnProperty(fixedDst)) {
         received = packet.packet_size;
         mac = fixedDst;
       } else {
@@ -422,10 +422,6 @@ async function getAggregateProtocolDataByTime(startMS, endMS) {
     // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
   ])
 
-  const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
-  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
-
   let TCP = 0;
   let UDP = 0;
   let HTTP = 0;
@@ -439,7 +435,7 @@ async function getAggregateProtocolDataByTime(startMS, endMS) {
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
 
-      if (macAddrs.has(fixedSrc) || macAddrs.has(fixedDst)) {
+      if (macAddrs.hasOwnProperty(fixedSrc) || macAddrs.hasOwnProperty(fixedDst)) {
         const packetSize = packet.packet_size;
         if (protocols.includes('TCP')) { TCP += packetSize }
         if (protocols.includes('UDP')) { UDP += packetSize }
@@ -474,12 +470,6 @@ async function getDeviceProtocolDataByTime(startMS, endMS) {
     },
   ])
 
-  // console.log(resultsFromTcpData)
-
-  const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
-  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
-
   const deviceData = {};
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
@@ -496,9 +486,9 @@ async function getDeviceProtocolDataByTime(startMS, endMS) {
       const fixedDst = removeLeadingZeros(packet.dst_mac)
       const protocols = packet.protocols;
 
-      if (macAddrs.has(fixedSrc)) {
+      if (macAddrs.hasOwnProperty(fixedSrc)) {
         mac = fixedSrc;
-      } else if (macAddrs.has(fixedDst)) {
+      } else if (macAddrs.hasOwnProperty(fixedDst)) {
         mac = fixedDst;
       } else {
         continue;
@@ -558,14 +548,6 @@ async function getConnectionSentReceivedDataByTime(startMS, endMS) {
     },
   ])
 
-  // console.log(resultsFromTcpData)
-
-  const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
-  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
-
-  // console.log(devicesDataPromise)
-
   const connectionObject = {};
 
   for (let i = 0; i < resultsFromTcpData.length; ++i) {
@@ -579,10 +561,10 @@ async function getConnectionSentReceivedDataByTime(startMS, endMS) {
       const fixedSrc = removeLeadingZeros(packet.src_mac)
       const fixedDst = removeLeadingZeros(packet.dst_mac)
 
-      if (macAddrs.has(fixedSrc)) {
+      if (macAddrs.hasOwnProperty(fixedSrc)) {
         sent = packet.packet_size;
         macKey = fixedSrc + '--' + fixedDst;
-      } else if (macAddrs.has(fixedDst)) {
+      } else if (macAddrs.hasOwnProperty(fixedDst)) {
         received = packet.packet_size;
         macKey = fixedDst + '--' + fixedSrc;
       } else {

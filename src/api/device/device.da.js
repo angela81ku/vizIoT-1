@@ -1,4 +1,5 @@
 const { DeviceModel } = require('./device.model')
+const { getDeviceMap } = require('../../util/DeviceMap')
 const { TcpDataModel } = require('../tcpData/tcpData.model')
 const { removeLeadingZeros } = require('../../util/FormatUtility')
 const maxmind = require('maxmind')
@@ -7,7 +8,7 @@ const dns = require('dns')
 let db = undefined;
 let countryIPs = {};
 let dnsHostNames = {};
-const macAddrs = {};
+let macAddrs = {};
 
 module.exports = {
   getAll,
@@ -23,8 +24,7 @@ async function startCountryDB() {
 }
 
 async function populateDeviceMap() {
-  const devicesDataPromise = await DeviceModel.find().select('macAddress name -_id');
-  devicesDataPromise.forEach(entry => macAddrs[entry.macAddress] = { macAddress: entry.macAddress, name: entry.name})
+  macAddrs = await getDeviceMap();
 }
 
 async function getAll() {

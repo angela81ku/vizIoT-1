@@ -6,7 +6,8 @@ const config = require('./config/config')
 const expressConfig = require('./config/express')
 const routesConfig = require('./config/routes')
 
-const { startCountryDB, populateDeviceMap } = require('./api/device/device.da')
+const DeviceDa = require('./api/device/device.da')
+const TcpDa = require('./api/tcpData/tcpData.da')
 
 class Server {
   constructor() {
@@ -25,13 +26,18 @@ class Server {
     expressConfig(this.app)
 
     // connect to local country database
-    startCountryDB()
+    DeviceDa.startCountryDB()
       .then(r => console.log('Country db connected'))
       .catch(e => console.log('error opening Country db'));
 
-    // populate device map for connections vis
-    populateDeviceMap()
-      .then(r => console.log('Populated device map'))
+    // populate device map for device-based queries
+    DeviceDa.populateDeviceMap()
+      .then(r => console.log('Populated device map in deviceda'))
+      .catch(e => console.log('error populating device map'))
+
+    // populate device map for packet based queries
+    TcpDa.populateDeviceMap()
+      .then(r => console.log('Populated device map in tcpda'))
       .catch(e => console.log('error populating device map'))
 
     // connect to database
