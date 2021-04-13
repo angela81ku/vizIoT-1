@@ -58,7 +58,15 @@ const ClockText = ({  }) => {
   return <ClockTextContainer>{currentMoment.format('h:mm:ss a').toUpperCase()}</ClockTextContainer>;
 };
 
-const AppMenuBar = ({toggleNav}) => {
+const navButton = (toggleNav, showNav) => {
+  if (showNav) {
+    return <NavButton onClick={toggleNav}>Hide Nav</NavButton>
+  } else {
+    return <NavButton onClick={toggleNav}>Show Nav</NavButton>
+  }
+}
+
+const AppMenuBar = ({toggleNav,showNav}) => {
 
   const [scrollTop, setScrollTop] = useState(0);
   useScroll(({ scrollX, scrollY }) => {
@@ -72,7 +80,7 @@ const AppMenuBar = ({toggleNav}) => {
         <FlexChild grow={2}>
           <LogoText className="appTime__logo">VizIoT</LogoText>
           <ClockText />
-          <NavButton onClick={toggleNav}>Change Screen</NavButton>
+          {navButton(toggleNav, showNav)}
         </FlexChild>
     </Background>
   );

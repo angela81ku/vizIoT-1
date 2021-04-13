@@ -134,7 +134,7 @@ class VizIoT extends React.Component {
         <VideoBackground />
         <TabTitle subtitle={title} show={showTitle} />
         <div>
-          <AppMenuBar toggleNav={this.onToggleNav.bind(this)} />
+          <AppMenuBar toggleNav={this.onToggleNav.bind(this)} showNav={showNav}/>
           <Navigator location={location} isHidden={!showNav} />
           {/*<ActivitySidebar />*/}
           <CoverFlow
