@@ -180,7 +180,7 @@ function initSocketIO(http) {
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
-            size: [secondDevice.received, secondDevice.sent],
+            size: [secondDevice.sent, secondDevice.received],
           }
           ,
         })

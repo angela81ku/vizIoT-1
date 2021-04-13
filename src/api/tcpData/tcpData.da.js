@@ -321,7 +321,7 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
     }
   }
 
-  return [total, received, sent];
+  return [total, sent, received];
 }
 
 async function getAggregateSentReceivedDataWithinNSeconds(pastMS) {
