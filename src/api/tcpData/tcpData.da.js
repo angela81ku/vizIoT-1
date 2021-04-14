@@ -306,10 +306,6 @@ async function getAggregateSentReceivedDataByTime(startMS, endMS) {
     // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
   ])
 
-  const macAddrs = new Set();
-  const devicesDataPromise = await DeviceModel.find().select('macAddress -_id');
-  devicesDataPromise.forEach(entry => macAddrs.add(entry.macAddress))
-
   let sent = 0;
   let received = 0;
   let total = 0;

@@ -131,7 +131,7 @@ function initSocketIO(http) {
 
     // shear total off of the metrics for live line graph
     result.size = result.size.slice(1);
-
+    
     chat.emit('/total/IO/1s', result);
     // chat.emit('/total/IO/metric/1s', tempMetric);
   }, interval)
@@ -260,7 +260,6 @@ function initSocketIO(http) {
     devices.sort((a, b) => {
       return (a.tcpTraffic + a.udpTraffic + a.httpTraffic + a.dnsTraffic) - (b.tcpTraffic + b.udpTraffic + b.httpTraffic + b.dnsTraffic) })
 
-    // console.log(devices)
     const sortedDevices = devices.slice(-3);
 
     const deviceData = {
