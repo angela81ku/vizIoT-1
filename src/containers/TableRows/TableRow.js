@@ -30,10 +30,10 @@ export const TableRow = ({
   destName,
   country,
   data,
-  sentFive,
-  sentThirty,
-  receivedFive,
-  receivedThirty,
+  sentMetric1,
+  receivedMetric1,
+  sentMetric2,
+  receivedMetric2,
   timeFrame,
   timeStamp,
   ticks,
@@ -116,18 +116,18 @@ export const TableRow = ({
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
-        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, sentFive)}
+        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, sentMetric1)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          {handleUndefinedNumeric(sentThirty)}
+          {handleUndefinedNumeric(sentMetric2)}
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
         <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
           <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
-        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, receivedFive)}
+        {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, receivedMetric1)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
-          {handleUndefinedNumeric(receivedThirty)}
+          {handleUndefinedNumeric(receivedMetric2)}
         </OverallMetricColumn>
       </SolidRow>
     </MetricColumn>
@@ -147,10 +147,10 @@ TableRow.propTypes = {
   destName: PropTypes.string.isRequired,
   country: PropTypes.string,
   data: PropTypes.array.isRequired,
-  sentFive: PropTypes.number,
-  sentThirty: PropTypes.number,
-  receivedFive: PropTypes.number,
-  receivedThirty: PropTypes.number,
+  sentMetric1: PropTypes.number,
+  sentMetric2: PropTypes.number,
+  receivedMetric1: PropTypes.number,
+  receivedMetric2: PropTypes.number,
   timeFrame: PropTypes.number,
   timeStamp: PropTypes.number.isRequired,
   ticks: PropTypes.number,

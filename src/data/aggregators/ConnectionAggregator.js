@@ -3,8 +3,8 @@
 Note, in all arrays of length 2, index 0 is SENT, index 1 is RECEIVED
 {
   one: [[sent, received]]
-  five: [sent, received],
-  sixty: [sent, received]
+  metric1: [sent, received], <- 5 seconds
+  metric2: [sent, received]  <- 30 seconds
 }
  */
 const packets = {};
@@ -67,7 +67,7 @@ export const addPackets = (packet, metric) => {
       for (let i = 0; i < packet.length; ++i) {
         const p = packet[i];
         if (packets.hasOwnProperty(p.id)) {
-          packets[p.id]['five'] = p.size;
+          packets[p.id]['metric1'] = p.size;
         } else {
           packets[p.id] = makeInitialPacket([], p.size, undefined);
         }
@@ -76,7 +76,7 @@ export const addPackets = (packet, metric) => {
 
       Object.keys(packets).forEach(key => {
         if (!idSet.has(key)) {
-          packets[key].five = [0, 0];
+          packets[key].metric1 = [0, 0];
         }
       })
 
@@ -89,7 +89,7 @@ export const addPackets = (packet, metric) => {
       for (let i = 0; i < packet.length; ++i) {
         const p = packet[i]
         if (packets.hasOwnProperty(p.id)) {
-          packets[p.id]['thirty'] = p.size;
+          packets[p.id]['metric2'] = p.size;
         } else {
           packets[p.id] = makeInitialPacket([], undefined, p.size);
         }
@@ -98,7 +98,7 @@ export const addPackets = (packet, metric) => {
 
       Object.keys(packets).forEach(key => {
         if (!idSet.has(key)) {
-          packets[key].thirty = [0, 0];
+          packets[key].metric2 = [0, 0];
         }
       })
       break;
@@ -106,11 +106,11 @@ export const addPackets = (packet, metric) => {
   }
 }
 
-const makeInitialPacket = (second, five, sixty) => {
+const makeInitialPacket = (second, metric1, metric2) => {
   return {
     one: second,
-    five: five,
-    sixty: sixty,
+    metric1: metric1,
+    metric2: metric2,
   }
 }
 

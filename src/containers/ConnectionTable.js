@@ -132,25 +132,25 @@ export const ConnectionTable = ({
     const currConnection = displayConnections[i];
     const packet = packets[currConnection.id];
     if(packet) {
-      if (packet['five'] !== undefined) {
-        currConnection['sentFive'] = packet['five'][0];
-        currConnection['receivedFive'] = packet['five'][1];
+      if (packet['metric1'] !== undefined) {
+        currConnection['sentMetric1'] = packet['metric1'][0];
+        currConnection['receivedMetric1'] = packet['metric1'][1];
       }
-      if (packet['thirty'] !== undefined) {
-        currConnection['sentThirty'] = packet['thirty'][0];
-        currConnection['receivedThirty'] = packet['thirty'][1];
+      if (packet['metric2'] !== undefined) {
+        currConnection['sentMetric2'] = packet['metric2'][0];
+        currConnection['receivedMetric2'] = packet['metric2'][1];
       }
     }
   }
 
   // remove connections that have no data in the last 30 seconds
   displayConnections = displayConnections.filter(entry =>
-    (entry.receivedThirty !== undefined || entry.sentThirty !== undefined)
+    (entry.receivedMetric2 !== undefined || entry.sentMetric2 !== undefined)
     &&
-    (entry.sentThirty !== 0 || entry.receivedThirty !== 0))
+    (entry.receivedMetric2 !== 0 || entry.sentMetric2 !== 0))
 
   // presort connections before shearing off lower connections
-  displayConnections.sort((a, b) => (b.receivedThirty + b.sentThirty) -  (a.receivedThirty + a.sentThirty));
+  displayConnections.sort((a, b) => (b.receivedMetric2 + b.sentMetric2) -  (a.receivedMetric2 + a.sentMetric2));
 
   if (displayConnections.length > rows) {
     displayConnections = displayConnections.slice(0, rows)
@@ -180,10 +180,10 @@ export const ConnectionTable = ({
           destName={conn.destName}
           data={currentPackets ? currentPackets : []}
           country={conn.country}
-          sentFive={conn.sentFive}
-          sentThirty={conn.sentThirty}
-          receivedFive={conn.receivedFive}
-          receivedThirty={conn.receivedThirty}
+          sentMetric1={conn.sentMetric1}
+          receivedMetric1={conn.receivedMetric1}
+          sentMetric2={conn.sentMetric2}
+          receivedMetric2={conn.receivedMetric2}
           timeFrame={timeFrame}
           timeStamp={timeStamp}
           ticks={xTicks}
