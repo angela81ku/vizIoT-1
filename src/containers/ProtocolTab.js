@@ -11,7 +11,7 @@ import {IOMetric, ProtocolCount, ProtocolMetric, DeviceDataIO, TopThreeProtocol}
 import LineGraphPage from './LineGraphPage';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {factFactory} from '../Factories/FactFactory';
-import {getDeviceIOData} from "../data/aggregators/TopThreeIOAggregator";
+import {getDeviceIOData} from "../data/aggregators/DeviceDataIOAggregator";
 import {parseDeviceIO, parseTop3Protocol} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDeviceData} from "../data/api/devicesApi";

@@ -3,7 +3,7 @@
 import {baseUrlApi, newPacketUrl} from '../../constants/RequestConstants';
 import {Record} from 'immutable';
 import {postCallWithRecord} from './apiUtils';
-import {addDeviceIOData} from '../aggregators/TopThreeIOAggregator';
+import {addDeviceIOData} from '../aggregators/DeviceDataIOAggregator';
 import {addTopThreeProtocolData} from "../aggregators/TopThreeProtocolAggregator";
 
 export const packetApiKeys = {
