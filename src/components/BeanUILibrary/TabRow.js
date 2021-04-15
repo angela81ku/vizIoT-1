@@ -1,6 +1,6 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 const TabRowContainer = styled.div`
@@ -29,11 +29,11 @@ const Streak = styled.div`
 
 export default class TabRow extends Component {
   render() {
-    const { children, ...rest } = this.props;
+    const {children, ...rest} = this.props;
     return (
       <div>
         <TabRowContainer {...rest}>{children}</TabRowContainer>
-        <Streak />
+        <Streak/>
       </div>
     );
   }

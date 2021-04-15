@@ -1,16 +1,16 @@
 'use es6';
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import Flex, { JustifyContent } from 'UIBean/Flex';
+import Flex, {JustifyContent} from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
 
-import { _sticky } from 'UIBean/functional-css/layout';
-import { ScreenSizes } from 'UIBean/Breakpoints';
-import { H3, H4 } from 'UIBean/functional-css/TypographyStyles';
-import { useInterval } from 'UIBean/hooks/useInterval';
-import { useScroll } from 'UIBean/hooks/useScroll';
+import {_sticky} from 'UIBean/functional-css/layout';
+import {ScreenSizes} from 'UIBean/Breakpoints';
+import {H3, H4} from 'UIBean/functional-css/TypographyStyles';
+import {useInterval} from 'UIBean/hooks/useInterval';
+import {useScroll} from 'UIBean/hooks/useScroll';
 
 const Background = styled(Flex)`
   ${_sticky}
@@ -49,7 +49,7 @@ const NavButton = styled.button`
   height: 35px;
 `
 
-const ClockText = ({  }) => {
+const ClockText = ({}) => {
   const [currentMoment, setMoment] = useState(moment());
   useInterval(() => {
     setMoment(moment())
@@ -66,22 +66,22 @@ const navButton = (toggleNav, showNav) => {
   }
 }
 
-const AppMenuBar = ({toggleNav,showNav}) => {
+const AppMenuBar = ({toggleNav, showNav}) => {
 
   const [scrollTop, setScrollTop] = useState(0);
-  useScroll(({ scrollX, scrollY }) => {
+  useScroll(({scrollX, scrollY}) => {
     setScrollTop(scrollY);
   });
 
   return (
     <Background alignItems={JustifyContent.FLEX_END}
                 justifyContent={JustifyContent.SPACE_BETWEEN}>
-        <FlexChild grow={2} />
-        <FlexChild grow={2}>
-          <LogoText className="appTime__logo">VizIoT</LogoText>
-          <ClockText />
-          {navButton(toggleNav, showNav)}
-        </FlexChild>
+      <FlexChild grow={2}/>
+      <FlexChild grow={2}>
+        <LogoText className="appTime__logo">VizIoT</LogoText>
+        <ClockText/>
+        {navButton(toggleNav, showNav)}
+      </FlexChild>
     </Background>
   );
 };

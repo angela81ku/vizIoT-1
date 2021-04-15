@@ -2,12 +2,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-import { DARK_BLUE_GRADIENT } from '../styles/base/viz-theme';
+import {DARK_BLUE_GRADIENT} from '../styles/base/viz-theme';
 import TypographyComponent from '../components/BeanUILibrary/TypographyComponent';
 
-const { H2 } = TypographyComponent;
+const {H2} = TypographyComponent;
 
 const Container = styled.div`
   width: 100vw;

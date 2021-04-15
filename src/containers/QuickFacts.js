@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
   selectNumberOfDevices,
 } from '../selectors/deviceSelectors';
@@ -8,29 +8,29 @@ import {
   selectTodayPacketCount,
 } from '../selectors/packetSelector';
 
-import Flex, { JustifyContent } from '../components/BeanUILibrary/Flex';
+import Flex, {JustifyContent} from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
 import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import DataWellTitle from '../components/BeanUILibrary/DataWellTitle';
 import styled from 'styled-components';
-import { selectMostContactedHostLastPeriod } from '../selectors/analyticsSelector';
-import { DateConstants } from '../constants/DateConstants';
-import { convertDateTypeToString } from '../utility/TimeUtility';
+import {selectMostContactedHostLastPeriod} from '../selectors/analyticsSelector';
+import {DateConstants} from '../constants/DateConstants';
+import {convertDateTypeToString} from '../utility/TimeUtility';
 import SectionTitle from '../components/SectionTitle';
 import BIcon from '../components/BeanUILibrary/BIcon';
 import TypographyComponent from 'UIBean/TypographyComponent';
 import GridItem from '../components/BeanUILibrary/GridItem';
 import BCard from 'UIBean/BCard';
-import { createSocket } from 'VizIoT/socket/subscribe';
-import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
+import {createSocket} from 'VizIoT/socket/subscribe';
+import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {
   numberOfActiveDevices,
   selectTodaySize,
   selectVelocity1Min
 } from '../selectors/packetSelector';
 import moment from 'moment';
-import { formatBytes } from '../utility/FormatUtility';
+import {formatBytes} from '../utility/FormatUtility';
 
 const DataWellValueWithFontSize = styled(DataWellValue)`
   font-size: ${props => props.fontSize};
@@ -65,7 +65,7 @@ const StyledDataWell = styled(DataWell)`
   padding-bottom: 7rem;
 `;
 
-const ConnectedDataValue = connect((state, { dataSelector }) => {
+const ConnectedDataValue = connect((state, {dataSelector}) => {
   return {
     children: dataSelector(state) || '~',
   };
@@ -85,7 +85,7 @@ class QuickFacts extends PureComponent {
   }
 
   updateTime = () => {
-    this.setState(() => ({ currentMoment: moment() }));
+    this.setState(() => ({currentMoment: moment()}));
   };
 
   renderGroup(facts, title, column, row, wellSize) {
@@ -94,15 +94,15 @@ class QuickFacts extends PureComponent {
         <Flex alignContent={JustifyContent.FLEX_START} fillAll>
           <Proto>{title}</Proto>
           <Flex gutter={3} justifyContent={JustifyContent.FLEX_START} fill>
-            {facts.map(({ title, dataSelector, fontSize, icon, iconType }) => {
+            {facts.map(({title, dataSelector, fontSize, icon, iconType}) => {
               return (
                 <FlexSize key={title} size={wellSize}>
                   <StyledDataWell>
                     <div>
-                      {icon && <BIcon name={icon} type={iconType} size={28} />}
+                      {icon && <BIcon name={icon} type={iconType} size={28}/>}
                     </div>
                     <DataWellTitle>{title}</DataWellTitle>
-                    <ConnectedDataValue fontSize={fontSize || '5.0rem'} dataSelector={dataSelector} />
+                    <ConnectedDataValue fontSize={fontSize || '5.0rem'} dataSelector={dataSelector}/>
                   </StyledDataWell>
                 </FlexSize>
               );
@@ -167,7 +167,7 @@ class QuickFacts extends PureComponent {
           'In the last minute',
           'col-start / span 12',
           '1 / span 2',
-          { md: 12, lg: 6 }
+          {md: 12, lg: 6}
         )}
       </QuickFactsWrapper>
     );

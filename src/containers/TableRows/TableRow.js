@@ -26,22 +26,22 @@ const TruncatedText = styled.div`
 `
 
 export const TableRow = ({
-  name,
-  destName,
-  country,
-  data,
-  sentMetric1,
-  receivedMetric1,
-  sentMetric2,
-  receivedMetric2,
-  timeFrame,
-  timeStamp,
-  ticks,
-  sentColor,
-  receivedColor,
-  height,
-  width,
-}) => {
+                           name,
+                           destName,
+                           country,
+                           data,
+                           sentMetric1,
+                           receivedMetric1,
+                           sentMetric2,
+                           receivedMetric2,
+                           timeFrame,
+                           timeStamp,
+                           ticks,
+                           sentColor,
+                           receivedColor,
+                           height,
+                           width,
+                         }) => {
 
   const graphRef = useRef();
   const dimensions = useDimensions(graphRef)
@@ -97,8 +97,8 @@ export const TableRow = ({
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
-    <GraphColumn colWidth={graphWidth} style={{alignContent:'center'}}>
-      <div style={{height:'100%', width:'100%'}} ref={graphRef}>
+    <GraphColumn colWidth={graphWidth} style={{alignContent: 'center'}}>
+      <div style={{height: '100%', width: '100%'}} ref={graphRef}>
         <DualLineGraph
           height={dimensions.height}
           width={dimensions.width}
@@ -113,7 +113,7 @@ export const TableRow = ({
     </GraphColumn>
     <MetricColumn colWidth={metricWidth}>
       <SolidRow height='50%'>
-        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft: '5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, sentMetric1)}
@@ -122,8 +122,9 @@ export const TableRow = ({
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
-        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft: '5%'}}>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28}
+                 color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         {renderRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth, receivedMetric1)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
@@ -160,11 +161,15 @@ TableRow.propTypes = {
 }
 
 const handleUndefinedValue = val => {
-  if (val !== undefined) { return val; }
+  if (val !== undefined) {
+    return val;
+  }
   return '~'
 }
 
 const handleUndefinedNumeric = num => {
-  if (num !== undefined) { return formatBytes(num, undefined, 2, false); }
+  if (num !== undefined) {
+    return formatBytes(num, undefined, 2, false);
+  }
   return '~ B'
 }

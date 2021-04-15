@@ -1,15 +1,15 @@
 'use es6';
 
-import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
-import { deviceActionBundle } from 'VizIoT/actions/deviceActions';
-import { fetchDevices } from 'VizIoT/data/api/devicesApi';
-import { createDeviceList } from 'VizIoT/data/device/Device';
+import {createRequestReducer} from 'VizIoT/reducers/requests/requestState';
+import {deviceActionBundle} from 'VizIoT/actions/deviceActions';
+import {fetchDevices} from 'VizIoT/data/api/devicesApi';
+import {createDeviceList} from 'VizIoT/data/device/Device';
 import * as R from 'ramda';
-import { resParser } from 'VizIoT/data/api/ApiLenses';
-import { payload } from 'VizIoT/data/api/NetworkResponseLenses';
+import {resParser} from 'VizIoT/data/api/ApiLenses';
+import {payload} from 'VizIoT/data/api/NetworkResponseLenses';
 
 export default createRequestReducer(
-  { value: null },
+  {value: null},
   deviceActionBundle,
   (state, rawRequestData) => ({
     value: R.compose(

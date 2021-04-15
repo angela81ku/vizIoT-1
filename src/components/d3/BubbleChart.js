@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { scaleOrdinal } from 'd3-scale';
-import { schemeCategory20c } from 'd3-scale';
-import { select } from 'd3-selection';
-import { pack, hierarchy } from 'd3-hierarchy';
-import { easeLinear } from 'd3-ease';
-import { formatLocale } from 'd3-format';
+import {scaleOrdinal} from 'd3-scale';
+import {schemeCategory20c} from 'd3-scale';
+import {select} from 'd3-selection';
+import {pack, hierarchy} from 'd3-hierarchy';
+import {easeLinear} from 'd3-ease';
+import {formatLocale} from 'd3-format';
 import moment from 'moment';
-import { SPACING } from '../../data/records/Spacing';
-import { invertColor } from '../../utility/ColorUtility';
+import {SPACING} from '../../data/records/Spacing';
+import {invertColor} from '../../utility/ColorUtility';
 import tinygradient from 'tinygradient';
 
 const format = formatLocale(',d');
 const colorScheme = tinygradient([
-  { color: '#FFFFFF', pos: 0 },
-  { color: '#FFECB3', pos: 0.2 },
-  { color: '#E85285', pos: 0.45 },
-  { color: '#6A1B9A', pos: 0.65 },
-  { color: '#000000', pos: 1.0 },
+  {color: '#FFFFFF', pos: 0},
+  {color: '#FFECB3', pos: 0.2},
+  {color: '#E85285', pos: 0.45},
+  {color: '#6A1B9A', pos: 0.65},
+  {color: '#000000', pos: 1.0},
 ]);
 
 // TODO Types of variables
@@ -58,19 +58,19 @@ class BubbleChart extends Component {
   getGraphDimensions() {
     const {
       padding,
-      dimension: { width, height },
+      dimension: {width, height},
     } = this.props;
-    const { l, r, t, b } = padding;
+    const {l, r, t, b} = padding;
 
     const graphWidth = width - l - r;
     const graphHeight = height - t - b;
-    return { graphWidth, graphHeight };
+    return {graphWidth, graphHeight};
   }
 
   redrawChart() {
     const {
       graphData,
-      graphDimensions: { graphWidth, graphHeight },
+      graphDimensions: {graphWidth, graphHeight},
     } = this.state;
 
     // =================================================================================================================
@@ -89,7 +89,7 @@ class BubbleChart extends Component {
         return;
       }
 
-      const root = hierarchy({ children: classes })
+      const root = hierarchy({children: classes})
         .sum(d => d.value)
         .each(d => {
           let id = d.data.id;
@@ -145,7 +145,7 @@ class BubbleChart extends Component {
       node
         .transition()
         .duration(duration)
-        .delay(function(d, i) {
+        .delay(function (d, i) {
           delay = i * 7;
           return delay;
         })
@@ -160,7 +160,7 @@ class BubbleChart extends Component {
       updateCircleSelection
         .transition()
         .duration(duration)
-        .delay(function(d, i) {
+        .delay(function (d, i) {
           delay = enterDuration + i * 7;
           return delay;
         })
@@ -179,7 +179,7 @@ class BubbleChart extends Component {
         .enter()
         .append('g')
         .attr('class', 'node')
-        .attr('transform', function(d) {
+        .attr('transform', function (d) {
           return 'translate(' + d.x + ',' + d.y + ')';
         });
 
@@ -196,11 +196,11 @@ class BubbleChart extends Component {
 
       newNodes
         .append('clipPath')
-        .attr('id', function(d) {
+        .attr('id', function (d) {
           return 'clip-' + d.id;
         })
         .append('use')
-        .attr('xlink:href', function(d) {
+        .attr('xlink:href', function (d) {
           return '#' + d.id;
         });
 
@@ -233,21 +233,22 @@ class BubbleChart extends Component {
 
       textNode.exit().remove();
 
-      newNodes.append('title').text(function(d) {
+      newNodes.append('title').text(function (d) {
         return d.id + '\n' + format.format(d.value);
       });
     }
+
     circles(graphData);
   }
 
   launchChart = () => {
-    const { data, padding } = this.props;
-    const { leftAxisMargin, graphDimensions } = this.state;
-    const { graphWidth, graphHeight } = graphDimensions;
+    const {data, padding} = this.props;
+    const {leftAxisMargin, graphDimensions} = this.state;
+    const {graphWidth, graphHeight} = graphDimensions;
 
     const graphData = data;
     this.setState(() => {
-      return { graphData };
+      return {graphData};
     });
 
     BubbleChart.appendChartSkeleton(
@@ -271,14 +272,14 @@ class BubbleChart extends Component {
   // }
 
   getLiveDomainForX = () => {
-    const { dataWindowSize, dataWindowUnit } = this.props;
+    const {dataWindowSize, dataWindowUnit} = this.props;
     const nowMoment = moment();
     const xStart = nowMoment
       .clone()
       .subtract(dataWindowSize, dataWindowUnit)
       .toDate();
     const xEnd = nowMoment.toDate();
-    return { xStart, xEnd };
+    return {xStart, xEnd};
   };
 
   onEachLoop = () => {
@@ -303,7 +304,7 @@ class BubbleChart extends Component {
     padding
   ) {
     const data = graphData;
-    const { l: lPadding, t: tPadding, r: rPadding, b: bPadding } = padding;
+    const {l: lPadding, t: tPadding, r: rPadding, b: bPadding} = padding;
     const svg = select(rootNode);
 
     const chartWrapper = svg
@@ -318,7 +319,7 @@ class BubbleChart extends Component {
 
   render() {
     const {
-      dimension: { width, height },
+      dimension: {width, height},
     } = this.props;
     this.redrawChart();
     return (
@@ -331,8 +332,8 @@ class BubbleChart extends Component {
         >
           <defs>
             <linearGradient id="Gradient1" x1="0%" y1="8%" x2="100%" y2="92%">
-              <stop className="stop1" offset="0%" />
-              <stop className="stop3" offset="100%" />
+              <stop className="stop1" offset="0%"/>
+              <stop className="stop3" offset="100%"/>
             </linearGradient>
           </defs>
         </svg>

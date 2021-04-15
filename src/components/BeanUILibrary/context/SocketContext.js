@@ -1,5 +1,5 @@
 'use es6';
 
-import { createContext } from 'react';
+import {createContext} from 'react';
 
 export default createContext();

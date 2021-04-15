@@ -1,8 +1,8 @@
 'use es6';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 
 import {
@@ -11,22 +11,22 @@ import {
 } from '../selectors/deviceSelectors';
 import SectionSubtitle from '../components/SectionSubtitle';
 import SectionTitle from '../components/SectionTitle';
-import { fetchDevices } from '../actionsRequest/deviceRequest';
+import {fetchDevices} from '../actionsRequest/deviceRequest';
 import DeviceCollection from '../components/device/DeviceCollection';
 import BTextInput from '../components/BeanUILibrary/BTextInput';
 import BCheckBox from '../components/BeanUILibrary/BCheckBox';
-import { selectDeviceToLiveSamples } from '../selectors/packetSelector';
-import { selectSingleDeviceChartConfig } from '../selectors/chartSelectors';
-import { IndividualSizeRoom } from '../socket/subscribe';
-import { pushRealtimeIndividualVelocitySizeSample } from '../actions/packetActions';
-import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
-import { useTimedFetcher } from '../components/BeanUILibrary/hooks/useTimedFetcher';
-import Flex, { FlexDirection } from '../components/BeanUILibrary/Flex';
+import {selectDeviceToLiveSamples} from '../selectors/packetSelector';
+import {selectSingleDeviceChartConfig} from '../selectors/chartSelectors';
+import {IndividualSizeRoom} from '../socket/subscribe';
+import {pushRealtimeIndividualVelocitySizeSample} from '../actions/packetActions';
+import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
+import {useTimedFetcher} from '../components/BeanUILibrary/hooks/useTimedFetcher';
+import Flex, {FlexDirection} from '../components/BeanUILibrary/Flex';
 import FlexChild from 'UIBean/FlexChild';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
-import { getDataKey } from 'VizIoT/utility/DataKey';
+import {getDataKey} from 'VizIoT/utility/DataKey';
 import ConnectedLineChart from '../containers/ConnectedLineChart';
-import { BucketRecord } from '../data/records/BucketConfig';
+import {BucketRecord} from '../data/records/BucketConfig';
 import BucketProperty from '../constants/BucketProperty';
 import BucketUnit from '../constants/BucketUnit';
 import SelectionMode from '../constants/DataReducerTypes';
@@ -53,7 +53,7 @@ const PageContent = styled.div`
 `;
 
 
-const ConnectedDeviceCollection = connect((state, { searchValue }) => ({
+const ConnectedDeviceCollection = connect((state, {searchValue}) => ({
   devices: searchForDevice(searchValue)(state),
   deviceToData: selectDeviceToLiveSamples(state), // todo throttle this.
   chartConfig: selectSingleDeviceChartConfig(state),
@@ -75,15 +75,17 @@ const DeviceOverview = () => {
         </TitleContainer>
         <BTextInput
           placeholder="Search 'fridge' or 'sensor'"
-          onChange={e => { setSearchValue(e.target.value) }}
+          onChange={e => {
+            setSearchValue(e.target.value)
+          }}
           inline
         />
-        <BCheckBox title={'Map'} inline />
+        <BCheckBox title={'Map'} inline/>
         <Flex direction={FlexDirection.ROW}>
-          <FlexSize size={{ xs: 6 }}>
-            <ConnectedDeviceCollection searchValue={searchValue} mode={'LIST'} />
+          <FlexSize size={{xs: 6}}>
+            <ConnectedDeviceCollection searchValue={searchValue} mode={'LIST'}/>
           </FlexSize>
-          <FlexSize size={{ xs: 6 }}>
+          <FlexSize size={{xs: 6}}>
             <ConnectedLineChart
               className="main-chart"
               dataSelector={selectDeviceDataSamplesByDeviceMac('B0:CE:18:27:9F:E4')}

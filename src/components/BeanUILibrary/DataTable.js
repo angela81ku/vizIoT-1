@@ -3,10 +3,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { getProp } from 'UIBean/UtilGet';
-import { Column, Table, defaultTableRowRenderer } from 'react-virtualized'
+import {getProp} from 'UIBean/UtilGet';
+import {Column, Table, defaultTableRowRenderer} from 'react-virtualized'
 import 'react-virtualized/styles.css';
-import { H5 } from 'UIBean/functional-css/TypographyStyles';
+import {H5} from 'UIBean/functional-css/TypographyStyles';
 
 const TableHeaderRow = styled.div`
 `;
@@ -29,12 +29,12 @@ class DataTable extends React.Component {
 
   componentDidUpdate() {
     if (this.state.scrollRow !== this.props.rowData.length - 1) {
-      this.setState({ scrollRow: this.props.rowData.length - 1 });
+      this.setState({scrollRow: this.props.rowData.length - 1});
     }
   }
 
   render() {
-    const { headerData, rowData, ...rest } = this.props;
+    const {headerData, rowData, ...rest} = this.props;
     // const rowRenderer = ({index,       // Index of row
     //                       columns,
     //                        className,
@@ -58,12 +58,12 @@ class DataTable extends React.Component {
         rowCount={rowData.length}
         scrollToRow={this.state.scrollRow}
         // rowRenderer={rowRenderer}
-        rowGetter={({ index }) => rowData[index]}
+        rowGetter={({index}) => rowData[index]}
         {...rest}
       >
         {
-          headerData.map(({ label, key, width }) => {
-            return <Column key={key} label={label} dataKey={key} width={width} />
+          headerData.map(({label, key, width}) => {
+            return <Column key={key} label={label} dataKey={key} width={width}/>
           })
         }
       </Table>

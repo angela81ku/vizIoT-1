@@ -47,7 +47,7 @@ const staticColors = [
 export function findColors(count) {
 
   const maxVal = 255;
-  const jumpVal = Math.floor(maxVal/count);
+  const jumpVal = Math.floor(maxVal / count);
   const colors = [];
 
   // use provided static colors either up to all provided static colors or requested colors
@@ -59,9 +59,9 @@ export function findColors(count) {
   for (let i = 0; i < count - staticColors.length; ++i) {
     const jump = i * jumpVal;
     const r = i * jump;
-    const g = Math.floor(maxVal/2)
+    const g = Math.floor(maxVal / 2)
     const b = maxVal - (jump)
-    const colorString = 'rgb('+ r + ', ' + g + ', ' + b +')';
+    const colorString = 'rgb(' + r + ', ' + g + ', ' + b + ')';
     colors.push(colorString);
   }
 

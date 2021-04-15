@@ -1,4 +1,3 @@
-
 /*
 Note, in all arrays of length 2, index 0 is SENT, index 1 is RECEIVED
 {
@@ -61,7 +60,7 @@ export const addPackets = (packet, metric) => {
       }
       break;
     }
-      // check for 5 sec stream
+    // check for 5 sec stream
     case (METRICS.FIVE): {
       const idSet = new Set();
       for (let i = 0; i < packet.length; ++i) {
@@ -83,7 +82,7 @@ export const addPackets = (packet, metric) => {
       break;
     }
 
-      // check for 30 sec stream
+    // check for 30 sec stream
     case (METRICS.THIRTY): {
       const idSet = new Set();
       for (let i = 0; i < packet.length; ++i) {
@@ -130,7 +129,7 @@ export const removePacketListener = (listener) => {
 
 export const updatePacketListeners = () => {
   packetListeners.forEach(l => {
-      l(packets);
+    l(packets);
   })
 }
 
@@ -146,7 +145,7 @@ export const removeConnectionListener = (listener) => {
 
 export const updateConnectionListeners = () => {
   connectionListeners.forEach(l => {
-      l(connections);
+    l(connections);
   })
 }
 
@@ -162,8 +161,7 @@ const binSearch = (arr, val) => {
     const curr = arr[mid];
     if (curr === val) {
       return mid;
-    }
-    else if (curr < val) {
+    } else if (curr < val) {
       lo = mid + 1;
     } else {
       hi = mid - 1;

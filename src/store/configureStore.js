@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import {createStore, combineReducers} from 'redux';
 import devices from '../reducers/devices/devices';
 import aggregateSample from '../reducers/aggregateSampleReducer';
 import {
@@ -16,7 +16,7 @@ import chartConfig from '../reducers/chartConfig';
 import analytics from '../reducers/analytics/analytics';
 import packets from '../reducers/packets/packets';
 import packetActions from 'VizIoT/actions/packetActions';
-import { assignAll } from 'redux-act';
+import {assignAll} from 'redux-act';
 import deviceActions from 'VizIoT/actions/deviceActions';
 import analyticImm from 'VizIoT/reducers/analytics/analyticImm';
 

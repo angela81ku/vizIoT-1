@@ -1,8 +1,8 @@
 'use es6';
 
-import { baseUrlApi, newPacketUrl } from '../../constants/RequestConstants';
-import { Record } from 'immutable';
-import { postCallWithRecord } from './apiUtils';
+import {baseUrlApi, newPacketUrl} from '../../constants/RequestConstants';
+import {Record} from 'immutable';
+import {postCallWithRecord} from './apiUtils';
 import {addTopThreeIOData} from '../aggregators/TopThreeIOAggregator';
 import {addTopThreeProtocolData} from "../aggregators/TopThreeProtocolAggregator";
 

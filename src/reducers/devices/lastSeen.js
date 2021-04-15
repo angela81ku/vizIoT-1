@@ -2,8 +2,8 @@
 
 import NetworkState from '../../constants/NetworkState';
 import MomentUnit from '../../constants/MomentUnit';
-import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
-import { deviceActionBundle } from 'VizIoT/actions/deviceActions';
+import {createRequestReducer} from 'VizIoT/reducers/requests/requestState';
+import {deviceActionBundle} from 'VizIoT/actions/deviceActions';
 
 const defaultState = {
   value: {},

@@ -1,8 +1,8 @@
 'use es6';
 
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import {Redirect, Switch, Route} from 'react-router-dom';
 import styled from 'styled-components';
 
 import TabTitle from '../components/TabTitle';
@@ -12,16 +12,16 @@ import CoverFlow from 'UIBean/CoverFlow';
 import DeviceOverview from 'VizIoT/containers/DeviceOverview';
 import NotFound from 'VizIoT/containers/NotFound';
 import TimeOverview from 'VizIoT/containers/TimeOverview';
-import { getTabByPath, tabKeys, Tabs } from 'VizIoT/constants/TabNavigation';
+import {getTabByPath, tabKeys, Tabs} from 'VizIoT/constants/TabNavigation';
 import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
-import { pathOr } from 'ramda';
+import {pathOr} from 'ramda';
 
 // import { }
 
 // my imports
-import { SentReceivedTab } from './SentReceivedTab';
+import {SentReceivedTab} from './SentReceivedTab';
 import {ProtocolTab} from "./ProtocolTab";
 import {ConnectionTableTab} from "./ConnectionTableTab";
 import BButton from "../components/BeanUILibrary/BButton";
@@ -31,8 +31,8 @@ class VideoBackground extends PureComponent {
     return (
       <Background>
         <BackgroundRelative>
-          <video autoPlay muted loop style={{ width: '100%', minWidth: '1980px'}}>
-            <source src="media/bg.mp4" type="video/mp4" />
+          <video autoPlay muted loop style={{width: '100%', minWidth: '1980px'}}>
+            <source src="media/bg.mp4" type="video/mp4"/>
           </video>
         </BackgroundRelative>
       </Background>
@@ -61,9 +61,9 @@ class VizIoT extends React.Component {
 
   componentWillReceiveProps(props) {
     const {
-      location: { pathname },
+      location: {pathname},
     } = props;
-    this.setState(({ redirectTo }) => ({
+    this.setState(({redirectTo}) => ({
       // After we receive new or changed props, reset redirect when location === redirectTo.
       redirectTo: pathname === redirectTo ? null : redirectTo,
     }));
@@ -79,7 +79,7 @@ class VizIoT extends React.Component {
   }
 
   scheduleHideTitle = () => {
-    const { scheduler } = this.state;
+    const {scheduler} = this.state;
     scheduler && clearTimeout(scheduler);
 
     this.setState(() => ({
@@ -118,24 +118,24 @@ class VizIoT extends React.Component {
   };
 
   render() {
-    const { redirectTo, showNav, showTitle } = this.state;
-    const { location } = this.props;
+    const {redirectTo, showNav, showTitle} = this.state;
+    const {location} = this.props;
 
     // If the current location is diff from the state's index
     if (redirectTo && redirectTo !== location.pathname) {
       // Redirect triggers when state is changed
-      return <Redirect to={redirectTo} />;
+      return <Redirect to={redirectTo}/>;
     }
 
     const title = pathOr('', ['title'], getTabByPath(location.pathname));
 
     return (
       <div id="root-container">
-        <VideoBackground />
-        <TabTitle subtitle={title} show={showTitle} />
+        <VideoBackground/>
+        <TabTitle subtitle={title} show={showTitle}/>
         <div>
           <AppMenuBar toggleNav={this.onToggleNav.bind(this)} showNav={showNav}/>
-          <Navigator location={location} isHidden={!showNav} />
+          <Navigator location={location} isHidden={!showNav}/>
           {/*<ActivitySidebar />*/}
           <CoverFlow
             keyName={location.pathname}
@@ -172,16 +172,16 @@ class VizIoT extends React.Component {
                 component={SentReceivedTab}
               />
               <Route
-                  exact
-                  path={`${Tabs[tabKeys.PROTOCOL].path}`}
-                  component={ProtocolTab}
+                exact
+                path={`${Tabs[tabKeys.PROTOCOL].path}`}
+                component={ProtocolTab}
               />
               <Route
                 exact
                 path={`${Tabs[tabKeys.CONNECTION_TABLE].path}`}
                 component={ConnectionTableTab}
               />
-              <Route render={() => <NotFound />} />
+              <Route render={() => <NotFound/>}/>
             </Switch>
           </CoverFlow>
         </div>

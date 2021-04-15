@@ -1,12 +1,12 @@
-export const selectMainChartConfig = ({ chartConfig }) => {
+export const selectMainChartConfig = ({chartConfig}) => {
   return chartConfig.mainChartConfig;
 };
 
-export const selectSingleDeviceChartConfig = ({ chartConfig }) => {
+export const selectSingleDeviceChartConfig = ({chartConfig}) => {
   return chartConfig.singleDeviceChartConfig;
 };
 
-export const selectLiveLineChartConfig =({ chartConfig }) => {
+export const selectLiveLineChartConfig = ({chartConfig}) => {
   return chartConfig.liveLineChartConfig;
 }
 

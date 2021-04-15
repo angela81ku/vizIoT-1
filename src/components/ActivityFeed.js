@@ -62,13 +62,13 @@ const Card = styled(BCard)`
   font-size: 1rem;
   
   ${props =>
-    props.theme === 'log'
-      ? `color: ${theme.OFF_BLACK};`
-      : 'color: hsl(220, 20.7%, 55.8%);'}
+  props.theme === 'log'
+    ? `color: ${theme.OFF_BLACK};`
+    : 'color: hsl(220, 20.7%, 55.8%);'}
   
   ${props =>
-    props.theme === 'log' &&
-    `
+  props.theme === 'log' &&
+  `
     border-top-right-radius: 20px !important;
     border-bottom-right-radius: 20px !important;
     border-bottom-left-radius: 20px !important;
@@ -78,11 +78,11 @@ const Card = styled(BCard)`
   ${props => (props.theme === 'log' ? 'height: 4.1rem;' : 'height: 8.0rem;')}
 
   ${props =>
-    props.theme === 'log' &&
-    'background-color: rgb(255, 255, 255, 0.95) !important;'}
+  props.theme === 'log' &&
+  'background-color: rgb(255, 255, 255, 0.95) !important;'}
       
   ${props =>
-    props.theme === 'log' && 'box-shadow: 0px 0px 10px #888 !important;'}
+  props.theme === 'log' && 'box-shadow: 0px 0px 10px #888 !important;'}
   
   .flex {
     justify-content: space-between;
@@ -94,16 +94,16 @@ const Card = styled(BCard)`
 const LightH5 = styled.h5`
   font-weight: 300 !important;
 `;
-const HostName = ({ name }) => name && <LightH5>{name}</LightH5>;
+const HostName = ({name}) => name && <LightH5>{name}</LightH5>;
 
-const ActivityFeed = ({ hosts }) => {
+const ActivityFeed = ({hosts}) => {
   let lastSeenHost = null;
 
   const hostItems = hosts.map((host, i) => {
-    const { timestamp, name, origin } = host;
+    const {timestamp, name, origin} = host;
     const itemToRender = (
       <ListItem key={timestamp + name}>
-        <HostName name={lastSeenHost !== origin && origin} />
+        <HostName name={lastSeenHost !== origin && origin}/>
         <Card noPadding={true} theme={'log'}>
           <Flex>
             <LeftWrapper>
@@ -131,7 +131,7 @@ const ActivityFeed = ({ hosts }) => {
   return <FillHeightOrMoreList>{hostItems}</FillHeightOrMoreList>;
 };
 
-ActivityFeed.defaultProps = { hosts: [] };
+ActivityFeed.defaultProps = {hosts: []};
 ActivityFeed.propType = {
   hosts: PropTypes.arrayOf(
     PropTypes.shape({

@@ -14,7 +14,7 @@ export default class Playground extends React.Component {
             Title
           </h3>
         </div>
-        <div className="child2" />
+        <div className="child2"/>
       </div>
     );
 

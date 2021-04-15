@@ -1,10 +1,10 @@
-import { analyzeApi, analyzeApiKeys } from '../data/api/analyzeApi';
-import { createAction } from 'redux-act';
+import {analyzeApi, analyzeApiKeys} from '../data/api/analyzeApi';
+import {createAction} from 'redux-act';
 import DeviceDimension from 'VizIoT/data/dimensions/DeviceDimension';
-import { ConnectionMetric } from 'VizIoT/data/metrics/ConnectionMetric';
-import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
-import { DateConstants } from 'VizIoT/constants/DateConstants';
-import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
+import {ConnectionMetric} from 'VizIoT/data/metrics/ConnectionMetric';
+import {convertDateTypeToString} from 'VizIoT/utility/TimeUtility';
+import {DateConstants} from 'VizIoT/constants/DateConstants';
+import {createRequestActions} from 'VizIoT/actions/requestStatusActionFactory';
 
 /**
  * @Deprecated exists only for reference
@@ -35,7 +35,7 @@ export const requestAggregationByTime = (
   endMS
 ) => {
   startAnalyze();
-  const { call, paramParser } = analyzeApi[analyzeApiKeys.BY_TIME];
+  const {call, paramParser} = analyzeApi[analyzeApiKeys.BY_TIME];
 
   let bucketConfigJS = bucketConfig.toJS();
 
@@ -73,7 +73,7 @@ export const requestAggregationByTime = (
 export const analyzeAggregationByLocation = (reducer, startTime, endTime) => {
   startCoreAnalyze();
 
-  const { call, paramParser } = analyzeApi[analyzeApiKeys.BY_LOCATION];
+  const {call, paramParser} = analyzeApi[analyzeApiKeys.BY_LOCATION];
 
   const requestBody = new paramParser({
     dimensions: [DeviceDimension.DOMAIN],
@@ -107,7 +107,7 @@ export const analyzeAggregationByDomain = (
 ) => {
   startCoreAnalyze();
 
-  const { call, paramParser } = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
+  const {call, paramParser} = analyzeApi[analyzeApiKeys.DOMAIN_TO_HITS];
   const customRecord = paramParser.set('startTime', startTime).set(
     'endTime',
     endTime
@@ -130,7 +130,7 @@ export const analyzeAggregationByDomain = (
 export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
   startCoreAnalyze();
 
-  const { call, paramParser } = analyzeApi[apiKey];
+  const {call, paramParser} = analyzeApi[apiKey];
   const customRecord = paramParser.set('startTime', startTime).set(
     'endTime',
     endTime
@@ -157,7 +157,7 @@ export const analyzeAggregationCore = (apiKey, startTime, endTime) => {
 export const analyzeAggregationByDevice = (reducer, startTime, endTime) => {
   startMacToHits();
 
-  const { call, paramParser } = analyzeApi[analyzeApiKeys.MAC_TO_HITS];
+  const {call, paramParser} = analyzeApi[analyzeApiKeys.MAC_TO_HITS];
   return new Promise(resolve => {
     call(paramParser)
       .then(resolve)

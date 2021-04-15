@@ -7,8 +7,8 @@ import {
   ACTIVE_FILL_COLOR,
   CARD_COLOR, HOVER_FILL_COLOR,
 } from 'VizIoT/styles/base/viz-theme';
-import { withClickable } from 'UIBean/CommonHOC';
-import { pure, compose } from 'recompose';
+import {withClickable} from 'UIBean/CommonHOC';
+import {pure, compose} from 'recompose';
 
 export const ButtonShape = {
   ICON: 'ICON',
@@ -41,8 +41,8 @@ const orientationToFlexDirection = orientation => {
 
 const BButtonWrapper = styled.button`
   display: flex;
-  flex-direction: ${({ orientation }) =>
-    orientationToFlexDirection(orientation)};
+  flex-direction: ${({orientation}) =>
+  orientationToFlexDirection(orientation)};
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -51,7 +51,7 @@ const BButtonWrapper = styled.button`
   background: ${CARD_COLOR};
   color: white;
   border: solid #ffffff21 1px;
-  border-radius: ${({ shape }) => shapeToRadius(shape)};
+  border-radius: ${({shape}) => shapeToRadius(shape)};
   transition: background 0.2s;
 
   &:hover {
@@ -64,7 +64,7 @@ const BButtonWrapper = styled.button`
   }
 `;
 
-const BButton = ({ shape, ...rest }) => {
+const BButton = ({shape, ...rest}) => {
   return <BButtonWrapper type="button" shape={shape} {...rest} />;
 };
 

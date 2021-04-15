@@ -1,16 +1,16 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexDirection } from 'UIBean/Flex';
+import Flex, {FlexDirection} from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 
 import DeviceCard from 'VizIoT/components/device/DeviceCard';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {connect} from "react-redux";
-import { TopThree } from '../../socket/subscribe'
+import {TopThree} from '../../socket/subscribe'
 import {parseTop3IO} from "../../data/api/packetApi";
 import {useSocket} from "../BeanUILibrary/hooks/useSocket";
 import {call} from "ramda";
@@ -50,16 +50,16 @@ class DeviceCollectionNormalized extends Component {
   }
 
   render() {
-    const { hoveredDevice } = this.state;
-    const { devices, packets, chartConfig, graphColors, graphSize, factColors, cardSymbols } = this.props;
+    const {hoveredDevice} = this.state;
+    const {devices, packets, chartConfig, graphColors, graphSize, factColors, cardSymbols} = this.props;
 
     const aggregatedDevices = {};
 
     Object.keys(packets).forEach(packet => {
       const packetVals = packets[packet];
-      const {mac, velocity, dataStreams, data } = packetVals;
+      const {mac, velocity, dataStreams, data} = packetVals;
       if (devices.hasOwnProperty(mac)) {
-        const {_id, macAddress, name, category } = devices[mac];
+        const {_id, macAddress, name, category} = devices[mac];
         aggregatedDevices[mac] = {
           _id: _id,
           macAddress: mac,
@@ -81,53 +81,53 @@ class DeviceCollectionNormalized extends Component {
     })
 
     return (
-      <Flex gutter={2} className="p-top-5" >
+      <Flex gutter={2} className="p-top-5">
         {Object.keys(aggregatedDevices)
           .sort((a, b) => {
             return aggregatedDevices[b].dataStreams.reduce((c, d) => c + d) - aggregatedDevices[a].dataStreams.reduce((c, d) => c + d)
           })
-          .map( key => {
-          const deviceVals = aggregatedDevices[key];
-          const {_id, data, dataStreams, velocity } = deviceVals;
+          .map(key => {
+            const deviceVals = aggregatedDevices[key];
+            const {_id, data, dataStreams, velocity} = deviceVals;
 
-          const graphData = transformData(data);
+            const graphData = transformData(data);
 
-          let gColors = graphColors;
-          if (gColors === undefined || gColors.length === 0 && graphData.length && graphData.length > 0) {
-            if (graphData[0].length) {
-              gColors = findColors(graphData[0].length)
-            } else {
-              gColors = findColors(1);
+            let gColors = graphColors;
+            if (gColors === undefined || gColors.length === 0 && graphData.length && graphData.length > 0) {
+              if (graphData[0].length) {
+                gColors = findColors(graphData[0].length)
+              } else {
+                gColors = findColors(1);
+              }
             }
-          }
 
-          let fColors = factColors;
-          if (fColors === undefined || fColors.length === 0 && dataStreams.length && dataStreams.length > 0) {
-            fColors = findColors(dataStreams.length)
-          }
+            let fColors = factColors;
+            if (fColors === undefined || fColors.length === 0 && dataStreams.length && dataStreams.length > 0) {
+              fColors = findColors(dataStreams.length)
+            }
 
-          return (
-            <DeviceCardWrapper
-              key={_id}
-              space="m-bot-4"
-            >
-              <DeviceCard
-                onHover={this.onCardHover(_id)}
-                onLeaveHover={this.onCardLeaveHover}
-                active={hoveredDevice !== null && hoveredDevice !== _id}
-                device={deviceVals}
-                dataStreams={dataStreams}
-                velocity={velocity}
-                graphData={graphData}
-                graphSize={graphSize}
-                chartConfig={chartConfig}
-                graphColors={gColors}
-                factColors={fColors}
-                cardSymbols={cardSymbols}
-              />
-            </DeviceCardWrapper>
-          );
-        })
+            return (
+              <DeviceCardWrapper
+                key={_id}
+                space="m-bot-4"
+              >
+                <DeviceCard
+                  onHover={this.onCardHover(_id)}
+                  onLeaveHover={this.onCardLeaveHover}
+                  active={hoveredDevice !== null && hoveredDevice !== _id}
+                  device={deviceVals}
+                  dataStreams={dataStreams}
+                  velocity={velocity}
+                  graphData={graphData}
+                  graphSize={graphSize}
+                  chartConfig={chartConfig}
+                  graphColors={gColors}
+                  factColors={fColors}
+                  cardSymbols={cardSymbols}
+                />
+              </DeviceCardWrapper>
+            );
+          })
         }
       </Flex>
     );

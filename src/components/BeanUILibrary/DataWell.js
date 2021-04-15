@@ -10,7 +10,7 @@ class DataWell extends React.Component {
   }
 
   render() {
-    const { className, children } = this.props;
+    const {className, children} = this.props;
     return (
       <li className={classnames('dataWell', className)}>
         <div className="dataWell__inner">{children}</div>

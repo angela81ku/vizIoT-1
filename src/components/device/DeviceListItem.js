@@ -9,8 +9,8 @@ import TruncateString from 'UIBean/TruncateString';
 
 export default class DeviceListItem extends React.Component {
   render() {
-    const { device, testCount } = this.props;
-    const { macAddr, alias, lastSeen } = device;
+    const {device, testCount} = this.props;
+    const {macAddr, alias, lastSeen} = device;
 
     return (
       <BCard className="deviceListItem__wrapper m-bot-3" noPadding={true}>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default function DataWellTitle({ className, children, fontSize }) {
+export default function DataWellTitle({className, children, fontSize}) {
   if (fontSize) {
     return (
       <div style={{fontSize: fontSize}} className={classnames('dataWell__title', className)}>{children}</div>

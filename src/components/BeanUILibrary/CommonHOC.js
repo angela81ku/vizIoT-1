@@ -2,10 +2,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { identity } from 'ramda';
+import {identity} from 'ramda';
 
 export const withClickable = BaseComponent => {
-  const ClickableWrapper = ({ onClick, ...rest }) => {
+  const ClickableWrapper = ({onClick, ...rest}) => {
     return <BaseComponent onClick={onClick} {...rest} />;
   };
 

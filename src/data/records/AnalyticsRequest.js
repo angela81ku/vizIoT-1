@@ -1,8 +1,8 @@
 'use es6';
 
-import { Record } from 'immutable';
+import {Record} from 'immutable';
 import DataReducerTypes from '../../constants/DataReducerTypes';
-import { convertStringDateToMoment } from '../../utility/TimeUtility';
+import {convertStringDateToMoment} from '../../utility/TimeUtility';
 import _ from 'lodash';
 import hash from 'object-hash';
 

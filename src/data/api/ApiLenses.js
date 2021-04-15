@@ -1,7 +1,7 @@
 'use es6';
 
 import immLens from 'VizIoT/data/immLens';
-import { view } from 'ramda';
+import {view} from 'ramda';
 
 export const callLens = immLens('call');
 export const getCall = view(callLens);

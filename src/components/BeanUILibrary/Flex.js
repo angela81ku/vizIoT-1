@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getProp } from 'UIBean/UtilGet';
+import {getProp} from 'UIBean/UtilGet';
 
 export const FlexDirection = keyMirror({
   ROW: null,
@@ -31,16 +31,16 @@ const FlexContainer = styled.div`
   justify-content: ${getProp('justifyContent')};
   align-content: ${getProp('alignContent')};
   align-items: ${getProp('alignItems')};
-  ${({ fillAll }) => fillAll && 'width: 100%; height: 100%;'};
-  ${({ fillHeight }) => fillHeight && 'height: 100%;'};
-  ${({ fillWidth }) => fillWidth && 'width: 100%;'};
-  ${({ direction }) => {
-    if (direction === FlexDirection.ROW) {
-      return 'flex-direction: row';
-    } else if (direction === FlexDirection.COLUMN) {
-      return 'flex-direction: column';
-    }
-  }}
+  ${({fillAll}) => fillAll && 'width: 100%; height: 100%;'};
+  ${({fillHeight}) => fillHeight && 'height: 100%;'};
+  ${({fillWidth}) => fillWidth && 'width: 100%;'};
+  ${({direction}) => {
+  if (direction === FlexDirection.ROW) {
+    return 'flex-direction: row';
+  } else if (direction === FlexDirection.COLUMN) {
+    return 'flex-direction: column';
+  }
+}}
 `;
 
 /**

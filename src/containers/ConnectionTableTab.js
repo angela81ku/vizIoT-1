@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import SectionTitle from "../components/SectionTitle";
-import SectionSubtitle from "../components/SectionSubtitle";
-import {ConnectionTable} from "./ConnectionTable";
+import SectionTitle from '../components/SectionTitle';
+import SectionSubtitle from '../components/SectionSubtitle';
+import {ConnectionTable} from './ConnectionTable';
 
 
 const TabContainer = styled.div`
@@ -19,7 +19,9 @@ const setHeight = () => {
     const spacerBottom = lastSpacer.getBoundingClientRect().bottom;
     const windowHeight = window.innerHeight;
     return Math.max(windowHeight - spacerBottom - 30, 0);
-  } else {return undefined}
+  } else {
+    return undefined
+  }
 }
 
 export const ConnectionTableTab = ({}) => {
@@ -47,7 +49,7 @@ export const ConnectionTableTab = ({}) => {
     <SectionTitle title="Destination Table" size="lg" cardPadding={false}/>
     <SectionSubtitle text="View destinations by device connection" margins={true}/>
     <div id='spacer-bottom' className="small-spacer"/>
-    <div style={{height:graphString}}>
+    <div style={{height: graphString}}>
       <ConnectionTable
         rows={5}
         xTicks={3}

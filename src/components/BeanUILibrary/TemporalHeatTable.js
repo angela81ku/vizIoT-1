@@ -1,14 +1,14 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 import _ from 'lodash';
 
-import { select } from 'd3-selection';
+import {select} from 'd3-selection';
 
-import { SPACING } from '../../data/records/Spacing';
-import { invertColor } from '../../utility/ColorUtility';
+import {SPACING} from '../../data/records/Spacing';
+import {invertColor} from '../../utility/ColorUtility';
 
 const colors = [
   '#ffffe0',
@@ -38,7 +38,7 @@ const calculateRC = (
   rowValues,
   colValues
 ) => {
-  const { rowValue, colValue } = mapDimensionsToRowColValue(dimensions);
+  const {rowValue, colValue} = mapDimensionsToRowColValue(dimensions);
   return {
     rowI: rowValues.findIndex(rVal => rVal === rowValue),
     colI: colValues.findIndex(cVal => cVal === colValue),
@@ -54,7 +54,7 @@ const calculateXY = (
   w,
   h
 ) => {
-  const { rowI, colI } = calculateRC(
+  const {rowI, colI} = calculateRC(
     dimensions,
     mapDimensionsToRowColValue,
     rowValues,
@@ -63,15 +63,15 @@ const calculateXY = (
   if (rowI < 0 || colI < 0) {
     return null;
   }
-  return { x: colI * w, y: rowI * h };
+  return {x: colI * w, y: rowI * h};
 };
 
 const getGraphDimensions = (width, height, padding) => {
-  const { l, r, t, b } = padding;
+  const {l, r, t, b} = padding;
 
   const contentWidth = width - l - r;
   const contentHeight = height - t - b;
-  return { contentWidth, contentHeight };
+  return {contentWidth, contentHeight};
 };
 
 const feedDataToNode = (node, nodeType, data, attrSetter) => {
@@ -91,7 +91,7 @@ class TemporalHeatTable extends Component {
 
   redrawChart() {
     const {
-      dimension: { width, height },
+      dimension: {width, height},
       padding,
       rowValuesGenerator,
       colValuesGenerator,
@@ -102,7 +102,7 @@ class TemporalHeatTable extends Component {
     } = this.props;
     const graphDimensions = getGraphDimensions(width, height, padding);
 
-    const { contentHeight, contentWidth } = graphDimensions;
+    const {contentHeight, contentWidth} = graphDimensions;
 
     const Y_AXIS_WIDTH = 55;
     const X_AXIS_HEIGHT = 45;
@@ -139,7 +139,7 @@ class TemporalHeatTable extends Component {
       .map((rawData, i) => {
         const [dim1, dim2] = rawData.dimensions;
         const xy = calculateXY(
-          { rowDimension: dim2, colDimension: dim1 },
+          {rowDimension: dim2, colDimension: dim1},
           mapDimensionsToRowColValue,
           rowValues,
           colValues,
@@ -149,7 +149,7 @@ class TemporalHeatTable extends Component {
         if (!xy) {
           return null;
         }
-        const { x, y } = xy;
+        const {x, y} = xy;
         const value = rawData.metrics[0];
 
         // Edge case if metric is null:
@@ -224,7 +224,7 @@ class TemporalHeatTable extends Component {
         return delay;
       })
       .attr('transform', d => {
-        const { x, y } = d;
+        const {x, y} = d;
         return `translate(${x},${y})`;
       });
 
@@ -235,7 +235,7 @@ class TemporalHeatTable extends Component {
     updateCircleSelection
       .transition()
       .duration(duration)
-      .delay(function(d, i) {
+      .delay(function (d, i) {
         delay = enterDuration + i * 7;
         return delay;
       })
@@ -254,7 +254,7 @@ class TemporalHeatTable extends Component {
       .append('g')
       .attr('class', 'nodes')
       .attr('transform', d => {
-        const { x, y } = d;
+        const {x, y} = d;
         return `translate(${x}, ${y})`;
       });
 
@@ -356,10 +356,10 @@ class TemporalHeatTable extends Component {
   }
 
   launchChart = () => {
-    const { data, padding } = this.props;
+    const {data, padding} = this.props;
     const graphData = data;
     this.setState(() => {
-      return { graphData };
+      return {graphData};
     });
 
     TemporalHeatTable.appendChartSkeleton(this.node, padding);
@@ -367,7 +367,7 @@ class TemporalHeatTable extends Component {
   };
 
   static appendChartSkeleton(rootNode, padding) {
-    const { l: lPadding, t: tPadding, r: rPadding, b: bPadding } = padding;
+    const {l: lPadding, t: tPadding, r: rPadding, b: bPadding} = padding;
     const svg = select(rootNode);
 
     const chartWrapper = svg
@@ -394,13 +394,13 @@ class TemporalHeatTable extends Component {
 
   render() {
     const {
-      dimension: { width, height },
+      dimension: {width, height},
     } = this.props;
     this.redrawChart();
     return (
       <div>
         <svg
-          style={{ fontSize: '10px' }}
+          style={{fontSize: '10px'}}
           className="temporal-heat-table"
           ref={node => (this.node = node)}
           viewBox={`0 0 ${width} ${height}`}
@@ -408,8 +408,8 @@ class TemporalHeatTable extends Component {
         >
           <defs>
             <linearGradient id="Gradient1" x1="0%" y1="8%" x2="100%" y2="92%">
-              <stop className="stop1" offset="0%" />
-              <stop className="stop3" offset="100%" />
+              <stop className="stop1" offset="0%"/>
+              <stop className="stop3" offset="100%"/>
             </linearGradient>
           </defs>
         </svg>

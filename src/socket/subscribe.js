@@ -1,7 +1,7 @@
 'use es6';
 
 import openSocket from 'socket.io-client';
-import { baseUrl } from '../constants/RequestConstants';
+import {baseUrl} from '../constants/RequestConstants';
 
 export const url = `${baseUrl}/chat`;
 

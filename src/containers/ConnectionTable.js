@@ -16,7 +16,7 @@ import {
   getConnections,
   getPackets, removeConnectionListener, removePacketListener
 } from "../data/aggregators/ConnectionAggregator";
-import { BlankRow } from "./TableRows/BlankRow";
+import {BlankRow} from "./TableRows/BlankRow";
 import {TableHeader} from "./TableRows/TableHeader";
 import {TableRow} from "./TableRows/TableRow";
 import {
@@ -36,12 +36,12 @@ const ConnectionCard = styled(BCard)`
 `
 
 export const ConnectionTable = ({
-  rows,
-  timeFrame,
-  xTicks,
-  sentColor,
-  receivedColor,
-}) => {
+                                  rows,
+                                  timeFrame,
+                                  xTicks,
+                                  sentColor,
+                                  receivedColor,
+                                }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
   const [timeStamp, setTimeStamp] = useState(Date.now());
@@ -60,7 +60,7 @@ export const ConnectionTable = ({
   // do height calculations
   const heightDivisor = rows + 0.75;
   const adjustedHeight = dimensions.height - (2 * convertRemToPixels(1));
-  const rowSize = Math.floor(adjustedHeight/heightDivisor);
+  const rowSize = Math.floor(adjustedHeight / heightDivisor);
   const headerSize = Math.floor(rowSize * 0.75);
 
   // get width of container
@@ -131,7 +131,7 @@ export const ConnectionTable = ({
   for (let i = 0; displayConnections && i < displayConnections.length; ++i) {
     const currConnection = displayConnections[i];
     const packet = packets[currConnection.id];
-    if(packet) {
+    if (packet) {
       if (packet['metric1'] !== undefined) {
         currConnection['sentMetric1'] = packet['metric1'][0];
         currConnection['receivedMetric1'] = packet['metric1'][1];
@@ -150,7 +150,7 @@ export const ConnectionTable = ({
     (entry.receivedMetric2 !== 0 || entry.sentMetric2 !== 0))
 
   // presort connections before shearing off lower connections
-  displayConnections.sort((a, b) => (b.receivedMetric2 + b.sentMetric2) -  (a.receivedMetric2 + a.sentMetric2));
+  displayConnections.sort((a, b) => (b.receivedMetric2 + b.sentMetric2) - (a.receivedMetric2 + a.sentMetric2));
 
   if (displayConnections.length > rows) {
     displayConnections = displayConnections.slice(0, rows)
@@ -158,8 +158,8 @@ export const ConnectionTable = ({
 
   let renderIndex = 0;
 
-  return <div ref={cardRef} style={{height:'100%', minHeight:minHeightStr}}>
-    <ConnectionCard style={{height:'100%'}}>
+  return <div ref={cardRef} style={{height: '100%', minHeight: minHeightStr}}>
+    <ConnectionCard style={{height: '100%'}}>
       <TableHeader
         sentColor={sentColor}
         receivedColor={receivedColor}
@@ -172,8 +172,12 @@ export const ConnectionTable = ({
         // console.log(packets)
         const packetData = packets[conn.id];
         let currentPackets;
-        if (packetData) { currentPackets = packetData['one']}
-        if (currentPackets && currentPackets.length > 35) { currentPackets = currentPackets.slice(-35)}
+        if (packetData) {
+          currentPackets = packetData['one']
+        }
+        if (currentPackets && currentPackets.length > 35) {
+          currentPackets = currentPackets.slice(-35)
+        }
         // console.log(currentPackets)
         return <TableRow
           name={conn.name}
@@ -203,7 +207,7 @@ export const ConnectionTable = ({
       })}
 
     </ConnectionCard>
-    </div>
+  </div>
 
 }
 

@@ -1,4 +1,4 @@
-import { Record } from 'immutable';
+import {Record} from 'immutable';
 
 export const SPACING = new Record({
   l: 0,

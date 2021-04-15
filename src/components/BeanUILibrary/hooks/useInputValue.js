@@ -1,8 +1,9 @@
 'use es6';
 
-import { useCallback, useState } from 'react';
+import {useCallback, useState} from 'react';
 
-export const useInputValue = (initialValue, externalCallback = () => {}) => {
+export const useInputValue = (initialValue, externalCallback = () => {
+}) => {
   const [value, setValue] = useState(initialValue);
   const onChange = useCallback(e => {
     const target = event.target;

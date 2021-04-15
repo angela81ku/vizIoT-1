@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getProp } from 'UIBean/UtilGet';
+import {getProp} from 'UIBean/UtilGet';
 
 const GridItemWrapper = styled.div`
   overflow: ${getProp('overflow')};
@@ -12,7 +12,7 @@ const GridItemWrapper = styled.div`
 `;
 
 const GridItem = props => {
-  const { children, ...rest } = props;
+  const {children, ...rest} = props;
   return <GridItemWrapper {...rest}>{children}</GridItemWrapper>;
 };
 

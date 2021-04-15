@@ -9,12 +9,12 @@ import BeanList from 'UIBean/BeanList';
 
 export default class DeviceList extends React.Component {
   render() {
-    const { devices, deviceToNumConnection, lastSeen } = this.props;
+    const {devices, deviceToNumConnection, lastSeen} = this.props;
     return (
       <BeanList>
         {devices
           .filter(
-            ({ macAddr }) =>
+            ({macAddr}) =>
               lastSeen[macAddr] ? lastSeen.diff(moment()) > 1000 : true
           )
           .sort((a, b) => {

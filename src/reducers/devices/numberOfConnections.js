@@ -1,12 +1,12 @@
 import NetworkState from '../../constants/NetworkState';
-import { createReducer } from 'redux-act';
+import {createReducer} from 'redux-act';
 import MomentUnit from '../../constants/MomentUnit';
 import {
   failureMacToHits,
   startMacToHits,
   successMacToHits,
 } from '../../actions/analyzeActions';
-import { verifyRow } from '../../utility/AnalyticsValidation';
+import {verifyRow} from '../../utility/AnalyticsValidation';
 
 const defaultState = {
   value: {},
@@ -46,7 +46,7 @@ const convertData = (requestBody, payload) => {
   // TODO remove fake data
   const rows = payload.report.data.rows;
   return rows.reduce((acc, row) => {
-    const { dimensions, metrics } = row;
+    const {dimensions, metrics} = row;
     if (verifyRow(row, 1, 1)) {
       return {
         ...acc,
@@ -63,14 +63,14 @@ export default createReducer(
       ...state,
       networkState: NetworkState.LOADING,
     }),
-    [successMacToHits]: (state, { requestBody, payload }) => {
+    [successMacToHits]: (state, {requestBody, payload}) => {
       return {
         ...state,
         networkState: NetworkState.READY,
         value: convertData(requestBody, payload),
       };
     },
-    [failureMacToHits]: (state, { requestBody, payload }) => {
+    [failureMacToHits]: (state, {requestBody, payload}) => {
       return {
         ...state,
         networkState: NetworkState.READY,

@@ -21,7 +21,7 @@ export default () => {
         <SectionTitle title="Timeline" size={'lg'} cardPadding={false}/>
         <SectionSubtitle text={'Jump across time to find temporal patterns in traffic'}/>
       </TitleSection>
-      <ScheduleCard />
+      <ScheduleCard/>
     </Padded>
   );
 };

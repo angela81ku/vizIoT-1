@@ -1,11 +1,11 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { shouldUpdate } from 'recompose';
+import {shouldUpdate} from 'recompose';
 
-import Flex, { JustifyContent } from 'UIBean/Flex';
+import Flex, {JustifyContent} from 'UIBean/Flex';
 import FlexChild from 'UIBean/FlexChild';
 import BCard from 'UIBean/BCard';
 import BIcon from 'UIBean/BIcon';
@@ -15,10 +15,11 @@ import {
   TRON, EXTRA_LIGHT_COLOR, OFF_WHITE,
 } from 'VizIoT/styles/base/viz-theme';
 import TypographyComponent from 'UIBean/TypographyComponent';
-import { formatBytes } from 'VizIoT/utility/FormatUtility';
+import {formatBytes} from 'VizIoT/utility/FormatUtility';
 import LineChart from 'VizIoT/components/LineChart';
 import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
-const { H5 } = TypographyComponent;
+
+const {H5} = TypographyComponent;
 
 const borderRadius = '10px';
 
@@ -57,7 +58,7 @@ const DCard = styled(BCard)`
       border-radius: 10px;
       border: ${TRON} 4px solid;
   }
-  opacity: ${({ active }) => (active ? 0.2 : 1)};
+  opacity: ${({active}) => (active ? 0.2 : 1)};
 `;
 
 const DName = styled(H5)`
@@ -117,7 +118,8 @@ const renderFacts = (cardFacts, providedFacts) => {
     return providedFacts.map(fact => {
       return (
         <DeviceDownloadMetrics style={{color: fact.color}}>
-          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {formatBytes(fact.data, undefined, 0) || DEFAULT_VAL}
+          <BIcon type={'fas'} name={fact.icon}
+                 color={fact.color}/> {formatBytes(fact.data, undefined, 0) || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -125,7 +127,7 @@ const renderFacts = (cardFacts, providedFacts) => {
     return cardFacts.map(fact => {
       return (
         <DeviceDownloadMetrics style={{color: fact.color}}>
-          <BIcon type={'fas'} name={fact.icon} color={fact.color} /> {fact.data || DEFAULT_VAL}
+          <BIcon type={'fas'} name={fact.icon} color={fact.color}/> {fact.data || DEFAULT_VAL}
         </DeviceDownloadMetrics>
       )
     })
@@ -133,24 +135,24 @@ const renderFacts = (cardFacts, providedFacts) => {
 }
 
 const DeviceCard = ({
-  onHover,
-  onLeaveHover,
-  active,
-  device: { name, category, macAddress },
-  velocity,
-  total,
-  dataIn,
-  dataOut,
-  dataStreams,
-  graphData,
-  graphColors,
-  factColors,
-  cardSymbols,
-  graphSize,
-  chartConfig: {
-    dataWindowSize,
-  },
-}) => {
+                      onHover,
+                      onLeaveHover,
+                      active,
+                      device: {name, category, macAddress},
+                      velocity,
+                      total,
+                      dataIn,
+                      dataOut,
+                      dataStreams,
+                      graphData,
+                      graphColors,
+                      factColors,
+                      cardSymbols,
+                      graphSize,
+                      chartConfig: {
+                        dataWindowSize,
+                      },
+                    }) => {
 
   // the original values provided with the device cards
   // if no data stream is provided, provide these facts as the default to preserve original functionality
@@ -219,7 +221,7 @@ const DeviceCard = ({
       compact={false}
       active={active}
       noPadding={true}
-      style={{width:cardWidth}}
+      style={{width: cardWidth}}
     >
       <DContent>
         <DRight className="p-4" grow={10}>
@@ -241,8 +243,8 @@ const DeviceCard = ({
             </ConnectionsLabel>
 
           </FlexChild>
-          <FlexChild className="m-top-2" >
-            <Flex noWrap={true} justifyContent={JustifyContent.SPACE_BETWEEN} style={{textAlign:'left'}}>
+          <FlexChild className="m-top-2">
+            <Flex noWrap={true} justifyContent={JustifyContent.SPACE_BETWEEN} style={{textAlign: 'left'}}>
               {renderFacts(cardFacts, providedFacts)}
             </Flex>
           </FlexChild>
@@ -253,8 +255,10 @@ const DeviceCard = ({
 };
 
 DeviceCard.defaultProps = {
-  onHover: () => {},
-  onLeaveHover: () => {},
+  onHover: () => {
+  },
+  onLeaveHover: () => {
+  },
   active: false,
   velocity: null,
   total: null,

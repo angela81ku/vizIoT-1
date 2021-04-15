@@ -10,10 +10,11 @@
 .tick text {
   fill: $graph-body-color;
 }
+
 .tick line {
   stroke: $graph-body-color;
 }
 
 .barChart-scrollable-wrapper {
-   overflow-y: scroll;
+  overflow-y: scroll;
 }

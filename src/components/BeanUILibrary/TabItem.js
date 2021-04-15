@@ -1,11 +1,11 @@
 'use es6';
 
-import { Component } from 'react';
+import {Component} from 'react';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
-import { BODY_TEXT_COLOR } from 'VizIoT/styles/base/viz-theme';
+import {BODY_TEXT_COLOR} from 'VizIoT/styles/base/viz-theme';
 
 const TabContainer = styled(NavLink)`
   margin: 0 30px;
@@ -25,14 +25,14 @@ const Container = styled.div`
   font-weight: 500;
   color: ${BODY_TEXT_COLOR};
   ${props =>
-    props.active
-      ? 'opacity: 1;'
-      : 'opacity: 0.35;'} transition: opacity, transform 0.2s;
+  props.active
+    ? 'opacity: 1;'
+    : 'opacity: 0.35;'} transition: opacity, transform 0.2s;
   transition-timing-function: ease-in-out;
 
   ${props =>
-    !props.active &&
-    `
+  !props.active &&
+  `
     &:hover {
       opacity: 1;
       cursor: pointer;
@@ -67,14 +67,14 @@ const Streak = styled.div`
 
 export default class TabItem extends Component {
   render() {
-    const { active, hover, to, children, ...rest } = this.props;
+    const {active, hover, to, children, ...rest} = this.props;
     return (
       <TabContainer to={to} {...rest}>
-        {active && <Streak />}
+        {active && <Streak/>}
         <Container active={active} hover={hover}>
           {children}
         </Container>
-        {active && <Streak />}
+        {active && <Streak/>}
       </TabContainer>
     );
   }

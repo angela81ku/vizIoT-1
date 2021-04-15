@@ -1,6 +1,6 @@
 'use es6';
 
-import { DateConstants, DateToRegex } from '../constants/DateConstants';
+import {DateConstants, DateToRegex} from '../constants/DateConstants';
 import moment from 'moment';
 
 export const convertDateTypeToString = {

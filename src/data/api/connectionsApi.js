@@ -22,7 +22,7 @@ export const parseSecondConnectionPackets = res => {
 
 export async function fetchSecondConnections() {
   const url = `${baseUrlApi}/tcpData/connections/1s`;
-  const res =  await axios.get(url, { headers })
+  const res = await axios.get(url, {headers})
   const connections = res.data.connections;
   connections.forEach(conn => {
     addPackets({id: conn.id, size: conn.size, time: conn.time}, METRICS.SECOND)
@@ -32,7 +32,7 @@ export async function fetchSecondConnections() {
 
 export async function fetchFiveSecondConnections() {
   const url = `${baseUrlApi}/tcpData/connections/5s`;
-  const res =  await axios.get(url, { headers })
+  const res = await axios.get(url, {headers})
   const connections = res.data.connections;
   addPackets(connections, METRICS.FIVE);
   updatePacketListeners();
@@ -40,7 +40,7 @@ export async function fetchFiveSecondConnections() {
 
 export async function fetchThirtySecondConnections() {
   const url = `${baseUrlApi}/tcpData/connections/30s`;
-  const res =  await axios.get(url, { headers })
+  const res = await axios.get(url, {headers})
   const connections = res.data.connections;
   addPackets(connections, METRICS.THIRTY);
   updatePacketListeners();

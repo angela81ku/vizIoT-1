@@ -1,9 +1,9 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import openSocket from 'socket.io-client';
 import SocketContext from '../context/SocketContext';
-import { url } from '../../../socket/subscribe';
+import {url} from '../../../socket/subscribe';
 
 export default class SocketProvider extends Component {
   constructor(props) {

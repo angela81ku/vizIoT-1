@@ -1,6 +1,6 @@
 'use es6';
 
-import { Record } from 'immutable';
+import {Record} from 'immutable';
 import keymirror from 'keymirror';
 
 export const Keys = keymirror({

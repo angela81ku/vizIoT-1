@@ -1,15 +1,15 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexDirection } from 'UIBean/Flex';
+import Flex, {FlexDirection} from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
 import DataTable from 'UIBean/DataTable';
-import { H6 } from 'UIBean/functional-css/TypographyStyles';
+import {H6} from 'UIBean/functional-css/TypographyStyles';
 
 import DeviceCard from 'VizIoT/components/device/DeviceCard';
-import { OFF_WHITE, TEXT, TRON } from 'VizIoT/styles/base/viz-theme';
+import {OFF_WHITE, TEXT, TRON} from 'VizIoT/styles/base/viz-theme';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import {
@@ -99,16 +99,16 @@ const DeviceCardWrapper = styled(FlexSize)`
 `;
 
 const CustomRow = styled.div`
-  ${({ index }) => index % 2 ? `background: ${TRON}08;` : `background: ${TRON}03;`}
+  ${({index}) => index % 2 ? `background: ${TRON}08;` : `background: ${TRON}03;`}
 `;
 
 const deviceRowRenderer = ({
-  className,
-  columns,
-  index,
-  style,
-  key
-}) => {
+                             className,
+                             columns,
+                             index,
+                             style,
+                             key
+                           }) => {
 
   const a11yProps = {'aria-rowindex': index + 1};
 
@@ -160,7 +160,7 @@ class DeviceCollection extends Component {
       <Flex gutter={2} className="p-top-5">
         {
           devices.map(device => {
-            const { _id, macAddress } = device;
+            const {_id, macAddress} = device;
             const deviceData = R.view(makeMacAddressLens(macAddress.toUpperCase()), deviceToData);
             if (!deviceData) {
               return null;
@@ -174,7 +174,7 @@ class DeviceCollection extends Component {
             let graphData = [];
             if (dataByTime && dataByTime.length) {
               const catchUpSeconds = 0;
-              graphData = dataByTime.map(({ startMS, size: yData }) => {
+              graphData = dataByTime.map(({startMS, size: yData}) => {
                 return {
                   xData: moment
                     .unix(startMS / 1000.0)
@@ -193,7 +193,7 @@ class DeviceCollection extends Component {
             return (
               <DeviceCardWrapper
                 key={_id}
-                size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2 }}
+                size={{xs: 12, sm: 12, md: 12, lg: 6, xl: 4, xxl: 4, xxxl: 2}}
                 space="m-bot-4"
               >
                 <DeviceCard
@@ -229,12 +229,12 @@ class DeviceCollection extends Component {
 
     const width = R.compose(
       R.sum,
-      R.map(({ width }) => width)
+      R.map(({width}) => width)
     )(headerData);
 
     const devicesWithDefault = devices || [];
     const rowData = devicesWithDefault.reduce((acc, device) => {
-      const { _id, macAddress, name } = device;
+      const {_id, macAddress, name} = device;
       const deviceData = R.view(makeMacAddressLens(macAddress.toUpperCase()), deviceToData);
       if (!deviceData) {
         return acc;
@@ -282,8 +282,8 @@ class DeviceCollection extends Component {
   }
 
   render() {
-    const { hoveredDevice } = this.state;
-    const { mode, devices, deviceToData, chartConfig } = this.props;
+    const {hoveredDevice} = this.state;
+    const {mode, devices, deviceToData, chartConfig} = this.props;
 
     if (mode === 'CARD') {
       return DeviceCollection.renderDevicesAsCards(

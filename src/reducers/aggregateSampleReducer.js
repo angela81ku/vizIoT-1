@@ -3,10 +3,10 @@ import {
   successAnalyze,
   failureAnalyze,
 } from '../actions/analyzeActions';
-import { createReducer } from 'redux-act';
+import {createReducer} from 'redux-act';
 import NetworkState from '../constants/NetworkState';
 import BucketUnitConstants from '../constants/BucketUnit';
-import { getDataKey } from '../utility/DataKey';
+import {getDataKey} from '../utility/DataKey';
 
 const defaultState = {
   networkState: NetworkState.READY,
@@ -72,17 +72,17 @@ mapDeviceToData: {
 
  */
 const mergeData = (oldMapDeviceToData, chartConfig, payload) => {
-  const { macAddresses, startMS, endMS, ...rest } = chartConfig;
-  const { bucketUnit } = rest;
+  const {macAddresses, startMS, endMS, ...rest} = chartConfig;
+  const {bucketUnit} = rest;
 
   // TODO merge with old data
-  return payload.reduce((mapDeviceToData, { key, data }) => {
+  return payload.reduce((mapDeviceToData, {key, data}) => {
     let dataKey;
     if (key === 'COMBINED') {
       // debugger;
-      dataKey = getDataKey({ ...rest, macAddresses });
+      dataKey = getDataKey({...rest, macAddresses});
     } else {
-      dataKey = getDataKey({ ...rest });
+      dataKey = getDataKey({...rest});
     }
 
     mapDeviceToData = {
@@ -97,7 +97,7 @@ const mergeData = (oldMapDeviceToData, chartConfig, payload) => {
   }, oldMapDeviceToData);
 };
 
-const onSuccess = (state, { chartConfig, requestBody, payload }) => {
+const onSuccess = (state, {chartConfig, requestBody, payload}) => {
   return {
     ...state,
     networkState: NetworkState.READY,
@@ -107,7 +107,7 @@ const onSuccess = (state, { chartConfig, requestBody, payload }) => {
 
 const aggregateSample = createReducer(
   {
-    [startAnalyze]: state => ({ ...state, networkState: NetworkState.LOADING }),
+    [startAnalyze]: state => ({...state, networkState: NetworkState.LOADING}),
     [successAnalyze]: onSuccess,
     [failureAnalyze]: state => {
       return {

@@ -1,8 +1,8 @@
 'use es6';
 
-import { ScreenBreakPoints } from 'UIBean/Breakpoints';
-import { mediaQuery } from 'UIBean/functional-css/layout';
-import { Typography } from 'UIBean/definitions/typography'
+import {ScreenBreakPoints} from 'UIBean/Breakpoints';
+import {mediaQuery} from 'UIBean/functional-css/layout';
+import {Typography} from 'UIBean/definitions/typography'
 
 const generateResponsiveSizing = sizeListing => {
   return Object.keys(sizeListing).reduce(
@@ -13,7 +13,7 @@ const generateResponsiveSizing = sizeListing => {
 };
 
 const convertToStyleString = setting => {
-  const { size, weight, distance } = setting;
+  const {size, weight, distance} = setting;
   return `
     ${weight ? `font-weight: ${weight};` : ''}
     ${distance ? `margin-bottom: ${distance}rem;` : ''}

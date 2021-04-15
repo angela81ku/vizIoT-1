@@ -1,8 +1,8 @@
 'use es6';
 
 import * as R from 'ramda';
-import { mapped } from 'ramda-lens'
-import { compare as compareMac } from 'mac-address-util';
+import {mapped} from 'ramda-lens'
+import {compare as compareMac} from 'mac-address-util';
 
 // Lens
 export const macAddress = R.lensProp('macAddress');
@@ -29,7 +29,7 @@ const matchQuery = query => device => {
     return true;
   }
   return containsMac([query], getMacAddress(device))
-      || device.toString().includes(query);
+    || device.toString().includes(query);
 };
 
 export const findMultiDeviceByMac = query =>
@@ -47,7 +47,6 @@ export const findDeviceByMac = macAddressValue =>
 export const idList = R.compose(deviceListValue, mapped, R.lensProp('_id'));
 export const nameList = R.compose(deviceListValue, mapped, R.lensProp('name'));
 export const count = R.compose(deviceListValue, R.lensProp('size'));
-
 
 
 // generic graph:

@@ -2,17 +2,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flex, { FlexDirection, JustifyContent } from '../components/BeanUILibrary/Flex';
+import Flex, {FlexDirection, JustifyContent} from '../components/BeanUILibrary/Flex';
 import FlexSize from '../components/BeanUILibrary/FlexSize';
-import { fetchDevices } from '../actionsRequest/deviceRequest';
-import { pushIndividualSizeToday } from '../actions/packetActions';
+import {fetchDevices} from '../actionsRequest/deviceRequest';
+import {pushIndividualSizeToday} from '../actions/packetActions';
 import {
   analyzeAggregationByDevice,
   analyzeAggregationByDomain,
   requestAggregationByTime,
   analyzeAggregationCore,
 } from '../actions/analyzeActions';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
   selectEntireNetwork,
   selectThreeDevices,
@@ -21,15 +21,15 @@ import {
   selectMainChartConfig,
   selectSingleDeviceChartConfig,
 } from '../selectors/chartSelectors';
-import { getDataKey } from '../utility/DataKey';
-import { hasDataForKey } from '../selectors/aggregateSampleSelector';
+import {getDataKey} from '../utility/DataKey';
+import {hasDataForKey} from '../selectors/aggregateSampleSelector';
 import QuickFacts from './QuickFacts';
 import SectionTitle from '../components/SectionTitle';
 import styled from 'styled-components';
 import ActivityFeed from '../components/ActivityFeed';
-import { DateConstants } from '../constants/DateConstants';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import { analyzeApiKeys } from '../data/api/analyzeApi';
+import {DateConstants} from '../constants/DateConstants';
+import {convertDateTypeToString} from '../utility/TimeUtility';
+import {analyzeApiKeys} from '../data/api/analyzeApi';
 import ActivitySidebar from 'VizIoT/components/ActivitySidebar';
 import GridItem from '../components/BeanUILibrary/GridItem';
 import {
@@ -39,8 +39,8 @@ import {
   IndividualSizeRoom,
   ByDeviceSizeRoomToday
 } from '../socket/subscribe';
-import { H2, H4, } from '../components/BeanUILibrary/functional-css/TypographyStyles';
-import { fetchAnalytic } from 'VizIoT/actionsRequest/analyticRequest';
+import {H2, H4,} from '../components/BeanUILibrary/functional-css/TypographyStyles';
+import {fetchAnalytic} from 'VizIoT/actionsRequest/analyticRequest';
 import {
   pushRealtimeIndividualVelocitySizeSample,
   pushRealtimeVelocitySizeSample, pushSize1Min,
@@ -53,8 +53,8 @@ import {
 import ConnectedLineChart from '../containers/ConnectedLineChart';
 import DeviceCollection from '../components/device/DeviceCollection';
 
-import { useSocket } from '../components/BeanUILibrary/hooks/useSocket';
-import { useTimedFetcher } from '../components/BeanUILibrary/hooks/useTimedFetcher';
+import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
+import {useTimedFetcher} from '../components/BeanUILibrary/hooks/useTimedFetcher';
 
 const DATA_REFRESH_DELAY_MS = 7 * 1000;
 const LOG_REFRESH_DELAY_MS = 3 * 1000;
@@ -167,7 +167,7 @@ const ConnectedDeviceCollection = connect(state => ({
 // fetching: do in the containers
 // connection: as deep as i can.
 
-const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
+const OverviewTab = ({combinedNetworkDevice, mainChartConfig}) => {
   useSocket(SizeRoom, pushRealtimeVelocitySizeSample);
   useSocket(TodaySizeRoom, message => pushSizeToday(message.size));
   useSocket(Size1MinRoom, message => pushSize1Min(message.size));
@@ -178,7 +178,7 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
   useTimedFetcher(fetchDevices, DEVICE_HITS_REFRESH_DAY_MS);
 
   const renderMainChart = () => {
-    const { bucketConfig, selectionMode } = mainChartConfig;
+    const {bucketConfig, selectionMode} = mainChartConfig;
 
     return (
       <ConnectedLineChart
@@ -204,15 +204,15 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
       <WelcomeMessage>
         {'Welcome to MON(IOT)R'}
       </WelcomeMessage>
-      <div className="medium-spacer" />
+      <div className="medium-spacer"/>
 
       <GridLayout>
         <GridItem column={'col-start / span 5'} row={'1 / 3'}>
-          <QuickFacts />
+          <QuickFacts/>
         </GridItem>
         <GridItem column={'col-start 6 / span 7'} row={'1 / 3'}>
           <Flex gutter={2}>
-            <FlexSize size={{ lg: 12 }}>
+            <FlexSize size={{lg: 12}}>
               <Title>Real-time Traffic</Title>
               {renderMainChart()}
             </FlexSize>
@@ -220,19 +220,19 @@ const OverviewTab = ({ combinedNetworkDevice, mainChartConfig }) => {
         </GridItem>
       </GridLayout>
       <IgnoreContainerPadding>
-      <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
-        <FlexSize size={{ lg: 3 }}>
-          <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
-          <RecentDevices>Most activity within the last 30 seconds</RecentDevices>
-        </FlexSize>
-        <FlexSize size={{ lg: 9 }}>
-          <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
-          <ConnectedDeviceCollection mode={'CARD'} />
-          </Flex>
-        </FlexSize>
-      </Flex>
+        <Flex gutter={2} direction={FlexDirection.ROW} fillAll alignItems={JustifyContent.CENTER}>
+          <FlexSize size={{lg: 3}}>
+            <RecentDevicesTitle>Recent Devices</RecentDevicesTitle>
+            <RecentDevices>Most activity within the last 30 seconds</RecentDevices>
+          </FlexSize>
+          <FlexSize size={{lg: 9}}>
+            <Flex direction={FlexDirection.ROW} fillAll justifyContent={JustifyContent.FLEX_END}>
+              <ConnectedDeviceCollection mode={'CARD'}/>
+            </Flex>
+          </FlexSize>
+        </Flex>
       </IgnoreContainerPadding>
-      <div className="xl-spacer" />
+      <div className="xl-spacer"/>
     </OverviewContainer>
   );
 };
@@ -248,8 +248,8 @@ OverviewTab.propTypes = {
 
 const mapStateToProps = state => {
   const singleDeviceChartConfig = selectSingleDeviceChartConfig(state);
-  const { bucketConfig, selectionMode } = singleDeviceChartConfig;
-  const deviceGraphKey = getDataKey({ ...bucketConfig.toJS(), selectionMode });
+  const {bucketConfig, selectionMode} = singleDeviceChartConfig;
+  const deviceGraphKey = getDataKey({...bucketConfig.toJS(), selectionMode});
 
   return {
     combinedNetworkDevice: selectEntireNetwork(state),

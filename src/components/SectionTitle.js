@@ -8,8 +8,8 @@ import {
   CARD_CONTENT_PADDING,
 } from '../styles/base/viz-theme';
 import BIcon from 'UIBean/BIcon';
-import { H0, H1, H3, H5, H6 } from 'UIBean/functional-css/TypographyStyles';
-import { pure } from 'recompose';
+import {H0, H1, H3, H5, H6} from 'UIBean/functional-css/TypographyStyles';
+import {pure} from 'recompose';
 
 const Sizes = {
   XSMALL: 'xsm',
@@ -18,7 +18,7 @@ const Sizes = {
   LARGE: 'lg',
 };
 
-const getLetterSpacing = ({ size }) => {
+const getLetterSpacing = ({size}) => {
   if (size !== Sizes.LARGE) {
     return 'letter-spacing: 4px;';
   }
@@ -30,7 +30,7 @@ const SectionTitleWrapper = styled.div`
   color: ${HEADING_TEXT_COLOR};
 `;
 
-const getFont = ({ size }) => {
+const getFont = ({size}) => {
   switch (size) {
     case Sizes.XSMALL:
       return H6;
@@ -49,17 +49,17 @@ const Title = styled.div`
   display: inline-block;
   ${getFont}
   ${getLetterSpacing}
-  margin-bottom: ${({ verticalSpace }) => verticalSpace ? '1rem' : '0rem'};;
+  margin-bottom: ${({verticalSpace}) => verticalSpace ? '1rem' : '0rem'};;
   font-weight: 300;
   text-transform: uppercase;
 `;
 
 const ListOfSizes = Object.keys(Sizes).map(k => Sizes[k]);
 
-const SectionTitle = ({ icon, size, title, cardPadding, children, ...props }) => (
+const SectionTitle = ({icon, size, title, cardPadding, children, ...props}) => (
   <SectionTitleWrapper cardPadding={cardPadding}
                        {...props}>
-    {icon ? <BIcon name={icon} size={16} className="m-right-2" /> : null}
+    {icon ? <BIcon name={icon} size={16} className="m-right-2"/> : null}
     <Title size={size}>{title || children}</Title>
   </SectionTitleWrapper>
 );

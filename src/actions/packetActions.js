@@ -1,7 +1,7 @@
 'use es6';
 
-import { createAction } from 'redux-act';
-import { createRequestActions } from 'VizIoT/actions/requestStatusActionFactory';
+import {createAction} from 'redux-act';
+import {createRequestActions} from 'VizIoT/actions/requestStatusActionFactory';
 
 // Request actions
 export const recentsActionBundle = createRequestActions('recent packets');

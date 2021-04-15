@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Flex from '../components/BeanUILibrary/Flex';
@@ -7,7 +7,7 @@ import DataWell from '../components/BeanUILibrary/DataWell';
 import DataWellValue from '../components/BeanUILibrary/DataWellValue';
 import styled from 'styled-components';
 import BIcon from '../components/BeanUILibrary/BIcon';
-import { H2 } from '../components/BeanUILibrary/functional-css/TypographyStyles';
+import {H2} from '../components/BeanUILibrary/functional-css/TypographyStyles';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {findColors} from '../utility/ColorUtility';
 import {socketResourceCheck} from '../utility/ResourceSocketUtility';
@@ -50,10 +50,10 @@ const WellTitle = styled.div`
   margin-bottom: 5px;
 `
 
-const ConnectedDataValue = connect((state, { dataSelector }) => {
-    return {
-        children: dataSelector(state) || '~',
-    };
+const ConnectedDataValue = connect((state, {dataSelector}) => {
+  return {
+    children: dataSelector(state) || '~',
+  };
 })(DataWellValueWithFontSize);
 
 /**
@@ -66,57 +66,58 @@ const ConnectedDataValue = connect((state, { dataSelector }) => {
  * @returns {number}
  */
 function transformData(data, index) {
-    if (data && data.length) {
-        let lag = Math.min(2, parseInt(data.length))
-        return data[data.length - lag].size[index];
-    }
-    return 0;
+  if (data && data.length) {
+    let lag = Math.min(2, parseInt(data.length))
+    return data[data.length - lag].size[index];
+  }
+  return 0;
 }
 
 const renderMetrics = (displayFacts, streamData, lineColors) => {
 
-    // determine how to display the fact
-    // if stream is displayed, create line corresponding to color of line on graph
-    // else, display a cube
-    let facts = [];
-    for (let i = 0; i < displayFacts.length; ++i) {
-        if (displayFacts[i].isGraphed) {
-            facts.push({
-                title: displayFacts[i].title,
-                dataSelector: () => formatBytes(transformData(streamData, i), undefined, 2, false),
-                iconType: 'eva',
-                color: lineColors[i],
-                fontSize: '4.0rem'
-            })
-        } else {
-            facts.push({
-                title: displayFacts[i].title,
-                dataSelector: () => formatBytes(transformData(streamData, i), undefined, 2, false),
-                iconType: 'eva',
-                icon: 'cube',
-                color: lineColors[i],
-                fontSize: '4.0rem'
-            })
-        }
+  // determine how to display the fact
+  // if stream is displayed, create line corresponding to color of line on graph
+  // else, display a cube
+  let facts = [];
+  for (let i = 0; i < displayFacts.length; ++i) {
+    if (displayFacts[i].isGraphed) {
+      facts.push({
+        title: displayFacts[i].title,
+        dataSelector: () => formatBytes(transformData(streamData, i), undefined, 2, false),
+        iconType: 'eva',
+        color: lineColors[i],
+        fontSize: '4.0rem'
+      })
+    } else {
+      facts.push({
+        title: displayFacts[i].title,
+        dataSelector: () => formatBytes(transformData(streamData, i), undefined, 2, false),
+        iconType: 'eva',
+        icon: 'cube',
+        color: lineColors[i],
+        fontSize: '4.0rem'
+      })
     }
+  }
 
-    return (
-        <div id={'fact-flex'}>
-            <Flex>
-                {facts.map(({ title, dataSelector, fontSize, icon, iconType, color }) => {
-                    return (
-                        <StyledMetric key={title}>
-                            <StyledDataWell>
-                                {getDataWellHead(icon, iconType, color)}
-                                <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
-                                <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'} dataSelector={dataSelector} />
-                            </StyledDataWell>
-                        </StyledMetric>
-                    );
-                })}
-            </Flex>
-        </div>
-    )
+  return (
+    <div id={'fact-flex'}>
+      <Flex>
+        {facts.map(({title, dataSelector, fontSize, icon, iconType, color}) => {
+          return (
+            <StyledMetric key={title}>
+              <StyledDataWell>
+                {getDataWellHead(icon, iconType, color)}
+                <WellTitle fontSize={'2.5rem'}>{title}</WellTitle>
+                <ConnectedDataValue fontSize={fontSize || '5.0rem'} color={color || 'white'}
+                                    dataSelector={dataSelector}/>
+              </StyledDataWell>
+            </StyledMetric>
+          );
+        })}
+      </Flex>
+    </div>
+  )
 
 }
 
@@ -129,96 +130,98 @@ const renderMetrics = (displayFacts, streamData, lineColors) => {
  * @returns {JSX.Element}
  */
 const getDataWellHead = (icon, iconType, color) => {
-    if (icon) {
-        return (
-            <div>
-                {icon && <BIcon name={icon} type={iconType} size={28} color={color} />}
-            </div>
-        )
-    } else {
-        return (
-            <div
-                style={{
-                    marginBottom: '5px'
-                }}
-            >
-                <hr
-                    style={{
-                        color: color,
-                        backgroundColor: color,
-                        height: '5px',
-                        width: '120px',
-                        marginLeft: '2px'
-                    }}
-                />
-            </div>
-        )
-    }
+  if (icon) {
+    return (
+      <div>
+        {icon && <BIcon name={icon} type={iconType} size={28} color={color}/>}
+      </div>
+    )
+  } else {
+    return (
+      <div
+        style={{
+          marginBottom: '5px'
+        }}
+      >
+        <hr
+          style={{
+            color: color,
+            backgroundColor: color,
+            height: '5px',
+            width: '120px',
+            marginLeft: '2px'
+          }}
+        />
+      </div>
+    )
+  }
 }
 
 const FlexedFacts = ({
-    resources,
-    socketOverride,
-    legendTitle,
-    displayFacts,
-    streamData
-}) => {
+                       resources,
+                       socketOverride,
+                       legendTitle,
+                       displayFacts,
+                       streamData
+                     }) => {
 
-    // if the resource is in use, do not call useSocket, otherwise it will double-capture packets and starve
-    // the graphing component
-    // IS DOUBLE CALLED IF GRAPH RESOURCE AND FACT RESOURCE ARE THE SAME
-    socketResourceCheck(resources, socketOverride);
+  // if the resource is in use, do not call useSocket, otherwise it will double-capture packets and starve
+  // the graphing component
+  // IS DOUBLE CALLED IF GRAPH RESOURCE AND FACT RESOURCE ARE THE SAME
+  socketResourceCheck(resources, socketOverride);
 
-    // find out whether or not metrics should have an icon
-    // those that are graphed should have a line, add to display streams for
-    // getDataWellHead in renderMetrics()
-    let lineColors = [];
-    let index = 0;
-    displayFacts.forEach(fact => {
-        // check to see if metric is displayed on a graph
-        // default is false, will be displayed with cube icon
-        if (fact.color) {
-            lineColors.push(fact.color)
-        }
-        ++index;
-    })
-
-    if (lineColors.length !== displayFacts.length) {
-        // if no colors provided, find colors for metrics using color interpolator
-        if (lineColors.length === 0) {
-            lineColors = findColors(displayFacts.length);
-        }
-        // otherwise, only some colors are defined, throw an error
-        else {
-            throw new Error('Some facts do not have a color; all facts must have a color or no facts can have a color')
-        }
+  // find out whether or not metrics should have an icon
+  // those that are graphed should have a line, add to display streams for
+  // getDataWellHead in renderMetrics()
+  let lineColors = [];
+  let index = 0;
+  displayFacts.forEach(fact => {
+    // check to see if metric is displayed on a graph
+    // default is false, will be displayed with cube icon
+    if (fact.color) {
+      lineColors.push(fact.color)
     }
+    ++index;
+  })
 
-    return (
-        <Flex>
-            <Proto>{legendTitle}</Proto>
-            <MetricContainer id={'metric-container'}>
-                {renderMetrics(displayFacts, streamData, lineColors)}
-            </MetricContainer>
-        </Flex>
-    );
+  if (lineColors.length !== displayFacts.length) {
+    // if no colors provided, find colors for metrics using color interpolator
+    if (lineColors.length === 0) {
+      lineColors = findColors(displayFacts.length);
+    }
+    // otherwise, only some colors are defined, throw an error
+    else {
+      throw new Error('Some facts do not have a color; all facts must have a color or no facts can have a color')
+    }
+  }
+
+  return (
+    <Flex>
+      <Proto>{legendTitle}</Proto>
+      <MetricContainer id={'metric-container'}>
+        {renderMetrics(displayFacts, streamData, lineColors)}
+      </MetricContainer>
+    </Flex>
+  );
 }
 
 
 FlexedFacts.propTypes = {
-    resources: PropTypes.object.isRequired,
-    socketOverride: PropTypes.bool,
-    legendTitle: PropTypes.string,
-    displayFacts: PropTypes.array.isRequired,
-    streamData: PropTypes.array,
+  resources: PropTypes.object.isRequired,
+  socketOverride: PropTypes.bool,
+  legendTitle: PropTypes.string,
+  displayFacts: PropTypes.array.isRequired,
+  streamData: PropTypes.array,
 }
 
 const mapStateToProps = (state, props) => {
-    let data = props.resources.packetSelector(state);
-    if(!data) { data = []; }
-    return {
-        streamData: data,
-    };
+  let data = props.resources.packetSelector(state);
+  if (!data) {
+    data = [];
+  }
+  return {
+    streamData: data,
+  };
 };
 
 export default connect(mapStateToProps)(FlexedFacts);

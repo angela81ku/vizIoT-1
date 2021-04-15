@@ -1,15 +1,15 @@
-import { pathOr } from 'ramda';
-import { selectDeviceList } from './deviceSelectors';
+import {pathOr} from 'ramda';
+import {selectDeviceList} from './deviceSelectors';
 
 export const selectSingleAggregation = (
-  { aggregateSample },
+  {aggregateSample},
   deviceKey,
   dataKey
 ) => {
   return pathOr([], [deviceKey, dataKey], aggregateSample.mapDeviceToData);
 };
 
-export const hasAggregationData = ({ aggregateSample }, deviceKey, dataKey) => {
+export const hasAggregationData = ({aggregateSample}, deviceKey, dataKey) => {
   const data = pathOr([], [deviceKey, dataKey], aggregateSample.mapDeviceToData);
   return data && data.length;
 };

@@ -1,8 +1,8 @@
 'use es6';
 
-import { createAction } from 'redux-act';
+import {createAction} from 'redux-act';
 import NetworkState from 'VizIoT/constants/NetworkState';
-import { callLens, getCall, getParamParser, paramParser } from 'VizIoT/data/api/ApiLenses';
+import {callLens, getCall, getParamParser, paramParser} from 'VizIoT/data/api/ApiLenses';
 import * as R from 'ramda';
 import NetworkResponse from 'VizIoT/data/api/NetworkResponse';
 

@@ -1,16 +1,16 @@
 import React from 'react';
 import Flex from 'UIBean/Flex';
 import FlexSize from 'UIBean/FlexSize';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import BubbleChart from 'VizIoT/components/d3/BubbleChart';
-import { SPACING } from 'VizIoT/data/records/Spacing';
+import {SPACING} from 'VizIoT/data/records/Spacing';
 import AutoFitComponent from 'VizIoT/components/AutoFitComponent';
 import BucketUnitConstants from 'VizIoT/constants/BucketUnit';
 // import FlexWrapper from 'UIBean/FlexWrapper';
-import { analyzeAggregationByDomain } from 'VizIoT/actions/analyzeActions';
-import { selectDomainsToday } from 'VizIoT/selectors/analyticsSelector';
-import { DateConstants } from 'VizIoT/constants/DateConstants';
-import { convertDateTypeToString } from 'VizIoT/utility/TimeUtility';
+import {analyzeAggregationByDomain} from 'VizIoT/actions/analyzeActions';
+import {selectDomainsToday} from 'VizIoT/selectors/analyticsSelector';
+import {DateConstants} from 'VizIoT/constants/DateConstants';
+import {convertDateTypeToString} from 'VizIoT/utility/TimeUtility';
 
 const DATA_REFRESH_DELAY_MS = 5 * 1000;
 
@@ -55,7 +55,7 @@ class BubbleLocationTab extends React.Component {
     return (
       <div className="location-bubble-tab">
         <Flex gutter={3}>
-          <FlexSize size={{ md: 12 }}>
+          <FlexSize size={{md: 12}}>
             <AutoFitComponent className="location-bubble-chart">
               <BubbleChart
                 dimension={{
@@ -65,7 +65,7 @@ class BubbleLocationTab extends React.Component {
                 data={data}
                 dataWindowSize={0}
                 dataWindowUnit={BucketUnitConstants.LOCATION}
-                padding={new SPACING({ l: 20, r: 20, t: 20, b: 20 })}
+                padding={new SPACING({l: 20, r: 20, t: 20, b: 20})}
               />
             </AutoFitComponent>
             <Flex className="location-bubble-tab__titleWrapper">

@@ -1,13 +1,13 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 // TODO, rename to 'Box'
 
 const StyledDiv = styled.div`
-  ${({ basis, grow, shrink, order, alignSelf }) => `
+  ${({basis, grow, shrink, order, alignSelf}) => `
       flex-basis: ${basis};
       flex-grow: ${grow};
       flex-shrink: ${shrink};
@@ -19,7 +19,7 @@ const StyledDiv = styled.div`
 /*
 By default, this wraps the content, and does not grow to fit the parent.
  */
-const FlexChild = ({ children, ...props }) => {
+const FlexChild = ({children, ...props}) => {
   return <StyledDiv {...props}>{children}</StyledDiv>;
 };
 

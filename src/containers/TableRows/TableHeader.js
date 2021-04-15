@@ -16,11 +16,11 @@ import SectionSubtitle from "../../components/SectionSubtitle";
 import styled from "styled-components";
 
 export const TableHeader = ({
-  sentColor,
-  receivedColor,
-  height,
-  width,
-}) => {
+                              sentColor,
+                              receivedColor,
+                              height,
+                              width,
+                            }) => {
 
   const minHeight = 53;
   const relHeight = height < minHeight ? minHeight : height;
@@ -42,31 +42,32 @@ export const TableHeader = ({
   } = getPercentageStrings(relWidths);
 
   const destVals = width < 800 ?
-    { title: 'Dest', width:'95%', marginLeft:'5%' } :
-    { title: 'Destination', width:'80%', marginLeft: '20%' };
+    {title: 'Dest', width: '95%', marginLeft: '5%'} :
+    {title: 'Destination', width: '80%', marginLeft: '20%'};
 
   return <BorderedSolidRow height={`${relHeight}px`}>
-    <SourceColumn colWidth={sourceWidth} style={{display:'flex', alignItems:'flex-start'}}>
-      <FixedTitle title='Source' style={{width:'100%', textAlign:'center'}}/>
-      <SectionSubtitle text='Name' style={{width:'100%', textAlign:'center'}}/>
+    <SourceColumn colWidth={sourceWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
+      <FixedTitle title='Source' style={{width: '100%', textAlign: 'center'}}/>
+      <SectionSubtitle text='Name' style={{width: '100%', textAlign: 'center'}}/>
     </SourceColumn>
     <ArrowColumn colWidth={arrowWidth}/>
-    <DestinationColumn colWidth={destWidth} style={{display:'flex', alignItems:'flex-start'}}>
-      <FixedTitle title={destVals.title} style={{marginLeft:destVals.marginLeft, width:destVals.width, textAlign:'center'}}/>
-      <div style={{width:'100%', display:'inline-grid', gridTemplateColumns:`${destNameWidth} ${destCountryWidth}`}}>
-        <SectionSubtitle text='Name' style={{textAlign:'center'}}/>
-        <SectionSubtitle text='Country' style={{textAlign: 'center', overflow:'hidden'}}/>
+    <DestinationColumn colWidth={destWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
+      <FixedTitle title={destVals.title}
+                  style={{marginLeft: destVals.marginLeft, width: destVals.width, textAlign: 'center'}}/>
+      <div style={{width: '100%', display: 'inline-grid', gridTemplateColumns: `${destNameWidth} ${destCountryWidth}`}}>
+        <SectionSubtitle text='Name' style={{textAlign: 'center'}}/>
+        <SectionSubtitle text='Country' style={{textAlign: 'center', overflow: 'hidden'}}/>
       </div>
     </DestinationColumn>
-    <GraphColumn colWidth={graphWidth} style={{textAlign:'center'}}>
-      <div style={{display:'inline-grid', gridTemplateColumns:'auto auto auto', justifyContent:'start'}}>
-        <FixedTitle style={{color:(sentColor ? sentColor : '#ff1e00')}} size='xsm' >
+    <GraphColumn colWidth={graphWidth} style={{textAlign: 'center'}}>
+      <div style={{display: 'inline-grid', gridTemplateColumns: 'auto auto auto', justifyContent: 'start'}}>
+        <FixedTitle style={{color: (sentColor ? sentColor : '#ff1e00')}} size='xsm'>
           Sent
         </FixedTitle>
         <FixedTitle>
           /
         </FixedTitle>
-        <FixedTitle style={{color:(receivedColor ? receivedColor : '#0073ff')}} size='xsm' >
+        <FixedTitle style={{color: (receivedColor ? receivedColor : '#0073ff')}} size='xsm'>
           Received
         </FixedTitle>
       </div>

@@ -1,6 +1,6 @@
 'use es6';
 
-import { useRef, useContext, useEffect, } from 'react';
+import {useRef, useContext, useEffect,} from 'react';
 import SocketContext from 'UIBean/context/SocketContext';
 
 export const useSocket = (roomPath, callback) => {
@@ -13,6 +13,8 @@ export const useSocket = (roomPath, callback) => {
 
   useEffect(() => {
     socket.on(roomPath, callbackRef.current);
-    return () => { socket.removeListener(roomPath, callbackRef.current) }
+    return () => {
+      socket.removeListener(roomPath, callbackRef.current)
+    }
   }, [roomPath, socket])
 };

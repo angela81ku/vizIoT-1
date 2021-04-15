@@ -1,15 +1,15 @@
 'use es6';
 
 import AnalyticsRequest from '../data/records/AnalyticsRequest';
-import { ConnectionMetric } from '../data/metrics/ConnectionMetric';
+import {ConnectionMetric} from '../data/metrics/ConnectionMetric';
 import DataReducerTypes from '../constants/DataReducerTypes';
-import { convertDateTypeToString } from '../utility/TimeUtility';
-import { DateConstants } from '../constants/DateConstants';
+import {convertDateTypeToString} from '../utility/TimeUtility';
+import {DateConstants} from '../constants/DateConstants';
 import GeoDimension from '../data/dimensions/GeoDimension';
 import * as R from 'ramda';
 import * as device from '../data/device/DeviceLenses';
-import { createSelector } from 'reselect';
-import { selectDeviceToLiveSamples } from './packetSelector';
+import {createSelector} from 'reselect';
+import {selectDeviceToLiveSamples} from './packetSelector';
 import {
   takeTop3Size,
   macAddress,
@@ -17,7 +17,7 @@ import {
   lastSizeSamples,
   getLastSizeSamples, getDeviceDataByMac
 } from '../data/device/DeviceDataLenses';
-import { findMultiDeviceByMac } from '../data/device/DeviceLenses';
+import {findMultiDeviceByMac} from '../data/device/DeviceLenses';
 
 export const selectDeviceList = R.view(device.deviceListValue);
 
@@ -31,9 +31,7 @@ export const searchForDevice = searchValue => createSelector(
 );
 
 
-
-
-export const selectEntireNetwork = ({ devices: { entireNetwork } }) => {
+export const selectEntireNetwork = ({devices: {entireNetwork}}) => {
   return entireNetwork;
 };
 
@@ -45,16 +43,16 @@ export const selectLastSeen = R.path(['devices', 'lastSeen', 'value']);
 export const selectNumberOfConnections = R.path(['device', 'numberOfConnections', 'value']);
 
 // export const selectPercentUnsecuredToday = state => {
-  // const { analytics } = state;
-  // const key = new AnalyticsRequest({
-  //   dimensions: [],
-  //   metrics: [ConnectionMetric.PERCENT_SECURED],
-  //   reducer: DataReducerTypes.INDIVIDUAL,
-  //   startTime: convertDateTypeToString[DateConstants.TODAY](),
-  //   endTime: convertDateTypeToString[DateConstants.NOW](),
-  // }).hashCode();
+// const { analytics } = state;
+// const key = new AnalyticsRequest({
+//   dimensions: [],
+//   metrics: [ConnectionMetric.PERCENT_SECURED],
+//   reducer: DataReducerTypes.INDIVIDUAL,
+//   startTime: convertDateTypeToString[DateConstants.TODAY](),
+//   endTime: convertDateTypeToString[DateConstants.NOW](),
+// }).hashCode();
 
-  // const percentSecured = analytics.values[key].report.data.rows.metrics[0];
+// const percentSecured = analytics.values[key].report.data.rows.metrics[0];
 // };
 
 export const selectMacAddressToAlias = createSelector(
@@ -62,7 +60,7 @@ export const selectMacAddressToAlias = createSelector(
   deviceList => {
     R.pipe(
       R.defaultTo([]),
-      R.reduce((acc, { macAddress, alias }) => {
+      R.reduce((acc, {macAddress, alias}) => {
         return {
           ...acc,
           [macAddress]: alias,
@@ -94,7 +92,7 @@ export const selectThreeDevices = createSelector(
     );
 
     const mapToDevices = R.map(
-      macAddress => device.findDeviceByMac(macAddress)(devices) || { macAddress }
+      macAddress => device.findDeviceByMac(macAddress)(devices) || {macAddress}
     );
 
     const threeDevices = R.pipe(

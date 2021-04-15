@@ -1,16 +1,16 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 export default class TimedSwitcher extends Component {
   constructor(props) {
     super(props);
 
-    const { options } = this.props;
+    const {options} = this.props;
 
     if (options && options.length > 1) {
-      const { delay } = options[0];
+      const {delay} = options[0];
       const timer = setTimeout(() => {
         this.rotateToNextIndex();
       }, delay);
@@ -23,16 +23,16 @@ export default class TimedSwitcher extends Component {
   }
 
   rotateToNextIndex = () => {
-    const { options, onSwitch } = this.props;
+    const {options, onSwitch} = this.props;
 
     // Clear previous timer
-    const { timer } = this.state;
+    const {timer} = this.state;
     timer && clearTimeout(timer);
 
     // Info about the next index
     let currentOptionIndex = this.state.currentOptionIndex;
     const newIndex = ++currentOptionIndex % options.length;
-    const { delay } = options[newIndex];
+    const {delay} = options[newIndex];
 
     // Add new timer
     const newTimer = setTimeout(() => {
@@ -40,14 +40,14 @@ export default class TimedSwitcher extends Component {
     }, delay);
 
     // Update date
-    this.setState({ currentOptionIndex: newIndex, timer: newTimer });
+    this.setState({currentOptionIndex: newIndex, timer: newTimer});
 
     onSwitch(newIndex);
   };
 
   render() {
-    const { options } = this.props;
-    const { currentOptionIndex } = this.state;
+    const {options} = this.props;
+    const {currentOptionIndex} = this.state;
     if (
       options &&
       0 <= currentOptionIndex &&
@@ -61,7 +61,8 @@ export default class TimedSwitcher extends Component {
 
 TimedSwitcher.defaultProps = {
   options: [],
-  onSwitch: () => {},
+  onSwitch: () => {
+  },
 };
 
 TimedSwitcher.propTypes = {

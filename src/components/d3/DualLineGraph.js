@@ -50,8 +50,10 @@ const drawYLabels = (max, height) => {
   const tickVal = Math.floor(max / 2);
 
   return <g>
-    <text x={textYXOffset} y={midTop + textYYOffset} fill={strokeColor} fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
-    <text x={textYXOffset} y={midBottom + textYYOffset} fill={strokeColor} fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
+    <text x={textYXOffset} y={midTop + textYYOffset} fill={strokeColor}
+          fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
+    <text x={textYXOffset} y={midBottom + textYYOffset} fill={strokeColor}
+          fontSize={12}>{formatBytes(tickVal, '', 0)}</text>
     <line x1={0} y1={midTop} x2={5} y2={midTop} stroke={strokeColor} strokeWidth={1}/>
     <line x1={0} y1={midBottom} x2={5} y2={midBottom} stroke={strokeColor} strokeWidth={1}/>
   </g>
@@ -73,8 +75,11 @@ const drawLine = (data, max, height, width, color, isSent) => {
   for (let i = data.length - 1; i >= 0; --i) {
 
     let relativeY = halfHeight;
-    if (isSent) { relativeY = halfHeight - (maxMult * data[i]); }
-    else { relativeY = halfHeight + (maxMult * data[i]); }
+    if (isSent) {
+      relativeY = halfHeight - (maxMult * data[i]);
+    } else {
+      relativeY = halfHeight + (maxMult * data[i]);
+    }
 
     const relativeX = pointWidth * (i + diff);
 
@@ -107,15 +112,15 @@ const drawLine = (data, max, height, width, color, isSent) => {
 }
 
 export const DualLineGraph = ({
-  height,
-  width,
-  data,
-  ticks,
-  timeFrame,
-  timeStamp,
-  topColor,
-  bottomColor,
-}) => {
+                                height,
+                                width,
+                                data,
+                                ticks,
+                                timeFrame,
+                                timeStamp,
+                                topColor,
+                                bottomColor,
+                              }) => {
 
   const view = `0 0 ${width} ${height}`
   const xAxisStart = 0;
@@ -151,7 +156,7 @@ export const DualLineGraph = ({
     sent[relativeIndex] += (currSent);
     received[relativeIndex] += currReceived;
 
-  // get max val for drawing y -- perform only if the metric provided is valid
+    // get max val for drawing y -- perform only if the metric provided is valid
     max = Math.max(max, currSent, currReceived)
   }
 
@@ -165,7 +170,8 @@ export const DualLineGraph = ({
         {drawLine(sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
         {drawLine(received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
       </>
-  )}
+    )
+  }
 
   return (
     <svg viewBox={view}>

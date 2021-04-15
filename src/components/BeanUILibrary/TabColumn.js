@@ -1,6 +1,6 @@
 'use es6';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 const TabColumnContainer = styled.div`
@@ -31,7 +31,7 @@ const Streak = styled.div`
 
 export default class TabColumn extends Component {
   render() {
-    const { children, ...rest } = this.props;
+    const {children, ...rest} = this.props;
     return (
       <React.Fragment>
         <TabColumnContainer {...rest}>{children}</TabColumnContainer>

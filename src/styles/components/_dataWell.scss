@@ -6,6 +6,7 @@
   height: 100%;
   align-items: flex-end;
 }
+
 .dataWell__inner {
   flex: 1 1;
   //text-align: center;
@@ -13,12 +14,14 @@
   display: flex;
   flex-direction: column;
 }
+
 .dataWell__value {
   display: block;
   //font-size: 5.0rem;
   font-weight: bold;
   margin: 0;
 }
+
 .dataWell__title {
   display: inline-block;
   font-size: $h5-font-size;

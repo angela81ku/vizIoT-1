@@ -1,6 +1,6 @@
 'use es6';
 
-import { ScreenBreakPoints } from 'UIBean/Breakpoints';
+import {ScreenBreakPoints} from 'UIBean/Breakpoints';
 
 export const mediaQuery = (screenSize, onMinimum, styleStr) => `
   @media only screen and (${onMinimum ? 'min' : 'max'}-width: ${ScreenBreakPoints[screenSize] /

@@ -8,8 +8,8 @@ import styled from 'styled-components';
 import BCard from 'UIBean/BCard';
 import AutoFitComponent from '../components/AutoFitComponent';
 import TemporalHeatTable from 'UIBean/TemporalHeatTable';
-import { SPACING } from '../data/records/Spacing';
-import { H5 } from 'UIBean/functional-css/TypographyStyles';
+import {SPACING} from '../data/records/Spacing';
+import {H5} from 'UIBean/functional-css/TypographyStyles';
 
 const dayFormat = 'M DD, YYYY';
 const colLabelFormat = 'dd';
@@ -70,7 +70,7 @@ const createPlaceholderData = () => {
   return rows;
 };
 
-const ScheduleCard = ({ className }) => {
+const ScheduleCard = ({className}) => {
   return (
     <BCard>
       <Title className="m-left-5 m-top-5">
@@ -78,7 +78,7 @@ const ScheduleCard = ({ className }) => {
       </Title>
       <AutofitWithHeight>
         <TemporalHeatTable
-          padding={new SPACING({ l: 5 })}
+          padding={new SPACING({l: 5})}
           data={createPlaceholderData()}
           renderRowLabel={rowValue => {
             const date = moment(rowValue, 'HH');
@@ -90,10 +90,10 @@ const ScheduleCard = ({ className }) => {
               .format(colLabelFormat)
               .toUpperCase()
           }
-          mapDimensionsToRowColValue={({ rowDimension, colDimension }) => {
+          mapDimensionsToRowColValue={({rowDimension, colDimension}) => {
             const rowValue = moment(rowDimension, timeFormat).hour();
             const colValue = colDimension;
-            return { rowValue, colValue };
+            return {rowValue, colValue};
           }}
           rowValuesGenerator={() => {
             const hours = [];

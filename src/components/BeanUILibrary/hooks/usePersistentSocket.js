@@ -1,6 +1,6 @@
 'use es6';
 
-import { useRef, useContext, useEffect, } from 'react';
+import {useRef, useContext, useEffect,} from 'react';
 import SocketContext from 'UIBean/context/SocketContext';
 
 export const usePersistentSocket = (roomPath, callback) => {

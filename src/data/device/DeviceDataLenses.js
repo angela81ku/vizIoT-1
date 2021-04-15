@@ -1,15 +1,15 @@
 'use es6';
 
 import * as R from 'ramda';
-import { mapped } from 'ramda-lens'
+import {mapped} from 'ramda-lens'
 import immLens from 'VizIoT/data/immLens';
 import * as device from 'VizIoT/data/device/DeviceLenses';
-import { DeviceData, Keys } from 'VizIoT/data/device/DeviceData';
+import {DeviceData, Keys} from 'VizIoT/data/device/DeviceData';
 import moment from 'moment';
-import { compare as compareMac, standardize } from 'mac-address-util';
-import { tap } from 'VizIoT/utility/Debugging';
-import { deviceListValue } from 'VizIoT/data/device/DeviceLenses';
-import { containsMac } from 'VizIoT/data/device/DeviceLenses';
+import {compare as compareMac, standardize} from 'mac-address-util';
+import {tap} from 'VizIoT/utility/Debugging';
+import {deviceListValue} from 'VizIoT/data/device/DeviceLenses';
+import {containsMac} from 'VizIoT/data/device/DeviceLenses';
 import blacklist from 'VizIoT/data/device/blacklist';
 
 // DeviceData
@@ -54,19 +54,19 @@ export const takeTop3Size = R.compose(
 const isBlacklisted = containsMac(blacklist);
 
 export const createDeviceDataMap = arg => {
-  const { startMS } = arg;
+  const {startMS} = arg;
 
   const macLens = R.lensProp('macAddress');
 
   return R.compose(
     R.indexBy(pass => R.view(macAddress, pass)),
-    R.map(({ size, name,  macAddress }) => new DeviceData({
+    R.map(({size, name, macAddress}) => new DeviceData({
       [Keys.MAC_ADDRESS]: macAddress,
       [Keys.LAST_SIZE]: size,
-      [Keys.LAST_SIZE_SAMPLES]: [{ size, startMS }],
+      [Keys.LAST_SIZE_SAMPLES]: [{size, startMS}],
       [Keys.NAME]: name,
     })),
-    R.reject(({ macAddress }) => isBlacklisted(macAddress)),
+    R.reject(({macAddress}) => isBlacklisted(macAddress)),
     R.map(R.over(macLens, standardize)),
     R.view(R.lensProp('size')),
   )(arg);
@@ -112,7 +112,7 @@ export const updateDeviceDataMaps = (original, incoming) => {
 };
 
 const reassignObject = o => {
-  return { ...o };
+  return {...o};
 };
 
 const updateDeviceData = (l, r) => {
@@ -137,7 +137,6 @@ export const mergeDeviceDataMaps = R.mergeWithKey((k, l, r) => {
   // console.log(updatedData);
   return updatedData;
 });
-
 
 
 export const deviceData = R.compose(R.lensProp('packets'), R.lensProp('realtimeIndividualVelocitySizeSample'), R.lensProp('data'));

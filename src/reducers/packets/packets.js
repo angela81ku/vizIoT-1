@@ -1,6 +1,6 @@
 'use es6';
 
-import { createReducer } from 'redux-act';
+import {createReducer} from 'redux-act';
 import {
   pushIndividualSizeToday,
   recentsActionBundle,
@@ -13,22 +13,22 @@ import {
   pushRealTimeIOTraffic,
   pushRealTimeProtocolTraffic,
 } from 'VizIoT/actions/packetActions';
-import { combineReducers } from 'redux';
-import { createRequestReducer } from 'VizIoT/reducers/requests/requestState';
-import { createDeviceDataMap, mergeDeviceDataMaps, updateDeviceDataMaps } from 'VizIoT/data/device/DeviceDataLenses';
+import {combineReducers} from 'redux';
+import {createRequestReducer} from 'VizIoT/reducers/requests/requestState';
+import {createDeviceDataMap, mergeDeviceDataMaps, updateDeviceDataMaps} from 'VizIoT/data/device/DeviceDataLenses';
 import {pushRealTimeIOMetricTraffic, pushRealTimeProtocolMetricTraffic} from '../../actions/packetActions';
 // import {pushRealTimeIOTraffic} from '../../actions/packetActions';
 
 const isMocking = true;
 const genMock = count => ({
-      src_ip: 'src_ip',
-      dst_ip: 'dest_ip',
-      dst_mac: 'src_mac',
-      src_mac: 'dest_mac',
-      dst_port: 'dst_port',
-      src_port: 'src_port',
-      timestamp: `${count} timestamp`,
-    });
+  src_ip: 'src_ip',
+  dst_ip: 'dest_ip',
+  dst_mac: 'src_mac',
+  src_mac: 'dest_mac',
+  dst_port: 'dst_port',
+  src_port: 'src_port',
+  timestamp: `${count} timestamp`,
+});
 
 const pushPacketCount = createReducer({
     [pushPacketCountToday]: (state, newCount) => {
@@ -38,18 +38,18 @@ const pushPacketCount = createReducer({
       }
     },
   },
-  { data: null }
+  {data: null}
 );
 
 const pushSize = createReducer({
-  [pushSizeToday]: (state, newVal) => {
-    return {
-      ...state,
-      data: newVal,
+    [pushSizeToday]: (state, newVal) => {
+      return {
+        ...state,
+        data: newVal,
+      }
     }
-  }
-},
-  { data : null});
+  },
+  {data: null});
 
 const pushSize1MinStore = createReducer({
     [pushSize1Min]: (state, newVal) => {
@@ -59,7 +59,7 @@ const pushSize1MinStore = createReducer({
       }
     }
   },
-  { data : null});
+  {data: null});
 
 const realtimeVelocitySample = createReducer({
   [pushRealtimeVelocitySample]: (state, newEntry) => {
@@ -68,11 +68,11 @@ const realtimeVelocitySample = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null });
+}, {data: null});
 
 const middleware = (state, rawRequestData) => {
-  const { payload, requestBody } = rawRequestData;
-  const { packetListing: prevPacketListing } = state;
+  const {payload, requestBody} = rawRequestData;
+  const {packetListing: prevPacketListing} = state;
 
   const packetListing = prevPacketListing || [];
   if (isMocking) {
@@ -96,10 +96,10 @@ const packetPerDevice = createReducer({
       data: newEntry,
     }
   },
-}, { packetPerDevice: null });
+}, {packetPerDevice: null});
 
 const packets = createRequestReducer(
-  { packetListing: null },
+  {packetListing: null},
   recentsActionBundle,
   middleware
 );
@@ -111,7 +111,7 @@ const realtimeVelocitySizeSample = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null });
+}, {data: null});
 
 const realtimeIndividualVelocitySizeSample = createReducer({
   [pushRealtimeIndividualVelocitySizeSample]: (state, message) => {
@@ -121,7 +121,7 @@ const realtimeIndividualVelocitySizeSample = createReducer({
       data: updateDeviceDataMaps(state.data, createDeviceDataMap(message)),
     }
   }
-}, { data: null });
+}, {data: null});
 
 // my reducer
 const realTimeIOTraffic = createReducer({
@@ -131,7 +131,7 @@ const realTimeIOTraffic = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null });
+}, {data: null});
 
 const realTimeIOMetricTraffic = createReducer({
   [pushRealTimeIOMetricTraffic]: (state, newEntry) => {
@@ -140,7 +140,7 @@ const realTimeIOMetricTraffic = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null })
+}, {data: null})
 
 const realTimeProtocolTraffic = createReducer({
   [pushRealTimeProtocolTraffic]: (state, newEntry) => {
@@ -149,7 +149,7 @@ const realTimeProtocolTraffic = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null });
+}, {data: null});
 
 const realTimeProtocolMetricTraffic = createReducer({
   [pushRealTimeProtocolMetricTraffic]: (state, newEntry) => {
@@ -158,7 +158,7 @@ const realTimeProtocolMetricTraffic = createReducer({
       data: state.data === null ? [newEntry] : [...state.data, newEntry].slice(-70),
     }
   },
-}, { data: null });
+}, {data: null});
 
 export default combineReducers({
   packetPerDevice,

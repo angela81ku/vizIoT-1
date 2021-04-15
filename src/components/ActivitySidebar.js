@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { identity } from 'ramda';
+import {identity} from 'ramda';
 
 import Flex from 'UIBean/Flex';
 import TimedSwitcher from 'UIBean/TimedSwitcher';
@@ -17,12 +17,12 @@ import {
   selectLastSeen,
   selectNumberOfConnections,
 } from 'VizIoT/selectors/deviceSelectors';
-import { selectMostRecentDomains } from 'VizIoT/selectors/analyticsSelector';
+import {selectMostRecentDomains} from 'VizIoT/selectors/analyticsSelector';
 import BIcon from 'UIBean/BIcon';
-import BButton, { ButtonOrientation, ButtonShape } from 'UIBean/BButton';
+import BButton, {ButtonOrientation, ButtonShape} from 'UIBean/BButton';
 import TypographyComponents from 'UIBean/TypographyComponent';
 
-const { H5 } = TypographyComponents;
+const {H5} = TypographyComponents;
 
 const FixedSidebarWrapper = styled.section`
   position: fixed;
@@ -38,8 +38,8 @@ const FixedSidebarWrapper = styled.section`
   }
   z-index: 1;
 
-  transform: ${({ hide }) => (hide ? 'translateX(-350px)' : 'translateX(0)')};
-  opacity: ${({ hide }) => (hide ? '0' : '1')};
+  transform: ${({hide}) => (hide ? 'translateX(-350px)' : 'translateX(0)')};
+  opacity: ${({hide}) => (hide ? '0' : '1')};
   transition: opacity 1s, transform 1.1s;
   // transition-timing-function: ease-in-out;
 `;
@@ -59,8 +59,8 @@ const ShowBtn = styled(BButton)`
   position: fixed;
   top: 1.5rem;
   left: 1.5rem;
-  transform: ${({ hide }) => (hide ? 'translateX(-10px)' : 'translateX(0)')};
-  opacity: ${({ hide }) => (hide ? '0' : '1')};
+  transform: ${({hide}) => (hide ? 'translateX(-10px)' : 'translateX(0)')};
+  opacity: ${({hide}) => (hide ? '0' : '1')};
   transition: opacity 1s, transform 1.1s;
   height: 7rem;
   width: 7rem;
@@ -76,17 +76,17 @@ const Container = styled.div`
 `;
 
 const Sidebar = ({
-  hide,
-  devices,
-  deviceToNumConnection,
-  lastSeen,
-  mostRecentHosts,
-  onSwitch,
-  onToggleHide,
-}) => {
+                   hide,
+                   devices,
+                   deviceToNumConnection,
+                   lastSeen,
+                   mostRecentHosts,
+                   onSwitch,
+                   onToggleHide,
+                 }) => {
   const deviceList = (
     <div>
-      <SectionTitle title="TODAY'S DEVICES" />
+      <SectionTitle title="TODAY'S DEVICES"/>
       <DeviceList
         devices={devices}
         deviceToNumConnection={deviceToNumConnection}
@@ -97,8 +97,8 @@ const Sidebar = ({
 
   const hostList = (
     <div>
-      <SectionTitle title="LATEST ACTIVITY" />
-      <ActivityFeed hosts={mostRecentHosts} />
+      <SectionTitle title="LATEST ACTIVITY"/>
+      <ActivityFeed hosts={mostRecentHosts}/>
     </div>
   );
 
@@ -110,19 +110,19 @@ const Sidebar = ({
         shape={ButtonShape.RECT}
         orientation={ButtonOrientation.STACKED}
       >
-        <BIcon name={'view_list'} size={26} weight={400} />
+        <BIcon name={'view_list'} size={26} weight={400}/>
         <InlineH5>{'Feed'}</InlineH5>
       </ShowBtn>
       <FixedSidebarWrapper hide={hide}>
         <FullHeightBCard noShadow={true} noPadding={false}>
           <HideBtn type="button" onClick={onToggleHide}>
-            <BIcon name={'close'} size={26} weight={600} />
+            <BIcon name={'close'} size={26} weight={600}/>
           </HideBtn>
           <Flex>
             <TimedSwitcher
               options={[
-                { value: hostList, delay: 3500000 },
-                { value: deviceList, delay: 7000 },
+                {value: hostList, delay: 3500000},
+                {value: deviceList, delay: 7000},
               ]}
             />
           </Flex>
@@ -179,6 +179,7 @@ const withHideable = ConnectedSidebar => {
       );
     }
   }
+
   return HideableSidebar;
 };
 

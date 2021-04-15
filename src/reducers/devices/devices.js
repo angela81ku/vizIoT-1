@@ -1,5 +1,5 @@
 import MomentUnit from '../../constants/MomentUnit';
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import deviceList from './deviceList';
 import lastSeen from './lastSeen';
 import numberOfConnections from './numberOfConnections';

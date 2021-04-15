@@ -1,17 +1,17 @@
 'use es6';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
   ACTIVE_FILL_COLOR,
   CARD_COLOR, HOVER_FILL_COLOR, TRON,
 } from 'VizIoT/styles/base/viz-theme';
-import { withClickable } from 'UIBean/CommonHOC';
-import { useInputValue } from 'UIBean/hooks/useInputValue';
+import {withClickable} from 'UIBean/CommonHOC';
+import {useInputValue} from 'UIBean/hooks/useInputValue';
 
 const CheckboxContainer = styled.label`
-  display: ${({ inline }) => inline ? 'inline-flex' : 'flex'};
+  display: ${({inline}) => inline ? 'inline-flex' : 'flex'};
   flex-direction: row;
   position: relative;
   justify-content: center;
@@ -23,12 +23,12 @@ const CheckboxContainer = styled.label`
   padding-right: 16px;
 
   background: ${CARD_COLOR};
-  color: ${({ isChecked }) => isChecked ? TRON : 'white'};
+  color: ${({isChecked}) => isChecked ? TRON : 'white'};
   ${
-    ({ isChecked }) => isChecked 
-      ? `border: solid ${TRON} 1px;`
-      : 'border: solid #ffffff21 1px;'
-  };
+  ({isChecked}) => isChecked
+    ? `border: solid ${TRON} 1px;`
+    : 'border: solid #ffffff21 1px;'
+};
   border-radius: 4rem;
   transition: background 0.2s;
 
@@ -103,7 +103,7 @@ const Checkmark = styled.span`
 
 `;
 
-const BCheckBox = ({ onChange, title, ...rest }) => {
+const BCheckBox = ({onChange, title, ...rest}) => {
 
   const inputProps = useInputValue(false, onChange);
   const value = inputProps.value;
@@ -111,14 +111,15 @@ const BCheckBox = ({ onChange, title, ...rest }) => {
   return (
     <CheckboxContainer isChecked={value} {...rest}>
       <input type="checkbox" {...inputProps} />
-      <Checkmark className="checkmark" />
+      <Checkmark className="checkmark"/>
       {title}
     </CheckboxContainer>
   );
 };
 
 BCheckBox.defaultProps = {
-  onChange: () => {},
+  onChange: () => {
+  },
   title: 'Checkbox',
   inline: false,
 };

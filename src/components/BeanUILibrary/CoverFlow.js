@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
 class CoverFlow extends React.Component {
   render() {
-    const { classNames, keyName, children, onLeft, onRight } = this.props;
+    const {classNames, keyName, children, onLeft, onRight} = this.props;
     return (
       <div className={classnames('coverFlow', classNames)}>
         {/*<div*/}
-          {/*className="coverFlow__leftButton coverFlow__button"*/}
-          {/*onClick={onLeft}*/}
+        {/*className="coverFlow__leftButton coverFlow__button"*/}
+        {/*onClick={onLeft}*/}
         {/*>*/}
-          {/*<i className="fas fa-angle-left" />*/}
+        {/*<i className="fas fa-angle-left" />*/}
         {/*</div>*/}
         {/*<div*/}
-          {/*className="coverFlow__rightButton coverFlow__button"*/}
-          {/*onClick={onRight}*/}
+        {/*className="coverFlow__rightButton coverFlow__button"*/}
+        {/*onClick={onRight}*/}
         {/*>*/}
-          {/*<i className="fas fa-angle-right" />*/}
+        {/*<i className="fas fa-angle-right" />*/}
         {/*</div>*/}
         <TransitionGroup>
           <CSSTransition

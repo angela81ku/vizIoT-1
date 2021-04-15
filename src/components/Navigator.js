@@ -1,16 +1,16 @@
 'use es6';
 
-import { JustifyContent } from './BeanUILibrary/Flex';
-import { getTabByPath, tabKeys, Tabs } from '../constants/TabNavigation';
+import {JustifyContent} from './BeanUILibrary/Flex';
+import {getTabByPath, tabKeys, Tabs} from '../constants/TabNavigation';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TabColumn from '../components/BeanUILibrary/TabColumn';
 import TabItem from '../components/BeanUILibrary/TabItem';
-import { TRON } from '../styles/base/viz-theme';
-import { H3 } from './BeanUILibrary/functional-css/TypographyStyles';
+import {TRON} from '../styles/base/viz-theme';
+import {H3} from './BeanUILibrary/functional-css/TypographyStyles';
 import Flex from '../components/BeanUILibrary/Flex';
-import { _sticky } from './BeanUILibrary/functional-css/layout';
+import {_sticky} from './BeanUILibrary/functional-css/layout';
 
 const NavMenu = styled(TabColumn)`
   width: 100%;
@@ -18,7 +18,7 @@ const NavMenu = styled(TabColumn)`
 `;
 
 const TabItemStyled = styled(TabItem)`
-  ${({ active }) => active && `
+  ${({active}) => active && `
     border-left: 1px solid ${TRON};
     border-right: 1px solid ${TRON};
     background-color: ${TRON}26;
@@ -34,7 +34,7 @@ const MenuText = styled.div`
   text-transform: uppercase;
   font-weight: 600;
   margin: 0;
-  ${({ active }) => active && `
+  ${({active}) => active && `
     color: ${TRON};
   `}
 `;
@@ -53,10 +53,10 @@ const withHideable = (Component, hideStyle = '', visibleStyle = '', style = '') 
 
   const EnhancedWithHiddenStyles = styled(Component)`
     ${style}
-    ${({ isHidden }) => isHidden ? hideStyle : visibleStyle}
+    ${({isHidden}) => isHidden ? hideStyle : visibleStyle}
   `;
 
-  const HoC = ({ children, ...props }) =>
+  const HoC = ({children, ...props}) =>
     (
       <EnhancedWithHiddenStyles {...props}>
         {children}
@@ -79,10 +79,10 @@ const withHideable = (Component, hideStyle = '', visibleStyle = '', style = '') 
   return HoC;
 };
 
-const NavigatorComponent = ({ location, ...rest }) => {
+const NavigatorComponent = ({location, ...rest}) => {
 
   const maybeTab = getTabByPath(location.pathname);
-  const { key } = maybeTab || {};
+  const {key} = maybeTab || {};
 
   return (
     <Navigator alignItems={JustifyContent.CENTER}
@@ -91,7 +91,7 @@ const NavigatorComponent = ({ location, ...rest }) => {
     >
       <NavMenu>
         {Object.keys(tabKeys).map(k => {
-          const { title, path } = Tabs[k];
+          const {title, path} = Tabs[k];
           return (
             <TabItemStyled key={k} active={key === k} to={path}>
               <MenuText active={key === k}>{title}</MenuText>

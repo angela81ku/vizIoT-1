@@ -1,6 +1,6 @@
 'use es6';
 
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 export const useScroll = callback => {
 

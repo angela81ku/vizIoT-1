@@ -4,7 +4,7 @@ export const transformData = data => {
 
   if (data && data.length) {
     const catchUpSeconds = 2;
-    return data.map(({ startMS, size: sizeData }) => {
+    return data.map(({startMS, size: sizeData}) => {
       const packetData = [];
       if (sizeData.length) {
         sizeData.forEach((yData) => {

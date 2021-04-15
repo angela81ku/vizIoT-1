@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { getProp } from 'UIBean/UtilGet';
+import {getProp} from 'UIBean/UtilGet';
 
 const GridDiv = styled.div`
   display: grid;
@@ -13,10 +13,10 @@ const GridDiv = styled.div`
 `;
 
 const Grid = ({
-  columnSettings: { number: numCols, sizes: widthPriority },
-  rowSettings: { number: numRows, sizes: heightPriority },
-  children,
-}) => {
+                columnSettings: {number: numCols, sizes: widthPriority},
+                rowSettings: {number: numRows, sizes: heightPriority},
+                children,
+              }) => {
   return (
     <GridDiv numCols={numCols} min={widthPriority[0]} max={widthPriority[1]}>
       {children}

@@ -1,7 +1,7 @@
 'use es6';
 
-import { Record } from 'immutable';
-import { standardize as standardizeMac } from 'mac-address-util';
+import {Record} from 'immutable';
+import {standardize as standardizeMac} from 'mac-address-util';
 import * as R from 'ramda';
 
 /* Device entity */

@@ -31,10 +31,10 @@ class TabTitle extends React.Component {
       <div className={`tabTitle__wrapper ${this.props.show ? 'show' : ''}`}>
         <header
           className={`tabTitle fade ${(this.state.showShadow && 'showShadow') ||
-            ''}`}
+          ''}`}
         >
           <Flex>
-            <div className="tabTitle__leftPlaceholder" />
+            <div className="tabTitle__leftPlaceholder"/>
             <div className="tabTitle__title">
               <div>
                 <h3>
@@ -43,7 +43,7 @@ class TabTitle extends React.Component {
               </div>
               <h3>{this.props.subtitle}</h3>
             </div>
-            <div className="tabTitle__rightStuff" />
+            <div className="tabTitle__rightStuff"/>
           </Flex>
         </header>
       </div>

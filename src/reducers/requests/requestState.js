@@ -1,6 +1,6 @@
 'use es6';
 
-import { createReducer } from 'redux-act';
+import {createReducer} from 'redux-act';
 import NetworkState from 'VizIoT/constants/NetworkState';
 
 const defaultMiddleware = (state, rawRequestData) => {

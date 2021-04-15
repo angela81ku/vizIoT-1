@@ -7,11 +7,11 @@ import {
   ACTIVE_FILL_COLOR,
   CARD_COLOR, HOVER_FILL_COLOR,
 } from 'VizIoT/styles/base/viz-theme';
-import { withClickable } from 'UIBean/CommonHOC';
-import { useInputValue } from 'UIBean/hooks/useInputValue';
+import {withClickable} from 'UIBean/CommonHOC';
+import {useInputValue} from 'UIBean/hooks/useInputValue';
 
 const StyledInput = styled.input`
-  display: ${({ inline }) => inline ? 'inline-flex' : 'flex'};
+  display: ${({inline}) => inline ? 'inline-flex' : 'flex'};
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const BTextInput = ({ onChange, ...rest }) => {
+const BTextInput = ({onChange, ...rest}) => {
 
   const inputProps = useInputValue('', onChange);
 
@@ -49,7 +49,8 @@ const BTextInput = ({ onChange, ...rest }) => {
 
 BTextInput.defaultProps = {
   placeholder: 'enter text here',
-  onChange: () => {},
+  onChange: () => {
+  },
   inline: false,
 };
 

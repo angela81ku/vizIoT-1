@@ -3,7 +3,7 @@ import {
   successCoreAnalyze,
   failureCoreAnalyze,
 } from '../../actions/analyzeActions';
-import { createReducer } from 'redux-act';
+import {createReducer} from 'redux-act';
 import NetworkState from '../../constants/NetworkState';
 import TimeDimension from '../../data/dimensions/TimeDimension';
 
@@ -74,7 +74,7 @@ const defaultState = {
 //   }
 // };
 
-const onSuccess = (state, { payload, requestBody }) => {
+const onSuccess = (state, {payload, requestBody}) => {
   return {
     ...state,
     networkState: NetworkState.READY,

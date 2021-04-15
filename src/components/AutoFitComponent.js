@@ -67,7 +67,7 @@ class AutoFitComponent extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
+    const {children} = this.props;
 
     const shouldRenderChart =
       this.state.containerWidth &&

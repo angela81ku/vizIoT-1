@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import LiveLineGraph from 'VizIoT/components/d3/LiveLineGraph';
 import MomentUnit from 'VizIoT/constants/MomentUnit';
 import AutoFitComponent from './AutoFitComponent';
-import { SPACING } from 'VizIoT/data/records/Spacing';
-import Flex, { FlexDirection } from 'UIBean/Flex';
+import {SPACING} from 'VizIoT/data/records/Spacing';
+import Flex, {FlexDirection} from 'UIBean/Flex';
 import styled from 'styled-components';
-import { H4 } from 'UIBean/functional-css/TypographyStyles';
-import { EXTRA_LIGHT_COLOR } from 'VizIoT/styles/base/viz-theme';
+import {H4} from 'UIBean/functional-css/TypographyStyles';
+import {EXTRA_LIGHT_COLOR} from 'VizIoT/styles/base/viz-theme';
 
 const Title = styled.div`
   ${H4}
@@ -40,7 +40,7 @@ const LineChart = ({title, subtitle, data, dataWindowSize, lineColors, className
             width: 0,
             height: 0,
           }}
-          padding={new SPACING({ l: 20, r: 0, t: 20, b: 20 })}
+          padding={new SPACING({l: 20, r: 0, t: 20, b: 20})}
           transitionDuration={1000}
           lineColors={lineColors}
         />

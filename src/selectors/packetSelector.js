@@ -1,6 +1,6 @@
 'use es6';
 
-import { path, pathOr } from 'ramda';
+import {path, pathOr} from 'ramda';
 
 // Loose selectors for MVP, when reporting api is done, we will switch to generic selectors and hopefully these will be gone.
 

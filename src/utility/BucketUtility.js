@@ -3,6 +3,6 @@ export const getBucketKey = (bucketUnit, bucketSize, bucketProps) => {
 };
 
 export const getBucketKeyWithConfig = bucketConfig => {
-  const { bucketUnit, bucketSize, bucketProps } = bucketConfig;
+  const {bucketUnit, bucketSize, bucketProps} = bucketConfig;
   return getBucketKey(bucketUnit, bucketSize, bucketProps);
 };

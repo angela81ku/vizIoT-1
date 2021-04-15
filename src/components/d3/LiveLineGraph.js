@@ -1,18 +1,18 @@
-import React, { Component, PureComponent, useEffect, useState } from 'react';
+import React, {Component, PureComponent, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { scaleLinear, scaleTime } from 'd3-scale';
-import { max, range } from 'd3-array';
-import { select } from 'd3-selection';
-import { timeSecond } from 'd3-time';
-import { axisRight, axisBottom } from 'd3-axis';
-import { format, formatPrefix } from 'd3-format';
-import { timeFormat } from 'd3-time-format';
-import { curveBasis, curveMonotoneX, curveStep, line } from 'd3-shape';
-import { easeLinear } from 'd3-ease';
-import { active, transition } from 'd3-transition';
-import { interval } from 'd3-timer';
+import {scaleLinear, scaleTime} from 'd3-scale';
+import {max, range} from 'd3-array';
+import {select} from 'd3-selection';
+import {timeSecond} from 'd3-time';
+import {axisRight, axisBottom} from 'd3-axis';
+import {format, formatPrefix} from 'd3-format';
+import {timeFormat} from 'd3-time-format';
+import {curveBasis, curveMonotoneX, curveStep, line} from 'd3-shape';
+import {easeLinear} from 'd3-ease';
+import {active, transition} from 'd3-transition';
+import {interval} from 'd3-timer';
 import moment from 'moment';
-import { SPACING } from '../../data/records/Spacing';
+import {SPACING} from '../../data/records/Spacing';
 
 // my imports
 import * as d3Coll from 'd3-collection';
@@ -35,7 +35,7 @@ class RollingXAxis extends Component {
       return;
     }
 
-    const { node } = this.props;
+    const {node} = this.props;
     const item = node.select('.xAxis');
 
     const repeat = () => {
@@ -59,21 +59,21 @@ class RollingXAxis extends Component {
   }
 
   getLiveDomainForX = () => {
-    const { dataWindowSize, dataWindowUnit } = this.props;
+    const {dataWindowSize, dataWindowUnit} = this.props;
     const nowMoment = moment().second(0);
     const xStart = nowMoment
       .clone()
       .subtract(dataWindowSize, dataWindowUnit)
       .toDate();
     const xEnd = nowMoment.toDate();
-    return { xStart, xEnd };
+    return {xStart, xEnd};
   };
 
   // xStart, xEnd are times.
   render() {
-    const { node, translateX, translateY, width } = this.props;
+    const {node, translateX, translateY, width} = this.props;
 
-    const { xStart, xEnd } = this.getLiveDomainForX();
+    const {xStart, xEnd} = this.getLiveDomainForX();
 
     const redrawXAxis = (xAxis) => {
       return g => {
@@ -139,29 +139,29 @@ class LiveLineGraph extends Component {
   static getGraphDimensions(props) {
     const {
       padding,
-      dimension: { width, height },
+      dimension: {width, height},
     } = props;
-    const { l, r, t, b } = padding;
+    const {l, r, t, b} = padding;
 
     const graphWidth = width - l - r;
     const graphHeight = height - t - b;
 
-    return { graphWidth, graphHeight };
+    return {graphWidth, graphHeight};
   }
 
   getLiveDomainForX = () => {
-    const { dataWindowSize, dataWindowUnit } = this.props;
+    const {dataWindowSize, dataWindowUnit} = this.props;
     const nowMoment = moment();
     const xStart = nowMoment
       .clone()
       .subtract(dataWindowSize, dataWindowUnit)
       .toDate();
     const xEnd = nowMoment.toDate();
-    return { xStart, xEnd };
+    return {xStart, xEnd};
   };
 
   mapPropsToState = props => {
-    const { data, transitionDuration, lineColors } = props;
+    const {data, transitionDuration, lineColors} = props;
 
     const lColors = lineColors ? lineColors : ['#13d4b7'];
 
@@ -184,7 +184,7 @@ class LiveLineGraph extends Component {
   };
 
   componentWillUnmount() {
-    const { looper, transitionLoop } = this.state;
+    const {looper, transitionLoop} = this.state;
 
     if (looper) {
       clearInterval(looper);
@@ -206,7 +206,7 @@ class LiveLineGraph extends Component {
   componentDidUpdate() {
     // After render, turn flag false to prevent further renders
 
-    this.setState({ redraw: false });
+    this.setState({redraw: false});
   }
 
   componentWillReceiveProps(newProps) {
@@ -219,11 +219,11 @@ class LiveLineGraph extends Component {
       leftAxisMargin,
       xStart,
       xEnd,
-      graphDimensions: { graphWidth, graphHeight },
+      graphDimensions: {graphWidth, graphHeight},
       transitionAmount
     } = this.state;
 
-    const { transitionDuration } = this.props;
+    const {transitionDuration} = this.props;
 
     // =================================================================================================================
     // Start Data Update
@@ -401,10 +401,10 @@ class LiveLineGraph extends Component {
   }
 
   launchChart = () => {
-    const { data, padding } = this.props;
-    const { l, r, t, b } = padding;
-    const { leftAxisMargin, graphDimensions } = this.state;
-    const { graphWidth, graphHeight } = graphDimensions;
+    const {data, padding} = this.props;
+    const {l, r, t, b} = padding;
+    const {leftAxisMargin, graphDimensions} = this.state;
+    const {graphWidth, graphHeight} = graphDimensions;
 
     const graphData = data; // makeDummyGraphData(nowMoment);
 
@@ -437,15 +437,15 @@ class LiveLineGraph extends Component {
 
       // this.setState(() => ({ redraw: true }));
     }, 1000); // 4s loop
-    this.setState({ transitionLoop: looper });
+    this.setState({transitionLoop: looper});
   };
 
   startRenderLoop = () => {
     const looper = setInterval(
       () => {
         this.onEachLoop();
-        }, 500);
-    this.setState({ looper });
+      }, 500);
+    this.setState({looper});
   };
 
   onEachLoop = () => {
@@ -511,21 +511,22 @@ class LiveLineGraph extends Component {
   render() {
 
     const {
-      dimension: { width, height },
+      dimension: {width, height},
       dataWindowSize, dataWindowUnit,
     } = this.props;
 
-    const { leftAxisMargin, xStart, xEnd, graphDimensions: { graphWidth, graphHeight },
+    const {
+      leftAxisMargin, xStart, xEnd, graphDimensions: {graphWidth, graphHeight},
     } = this.state;
 
     const svg = select(this.node);
     const g = svg.select('g');
 
     return (
-      <div style={{ overflow: 'visible'}} className="barChart-scrollable-wrapper">
+      <div style={{overflow: 'visible'}} className="barChart-scrollable-wrapper">
         <RollingXAxis node={g}
                       translateX={leftAxisMargin} translateY={graphHeight} width={graphWidth}
-                      dataWindowSize={dataWindowSize} dataWindowUnit={dataWindowUnit} />
+                      dataWindowSize={dataWindowSize} dataWindowUnit={dataWindowUnit}/>
         <svg
           ref={node => (this.node = node)}
           viewBox={`0 0 ${width} ${height}`}

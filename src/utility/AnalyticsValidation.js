@@ -1,7 +1,7 @@
 'use es6';
 
 export const verifyRow = (row, numDimensions, numMetrics) => {
-  const { dimensions, metrics } = row;
+  const {dimensions, metrics} = row;
   return (
     dimensions &&
     metrics &&

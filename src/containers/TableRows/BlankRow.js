@@ -14,11 +14,11 @@ import {
 } from "./ColumnStyles";
 
 export const BlankRow = ({
-  sentColor,
-  receivedColor,
-  height,
-  width,
-}) => {
+                           sentColor,
+                           receivedColor,
+                           height,
+                           width,
+                         }) => {
 
   const minHeight = 50;
   const relHeight = height < minHeight ? minHeight : height;
@@ -67,12 +67,12 @@ export const BlankRow = ({
         </CountryColumn>
       </SolidRow>
     </DestinationColumn>
-    <GraphColumn colWidth={graphWidth} style={{alignContent:'center'}}>
+    <GraphColumn colWidth={graphWidth} style={{alignContent: 'center'}}>
       ~
     </GraphColumn>
     <MetricColumn colWidth={metricWidth}>
       <SolidRow height='50%'>
-        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft: '5%'}}>
           <BIcon name='arrow-circle-up-outline' type='eva' size={28} color={(sentColor ? sentColor : '#ff1e00')}/>
         </MetricSymbolColumn>
         {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
@@ -81,8 +81,9 @@ export const BlankRow = ({
         </OverallMetricColumn>
       </SolidRow>
       <SolidRow height='50%'>
-        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft:'5%'}}>
-          <BIcon name='arrow-circle-down-outline' type='eva' size={28} color={(receivedColor ? receivedColor : '#0073ff')}/>
+        <MetricSymbolColumn colWidth={metricSymbolWidth} style={{paddingLeft: '5%'}}>
+          <BIcon name='arrow-circle-down-outline' type='eva' size={28}
+                 color={(receivedColor ? receivedColor : '#0073ff')}/>
         </MetricSymbolColumn>
         {renderBlankRecentMetricColumn(relWidths.RecentMetricColumn, recentMetricWidth)}
         <OverallMetricColumn colWidth={overallMetricWidth}>
