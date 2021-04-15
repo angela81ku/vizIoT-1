@@ -10,7 +10,7 @@ const deviceData = {};
 // keeps track of top 3 devices
 let devicesInUse = {};
 
-export const addTopThreeIOData = (devices) => {
+export const addDeviceIOData = (devices) => {
 
   const currentlyInUse = {};
 
@@ -61,6 +61,6 @@ export const addTopThreeIOData = (devices) => {
   devicesInUse = currentlyInUse;
 }
 
-export const getTopThreeIOData = () => {
+export const getDeviceIOData = () => {
   return devicesInUse;
 }

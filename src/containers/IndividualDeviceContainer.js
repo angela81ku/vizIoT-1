@@ -16,8 +16,8 @@ import {getDevices} from '../data/aggregators/DeviceAggregator';
 import DeviceCollectionNormalized from '../components/device/DeviceCollectionNormalized';
 import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {TopThree} from '../socket/subscribe';
-import {parseTop3IO} from '../data/api/packetApi';
-import {getTopThreeIOData} from '../data/aggregators/TopThreeIOAggregator';
+import {parseDeviceIO} from '../data/api/packetApi';
+import {getDeviceIOData} from '../data/aggregators/TopThreeIOAggregator';
 import LineGraphPage from './LineGraphPage';
 import {usePersistentSocket} from '../components/BeanUILibrary/hooks/usePersistentSocket';
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import {pushRealTimeIOTraffic, pushRealTimeIOMetricTraffic} from '../actions/packetActions';
 import {selectRealTimeIOTraffic, selectRealTimeIOMetricTraffic} from '../selectors/packetSelector';
-import {IOCount, IOMetric, TopThreeIO} from '../socket/subscribe';
+import {IOCount, IOMetric, DeviceDataIO} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {factFactory} from '../Factories/FactFactory';
 import {resourceFactory} from '../Factories/ResourceFactory';
-import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
-import {parseTop3IO} from "../data/api/packetApi";
+import {getDeviceIOData} from "../data/aggregators/TopThreeIOAggregator";
+import {parseDeviceIO} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDeviceData} from "../data/api/devicesApi";
 import {getDevices} from "../data/aggregators/DeviceAggregator";
@@ -23,7 +23,7 @@ export const SentReceivedTab = ({}) => {
 
   const graphResources = resourceFactory(IOCount, selectRealTimeIOTraffic, pushRealTimeIOTraffic)
   const metricResources = resourceFactory(IOMetric, selectRealTimeIOMetricTraffic, pushRealTimeIOMetricTraffic)
-  const individualGraphResources = resourceFactory(TopThreeIO, getTopThreeIOData, parseTop3IO)
+  const individualGraphResources = resourceFactory(DeviceDataIO, getDeviceIOData, parseDeviceIO)
   const deviceFetcher = fetcherFactory(fetchDeviceData, getDevices, 15000)
 
   const cardSymbols = ['box', 'arrow-alt-circle-up', 'arrow-alt-circle-down']

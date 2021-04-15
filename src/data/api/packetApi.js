@@ -3,7 +3,7 @@
 import {baseUrlApi, newPacketUrl} from '../../constants/RequestConstants';
 import {Record} from 'immutable';
 import {postCallWithRecord} from './apiUtils';
-import {addTopThreeIOData} from '../aggregators/TopThreeIOAggregator';
+import {addDeviceIOData} from '../aggregators/TopThreeIOAggregator';
 import {addTopThreeProtocolData} from "../aggregators/TopThreeProtocolAggregator";
 
 export const packetApiKeys = {
@@ -21,10 +21,10 @@ export const packetApi = {
   },
 };
 
-export const parseTop3IO = res => {
+export const parseDeviceIO = res => {
   if (res.hasOwnProperty('deviceData')) {
     const deviceObject = res.deviceData;
-    addTopThreeIOData(deviceObject);
+    addDeviceIOData(deviceObject);
   } else {
     console.log('No deviceData in message from server')
   }

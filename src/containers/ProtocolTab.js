@@ -7,12 +7,12 @@ import {
   selectRealTimeProtocolMetricTraffic,
   selectRealTimeProtocolTraffic
 } from '../selectors/packetSelector';
-import {IOMetric, ProtocolCount, ProtocolMetric, TopThreeIO, TopThreeProtocol} from '../socket/subscribe';
+import {IOMetric, ProtocolCount, ProtocolMetric, DeviceDataIO, TopThreeProtocol} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {factFactory} from '../Factories/FactFactory';
-import {getTopThreeIOData} from "../data/aggregators/TopThreeIOAggregator";
-import {parseTop3IO, parseTop3Protocol} from "../data/api/packetApi";
+import {getDeviceIOData} from "../data/aggregators/TopThreeIOAggregator";
+import {parseDeviceIO, parseTop3Protocol} from "../data/api/packetApi";
 import {fetcherFactory} from "../Factories/FetcherFactory";
 import {fetchDeviceData} from "../data/api/devicesApi";
 import {getDeviceProtocolData, getDevices} from "../data/aggregators/DeviceAggregator";

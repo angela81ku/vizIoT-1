@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import {connect} from "react-redux";
 import {TopThree} from '../../socket/subscribe'
-import {parseTop3IO} from "../../data/api/packetApi";
+import {parseDeviceIO} from "../../data/api/packetApi";
 import {useSocket} from "../BeanUILibrary/hooks/useSocket";
 import {call} from "ramda";
 import {transformData} from "../../data/processors/TransformGraphData";
