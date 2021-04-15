@@ -13,7 +13,7 @@ const DeviceSchema = new mongoose.Schema({
   deviceCategory: {
     type: [String],
     default: [],
-  }
+  },
 })
 
 

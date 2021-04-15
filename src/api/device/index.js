@@ -1,4 +1,3 @@
-
 const express = require('express')
 const ctrl = require('./device.ctrl')
 
@@ -12,7 +11,6 @@ router
 router
   .route('/device/connections')
   .get(ctrl.getDeviceConnections)
-
 
 
 module.exports = router

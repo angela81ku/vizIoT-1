@@ -1,7 +1,6 @@
-
 function initSocketIO(http) {
 
-  const Server = require('socket.io');
+  const Server = require('socket.io')
   const io = new Server(http)
   const TcpDataDa = require('./api/tcpData/tcpData.da')
 
@@ -20,19 +19,19 @@ function initSocketIO(http) {
 
   chat.on('connection', function (socket) {
     // console.log('a cat user connected');
-    socket.on('/chat/message', function(data) {
+    socket.on('/chat/message', function (data) {
       // chat.emit('/chat/message', data)
       // socket.broadcast.emit('/chat/message', data);
 
       // console.log(data)
     })
-    socket.on('/total/count', function(data) {
+    socket.on('/total/count', function (data) {
       // chat.emit('/chat/message', data)
       // socket.broadcast.emit('/chat/message', data);
 
       // console.log(data)
     })
-    socket.on('/total/count/500ms', function(data) {
+    socket.on('/total/count/500ms', function (data) {
       // chat.emit('/chat/message', data)
       // socket.broadcast.emit('/chat/message', data);
 
@@ -48,7 +47,7 @@ function initSocketIO(http) {
     //   everyone: 'in',
     //   '/chat': 'will get'
     // });
-  });
+  })
 
 
   const interval = 1000
@@ -60,39 +59,39 @@ function initSocketIO(http) {
   setInterval(async () => {
     const result = await TcpDataDa.getTotalCountFromStartOfTheDay()
     // console.log(result)
-    chat.emit('/total/count', result);
+    chat.emit('/total/count', result)
   }, interval)
 
   setInterval(async () => {
     const result = await TcpDataDa.getTotalCountOfRecentDataWithinNSeconds(interval)
     // console.log(result)
-    chat.emit('/total/count/1s', result);
+    chat.emit('/total/count/1s', result)
   }, interval)
 
- setInterval(async () => {
+  setInterval(async () => {
     const result = await TcpDataDa.getTotalSizeFromStartOfTheDay(interval)
     // console.log(result)
-    chat.emit('/total/size', result);
+    chat.emit('/total/size', result)
   }, interval)
 
 
   setInterval(async () => {
     const result = await TcpDataDa.getTotalSizeOfRecentDataWithinNSeconds(interval)
     // console.log(result)
-    chat.emit('/total/size/1s', result);
+    chat.emit('/total/size/1s', result)
   }, interval)
 
 
   setInterval(async () => {
     const result = await TcpDataDa.getAggregateMacAddressSizeDataWithinNSeconds(interval)
     // console.log(result)
-    chat.emit('/individual/size/1s', result);
+    chat.emit('/individual/size/1s', result)
   }, interval)
 
   setInterval(async () => {
     const result = await TcpDataDa.getAggregateMacAddressSizeDataFromStartOfTheDay()
     // console.log(result)
-    chat.emit('/individual/size', result);
+    chat.emit('/individual/size', result)
   }, interval)
 
   const tenMinutes = 10 * 60 * 1000
@@ -100,14 +99,14 @@ function initSocketIO(http) {
   setInterval(async () => {
     const result = await TcpDataDa.getTotalSizeOfRecentDataWithinNSeconds(tenMinutes)
     // console.log(result)
-    chat.emit('/total/size/10min', result);
+    chat.emit('/total/size/10min', result)
   }, interval)
 
 
   setInterval(async () => {
     const result = await TcpDataDa.getTotalCountOfRecentDataWithinNSeconds(tenMinutes)
     // console.log(result)
-    chat.emit('/total/count/10min', result);
+    chat.emit('/total/count/10min', result)
   }, interval)
 
   const oneMinute = 1 * 60 * 1000
@@ -115,61 +114,61 @@ function initSocketIO(http) {
   setInterval(async () => {
     const result = await TcpDataDa.getTotalSizeOfRecentDataWithinNSeconds(oneMinute)
     // console.log(result)
-    chat.emit('/total/size/1min', result);
+    chat.emit('/total/size/1min', result)
   }, interval)
 
 
   setInterval(async () => {
     const result = await TcpDataDa.getTotalCountOfRecentDataWithinNSeconds(oneMinute)
     // console.log(result)
-    chat.emit('/total/count/1min', result);
+    chat.emit('/total/count/1min', result)
   }, interval)
 
   setInterval(async () => {
     // console.log('starting get');
-    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval);
+    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval)
 
     // shear total off of the metrics for live line graph
-    result.size = result.size.slice(1);
-    
-    chat.emit('/total/IO/1s', result);
+    result.size = result.size.slice(1)
+
+    chat.emit('/total/IO/1s', result)
     // chat.emit('/total/IO/metric/1s', tempMetric);
   }, interval)
 
   setInterval(async () => {
-    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval);
+    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval)
 
-    chat.emit('/total/protocol/1s', result);
+    chat.emit('/total/protocol/1s', result)
   }, interval)
 
   setInterval(async () => {
     // console.log('starting get');
-    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval * 60);
+    const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval * 60)
 
-    chat.emit('/total/IO/metric/1s', result);
+    chat.emit('/total/IO/metric/1s', result)
   }, interval)
 
   setInterval(async () => {
     // console.log('starting get');
-    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval * 60);
+    const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval * 60)
 
-    chat.emit('/total/protocol/metric/1s', result);
+    chat.emit('/total/protocol/metric/1s', result)
   }, interval)
 
   // send top 3 devices for IO devices here
   setInterval(async () => {
 
-    const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval);
-    const thirtySecondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30);
+    const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval)
+    const thirtySecondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30)
 
-    const awaitVals = await Promise.all([secondData, thirtySecondData]);
-    const second = awaitVals[0];
-    const thirtySeconds = awaitVals[1];
+    const awaitVals = await Promise.all([secondData, thirtySecondData])
+    const second = awaitVals[0]
+    const thirtySeconds = awaitVals[1]
 
-    const devices = [];
+    const devices = []
 
     Object.keys(thirtySeconds.deviceData).forEach(d => {
-      const secondDevice = second.deviceData[d];
+      const secondDevice = second.deviceData[d]
       if (secondDevice) {
         devices.push({
           macAddress: d,
@@ -200,32 +199,34 @@ function initSocketIO(http) {
       }
     })
 
-    devices.sort((a, b) => { return a.totalTraffic - b.totalTraffic })
+    devices.sort((a, b) => {
+      return a.totalTraffic - b.totalTraffic
+    })
 
     // console.log(devices)
-    const sortedDevices = devices.slice(-3);
+    const sortedDevices = devices.slice(-3)
 
     const deviceData = {
       deviceData: sortedDevices,
     }
 
-    chat.emit('/data/top3/IO/1s', deviceData);
+    chat.emit('/data/top3/IO/1s', deviceData)
   }, interval)
 
   // send top 3 devices for Protocol here
   setInterval(async () => {
 
-    const secondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval);
-    const thirtySecondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval * 30);
+    const secondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval)
+    const thirtySecondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval * 30)
 
-    const awaitVals = await Promise.all([secondData, thirtySecondData]);
-    const second = awaitVals[0];
-    const thirtySeconds = awaitVals[1];
+    const awaitVals = await Promise.all([secondData, thirtySecondData])
+    const second = awaitVals[0]
+    const thirtySeconds = awaitVals[1]
 
-    const devices = [];
+    const devices = []
 
     Object.keys(thirtySeconds.deviceData).forEach(d => {
-      const secondDevice = second.deviceData[d];
+      const secondDevice = second.deviceData[d]
       if (secondDevice) {
         devices.push({
           macAddress: d,
@@ -258,24 +259,24 @@ function initSocketIO(http) {
     })
 
     devices.sort((a, b) => {
-      return (a.tcpTraffic + a.udpTraffic + a.httpTraffic + a.dnsTraffic) - (b.tcpTraffic + b.udpTraffic + b.httpTraffic + b.dnsTraffic) })
+      return (a.tcpTraffic + a.udpTraffic + a.httpTraffic + a.dnsTraffic) - (b.tcpTraffic + b.udpTraffic + b.httpTraffic + b.dnsTraffic)
+    })
 
-    const sortedDevices = devices.slice(-3);
+    const sortedDevices = devices.slice(-3)
 
     const deviceData = {
       deviceData: sortedDevices,
     }
 
-    chat.emit('/data/top3/protocol/1s', deviceData);
+    chat.emit('/data/top3/protocol/1s', deviceData)
   }, interval)
-
 
 
   setInterval(async () => {
     // console.log('starting get');
-    const connections = await TcpDataDa.getConnectionSentReceivedDataWithinNSeconds(interval);
+    const connections = await TcpDataDa.getConnectionSentReceivedDataWithinNSeconds(interval)
 
-    chat.emit('/data/connections/1s', {connections});
+    chat.emit('/data/connections/1s', {connections})
   }, 1000)
 
 

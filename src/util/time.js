@@ -1,17 +1,17 @@
-const moment = require('moment');
+const moment = require('moment')
 
 function getStartOfToday() {
-  const now = moment();
-  now.millisecond(0);
-  now.second(0);
-  now.minute(0);
-  now.hour(0);
+  const now = moment()
+  now.millisecond(0)
+  now.second(0)
+  now.minute(0)
+  now.hour(0)
 
-  return now.valueOf();
+  return now.valueOf()
 }
 
 function getNow() {
-  return moment().valueOf();
+  return moment().valueOf()
 }
 
 module.exports = {

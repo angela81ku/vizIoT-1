@@ -29,8 +29,8 @@ function loadConfig() {
   if (!envConfig[env]) {
     throw new Error(
       `Environment config for environment '${env}' not found. process.env.NODE_ENV must be one of '${Object.keys(
-        envConfig
-      )}'`
+        envConfig,
+      )}'`,
     )
   }
 

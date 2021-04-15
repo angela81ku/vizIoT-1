@@ -28,7 +28,7 @@ class Server {
     // connect to local country database
     DeviceDa.startCountryDB()
       .then(r => console.log('Country db connected'))
-      .catch(e => console.log('error opening Country db'));
+      .catch(e => console.log('error opening Country db'))
 
     // populate device map for device-based queries
     DeviceDa.populateDeviceMap()
@@ -41,13 +41,13 @@ class Server {
       .catch(e => console.log('error populating device map'))
 
     // connect to database
-    mongoose.connect(this.config.db, { useNewUrlParser: true })
+    mongoose.connect(this.config.db, {useNewUrlParser: true})
       .then(() => {
         console.log(`[MongoDB] connected: ${this.config.db}`)
 
         // initialize api
         routesConfig(this.app)
-        const { initSocketIO } = require('./socketio')
+        const {initSocketIO} = require('./socketio')
         initSocketIO(this.http)
 
         // start server
