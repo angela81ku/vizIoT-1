@@ -158,24 +158,25 @@ function initSocketIO(http) {
   // send top 3 devices for IO devices here
   setInterval(async () => {
 
+    const metricLength = 30
     const secondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval)
-    const thirtySecondData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * 30)
+    const metricData = TcpDataDa.getDeviceSentReceivedDataWithinNSeconds(interval * metricLength)
 
-    const awaitVals = await Promise.all([secondData, thirtySecondData])
+    const awaitVals = await Promise.all([secondData, metricData])
     const second = awaitVals[0]
-    const thirtySeconds = awaitVals[1]
+    const metric = awaitVals[1]
 
     const devices = []
 
-    Object.keys(thirtySeconds.deviceData).forEach(d => {
+    Object.keys(metric.deviceData).forEach(d => {
       const secondDevice = second.deviceData[d]
       if (secondDevice) {
         devices.push({
           macAddress: d,
-          velocity: (thirtySeconds.deviceData[d].total / 30),
-          totalTraffic: thirtySeconds.deviceData[d].total,
-          inTraffic: thirtySeconds.deviceData[d].received,
-          outTraffic: thirtySeconds.deviceData[d].sent,
+          velocity: (metric.deviceData[d].total / metricLength),
+          totalTraffic: metric.deviceData[d].total,
+          inTraffic: metric.deviceData[d].received,
+          outTraffic: metric.deviceData[d].sent,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
@@ -186,10 +187,10 @@ function initSocketIO(http) {
       } else {
         devices.push({
           macAddress: d,
-          velocity: (thirtySeconds.deviceData[d].total / 30),
-          totalTraffic: thirtySeconds.deviceData[d].total,
-          inTraffic: thirtySeconds.deviceData[d].received,
-          outTraffic: thirtySeconds.deviceData[d].sent,
+          velocity: (metric.deviceData[d].total / 30),
+          totalTraffic: metric.deviceData[d].total,
+          inTraffic: metric.deviceData[d].received,
+          outTraffic: metric.deviceData[d].sent,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
@@ -203,14 +204,15 @@ function initSocketIO(http) {
       return a.totalTraffic - b.totalTraffic
     })
 
-    // console.log(devices)
-    const sortedDevices = devices.slice(-3)
+    let devicesShown = 3
+    let fixedDevicesShown = devicesShown * -1
+    const sortedDevices = devices.slice(fixedDevicesShown)
 
     const deviceData = {
       deviceData: sortedDevices,
     }
 
-    chat.emit('/data/top3/IO/1s', deviceData)
+    chat.emit('/data/device/IO/1s', deviceData)
   }, interval)
 
   // send top 3 devices for Protocol here
