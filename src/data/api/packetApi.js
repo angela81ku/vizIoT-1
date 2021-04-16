@@ -4,7 +4,7 @@ import {baseUrlApi, newPacketUrl} from '../../constants/RequestConstants';
 import {Record} from 'immutable';
 import {postCallWithRecord} from './apiUtils';
 import {addDeviceIOData} from '../aggregators/DeviceDataIOAggregator';
-import {addTopThreeProtocolData} from "../aggregators/TopThreeProtocolAggregator";
+import {addDeviceProtocolData} from "../aggregators/DeviceDataProtocolAggregator";
 
 export const packetApiKeys = {
   PACKET: 'packet',
@@ -30,10 +30,10 @@ export const parseDeviceIO = res => {
   }
 }
 
-export const parseTop3Protocol = res => {
+export const parseDeviceProtocol = res => {
   if (res.hasOwnProperty('deviceData')) {
     const deviceObject = res.deviceData;
-    addTopThreeProtocolData(deviceObject);
+    addDeviceProtocolData(deviceObject);
   } else {
     console.log('No deviceData in message from server');
   }

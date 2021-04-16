@@ -10,7 +10,7 @@ const deviceData = {};
 // keeps track of top 3 devices
 let devicesInUse = {};
 
-export const addTopThreeProtocolData = (devices) => {
+export const addDeviceProtocolData = (devices) => {
 
   // console.log(deviceArray)
   const currentlyInUse = {};
@@ -62,6 +62,6 @@ export const addTopThreeProtocolData = (devices) => {
   devicesInUse = currentlyInUse;
 }
 
-export const getTopThreeProtocolData = () => {
+export const getDeviceProtocolData = () => {
   return devicesInUse;
 }

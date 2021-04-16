@@ -7,16 +7,16 @@ import {
   selectRealTimeProtocolMetricTraffic,
   selectRealTimeProtocolTraffic
 } from '../selectors/packetSelector';
-import {IOMetric, ProtocolCount, ProtocolMetric, DeviceDataIO, TopThreeProtocol} from '../socket/subscribe';
+import {IOMetric, ProtocolCount, ProtocolMetric, DeviceDataIO, DeviceDataProtocol} from '../socket/subscribe';
 import LineGraphPage from './LineGraphPage';
 import {resourceFactory} from '../Factories/ResourceFactory';
 import {factFactory} from '../Factories/FactFactory';
-import {getDeviceIOData} from "../data/aggregators/DeviceDataIOAggregator";
-import {parseDeviceIO, parseTop3Protocol} from "../data/api/packetApi";
-import {fetcherFactory} from "../Factories/FetcherFactory";
-import {fetchDeviceData} from "../data/api/devicesApi";
-import {getDeviceProtocolData, getDevices} from "../data/aggregators/DeviceAggregator";
-import {getTopThreeProtocolData} from "../data/aggregators/TopThreeProtocolAggregator";
+import {getDeviceIOData} from '../data/aggregators/DeviceDataIOAggregator';
+import {parseDeviceIO, parseDeviceProtocol} from '../data/api/packetApi';
+import {fetcherFactory} from '../Factories/FetcherFactory';
+import {fetchDeviceData} from '../data/api/devicesApi';
+import {getDevices} from '../data/aggregators/DeviceAggregator';
+import {getDeviceProtocolData} from '../data/aggregators/DeviceDataProtocolAggregator';
 
 
 export const ProtocolTab = ({}) => {
@@ -30,7 +30,7 @@ export const ProtocolTab = ({}) => {
 
   const resources = resourceFactory(ProtocolCount, selectRealTimeProtocolTraffic, pushRealTimeProtocolTraffic)
   const metricResources = resourceFactory(ProtocolMetric, selectRealTimeProtocolMetricTraffic, pushRealTimeProtocolMetricTraffic)
-  const individualGraphResources = resourceFactory(TopThreeProtocol, getTopThreeProtocolData, parseTop3Protocol)
+  const individualGraphResources = resourceFactory(DeviceDataProtocol, getDeviceProtocolData, parseDeviceProtocol)
   const deviceFetcher = fetcherFactory(fetchDeviceData, getDevices, 15000)
 
   resources.inUse = true;
