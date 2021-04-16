@@ -218,25 +218,26 @@ function initSocketIO(http) {
   // send top 3 devices for Protocol here
   setInterval(async () => {
 
+    const metricLength = 30
     const secondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval)
-    const thirtySecondData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval * 30)
+    const metricData = TcpDataDa.getDeviceProtocolDataWithinNSeconds(interval * metricLength)
 
-    const awaitVals = await Promise.all([secondData, thirtySecondData])
+    const awaitVals = await Promise.all([secondData, metricData])
     const second = awaitVals[0]
-    const thirtySeconds = awaitVals[1]
+    const metric = awaitVals[1]
 
     const devices = []
 
-    Object.keys(thirtySeconds.deviceData).forEach(d => {
+    Object.keys(metric.deviceData).forEach(d => {
       const secondDevice = second.deviceData[d]
       if (secondDevice) {
         devices.push({
           macAddress: d,
-          velocity: ((thirtySeconds.deviceData[d].TCP + thirtySeconds.deviceData[d].UDP + thirtySeconds.deviceData[d].HTTP + thirtySeconds.deviceData[d].DNS) / 30),
-          tcpTraffic: thirtySeconds.deviceData[d].TCP,
-          udpTraffic: thirtySeconds.deviceData[d].UDP,
-          httpTraffic: thirtySeconds.deviceData[d].HTTP,
-          dnsTraffic: thirtySeconds.deviceData[d].DNS,
+          velocity: ((metric.deviceData[d].TCP + metric.deviceData[d].UDP + metric.deviceData[d].HTTP + metric.deviceData[d].DNS) / 30),
+          tcpTraffic: metric.deviceData[d].TCP,
+          udpTraffic: metric.deviceData[d].UDP,
+          httpTraffic: metric.deviceData[d].HTTP,
+          dnsTraffic: metric.deviceData[d].DNS,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
@@ -246,11 +247,11 @@ function initSocketIO(http) {
       } else {
         devices.push({
           macAddress: d,
-          velocity: ((thirtySeconds.deviceData[d].TCP + thirtySeconds.deviceData[d].UDP + thirtySeconds.deviceData[d].HTTP + thirtySeconds.deviceData[d].DNS) / 30),
-          tcpTraffic: thirtySeconds.deviceData[d].TCP,
-          udpTraffic: thirtySeconds.deviceData[d].UDP,
-          httpTraffic: thirtySeconds.deviceData[d].HTTP,
-          dnsTraffic: thirtySeconds.deviceData[d].DNS,
+          velocity: ((metric.deviceData[d].TCP + metric.deviceData[d].UDP + metric.deviceData[d].HTTP + metric.deviceData[d].DNS) / 30),
+          tcpTraffic: metric.deviceData[d].TCP,
+          udpTraffic: metric.deviceData[d].UDP,
+          httpTraffic: metric.deviceData[d].HTTP,
+          dnsTraffic: metric.deviceData[d].DNS,
           data: {
             startMS: second.startMS,
             endMS: second.endMS,
@@ -264,13 +265,15 @@ function initSocketIO(http) {
       return (a.tcpTraffic + a.udpTraffic + a.httpTraffic + a.dnsTraffic) - (b.tcpTraffic + b.udpTraffic + b.httpTraffic + b.dnsTraffic)
     })
 
-    const sortedDevices = devices.slice(-3)
+    let devicesShown = 3
+    let fixedDevicesShown = devicesShown * -1
+    const sortedDevices = devices.slice(fixedDevicesShown)
 
     const deviceData = {
       deviceData: sortedDevices,
     }
 
-    chat.emit('/data/top3/protocol/1s', deviceData)
+    chat.emit('/data/device/protocol/1s', deviceData)
   }, interval)
 
 
