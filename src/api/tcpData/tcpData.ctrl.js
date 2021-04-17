@@ -25,8 +25,9 @@ async function getRecentDataWithinNSeconds(req, res) {
 async function getOneSecondDeviceConnectionData(req, res) {
   try {
     const currTime = Date.now()
+    const timePeriod = 35
     const connections = []
-    for (let i = 0; i < 35; ++i) {
+    for (let i = 0; i < timePeriod; ++i) {
       const endMS = (currTime - (i * 1000))
       const startMS = endMS - 1000
       const currConns = await TcpDataDa.getConnectionSentReceivedDataByTime(startMS, endMS)
