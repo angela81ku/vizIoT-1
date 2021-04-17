@@ -1,34 +1,26 @@
 import React, {useState, useEffect, useRef} from 'react';
-import styled from "styled-components";
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import BCard from "../components/BeanUILibrary/BCard";
-import {useSocket} from "../components/BeanUILibrary/hooks/useSocket";
+import BCard from '../components/BeanUILibrary/BCard';
+import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
 import {
-  DeviceConnection,
   DeviceConnectionPackets1s,
-  DeviceConnectionPackets5s,
-  DeviceConnectionPackets60s,
-} from "../socket/subscribe";
+} from '../socket/subscribe';
 import {
   addConnectionListener,
   addPacketListener,
-  getConnections,
-  getPackets, removeConnectionListener, removePacketListener
-} from "../data/aggregators/ConnectionAggregator";
-import {BlankRow} from "./TableRows/BlankRow";
-import {TableHeader} from "./TableRows/TableHeader";
-import {TableRow} from "./TableRows/TableRow";
+  removeConnectionListener, removePacketListener
+} from '../data/aggregators/ConnectionAggregator';
+import {BlankRow} from './TableRows/BlankRow';
+import {TableHeader} from './TableRows/TableHeader';
+import {TableRow} from './TableRows/TableRow';
 import {
   fetchFiveSecondConnections, fetchSecondConnections, fetchThirtySecondConnections,
-  parseConnectionPackets,
-  parseConnections,
-  parseFiveSecondConnectionPackets,
-  parseSecondConnectionPackets, parseSixtySecondConnectionPackets
-} from "../data/api/connectionsApi";
-import {useTimedFetcher} from "../components/BeanUILibrary/hooks/useTimedFetcher";
-import {fetchDeviceConnections} from "../data/api/devicesApi";
-import {useDimensions} from "../components/BeanUILibrary/hooks/useDimensions";
+  parseSecondConnectionPackets } from '../data/api/connectionsApi';
+import {useTimedFetcher} from '../components/BeanUILibrary/hooks/useTimedFetcher';
+import {fetchDeviceConnections} from '../data/api/devicesApi';
+import {useDimensions} from '../components/BeanUILibrary/hooks/useDimensions';
 
 // top level
 const ConnectionCard = styled(BCard)`
@@ -121,7 +113,8 @@ export const ConnectionTable = ({
   // create a useEffect with empty dependences so it only runs on mount
   // otherwise causes two rerenders which floods the backend temporarily
   useEffect(() => {
-    fetchSecondConnections();
+    fetchSecondConnections()
+      .catch(e => console.log('error fetching initial second connection data'));
   }, [])
 
 

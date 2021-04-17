@@ -45,17 +45,23 @@ export const ConnectionTableTab = ({}) => {
 
   const graphString = `${graphHeight}px`
 
+  const sentColor = '#ff1e00'
+  const receivedColor = '#0073ff'
+  const timeFrame = 30
+  const xTicks = 3
+  const rows = 5
+
   return <TabContainer>
-    <SectionTitle title="Destination Table" size="lg" cardPadding={false}/>
-    <SectionSubtitle text="View destinations by device connection" margins={true}/>
+    <SectionTitle title="Connection Table" size="lg" cardPadding={false}/>
+    <SectionSubtitle text="View sent/received traffic by device connection" margins={true}/>
     <div id='spacer-bottom' className="small-spacer"/>
     <div style={{height: graphString}}>
       <ConnectionTable
-        rows={5}
-        xTicks={3}
-        timeFrame={30}
-        sentColor={'#ff1e00'}
-        receivedColor={'#0073ff'}
+        rows={rows}
+        xTicks={xTicks}
+        timeFrame={timeFrame}
+        sentColor={sentColor}
+        receivedColor={receivedColor}
       />
     </div>
   </TabContainer>

@@ -45,6 +45,9 @@ export const TableHeader = ({
     {title: 'Dest', width: '95%', marginLeft: '5%'} :
     {title: 'Destination', width: '80%', marginLeft: '20%'};
 
+  const recentMetricTitle = '5 sec'
+  const overallMetricTitle = '30 sec'
+
   return <BorderedSolidRow height={`${relHeight}px`}>
     <SourceColumn colWidth={sourceWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
       <FixedTitle title='Source' style={{width: '100%', textAlign: 'center'}}/>
@@ -72,12 +75,12 @@ export const TableHeader = ({
         </FixedTitle>
       </div>
     </GraphColumn>
-    {renderMetricCols(relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth)}
+    {renderMetricCols(relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth, recentMetricTitle, overallMetricTitle)}
 
   </BorderedSolidRow>
 }
 
-const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth) => {
+const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetricWidth, overallMetricWidth, recentMetricTitle, overallMetricTitle) => {
   if (relWidths.RecentMetricColumn === 0) {
     return <MetricColumn colWidth={metricWidth} style={{display: 'flex', alignItems: 'flex-start'}}>
       <FixedTitle style={{paddingLeft: '17%', width: '100%', textAlign: 'center'}} title='Traffic' size='xsm'/>
@@ -99,8 +102,8 @@ const renderMetricCols = (relWidths, metricWidth, metricSymbolWidth, recentMetri
         gridTemplateColumns: `${metricSymbolWidth} ${recentMetricWidth} ${overallMetricWidth}`
       }}>
         <div style={{width: '100%'}}/>
-        <SectionSubtitle text='5 sec' style={{textAlign: 'center', overflow: 'hidden'}}/>
-        <SectionSubtitle text='30 sec' style={{textAlign: 'center'}}/>
+        <SectionSubtitle text={recentMetricTitle} style={{textAlign: 'center', overflow: 'hidden'}}/>
+        <SectionSubtitle text={overallMetricTitle} style={{textAlign: 'center'}}/>
       </div>
     </MetricColumn>
   }

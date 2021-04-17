@@ -105,14 +105,6 @@ export const addPackets = (packet, metric) => {
   }
 }
 
-const makeInitialPacket = (second, metric1, metric2) => {
-  return {
-    one: second,
-    metric1: metric1,
-    metric2: metric2,
-  }
-}
-
 export const getPackets = () => {
   return packets;
 }
@@ -147,6 +139,15 @@ export const updateConnectionListeners = () => {
   connectionListeners.forEach(l => {
     l(connections);
   })
+}
+
+// makes initial packet object
+const makeInitialPacket = (second, metric1, metric2) => {
+  return {
+    one: second,
+    metric1: metric1,
+    metric2: metric2,
+  }
 }
 
 // recursive bin search since there isn't one built into javascript................

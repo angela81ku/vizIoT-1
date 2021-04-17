@@ -60,7 +60,7 @@ const drawYLabels = (max, height) => {
 
 }
 
-const drawLine = (data, max, height, width, color, isSent) => {
+const drawLine = (timeFrame, data, max, height, width, color, isSent) => {
   // console.log(data)
 
   // console.log(max)
@@ -69,9 +69,9 @@ const drawLine = (data, max, height, width, color, isSent) => {
   if (max > 0) {
     maxMult = halfHeight / (max * 1.0);
   }
-  const pointWidth = width / (29);
+  const pointWidth = width / (timeFrame - 1);
   let pointStr = '';
-  const diff = 30 - data.length;
+  const diff = timeFrame - data.length;
   for (let i = data.length - 1; i >= 0; --i) {
 
     let relativeY = halfHeight;
@@ -163,12 +163,12 @@ export const DualLineGraph = ({
   const tickMarks = (ticks ? ticks : 3);
   const maxTime = (timeFrame ? timeFrame : 30);
 
-  const updateData = (max, height, width, sent, received, topColor, bottomColor) => {
+  const updateData = (maxTime, max, height, width, sent, received, topColor, bottomColor) => {
     return (
       <>
         {drawYLabels(max, height)}
-        {drawLine(sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
-        {drawLine(received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
+        {drawLine(maxTime, sent, max, height, width, (topColor ? topColor : '#ff1e00'), true)}
+        {drawLine(maxTime, received, max, height, width, (bottomColor ? bottomColor : '#0073ff'), false)}
       </>
     )
   }
@@ -177,7 +177,7 @@ export const DualLineGraph = ({
     <svg viewBox={view}>
       {drawX(xAxisStart, xAxisEnd, xAxisYPos)}
       {drawXLabels(tickMarks, maxTime, xAxisStart, xAxisEnd, xAxisYPos)}
-      {updateData(max, height, width, sent, received, topColor, bottomColor)}
+      {updateData(maxTime, max, height, width, sent, received, topColor, bottomColor)}
     </svg>
   )
 }
