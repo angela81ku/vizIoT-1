@@ -17,14 +17,9 @@ import LoggerContainer from 'VizIoT/containers/LoggerContainer';
 import AppMenuBar from 'VizIoT/components/AppMenuBar';
 import Navigator from 'VizIoT/components/Navigator';
 import {pathOr} from 'ramda';
-
-// import { }
-
-// my imports
 import {SentReceivedTab} from './SentReceivedTab';
-import {ProtocolTab} from "./ProtocolTab";
-import {ConnectionTableTab} from "./ConnectionTableTab";
-import BButton from "../components/BeanUILibrary/BButton";
+import {ProtocolTab} from './ProtocolTab';
+import {ConnectionTableTab} from './ConnectionTableTab';
 
 class VideoBackground extends PureComponent {
   render() {
@@ -143,10 +138,10 @@ class VizIoT extends React.Component {
             onRight={this.handleRightArrow}
           >
             <Switch location={location}>
-              <Route
-                path={`${Tabs[tabKeys.LOGGER].path}`}
-                component={LoggerContainer}
-              />
+              {/*<Route*/}
+              {/*  path={`${Tabs[tabKeys.LOGGER].path}`}*/}
+              {/*  component={LoggerContainer}*/}
+              {/*/>*/}
               <Route
                 path={`${Tabs[tabKeys.OVERVIEW].path}`}
                 component={OverviewTab}
@@ -156,16 +151,16 @@ class VizIoT extends React.Component {
                 path={`${Tabs[tabKeys.DEVICES].path}`}
                 component={DeviceOverview}
               />
-              <Route
-                exact
-                path={`${Tabs[tabKeys.TIME].path}`}
-                component={TimeOverview}
-              />
-              <Route
-                exact
-                path={`${Tabs[tabKeys.DESTINATIONS].path}`}
-                component={BubbleLocationTab}
-              />
+              {/*<Route*/}
+              {/*  exact*/}
+              {/*  path={`${Tabs[tabKeys.TIME].path}`}*/}
+              {/*  component={TimeOverview}*/}
+              {/*/>*/}
+              {/*<Route*/}
+              {/*  exact*/}
+              {/*  path={`${Tabs[tabKeys.DESTINATIONS].path}`}*/}
+              {/*  component={BubbleLocationTab}*/}
+              {/*/>*/}
               <Route
                 exact
                 path={`${Tabs[tabKeys.INOUT].path}`}

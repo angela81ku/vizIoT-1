@@ -3,22 +3,22 @@
 import keyMirror from 'keymirror';
 
 export const tabKeys = keyMirror({
-  LOGGER: null,
+  // LOGGER: null,
   OVERVIEW: null,
   DEVICES: null,
-  TIME: null,
-  DESTINATIONS: null,
+  // TIME: null,
+  // DESTINATIONS: null,
   INOUT: null,
   PROTOCOL: null,
   CONNECTION_TABLE: null,
 });
 
 export const Tabs = {
-  [tabKeys.LOGGER]: {
-    key: tabKeys.LOGGER,
-    title: 'Logger',
-    path: '/logger',
-  },
+  // [tabKeys.LOGGER]: {
+  //   key: tabKeys.LOGGER,
+  //   title: 'Logger',
+  //   path: '/logger',
+  // },
   [tabKeys.OVERVIEW]: {
     key: tabKeys.OVERVIEW,
     title: 'Overview',
@@ -29,16 +29,16 @@ export const Tabs = {
     title: 'Devices',
     path: '/devices',
   },
-  [tabKeys.TIME]: {
-    key: tabKeys.TIME,
-    title: 'Time',
-    path: '/time',
-  },
-  [tabKeys.DESTINATIONS]: {
-    key: tabKeys.DESTINATIONS,
-    title: 'Destinations',
-    path: '/destinations',
-  },
+  // [tabKeys.TIME]: {
+  //   key: tabKeys.TIME,
+  //   title: 'Time',
+  //   path: '/time',
+  // },
+  // [tabKeys.DESTINATIONS]: {
+  //   key: tabKeys.DESTINATIONS,
+  //   title: 'Destinations',
+  //   path: '/destinations',
+  // },
   [tabKeys.INOUT]: {
     key: tabKeys.INOUT,
     title: 'Sent/Received',
