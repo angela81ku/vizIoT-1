@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import SectionTitle from '../components/SectionTitle';
 import SectionSubtitle from '../components/SectionSubtitle';
 import {ConnectionTable} from './ConnectionTable';
+import {SelectableDeviceList} from './SelectableDeviceList';
 
 
 const TabContainer = styled.div`
@@ -12,6 +13,12 @@ const TabContainer = styled.div`
   padding-top: 80px;
   margin: 0 auto;
 `;
+
+const GridContainer = styled.div`
+  display: inline-grid;
+  grid-template-columns: 20% 80%;
+  grid-column-gap: 20px;
+`
 
 const setHeight = () => {
   const lastSpacer = document.getElementById('spacer-bottom');
@@ -55,7 +62,8 @@ export const ConnectionTableTab = ({}) => {
     <SectionTitle title="Connection Table" size="lg" cardPadding={false}/>
     <SectionSubtitle text="View sent/received traffic by device connection" margins={true}/>
     <div id='spacer-bottom' className="small-spacer"/>
-    <div style={{height: graphString}}>
+    <GridContainer style={{height: graphString, width: '100%'}}>
+      <SelectableDeviceList deviceSelector={() => {}}/>
       <ConnectionTable
         rows={rows}
         xTicks={xTicks}
@@ -63,7 +71,7 @@ export const ConnectionTableTab = ({}) => {
         sentColor={sentColor}
         receivedColor={receivedColor}
       />
-    </div>
+    </GridContainer>
   </TabContainer>
 
 }

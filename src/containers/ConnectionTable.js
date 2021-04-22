@@ -12,9 +12,9 @@ import {
   addPacketListener,
   removeConnectionListener, removePacketListener
 } from '../data/aggregators/ConnectionAggregator';
-import {BlankRow} from './TableRows/BlankRow';
-import {TableHeader} from './TableRows/TableHeader';
-import {TableRow} from './TableRows/TableRow';
+import {BlankRow} from './ConnectionTableRows/BlankRow';
+import {TableHeader} from './ConnectionTableRows/TableHeader';
+import {TableRow} from './ConnectionTableRows/TableRow';
 import {
   fetchFiveSecondConnections, fetchSecondConnections, fetchThirtySecondConnections,
   parseSecondConnectionPackets } from '../data/api/connectionsApi';
