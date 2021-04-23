@@ -34,6 +34,7 @@ export const ConnectionTable = ({
                                   sentColor,
                                   receivedColor,
                                   height,
+                                  devices,
                                 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
@@ -118,7 +119,6 @@ export const ConnectionTable = ({
       .catch(e => console.log('error fetching initial second connection data'));
   }, [])
 
-
   let displayConnections = connections;
 
   // associate the streamed connection values with their id
@@ -138,10 +138,13 @@ export const ConnectionTable = ({
   }
 
   // remove connections that have no data in the last 30 seconds
-  displayConnections = displayConnections.filter(entry =>
-    (entry.receivedMetric2 !== undefined || entry.sentMetric2 !== undefined)
-    &&
-    (entry.receivedMetric2 !== 0 || entry.sentMetric2 !== 0))
+
+    displayConnections = displayConnections.filter(entry =>
+      (entry.receivedMetric2 !== undefined || entry.sentMetric2 !== undefined)
+      &&
+      (entry.receivedMetric2 !== 0 || entry.sentMetric2 !== 0)
+      && devices.hasOwnProperty(entry.name) && devices[entry.name].selected === true)
+
 
   // presort connections before shearing off lower connections
   displayConnections.sort((a, b) => (b.receivedMetric2 + b.sentMetric2) - (a.receivedMetric2 + a.sentMetric2));
@@ -212,6 +215,7 @@ ConnectionTable.propTypes = {
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
   height: PropTypes.number.isRequired,
+  devices: PropTypes.object.isRequired,
 }
 
 function convertRemToPixels(rem) {

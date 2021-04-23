@@ -33,6 +33,8 @@ const setHeight = () => {
 
 export const ConnectionTableTab = ({}) => {
   const [graphHeight, setGraphHeight] = useState(undefined);
+  const [devices, setDevices] = useState({})
+  const [forceVal, setForceVal] = useState({})
 
   const val = setHeight();
   if (graphHeight !== val) {
@@ -63,9 +65,10 @@ export const ConnectionTableTab = ({}) => {
     <SectionSubtitle text="View sent/received traffic by device connection" margins={true}/>
     <div id='spacer-bottom' className="small-spacer"/>
     <GridContainer style={{height: graphString, width: '100%'}}>
-      <SelectableDeviceList deviceSelector={() => {}} height={graphString}/>
+      <SelectableDeviceList height={graphString} devices={devices} setDevices={setDevices} setForceVal={setForceVal}/>
       <ConnectionTable
         height={graphString}
+        devices={devices}
         rows={rows}
         xTicks={xTicks}
         timeFrame={timeFrame}

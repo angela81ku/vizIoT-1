@@ -15,12 +15,12 @@ const ConnectionCard = styled(BCard)`
   overflow-y: scroll;
 `
 export const SelectableDeviceList = ({
-                                  deviceSelector,
-                                  height
+                                  height,
+                                  devices,
+                                  setDevices,
+                                  setForceVal,
                                 }) => {
-  const [devices, setDevices] = useState({})
   const [allDevices, setAllDevices] = useState(true)
-  const [forceVal, setForceVal] = useState({})
 
   // create a useEffect with empty dependences so it only runs on mount
   useEffect (() => {
@@ -30,11 +30,11 @@ export const SelectableDeviceList = ({
       const selectableDevices = {}
 
       Object.keys(devices).forEach(key => {
-        selectableDevices[key] = {
+        selectableDevices[devices[key].name] = {
           macAddress: devices[key].macAddress,
           name: devices[key].name,
           selected: true,
-          setSelected: () => {selectableDevices[key].selected = !selectableDevices[key].selected;
+          setSelected: () => {selectableDevices[devices[key].name].selected = !selectableDevices[devices[key].name].selected;
                               setForceVal({})}
         }
       })
@@ -45,7 +45,7 @@ export const SelectableDeviceList = ({
     fetchDeviceData()
       .then(e => setDevices(portDevices(getDevices())))
       .catch(e => console.log('error fetching devices'));
-  }, [])
+  }, [setDevices, setForceVal])
 
   const checkAllDevicesSet = (isAllEnabled) => {
 
@@ -59,14 +59,14 @@ export const SelectableDeviceList = ({
   }
 
   // console.log(devices)
-  console.log(allDevices)
+  // console.log(allDevices)
 
   return <div style={{height:height, width:'100%'}}>
     <FixedTitle title='Devices' style={{height:'5%', textAlign:'center'}}/>
     <ConnectionCard style={{height: '95%'}}>
       <AllDevicesRow isEnabled={allDevices} setEnabled={checkAllDevicesSet}/>
       <div style={{paddingTop:'4px'}}/>
-      {Object.keys(devices).map(key => {
+      {Object.keys(devices).sort().map(key => {
         return <SingleDeviceRow
           isEnabled={devices[key].selected}
           setEnabled={devices[key].setSelected}
@@ -78,6 +78,8 @@ export const SelectableDeviceList = ({
 }
 
 SelectableDeviceList.propTypes = {
-  deviceSelector: PropTypes.func.isRequired,
-  height: PropTypes.number.isRequired
+  height: PropTypes.number.isRequired,
+  devices: PropTypes.object.isRequired,
+  setDevices: PropTypes.func.isRequired,
+  setForceVal: PropTypes.func.isRequired,
 }
