@@ -7,12 +7,14 @@ import SolidRow from '../../components/BeanUILibrary/SolidRow';
 
 const DeviceHeader = styled.h5`
   font-weight:600;
-  height: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   vertical-align: middle;
   margin-bottom: 0;
-  padding-bottom: 4px;
+  padding-top: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 export const SingleDeviceRow = ({isEnabled, setEnabled, name}) => {

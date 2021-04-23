@@ -14,6 +14,18 @@ import {useForceUpdate} from '../components/BeanUILibrary/hooks/useForceUpdate';
 const ConnectionCard = styled(BCard)`
   overflow-y: scroll;
 `
+
+const DeselectAllButton = styled.button`
+  color: white;
+  background: transparent;
+  //padding: 2px 4px 2px;
+  font-family: 'Rajdhani';
+  font-size: 16px;
+  width: 60px;
+  height: 20px;
+  vertical-align: middle;
+`
+
 export const SelectableDeviceList = ({
                                   height,
                                   devices,
@@ -58,12 +70,24 @@ export const SelectableDeviceList = ({
     setAllDevices(isAllEnabled)
   }
 
+  const setAllDevicesFalse = () => {
+    Object.keys(devices).forEach(key => {
+      devices[key].selected = false;
+    })
+
+    setAllDevices(false)
+    setForceVal({})
+  }
+
   // console.log(devices)
   // console.log(allDevices)
 
   return <div style={{height:height, width:'100%'}}>
-    <FixedTitle title='Devices' style={{height:'5%', textAlign:'center'}}/>
-    <ConnectionCard style={{height: '95%'}}>
+    <FixedTitle title='Devices' style={{height:'4%', textAlign:'center'}}/>
+    <div style={{height:'4%', textAlign:'center'}}>
+      <DeselectAllButton onClick={setAllDevicesFalse}>Clear</DeselectAllButton>
+    </div>
+    <ConnectionCard style={{height: '92%'}}>
       <AllDevicesRow isEnabled={allDevices} setEnabled={checkAllDevicesSet}/>
       <div style={{paddingTop:'4px'}}/>
       {Object.keys(devices).sort().map(key => {
