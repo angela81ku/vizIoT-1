@@ -33,6 +33,7 @@ export const ConnectionTable = ({
                                   xTicks,
                                   sentColor,
                                   receivedColor,
+                                  height,
                                 }) => {
   const [connections, setConnections] = useState([]);
   const [packets, setPackets] = useState({})
@@ -151,7 +152,7 @@ export const ConnectionTable = ({
 
   let renderIndex = 0;
 
-  return <div ref={cardRef} style={{height: '100%', minHeight: minHeightStr}}>
+  return <div ref={cardRef} style={{height: height, minHeight: minHeightStr}}>
     <ConnectionCard style={{height: '100%'}}>
       <TableHeader
         sentColor={sentColor}
@@ -210,6 +211,7 @@ ConnectionTable.propTypes = {
   xTicks: PropTypes.number,
   sentColor: PropTypes.string,
   receivedColor: PropTypes.string,
+  height: PropTypes.number.isRequired,
 }
 
 function convertRemToPixels(rem) {

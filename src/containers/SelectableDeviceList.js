@@ -3,32 +3,24 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import BCard from '../components/BeanUILibrary/BCard';
-import {useSocket} from '../components/BeanUILibrary/hooks/useSocket';
-import {
-  DeviceConnectionPackets1s,
-} from '../socket/subscribe';
-import {
-  addConnectionListener,
-  addPacketListener,
-  removeConnectionListener, removePacketListener
-} from '../data/aggregators/ConnectionAggregator';
-import {BlankRow} from './ConnectionTableRows/BlankRow';
-import {TableHeader} from './ConnectionTableRows/TableHeader';
-import {TableRow} from './ConnectionTableRows/TableRow';
 import {fetchDeviceData} from '../data/api/devicesApi';
 import { getDevices } from '../data/aggregators/DeviceAggregator';
-import {useDimensions} from '../components/BeanUILibrary/hooks/useDimensions';
-import {FixedTitle} from "./ConnectionTableRows/ColumnStyles";
-import {AllDevicesRow} from "./DeviceTableRows/AllDevicesRow";
+import {FixedTitle} from './ConnectionTableRows/ColumnStyles';
+import {AllDevicesRow} from './DeviceTableRows/AllDevicesRow';
+import {SingleDeviceRow} from './DeviceTableRows/SingleDeviceRow';
+import {useForceUpdate} from '../components/BeanUILibrary/hooks/useForceUpdate';
 
 // top level
 const ConnectionCard = styled(BCard)`
   overflow-y: scroll;
 `
 export const SelectableDeviceList = ({
-                                  deviceSelector
+                                  deviceSelector,
+                                  height
                                 }) => {
   const [devices, setDevices] = useState({})
+  const [allDevices, setAllDevices] = useState(true)
+  const [forceVal, setForceVal] = useState({})
 
   // create a useEffect with empty dependences so it only runs on mount
   useEffect (() => {
@@ -42,6 +34,8 @@ export const SelectableDeviceList = ({
           macAddress: devices[key].macAddress,
           name: devices[key].name,
           selected: true,
+          setSelected: () => {selectableDevices[key].selected = !selectableDevices[key].selected;
+                              setForceVal({})}
         }
       })
 
@@ -53,17 +47,37 @@ export const SelectableDeviceList = ({
       .catch(e => console.log('error fetching devices'));
   }, [])
 
-  console.log(devices)
+  const checkAllDevicesSet = (isAllEnabled) => {
 
-  return <div>
+    if (isAllEnabled === true) {
+      Object.keys(devices).forEach(key => {
+        devices[key].selected = true;
+      })
+    }
+
+    setAllDevices(isAllEnabled)
+  }
+
+  // console.log(devices)
+  console.log(allDevices)
+
+  return <div style={{height:height, width:'100%'}}>
     <FixedTitle title='Devices' style={{height:'5%', textAlign:'center'}}/>
     <ConnectionCard style={{height: '95%'}}>
-      <AllDevicesRow/>
+      <AllDevicesRow isEnabled={allDevices} setEnabled={checkAllDevicesSet}/>
+      <div style={{paddingTop:'4px'}}/>
+      {Object.keys(devices).map(key => {
+        return <SingleDeviceRow
+          isEnabled={devices[key].selected}
+          setEnabled={devices[key].setSelected}
+          name={devices[key].name} />
+      })}
     </ConnectionCard>
   </div>
 
 }
 
 SelectableDeviceList.propTypes = {
-  deviceSelector: PropTypes.func
+  deviceSelector: PropTypes.func.isRequired,
+  height: PropTypes.number.isRequired
 }

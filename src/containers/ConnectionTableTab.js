@@ -63,8 +63,9 @@ export const ConnectionTableTab = ({}) => {
     <SectionSubtitle text="View sent/received traffic by device connection" margins={true}/>
     <div id='spacer-bottom' className="small-spacer"/>
     <GridContainer style={{height: graphString, width: '100%'}}>
-      <SelectableDeviceList deviceSelector={() => {}}/>
+      <SelectableDeviceList deviceSelector={() => {}} height={graphString}/>
       <ConnectionTable
+        height={graphString}
         rows={rows}
         xTicks={xTicks}
         timeFrame={timeFrame}
