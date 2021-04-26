@@ -39,6 +39,18 @@ export const SelectableDeviceList = ({
 
     const portDevices = (devices) => {
 
+      const checkAllDevicesSet = (devices) => {
+
+        let isAllEnabled = true
+        Object.keys(devices).forEach(key => {
+          if (devices[key].selected === false) {
+            isAllEnabled = false
+          }
+        })
+
+        setAllDevices(isAllEnabled)
+      }
+
       const selectableDevices = {}
 
       Object.keys(devices).forEach(key => {
@@ -47,6 +59,7 @@ export const SelectableDeviceList = ({
           name: devices[key].name,
           selected: true,
           setSelected: () => {selectableDevices[devices[key].name].selected = !selectableDevices[devices[key].name].selected;
+                              checkAllDevicesSet(selectableDevices);
                               setForceVal({})}
         }
       })
@@ -57,9 +70,11 @@ export const SelectableDeviceList = ({
     fetchDeviceData()
       .then(e => setDevices(portDevices(getDevices())))
       .catch(e => console.log('error fetching devices'));
-  }, [setDevices, setForceVal])
+  }, [setDevices, setAllDevices, setForceVal])
 
-  const checkAllDevicesSet = (isAllEnabled) => {
+
+
+  const setAllDevicesList = (isAllEnabled) => {
 
     if (isAllEnabled === true) {
       Object.keys(devices).forEach(key => {
@@ -88,7 +103,7 @@ export const SelectableDeviceList = ({
       <DeselectAllButton onClick={setAllDevicesFalse}>Clear</DeselectAllButton>
     </div>
     <ConnectionCard style={{height: '92%'}}>
-      <AllDevicesRow isEnabled={allDevices} setEnabled={checkAllDevicesSet}/>
+      <AllDevicesRow isEnabled={allDevices} setEnabled={setAllDevicesList}/>
       <div style={{paddingTop:'4px'}}/>
       {Object.keys(devices).sort().map(key => {
         return <SingleDeviceRow
