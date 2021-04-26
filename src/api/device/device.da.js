@@ -1,5 +1,5 @@
 const {DeviceModel} = require('./device.model')
-const {getDeviceMap} = require('../../util/DeviceMap')
+const {getDeviceMap, getKnownIPMap} = require('../../util/DeviceMap')
 const {TcpDataModel} = require('../tcpData/tcpData.model')
 const {removeLeadingZeros} = require('../../util/FormatUtility')
 const maxmind = require('maxmind')
@@ -9,12 +9,14 @@ let db = undefined
 let countryIPs = {}
 let dnsHostNames = {}
 let macAddrs = {}
+let knownIPs = {}
 
 module.exports = {
   getAll,
   getConnections,
   startCountryDB,
   populateDeviceMap,
+  populateIPMap,
 }
 
 async function startCountryDB() {
@@ -25,6 +27,10 @@ async function startCountryDB() {
 
 async function populateDeviceMap() {
   macAddrs = await getDeviceMap()
+}
+
+async function populateIPMap() {
+  knownIPs = await getKnownIPMap()
 }
 
 async function getAll() {
@@ -74,12 +80,19 @@ async function getConnections(startMS, endMS) {
       let country = undefined
 
       const dnsIP = ip + ':' + port
-      if (dnsHostNames.hasOwnProperty(dnsIP)) {
+      // check if theres a static map
+      if (knownIPs.hasOwnProperty(ip)) {
+        destName = knownIPs[ip].name
+      }
+      // check if dns lookup has already run
+      else if (dnsHostNames.hasOwnProperty(dnsIP)) {
         const dnsIPVal = dnsHostNames[dnsIP]
         if (dnsIPVal !== '-1') {
           destName = dnsIPVal
         }
-      } else {
+      }
+      // otherwise perform initial dns lookup for ip:port
+      else {
         await dns.lookupService(ip, port, (err, hostname, service) => {
           if (!err) {
             destName = hostname
@@ -101,10 +114,8 @@ async function getConnections(startMS, endMS) {
       }
 
       // otherwise creat new entries
-      // if connection exists, don't do any additional calculations
-      if (connectionObject.hasOwnProperty(macKey)) {
-
-      } else {
+      // if connection exists, don't do any additional inserts
+      if (!connectionObject.hasOwnProperty(macKey)) {
         connectionObject[macKey] = {
           id: macKey,
           name: name,

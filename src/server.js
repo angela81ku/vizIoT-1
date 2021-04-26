@@ -35,6 +35,10 @@ class Server {
       .then(r => console.log('Populated device map in deviceda'))
       .catch(e => console.log('error populating device map'))
 
+    DeviceDa.populateIPMap()
+      .then(r => console.log('Populated IP map in deviceda'))
+      .catch(e => console.log('error populating ip map'))
+
     // populate device map for packet based queries
     TcpDa.populateDeviceMap()
       .then(r => console.log('Populated device map in tcpda'))
