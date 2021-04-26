@@ -16,7 +16,7 @@ writeConcern = pymongo.write_concern.WriteConcern(w=0, wtimeout=None, j=None, fs
 client = MongoClient(MONGO_DB_ADDRESS, serverSelectionTimeoutMS=1)
 scapy_database = client['scapy']
 http_data_collection = scapy_database['tcpdatas'].with_options(write_concern=writeConcern)
-scapy_database['tcpdatas'].ensure_index('timestamp', expireAfterSeconds=3600)
+scapy_database['tcpdatas'].create_index([('timestamp', pymongo.ASCENDING)],  expireAfterSeconds=3600)
 
 
 def http_header(packet):
