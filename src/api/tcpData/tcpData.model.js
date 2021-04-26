@@ -14,14 +14,8 @@ const TcpDataSchema = new mongoose.Schema({
   autoIndex: false,
 })
 
-TcpDataSchema.index({
-  timestamp: 1,
-})
-
 const TcpDataString = 'TcpData'
 const TcpDataModel = mongoose.model(TcpDataString, TcpDataSchema)
-
-TcpDataModel.createIndexes()
 
 module.exports = {
   TcpDataSchema,
