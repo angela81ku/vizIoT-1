@@ -1,9 +1,5 @@
-
-import pymongo
 from pymongo import MongoClient
 from config import MONGO_DB_ADDRESS
-import time
-import logging
 
 client = MongoClient(MONGO_DB_ADDRESS, serverSelectionTimeoutMS=1)
 scapy_database = client['scapy']

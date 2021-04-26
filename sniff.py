@@ -1,8 +1,4 @@
 #!/usr/bin/python3
-import time
-import sys
-
-sys.path.append('/home/joseph/.local/lib/python3.8/site-packages')
 
 from scapy.all import *
 import pymongo
