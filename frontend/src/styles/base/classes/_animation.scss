@@ -1,0 +1,5 @@
+@import '../mixins/animation';
+
+.fade > * {
+  @include animation-fade;
+}

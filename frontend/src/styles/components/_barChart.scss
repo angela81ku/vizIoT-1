@@ -1,0 +1,20 @@
+.lineGraph__wrapper {
+}
+
+.line {
+  fill: none;
+  stroke: $graph-prim-color;
+  stroke-width: 2;
+}
+
+.tick text {
+  fill: $graph-body-color;
+}
+
+.tick line {
+  stroke: $graph-body-color;
+}
+
+.barChart-scrollable-wrapper {
+  overflow-y: scroll;
+}

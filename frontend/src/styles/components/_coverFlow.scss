@@ -1,0 +1,60 @@
+$button-font-size: 3.4rem;
+
+.coverFlow {
+  position: relative;
+
+  .coverFlow__button {
+    padding: 5px;
+    font-size: $button-font-size;
+    transition: all 0.2s;
+    transition-timing-function: ease-in-out;
+    color: $body-text-color-lighter;
+    z-index: 1;
+  }
+
+  .coverFlow__button:hover {
+    cursor: pointer;
+    transform: scale(1.2, 1.2);
+    color: white;
+  }
+
+  .coverFlow__button:active {
+    transform: scale(0.92, 0.92);
+  }
+
+  .coverFlow__leftButton {
+    position: fixed;
+    top: 50%;
+    left: 15px;
+  }
+
+  .coverFlow__rightButton {
+    position: fixed;
+    top: 50%;
+    right: 15px;
+  }
+
+  .carousel-enter {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .carousel-enter.carousel-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+
+  .carousel-exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+
+  .carousel-exit.carousel-exit-active {
+    transition: opacity 500ms ease-out;
+    opacity: 0;
+  }
+}

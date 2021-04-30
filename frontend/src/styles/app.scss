@@ -1,0 +1,65 @@
+@import "/base/settings";
+@import "/base/mixins/base";
+@import "/base/classes/base";
+
+@import "/base/base";
+@import "/base/grid";
+
+@import "/components/tabTitle";
+@import "/components/barChart";
+@import "/components/deviceListItem";
+@import "/components/deviceList";
+@import "/components/bubbleChart";
+@import "/components/dataWell";
+@import "/components/coverFlow";
+@import "/components/temporalHeatTable";
+
+@import "/containers/locationTab";
+@import "/containers/overviewTab";
+@import "/containers/playground";
+
+#root-container {
+  position: relative;
+  min-height: 100vh;
+  max-width: 220rem;
+}
+
+.tint-background2 {
+  z-index: -1;
+  position: fixed;
+  width: 100%;
+  height: 90vh;
+  left: 0;
+  top: 0;
+
+  div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: $second-grad;
+  }
+}
+
+// deprecated
+.flex-center-parent {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+// deprecated
+.flex-fill-parent {
+  flex: 1 auto;
+}
+
+// deprecated
+/* Put this on parent of a display:flex child to center it. */
+.flex-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logger-table .ReactVirtualized__Grid__innerScrollContainer {
+  transition: height;
+}

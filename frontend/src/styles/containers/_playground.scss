@@ -1,0 +1,16 @@
+.flex-parent {
+  display: flex;
+  height: 100px;
+
+  .child1 {
+    background-color: black;
+    height: 100%;
+    flex: 1;
+  }
+
+  .child2 {
+    flex: 1;
+    background-color: red;
+    height: 100%;
+  }
+}
