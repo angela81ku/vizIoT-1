@@ -243,12 +243,12 @@ class LineGraphPage extends React.Component {
       <SectionSubtitle text={pageSubtitle} margins={true}/>
       <div className="small-spacer"/>
 
-      {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
-      {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
-      {/*{this.metricGraphLineRenderer(metricRect, graphRect, 'white')}*/}
-      <div style={{background: {OFF_WHITE}}}>
-        {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors, factColors, cardSymbols)}
-      </div>
+        {this.factRenderer(facts, legendTitle, metricResource, graphResource, metricSocketOverride)}
+        {this.lineGraphRenderer(graphResource, graphSocketOverride, graphTitle, chartTitle, chartSubtitle, graphColors, metricWidth)}
+        {/*{this.metricGraphLineRenderer(metricRect, graphRect, 'white')}*/}
+        <div style={{background: {OFF_WHITE}}}>
+          {this.deviceContainerRenderer(individualGraphResource, individualGraphSize, individualDeviceFetcher, graphColors, factColors, cardSymbols)}
+        </div>
       <div className="xl-spacer"/>
     </TabContainer>
 

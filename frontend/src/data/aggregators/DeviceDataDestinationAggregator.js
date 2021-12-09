@@ -10,7 +10,7 @@ const deviceData = {};
 // keeps track of top 3 devices
 let devicesInUse = {};
 
-export const addDeviceIOData = (devices) => {
+export const addDeviceDestinationData = (devices) => {
 
   const currentlyInUse = {};
 
@@ -21,7 +21,8 @@ export const addDeviceIOData = (devices) => {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
         velocity: device.velocity,
-        dataStreams: [device.totalTraffic, device.outTraffic, device.inTraffic],
+        //TODO connect to backend
+        dataStreams: [ device.Vol1stTraffic, device.Vol2ndTraffic, device.Vol3rdTraffic, device.others],
         data: [device.data],
       }
     }
@@ -36,7 +37,7 @@ export const addDeviceIOData = (devices) => {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
         velocity: device.velocity,
-        dataStreams: [device.totalTraffic, device.outTraffic, device.inTraffic],
+        dataStreams: [device.Vol1stTraffic, device.Vol2ndTraffic, device.Vol3rdTraffic, device.others],
         data: currData
       }
     }
@@ -61,6 +62,6 @@ export const addDeviceIOData = (devices) => {
   devicesInUse = currentlyInUse;
 }
 
-export const getDeviceIOData = () => {
+export const getDeviceDestinationData = () => {
   return devicesInUse;
 }

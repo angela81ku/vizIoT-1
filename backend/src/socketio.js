@@ -3,6 +3,7 @@ function initSocketIO(http) {
   const Server = require('socket.io')
   const io = new Server(http)
   const TcpDataDa = require('./api/tcpData/tcpData.da')
+  // const DeviceDataDa = require('./api/device/device.da')
 
 
 //
@@ -142,6 +143,12 @@ function initSocketIO(http) {
   }, interval)
 
   setInterval(async () => {
+    const result = await TcpDataDa.getAggregateDestinationDataWithinNSeconds(interval)
+
+    chat.emit('/total/destination/1s', result)
+  }, interval)
+
+  setInterval(async () => {
     // console.log('starting get');
     const result = await TcpDataDa.getAggregateSentReceivedDataWithinNSeconds(interval * 60)
 
@@ -153,6 +160,13 @@ function initSocketIO(http) {
     const result = await TcpDataDa.getAggregateProtocolDataWithinNSeconds(interval * 60)
 
     chat.emit('/total/protocol/metric/1s', result)
+  }, interval)
+
+  setInterval(async () => {
+    // console.log('starting get');
+    const result = await TcpDataDa.getAggregateDestinationDataWithinNSeconds(interval * 60)
+
+    chat.emit('/total/destination/metric/1s', result)
   }, interval)
 
   // send top 3 devices for IO devices here
@@ -283,6 +297,67 @@ function initSocketIO(http) {
 
     chat.emit('/data/connections/1s', {connections})
   }, 1000)
+
+  // send top 3 devices for Destination here
+  setInterval(async () => {
+
+    const metricLength = 30
+    const secondData = TcpDataDa.getDeviceDestinationDataWithinNSeconds(interval)
+    const metricData = TcpDataDa.getDeviceDestinationDataWithinNSeconds(interval * metricLength)
+
+    const awaitVals = await Promise.all([secondData, metricData])
+    const second = awaitVals[0]
+    const metric = awaitVals[1]
+
+    const devices = []
+
+    Object.keys(metric.deviceData).forEach(d => {
+      const secondDevice = second.deviceData[d]
+      if (secondDevice) {
+        devices.push({
+          macAddress: d,
+          velocity: ((metric.deviceData[d].Vol1st + metric.deviceData[d].Vol2nd + metric.deviceData[d].Vol3rd + metric.deviceData[d].others) / 30),
+          Vol1stTraffic: metric.deviceData[d].Vol1st,
+          Vol2ndTraffic: metric.deviceData[d].Vol2nd,
+          Vol3rdTraffic: metric.deviceData[d].Vol3rd,
+          othersTraffic: metric.deviceData[d].others,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [secondDevice.Vol1st, secondDevice.Vol2nd, secondDevice.Vol3rd, secondDevice.others],
+          },
+        })
+      } else {
+        devices.push({
+          macAddress: d,
+          velocity: ((metric.deviceData[d].Vol1st + metric.deviceData[d].Vol2nd + metric.deviceData[d].Vol3rd + metric.deviceData[d].others) / 30),
+          Vol1stTraffic: metric.deviceData[d].Vol1st,
+          Vol2ndTraffic: metric.deviceData[d].Vol2nd,
+          Vol3rdTraffic: metric.deviceData[d].Vol3rd,
+          othersTraffic: metric.deviceData[d].others,
+          data: {
+            startMS: second.startMS,
+            endMS: second.endMS,
+            size: [0, 0, 0, 0],
+          },
+        })
+      }
+    })
+
+    devices.sort((a, b) => {
+      return (a.Vol1stTraffic + a.Vol2ndTraffic + a.Vol3rdTraffic + a.othersTraffic) - (b.Vol1stTraffic + b.Vol2ndTraffic + b.Vol3rdTraffic + b.othersTraffic)
+    })
+
+    let devicesShown = 3
+    let fixedDevicesShown = devicesShown * -1
+    const sortedDevices = devices.slice(fixedDevicesShown)
+
+    const deviceData = {
+      deviceData: sortedDevices,
+    }
+
+    chat.emit('/data/device/destination/1s', deviceData)
+  }, interval)
 
 
 // const news = io

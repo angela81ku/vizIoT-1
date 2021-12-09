@@ -4,9 +4,9 @@ import {
   updateConnectionListeners,
   updatePacketListeners,
   METRICS, getPackets
-} from "../aggregators/ConnectionAggregator";
-import {baseUrlApi, headers} from "../../constants/RequestConstants";
-import axios from "axios";
+} from '../aggregators/ConnectionAggregator';
+import {baseUrlApi, headers} from '../../constants/RequestConstants';
+import axios from 'axios';
 
 export const parseSecondConnectionPackets = res => {
   if (res.hasOwnProperty('connections')) {

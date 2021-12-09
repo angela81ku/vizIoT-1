@@ -5,8 +5,8 @@ import {headers, baseUrlApi} from '../../constants/RequestConstants';
 import {Record} from 'immutable';
 import ApiRecord from './Api';
 import {createMockCall} from 'VizIoT/utility/ApiUtility';
-import {addDevice, getDevices} from "../aggregators/DeviceAggregator";
-import {addConnections, updateConnectionListeners} from "../aggregators/ConnectionAggregator";
+import {addDevice, getDevices} from '../aggregators/DeviceAggregator';
+import {addConnections, updateConnectionListeners} from '../aggregators/ConnectionAggregator';
 
 export const fetchDevices = new ApiRecord({
   call: ({networkId}) => {

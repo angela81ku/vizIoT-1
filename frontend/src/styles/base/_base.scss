@@ -8,7 +8,8 @@
 
 html {
   font-size: 62.5%;
-  background: $prim-color;
+  //in order to prevent inconsistent background color
+  background: #0e0f19;
 }
 
 body {

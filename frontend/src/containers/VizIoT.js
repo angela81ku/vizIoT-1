@@ -20,7 +20,7 @@ import {pathOr} from 'ramda';
 import {SentReceivedTab} from './SentReceivedTab';
 import {ProtocolTab} from './ProtocolTab';
 import {ConnectionTableTab} from './ConnectionTableTab';
-
+import {DestinationTableTab} from './DestinationTableTab';
 class VideoBackground extends PureComponent {
   render() {
     return (
@@ -176,7 +176,14 @@ class VizIoT extends React.Component {
                 path={`${Tabs[tabKeys.CONNECTION_TABLE].path}`}
                 component={ConnectionTableTab}
               />
+              <Route
+                  exact
+                  path={`${Tabs[tabKeys.DESTINATION_TABLE].path}`}
+                  component={DestinationTableTab}
+              />
               <Route render={() => <NotFound/>}/>
+              <Route render={() => <NotFound/>}/>
+
             </Switch>
           </CoverFlow>
         </div>

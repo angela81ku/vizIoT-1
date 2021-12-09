@@ -22,6 +22,11 @@ export const pushRealTimeIOMetricTraffic = createAction('real time I/O metric tr
 export const pushRealTimeProtocolTraffic = createAction('real time Protocol traffic');
 export const pushRealTimeProtocolMetricTraffic = createAction('real time Protocol metric traffic');
 
+// Destination traffic
+export const pushRealTimeDestinationTraffic = createAction('real time destination traffic');
+export const pushRealTimeDestinationMetricTraffic = createAction('real time destination metric traffic');
+
+
 export default Object.assign(
   {},
   recentsActionBundle,

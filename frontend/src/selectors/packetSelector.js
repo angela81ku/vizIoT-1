@@ -28,11 +28,17 @@ export const numberOfActiveDevices = state => {
 
 export const selectDeviceToLiveSamples = path(['packets', 'realtimeIndividualVelocitySizeSample', 'data']);
 
-// my selector
+// IO selector
 export const selectRealTimeIOTraffic = path(['packets', 'realTimeIOTraffic', 'data']);
 
 export const selectRealTimeIOMetricTraffic = path(['packets', 'realTimeIOMetricTraffic', 'data'])
 
+// Protocol selector
 export const selectRealTimeProtocolTraffic = path(['packets', 'realTimeProtocolTraffic', 'data']);
 
 export const selectRealTimeProtocolMetricTraffic = path(['packets', 'realTimeProtocolMetricTraffic', 'data'])
+
+// destination selector
+export const selectRealTimeDestinationTraffic = path(['packets', 'realTimeDestinationTraffic', 'data']);
+
+export const selectRealTimeDestinationMetricTraffic = path(['packets', 'realTimeDestinationMetricTraffic', 'data'])

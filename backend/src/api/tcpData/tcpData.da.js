@@ -22,6 +22,8 @@ module.exports = {
   getConnectionSentReceivedDataByTime,
   getAggregateProtocolDataWithinNSeconds,
   getDeviceProtocolDataWithinNSeconds,
+  getAggregateDestinationDataWithinNSeconds,
+  getDeviceDestinationDataWithinNSeconds,
   populateDeviceMap,
 }
 
@@ -432,7 +434,10 @@ async function getAggregateProtocolDataByTime(startMS, endMS) {
 
       if (macAddrs.hasOwnProperty(fixedSrc) || macAddrs.hasOwnProperty(fixedDst)) {
         const packetSize = packet.packet_size
-        if (protocols.includes('TCP')) {
+        //TODO change back first one
+
+        // if (protocols.includes('TCP')) {
+        if (packet.country.includes('HK')) {
           TCP += packetSize
         }
         if (protocols.includes('UDP')) {
@@ -498,7 +503,9 @@ async function getDeviceProtocolDataByTime(startMS, endMS) {
       }
 
       const packetSize = packet.packet_size
-      if (protocols.includes('TCP')) {
+      //TODO change back first one
+      // if (protocols.includes('TCP')) {
+      if (packet.country.includes('HK')) {
         TCP += packetSize
       }
       if (protocols.includes('UDP')) {
@@ -537,11 +544,217 @@ async function getDeviceProtocolDataByTime(startMS, endMS) {
   return deviceData
 }
 
+// TODO Destination original
+// async function getAggregateDestinationDataByTime(startMS, endMS) {
+//   const resultsFromTcpData = await TcpDataModel.aggregate([
+//     {
+//       $match: {
+//         timestamp: {$gte: startMS, $lte: endMS},
+//       },
+//     },
+//     // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
+//   ])
+//
+//   let Vol1st = 0
+//   let Vol2nd = 0
+//   let Vol3rd = 0
+//   let others = 0
+//
+//
+//
+//   for (let i = 0; i < resultsFromTcpData.length; ++i) {
+//     const packet = resultsFromTcpData[i]
+//     if (packet.hasOwnProperty('protocols') && packet.hasOwnProperty('packet_size')) {
+//      // const protocols = packet.protocols
+//       const country = packet.country
+//       //TODO change to dynamically change
+//       const countriesAssumed = ['US','UK','CN','others']
+//       const fixedSrc = removeLeadingZeros(packet.src_mac)
+//       const fixedDst = removeLeadingZeros(packet.dst_mac)
+//
+//
+//       if (macAddrs.hasOwnProperty(fixedSrc) || macAddrs.hasOwnProperty(fixedDst)) {
+//         const packetSize = packet.packet_size
+//         if (country.includes(countriesAssumed[0])) {
+//           Vol1st += packetSize
+//         }
+//         else if (country.includes(countriesAssumed[1])) {
+//           Vol2nd += packetSize
+//         }
+//         else if (country.includes(countriesAssumed[2])) {
+//           Vol3rd += packetSize
+//         }
+//         else {
+//           others += packetSize
+//         }
+//       }
+//     }
+//   }
+//
+//   return [Vol1st, Vol2nd, Vol3rd, others]
+// }
+
+//TODO delete only for Test usage
+async function getAggregateDestinationDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: {$gte: startMS, $lte: endMS},
+      },
+    },
+    // { $group: { _id: '$src_mac', res: { $push: ['$dst_mac', '$packet_size'] } } },
+  ])
+
+  let Vol1st = 0
+  let Vol2nd = 0
+  let Vol3rd = 0
+  let others = 0
+
+
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i]
+    if (packet.hasOwnProperty('protocols') && packet.hasOwnProperty('packet_size')) {
+      // const protocols = packet.protocols
+      const country = packet.country
+      //TODO change to dynamically change
+      const countriesAssumed = ['US','UK','CN','others']
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+
+
+      if (macAddrs.hasOwnProperty(fixedSrc) || macAddrs.hasOwnProperty(fixedDst)) {
+        const packetSize = packet.packet_size
+        if (packet.includes('TCP')) {
+          Vol1st += packetSize
+        }
+        else if (country.includes(countriesAssumed[1])) {
+          Vol2nd += packetSize
+        }
+        else if (country.includes(countriesAssumed[2])) {
+          Vol3rd += packetSize
+        }
+        else {
+          others += packetSize
+        }
+      }
+    }
+  }
+
+  return [Vol1st, Vol2nd, Vol3rd, others]
+}
+
+async function getAggregateDestinationDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const size = await getAggregateDestinationDataByTime(startMS, endMS)
+
+  return {
+    size,
+    startMS,
+    endMS,
+  }
+}
+
+
+async function getDeviceDestinationDataByTime(startMS, endMS) {
+  const resultsFromTcpData = await TcpDataModel.aggregate([
+    {
+      $match: {
+        timestamp: {$gte: startMS, $lte: endMS},
+      },
+    },
+  ])
+
+  const deviceData = {}
+
+  for (let i = 0; i < resultsFromTcpData.length; ++i) {
+    const packet = resultsFromTcpData[i]
+    if (packet.hasOwnProperty('protocols') && packet.hasOwnProperty('packet_size')) {
+
+      let Vol1st = 0
+      let Vol2nd = 0
+      let Vol3rd = 0
+      let others = 0
+      let mac = ''
+
+      const fixedSrc = removeLeadingZeros(packet.src_mac)
+      const fixedDst = removeLeadingZeros(packet.dst_mac)
+      //const protocols = packet.protocols
+      const country = packet.country
+      //TODO change to dynamically change
+      const countriesAssumed = ['US','UK','CN','others']
+
+
+      if (macAddrs.hasOwnProperty(fixedSrc)) {
+        mac = fixedSrc
+      } else if (macAddrs.hasOwnProperty(fixedDst)) {
+        mac = fixedDst
+      } else {
+        continue
+      }
+
+      const packetSize = packet.packet_size
+      //TODO need to change back
+      //if (country.includes(countriesAssumed[0])){
+      if (packet.includes('TCP')) {
+        Vol1st += packetSize
+      }
+      else if (country.includes(countriesAssumed[1])) {
+        Vol2nd += packetSize
+      }
+      else if (country.includes(countriesAssumed[2])) {
+        Vol3rd += packetSize
+      }
+      else {
+        others += packetSize
+      }
+
+      if (deviceData.hasOwnProperty(mac)) {
+        const currVol1st = deviceData[mac].Vol1st
+        const currVol2nd = deviceData[mac].Vol2nd
+        const currVol3nd = deviceData[mac].Vol3rd
+        const currOthers = deviceData[mac].others
+
+        deviceData[mac].Vol1st = currVol1st + Vol1st
+        deviceData[mac].Vol2nd = currVol2nd + Vol2nd
+        deviceData[mac].Vol3rd = currVol3nd + Vol3rd
+        deviceData[mac].others = currOthers + others
+      } else {
+        deviceData[mac] = {
+          macAddress: mac,
+          Vol1st: Vol1st,
+          Vol2nd: Vol2nd,
+          Vol3rd: Vol3rd,
+          others: others,
+        }
+      }
+    }
+  }
+
+  return deviceData
+}
+
+
 async function getDeviceProtocolDataWithinNSeconds(pastMS) {
   const endMS = Date.now()
   const startMS = endMS - pastMS
 
   const deviceData = await getDeviceProtocolDataByTime(startMS, endMS)
+
+  return {
+    deviceData,
+    startMS,
+    endMS,
+  }
+}
+
+async function getDeviceDestinationDataWithinNSeconds(pastMS) {
+  const endMS = Date.now()
+  const startMS = endMS - pastMS
+
+  const deviceData = await getDeviceDestinationDataByTime(startMS, endMS)
 
   return {
     deviceData,

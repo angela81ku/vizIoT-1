@@ -11,6 +11,7 @@ export const tabKeys = keyMirror({
   INOUT: null,
   PROTOCOL: null,
   CONNECTION_TABLE: null,
+  DESTINATION_TABLE: null
 });
 
 export const Tabs = {
@@ -53,6 +54,11 @@ export const Tabs = {
     key: tabKeys.CONNECTION_TABLE,
     title: 'Connections',
     path: '/connection'
+  },
+  [tabKeys.DESTINATION_TABLE]: {
+    key: tabKeys.DESTINATION_TABLE,
+    title: 'Destination',
+    path: '/destination'
   }
 };
 
@@ -61,4 +67,4 @@ export const getTabByPath = path => {
   return Tabs[key];
 };
 
-const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];
+// const tabOrder = [tabKeys.OVERVIEW, tabKeys.DEVICES, tabKeys.GEOGRAPHY];
