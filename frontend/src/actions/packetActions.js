@@ -42,4 +42,6 @@ export default Object.assign(
     pushRealTimeProtocolTraffic,
     pushRealTimeIOMetricTraffic,
     pushRealTimeProtocolMetricTraffic,
+    pushRealTimeDestinationTraffic,
+    pushRealTimeDestinationMetricTraffic,
   });

@@ -434,10 +434,11 @@ async function getAggregateProtocolDataByTime(startMS, endMS) {
 
       if (macAddrs.hasOwnProperty(fixedSrc) || macAddrs.hasOwnProperty(fixedDst)) {
         const packetSize = packet.packet_size
-        //TODO change back first one
 
-        // if (protocols.includes('TCP')) {
-        if (packet.country.includes('HK')) {
+
+        if (protocols.includes('TCP')) {
+          //TODO this is just for test
+        // if (packet.country.includes('HK')) {
           TCP += packetSize
         }
         if (protocols.includes('UDP')) {
@@ -504,8 +505,8 @@ async function getDeviceProtocolDataByTime(startMS, endMS) {
 
       const packetSize = packet.packet_size
       //TODO change back first one
-      // if (protocols.includes('TCP')) {
-      if (packet.country.includes('HK')) {
+      if (protocols.includes('TCP')) {
+      // if (packet.country.includes('HK')) {
         TCP += packetSize
       }
       if (protocols.includes('UDP')) {

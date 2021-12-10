@@ -21,7 +21,6 @@ export const addDeviceDestinationData = (devices) => {
       deviceData[device.macAddress] = {
         mac: device.macAddress,
         velocity: device.velocity,
-        //TODO connect to backend
         dataStreams: [ device.Vol1stTraffic, device.Vol2ndTraffic, device.Vol3rdTraffic, device.others],
         data: [device.data],
       }
